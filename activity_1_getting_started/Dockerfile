@@ -8,22 +8,15 @@ WORKDIR /home/wrench/
 # pull pedagogic-modules, go to desired activity, checkout gh-pages for "published" version, build
 # right now it is private, going to copy files from workdir for now
 
-#RUN git clone https://github.com/wrench-project/wrench-pedagogic-modules.git \
-#    && cd test_activity \
-#    && git checkout 536916f \
-#    && cmake . \
-#    && make
+RUN git clone https://github.com/wrench-project/wrench-pedagogic-modules.git \
+    && cd wrench-pedagogic-modules/activity_1_getting_started \
+    && git checkout b707147 \
+    && cmake . \
+    && make
     
-#RUN chown -R wrench ./wrench-pedagogic-modules
-
-# TESTING ################################
-RUN mkdir test_activity
-COPY ./ test_activity/
-
-RUN cd test_activity && cmake . && make
-##########################################
+RUN chown -R wrench ./wrench-pedagogic-modules
 
 USER wrench
-WORKDIR /home/wrench/test_activity
+WORKDIR /home/wrench/wrench-pedagogic-modules/activity_1_getting_started
 
-CMD ./wrench-simple-wms-cloud platform_files/cloud_hosts.xml workflow_files/genome.dax 
+CMD ./activity_simulator platform_files/platform.xml workflow_files/genome.dax 
