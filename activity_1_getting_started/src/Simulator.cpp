@@ -67,6 +67,8 @@ int main(int argc, char** argv) {
     std::vector<wrench::SimulationTimestamp<wrench::SimulationTimestampTaskCompletion> *> trace;
     trace = simulation.getOutput().getTrace<wrench::SimulationTimestampTaskCompletion>();
 
+
+    std::cerr << "TaskID | Task Completion Time" << std::endl;
     for (auto &t : trace) {
         std::cerr << t->getContent()->getTask()->getID() << ": " << t->getContent()->getTask()->getEndDate() << std::endl;
     }

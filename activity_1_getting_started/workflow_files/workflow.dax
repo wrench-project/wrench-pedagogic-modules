@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Test Workflow -->
+<adag name="Test" jobCount="5" fileCount="0" childCount="4">
+	<job id="foo3" namespace="foo" name="bar3" runtime="20103" cores="1">
+		<uses file="bar0::2.out" link="input" size="1024"/>
+		<uses file="bar3::0.out" link="output" size="1024"/>
+	</job>
+	<job id="foo4" namespace="foo" name="bar4" runtime="29812" cores="1">
+		<uses file="bar1::0.out" link="input" size="1024"/>
+		<uses file="bar3::0.out" link="input" size="1024"/>
+		<uses file="bar2::0.out" link="input" size="1024"/>
+		<uses file="bar4::0.out" link="output" size="1024"/>
+	</job>
+	<job id="foo2" namespace="foo" name="bar2" runtime="19878" cores="1">
+		<uses file="bar0::1.out" link="input" size="1024"/>
+		<uses file="bar2::0.out" link="output" size="1024"/>
+	</job>
+	<job id="foo1" namespace="foo" name="bar1" runtime="22361" cores="1">
+		<uses file="bar0::0.out" link="input" size="1024"/>
+		<uses file="bar1::0.out" link="output" size="1024"/>
+	</job>
+	<job id="foo0" namespace="foo" name="bar0" runtime="33814" cores="1">
+		<uses file="bar0::1.out" link="output" size="1024"/>
+		<uses file="bar0::2.out" link="output" size="1024"/>
+		<uses file="bar0::0.out" link="output" size="1024"/>
+	</job>
+	<child ref="foo3">
+		<parent ref="foo0"/>
+	</child>
+	<child ref="foo4">
+		<parent ref="foo1"/>
+		<parent ref="foo3"/>
+		<parent ref="foo2"/>
+	</child>
+	<child ref="foo2">
+		<parent ref="foo0"/>
+	</child>
+	<child ref="foo1">
+		<parent ref="foo0"/>
+	</child>
+</adag>
