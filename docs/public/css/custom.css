@@ -1,3 +1,10 @@
+.figure {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* the small wrench logo at the top */ 
 #header-logo {
     max-height: 1.25rem;
     display: inline;
