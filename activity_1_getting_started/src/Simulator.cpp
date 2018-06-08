@@ -47,14 +47,14 @@ int main(int argc, char** argv) {
             ));
 
     // set up the WMS
-    std::string wms_host = hostname_list[0];
+    std::string wms_host = hostname_list[2];
     wrench::WMS *wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler> (new wrench::ActivityScheduler(storage_service)),
             nullptr, {compute_service}, {storage_service}, wms_host));
 
     wms->addWorkflow(&workflow);
 
     // set up file registry service
-    std::string file_registry_service_host = hostname_list[0];
+    std::string file_registry_service_host = hostname_list[2];
     simulation.add(new wrench::FileRegistryService(file_registry_service_host));
 
     // stage the input files
