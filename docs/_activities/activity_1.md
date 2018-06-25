@@ -66,8 +66,190 @@ In a terminal, run the following commands. Step 3 will run the simulation and di
 3. `docker container run wrenchproject/wrench-pedagogic-modules:activity-1`
 
 ## Interpret the results
-.
-.
-.
-WIP, saving here and will add more 
+<!-- data vis content inline for now  -->
 
+<style>
+#chart {
+    width: 600px;
+    height: 500px;
+    background-color: white;
+}
+
+.x-axis path .x-axis line {
+    shape-rendering: crispEdges;
+}
+
+.x-axis text {
+    font-family: sans-serif;
+}
+
+.caption .figure-header {
+    font-size: 20px;
+}
+
+.caption .content {
+    font-size: 14px;
+    fill: #666666;
+}
+
+#tooltip {
+    position: absolute;
+    width: auto;
+    padding: 10px;
+    background-color: #e8e7e5;
+    border-radius: 5px;
+    border: 0px solid #000;
+    pointer-events: none;
+    display: none;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+</style>
+
+<script src="{{ site.baseurl }}/public/scripts/d3.min.js"></script>
+
+<div id="chart" class="figure">
+    <div id="tooltip"></div>
+</div>
+
+<script>
+var tasks = [
+    {'id': 'task0', 'start': 0.00130987, 'end': 33814, 'host': 'Fafard'},
+    {'id': 'task1', 'start': 33814, 'end': 56175, 'host': 'Fafard'},
+    {'id': 'task2', 'start': 33814, 'end': 53692, 'host': 'Jupiter'},
+    {'id': 'task3', 'start': 33814, 'end': 53917, 'host': 'Tremblay'},
+    {'id': 'task4', 'start': 56175, 'end': 85987, 'host': 'Fafard'},
+];
+
+// Chart params
+var chart_height = 400;
+var chart_width = 600;
+var svg_height = 500;
+var padding = 60;
+
+
+// Create the svg element
+var svg = d3.select('#chart')
+    .append('svg')
+    .attr('width', chart_width)
+    .attr('height', svg_height);
+
+// Create scales 
+var x_scale = d3.scaleLinear()
+    .domain([0, d3.max(tasks, function(d) {
+        return d['end'];
+    })])
+    .range([padding, chart_width - padding]);
+
+/*var y_scale = d3.scaleLinear()
+    .domain([0, d3.max(tasks, function(d) {
+        return d['host'];
+    })])
+    .range([chart_height - padding, padding]);*/
+
+var hosts = [];
+tasks.forEach(function(task) {
+    hosts.push(task['host']);
+})
+
+var band_scale = d3.scaleBand()
+    .domain(hosts)
+    .range([chart_height - padding, padding])
+    .padding(0.1);
+
+// Add the data
+svg.selectAll('rect')
+    .data(tasks)
+    .enter()
+    .append('rect')
+    .attr('x', function(d) {
+        return x_scale(d['start']);
+    })
+    .attr('y', function(d) {
+        return band_scale(d['host']);
+    })
+    .attr('width', function(d) {
+        return x_scale(d['end']) - x_scale(d['start']);
+    })
+    .attr('height', band_scale.bandwidth())
+    .attr('fill', '#ffe1bf')
+    .attr('stroke', 'grey')
+    .attr('stroke-width', 1)
+    .on('mouseover', function() {
+        d3.select(this)
+            .attr('fill', '#ffc268');
+
+        d3.select('#tooltip')
+            .style('display', 'inline');
+    })
+    .on('mousemove', function(d) {
+        d3.select('#tooltip')
+            .style('left', (d3.event.pageX - 50) + 'px')
+            .style('top',  (d3.event.pageY - 40) + 'px')
+            .text('TaskID: ' + d['id'] + ' | Duration: ' + (d['end'] - d['start']));
+    })
+    .on('mouseout', function() {
+        d3.select('#tooltip')
+            .style('display', 'none');
+
+        d3.select(this)
+            .transition()
+            .attr('fill', '#ffe1bf');
+    });
+
+
+// Create axis
+var x_axis = d3.axisBottom(x_scale);
+svg.append('g')
+    .attr('class', 'x-axis')
+    .attr('transform',
+            'translate(0,' + (chart_height - padding) + ')')
+    .call(x_axis);
+
+var y_axis = d3.axisLeft(band_scale);
+svg.append('g')
+    .attr('class', 'y-axis')
+    .attr('transform',
+            'translate(' + padding + ',0)')
+    .call(y_axis);
+
+// Create x-axis label
+svg.append('text')
+    .attr('transform',
+        'translate(' + (chart_width / 2) + ' ,' + (chart_height - 10) + ')')
+    .style('text-anchor', 'middle')
+    .attr('font-size', 12+'px')
+    .text('Time (seconds)');
+
+// Create y-axis label
+svg.append('text')
+    .attr('transform',
+        'rotate(-90)')
+    .attr('y', -3)
+    .attr('x', 0 - (chart_height / 2))
+    .attr('dy', '1em')
+    .attr('text-anchor', 'middle')
+    .attr('font-size', 12+'px')
+    .text('Execution Host');
+
+// Create Caption
+svg.append('g')
+    .attr('class', 'caption')
+    .attr('transform',
+        'translate(0,' + (chart_height + 10) + ')')
+    .append('text')
+    .attr('class', 'figure-header')
+    .text('Figure 1.7');
+
+svg.select('.caption')
+    .append('text')
+    .attr('class', 'content')
+    .attr('y', function() {
+        return d3.select(this.parentNode).attr('y') + 30;
+    })
+    .text('The execution of tasks on each host throughout the course of the simulation.');
+
+</script>
+
+
+WIP saving here
