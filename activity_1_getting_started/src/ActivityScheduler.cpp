@@ -1,6 +1,3 @@
-//
-// Created by ryan on 6/1/18.
-//
 
 #include "ActivityScheduler.h"
 

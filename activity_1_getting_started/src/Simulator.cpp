@@ -21,7 +21,6 @@ int main(int argc, char** argv) {
     // load workflow
     wrench::Workflow workflow;
     workflow.loadFromDAX(workflow_file, "1000Gf");
-    std::cerr << "workflow number of tasks: " << workflow.getNumberOfTasks() << std::endl;
 
     // read and instantiate the platform
     simulation.instantiatePlatform(platform_file);
@@ -43,7 +42,7 @@ int main(int argc, char** argv) {
     wrench::ComputeService *compute_service = simulation.add(new wrench::MultihostMulticoreComputeService(
                 compute_service_host,
                 compute_resources,
-                100, {}, {}
+                0, {}, {}
             ));
 
     // set up the WMS
@@ -63,15 +62,6 @@ int main(int argc, char** argv) {
 
     // launch the simulation
     simulation.launch();
-
-    std::vector<wrench::SimulationTimestamp<wrench::SimulationTimestampTaskCompletion> *> trace;
-    trace = simulation.getOutput().getTrace<wrench::SimulationTimestampTaskCompletion>();
-
-
-    std::cerr << "TaskID | Task Completion Time" << std::endl;
-    for (auto &t : trace) {
-        std::cerr << t->getContent()->getTask()->getID() << ": " << t->getContent()->getTask()->getEndDate() << std::endl;
-    }
 }
 
 

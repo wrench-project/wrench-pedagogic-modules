@@ -66,6 +66,7 @@ In a terminal, run the following commands. Step 3 will run the simulation and di
 3. `docker container run wrenchproject/wrench-pedagogic-modules:activity-1`
 
 ## Interpret the results
+
 <!-- data vis content inline for now  -->
 
 <style>
@@ -92,6 +93,10 @@ In a terminal, run the following commands. Step 3 will run the simulation and di
     fill: #666666;
 }
 
+.tooltip-item {
+    margin: auto;
+}
+
 #tooltip {
     position: absolute;
     width: auto;
@@ -109,16 +114,20 @@ In a terminal, run the following commands. Step 3 will run the simulation and di
 <script src="{{ site.baseurl }}/public/scripts/d3.min.js"></script>
 
 <div id="chart" class="figure">
-    <div id="tooltip"></div>
+    <div id="tooltip">
+        <p class="tooltip-item" id="task-id"></p>
+        <p class="tooltip-item" id="duration"></p>
+    </div>
+
 </div>
 
 <script>
 var tasks = [
-    {'id': 'task0', 'start': 0.00130987, 'end': 33814, 'host': 'Fafard'},
-    {'id': 'task1', 'start': 33814, 'end': 56175, 'host': 'Fafard'},
-    {'id': 'task2', 'start': 33814, 'end': 53692, 'host': 'Jupiter'},
-    {'id': 'task3', 'start': 33814, 'end': 53917, 'host': 'Tremblay'},
-    {'id': 'task4', 'start': 56175, 'end': 85987, 'host': 'Fafard'},
+    {'id': 'task0', 'start': 0.00130987, 'end': 33814, 'host': 'Jupiter'},
+    {'id': 'task1', 'start': 33814, 'end': 56175, 'host': 'Jupiter'},
+    {'id': 'task2', 'start': 56175, 'end': 76053, 'host': 'Jupiter'},
+    {'id': 'task3', 'start': 76053, 'end': 96156, 'host': 'Jupiter'},
+    {'id': 'task4', 'start': 96156, 'end': 125968, 'host': 'Jupiter'},
 ];
 
 // Chart params
@@ -134,7 +143,7 @@ var svg = d3.select('#chart')
     .attr('width', chart_width)
     .attr('height', svg_height);
 
-// Create scales 
+// Create scales
 var x_scale = d3.scaleLinear()
     .domain([0, d3.max(tasks, function(d) {
         return d['end'];
@@ -183,10 +192,13 @@ svg.selectAll('rect')
             .style('display', 'inline');
     })
     .on('mousemove', function(d) {
+
         d3.select('#tooltip')
-            .style('left', (d3.event.pageX - 50) + 'px')
-            .style('top',  (d3.event.pageY - 40) + 'px')
-            .text('TaskID: ' + d['id'] + ' | Duration: ' + (d['end'] - d['start']));
+            .style('left', (d3.event.pageX) + 'px')
+            .style('top',  (d3.event.pageY - 60) + 'px');
+
+        d3.select('#task-id').text('TaskID: ' + d['id']);
+        d3.select('#duration').text('Duration: ' + (d['end'] - d['start']));
     })
     .on('mouseout', function() {
         d3.select('#tooltip')
@@ -203,14 +215,14 @@ var x_axis = d3.axisBottom(x_scale);
 svg.append('g')
     .attr('class', 'x-axis')
     .attr('transform',
-            'translate(0,' + (chart_height - padding) + ')')
+        'translate(0,' + (chart_height - padding) + ')')
     .call(x_axis);
 
 var y_axis = d3.axisLeft(band_scale);
 svg.append('g')
     .attr('class', 'y-axis')
     .attr('transform',
-            'translate(' + padding + ',0)')
+        'translate(' + padding + ',0)')
     .call(y_axis);
 
 // Create x-axis label
@@ -251,5 +263,11 @@ svg.select('.caption')
 
 </script>
 
+<!-- end data vis content  -->
 
-WIP saving here
+Figure 1.7 above illustrates when workflow tasks in this simulation are executed by the multihost multicore compute service (mouse over each bar for more information).
+Based on the DAG representation of our workflow in Figure 1.4, we can see that 'task 1', 'task 2', and 'task 3' can all be executed concurrently (given the
+necessary physical resources). This platform has a limited number of resources, however a platform more representative of modern infrastructures might have
+multiple compute hosts, each with multiple cores that may be used to perform tasks concurrently. More on this will be explored in the next section:
+*Activity 2: Parallelism*.
+

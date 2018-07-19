@@ -7,10 +7,10 @@ FROM wrenchproject/wrench-build:ubuntu-xenial-gcc5
 USER root
 WORKDIR /tmp
 
-# clone WRENCH, checkout a desired version, build, and install
+# clone WRENCH, checkout a desired version (branch 1.0 latest), build, and install
 RUN git clone https://github.com/wrench-project/wrench \
     && cd wrench \
-    && git checkout 43c2cb2f \
+    && git checkout eaeb4ca2 \
     && cmake . \
     && make \
     && sudo make install

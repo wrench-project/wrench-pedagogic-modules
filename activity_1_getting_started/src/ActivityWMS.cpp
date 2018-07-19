@@ -1,6 +1,4 @@
-//
-// Created by ryan on 5/30/18.
-//
+
 #include "ActivityWMS.h"
 
 XBT_LOG_NEW_DEFAULT_CATEGORY(simple_wms, "Log category for Simple WMS");
@@ -23,7 +21,6 @@ namespace wrench {
 
 
     int ActivityWMS::main() {
-        this->job_manager = this->createJobManager();
         TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_GREEN);
 
         WRENCH_INFO("Starting on host %s listening on mailbox_name %s",
