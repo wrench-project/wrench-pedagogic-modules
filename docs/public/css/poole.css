@@ -168,12 +168,14 @@ pre {
   word-break: break-all;
   word-wrap: break-word;
   background-color: #f9f9f9;
+  overflow-x: auto;
 }
 pre code {
   padding: 0;
   font-size: 100%;
   color: inherit;
   background-color: transparent;
+  white-space: pre;
 }
 .highlight {
   margin-bottom: 1rem;
