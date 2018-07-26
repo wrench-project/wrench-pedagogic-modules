@@ -1,0 +1,20 @@
+
+Three components are required to simulate a workflow execution with [WRENCH](http://wrench-project.org/): *a workflow*, *an implementation of a WMS*, and *a description of the hardware/software infrastructure the WMS can use*.
+
+**Providing a workflow.** Workflows can be described using [DAX](https://confluence.pegasus.isi.edu/display/pegasus/WorkflowGenerator) (a representation of a DAG in xml) or [JSON](https://workflowhub.isi.edu/traces/). The following image illustrates the `workflow.dax` file *provided in this activity*.
+
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/workflow.svg">Workflow</object>
+
+**Implementing a WMS.** Simulating a WMS requires that the WMS be implemented in C++ using the [WRENCH](http://wrench-project.org/) "developer" API. *This activity provides a ready-to-use implementation of a simple WMS*.
+
+**Describing the platform**. Platforms are described using XML and these descriptions contain information about the hardware resources available and the underlying network topology that connects them together. Compute resources are denoted as "hosts" and have attributes such as the number of processor cores it has and their processing power measured in floating point operations per second (FLOPS). The network links that connect these hosts together have bandwidth and latency properties. Bandwidth denotes the time it takes for some fixed amount of data to be pushed onto a network link before it can start traveling through the network. Latency denotes the amount of time it will take for that data to traverse through the link before it reaches its destination. The following image illustrates the hardware infrastructure described by the `platform.xml` file *provided in this activity.*
+
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/platform.svg">Platform</object>
+
+Once the simulated hardware infrastructure has been established through the `platform.xml` file, [WRENCH](http://wrench-project.org/) "user" API can then be used to instantiate various software infrastructures, thus forming a desired "cyberinfrastructure" on which the WMS can run. Figure 1.6 illustrates the simulated cyberinfrastructure devloped for this activity. The *storage service* stores input and output files used by the workflow tasks. A *file registry service* keeps track of what files are located on which storage services (only one in this example). The *WMS* executes tasks in the workflow by sending them as jobs to a *multihost multicore compute service*. A multihost multicore compute service executes the jobs it receives on its compute resources, which may be distributed amongst a number of physical host machines. In this example,
+the multihost multicore compute service has a single compute resource located on the physical machine, *Jupiter*.
+
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/simulation.svg"> Simulation </object>
+
+Now that the [WRENCH](http://wrench-project.org/) simulation components have been discussed, the next step is to run the simulation using the workflow illustrated in Figure 1.4 on the cyberinfrastructure illustrated in Figure 1.6.
+
