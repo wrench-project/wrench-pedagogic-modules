@@ -3,9 +3,16 @@ layout: page
 title: 'Activity 1: Running Your First Simulated Workflow Execution'
 ---
 
-1. [Running the simulation](#running-the-simulation)
-2. [Interpreting the results](#interpret-the-results)
+1. [Learning objectives](#learning-objectives)
+2. [Running the simulation](#running-the-simulation)
+3. [Interpreting the results](#interpret-the-results)
 
+
+## Learning objectives
+
+  - Learn how to run WRENCH simulations from Docker containers
+  - XXX
+  - XXX
 
 ## Running the simulation
 
