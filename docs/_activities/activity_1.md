@@ -7,22 +7,43 @@ title: 'Activity 1: Running Your First Simulated Workflow Execution'
 2. [Running the simulation](#running-the-simulation)
 3. [Interpreting the results](#interpret-the-results)
 
+# Overview
 
 ## Learning objectives
 
   - Learn how to run WRENCH simulations from Docker containers
-  - XXX
-  - XXX
+  - Learn how to understand a workflow execution timeline and seauence of important execution event
+  - Understand how I/O overhead impacts overall workflow execution performance
+  - Gain exposure to the problem of data locality
 
-## Running the simulation
+## Workflow and Platform Scenario
 
-In a terminal, run the following commands. Step 3 will run the simulation and display simulation output to your terminal window.
+In this activity, we strudy the execution of "this" workflow on "that" platform.  (show pictures of workflow and platform).  This
+is a very simple scernarios, and will be used to get our "feet wet" with WRENCH simulations.
 
-1. `docker pull wrenchproject/wrench-pedagogic-modules:wrench-1.0`
-2. `docker pull wrenchproject/wrench-pedagogic-modules:activity-1`
-3. `docker container run wrenchproject/wrench-pedagogic-modules:activity-1`
+## WMS Scenario
 
-## Interpret the results
+We execute the workflow on the platform with a (alreaedy implemented) WMS that simply greedily submits tasks
+to the Compute Service as soon as they become ready. A task is "ready" when all its parents have completed. Each
+task running on the CS reads and writes data from/to the Storage Service (which, from the perspective of the task is
+on a remote host).
+
+# Activity Steps
+
+## Step #1: Run the simulation
+
+In a terminal, run the following commands.
+
+1. Install the simulator: `docker pull wrenchproject/wrench-pedagogic-modules:activity-1`
+2. Run the simulator: `docker container run wrenchproject/wrench-pedagogic-modules:activity-1`
+
+Step 2 will display a lot of textual simulation output to your terminal window. This output indicates
+(simulated) actions and events throughout the execution of the worklow.
+
+## Step #2: Interpret the workflow execution
+
+This output is color-coded where
+each color corresponds to a particular simulated process in the simulation.
 
 ```
 [0.000000][Fafard:multihost_multicore_2(2)] New Multicore Job Executor starting (multihost_multicore_2) on 1 hosts with a total of 1 cores
@@ -45,6 +66,34 @@ The simulation will produce output similar to the above snippet of text. The fir
 The second column denotes the process name and the host that it is running on. Last is a message describing what the process is doing. For example, the second line from the output
 above, `[0.000000][Fafard:simple_0_1(3)] Simple Storage Service simple_0_1 starting on host Fafard (capacity: 10000000000000.000000, holding 0 files, listening on simple_0_1)` tells us
 that at *simulation time 0.00000*, a *storage service* with a *10 terabyte capacity* on the physical host, *Fafard*, has started.
+
+
+Idea:
+  - Remove some events from the log with the --log thingy
+  - Come with a set of question that students have to answer:
+        - At what time does task1 start?
+        - At what time does task1 completes?
+        - How long should task1 compute for based on platform and flops?
+        - Why does the task take longer?
+        - Other....
+
+
+## Step #3: Visualize the workflow execution
+
+  - It's tedious to look at text
+  - Turns out, the simulator does visulization as Gantt Chart
+  - Here is how to look at it...
+
+  - What fraction of time is spent doing I/O?
+  - Play with platform charactersitics? Modify the network bandwith... making it faster helps
+
+## Step #4: Better data locality with another storage service on the compute host
+
+  - How about just not going over the network as much
+  - Come with some questions
+
+
+## Figures disappear, and students have to run stuff to see them
 
 
 [WRENCH](http://wrench-project.org/) keeps track of simulation events as they occur so that users may analyze areas of interest. In this activity, we are

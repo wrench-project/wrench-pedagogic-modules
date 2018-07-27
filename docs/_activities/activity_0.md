@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 'Activity 0: Getting started'
+title: 'Activity 0: What is this about?'
 ---
 
 The goal of these WRENCH pegagogic modules is for

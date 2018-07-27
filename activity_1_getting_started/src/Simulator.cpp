@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     wrench::StorageService *storage_service = simulation.add(new wrench::SimpleStorageService(storage_host, 10000000000000.0));
 
     // set up multihost multicore compute service
-    std::string compute_service_host = hostname_list[0];
+    std::string compute_service_host = hostname_list[1];
     std::string compute_host_1 = hostname_list[1];
     std::string compute_host_2 = hostname_list[2];
 
