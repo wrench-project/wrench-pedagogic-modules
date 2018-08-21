@@ -12,7 +12,7 @@ Before proceeding to [Activity 1]({{ site.baseurl }}/activities/activity_1), we 
 1. [What is a workflow?](#what-is-a-workflow)
 2. [What kind of resources and infrastructure are necessary to execute a workflow?](#what-kind-of-resources-and-infrastructure-are-necessary-to-execute-a-workflow)
 3. [What is a workflow management system?](#what-is-a-workflow-management-system)
-4. [Simulating workflow executions](#simulating-a-workflow)
+4. [Simulating workflow executions](#simulating-a-workflow-execution)
 
 
 ## What is a workflow?
