@@ -16,7 +16,6 @@ set(SOURCE_FILES
         src/ActivityWMS.cpp
         include/ActivityScheduler.h
         src/ActivityScheduler.cpp
-        src/Simulator.cpp
         )
 
 # wrench library and dependencies
@@ -25,12 +24,18 @@ find_library(SIMGRID_LIBRARY NAMES simgrid)
 find_library(PUGIXML_LIBRARY NAMES pugixml)
 find_library(LEMON_LIBRARY NAMES emon)
 
-# generating the cloud example
-add_executable(activity_simulator ${SOURCE_FILES})
-target_link_libraries(activity_simulator
+add_executable(activity_simulator ${SOURCE_FILES} src/Simulator1.cpp)
+target_link_libraries(activity_simulator1
         ${WRENCH_LIBRARY}
         ${SIMGRID_LIBRARY}
         ${PUGIXML_LIBRARY}
         ${LEMON_LIBRARY}
         )
-install(TARGETS activity_simulator DESTINATION bin)
+
+add_executable(activity_simulator2 ${SOURCE_FILES} src/Simulator2.cpp)
+target_link_libraries(activity_simulator2
+        ${WRENCH_LIBRARY}
+        ${SIMGRID_LIBRARY}
+        ${PUGIXML_LIBRARY}
+        ${LEMON_LIBRARY}
+        )
