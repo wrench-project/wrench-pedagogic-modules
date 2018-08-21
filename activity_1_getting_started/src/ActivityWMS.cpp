@@ -16,12 +16,12 @@ namespace wrench {
                                      storage_services,
                                      {}, nullptr,
                                      hostname,
-                                     "activity"
+                                     "activity1"
                                      ) {}
 
 
     int ActivityWMS::main() {
-        TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_GREEN);
+        TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_MAGENTA);
 
         WRENCH_INFO("Starting on host %s listening on mailbox_name %s",
                     S4U_Simulation::getHostName().c_str(),
@@ -40,7 +40,6 @@ namespace wrench {
             std::set<ComputeService *> compute_services = this->getAvailableComputeServices();
 
             // Run ready tasks with defined scheduler implementation
-            WRENCH_INFO("Scheduling tasks...");
             this->getStandardJobScheduler()->scheduleTasks(
                     this->getAvailableComputeServices(),
                     ready_tasks);
@@ -57,18 +56,23 @@ namespace wrench {
                 break;
             }
         }
+        TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_MAGENTA);
 
         WRENCH_INFO("--------------------------------------------------------");
         if (this->getWorkflow()->isDone()) {
-            WRENCH_INFO("Workflow execution is complete!");
+            WRENCH_INFO("Workflow execution completed in %f seconds!", wrench::S4U_Simulation::getClock());
         } else {
             WRENCH_INFO("Workflow execution is incomplete!");
         }
 
-        WRENCH_INFO("Simple WMS Daemon started on host %s terminating", S4U_Simulation::getHostName().c_str());
-
         this->job_manager.reset();
 
         return 0;
+    }
+
+    void ActivityWMS::processEventStandardJobCompletion(std::unique_ptr<wrench::StandardJobCompletedEvent> event) {
+        auto standard_job = event->standard_job;
+        TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_RED);
+        WRENCH_INFO("Notified that %s has completed", (*standard_job->getTasks().begin())->getID().c_str());
     }
 }
