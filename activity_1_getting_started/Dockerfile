@@ -17,4 +17,10 @@ RUN chown -R wrench ./wrench-pedagogic-modules
 USER wrench
 WORKDIR /home/wrench/wrench-pedagogic-modules/activity_1_getting_started
 
-CMD ./activity_simulator platform_files/platform.xml workflow_files/workflow.dax 
+CMD ./activity_simulator1 platform_files/platform.xml workflow_files/workflow.dax \
+         --log="root.fmt:[%d][%h:%t]%e%m%n" \
+         --log=root.thresh:critical \
+         --log=wms.thresh:debug \
+         --log=simple_wms.thresh:debug \ 
+         --log=simple_wms_scheduler.thresh:debug
+
