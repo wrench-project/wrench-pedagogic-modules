@@ -15,11 +15,14 @@ namespace wrench {
                     const std::set<StorageService *> &storage_services,
                     const std::string &hostname);
 
+        void processEventStandardJobCompletion(std::unique_ptr<wrench::StandardJobCompletedEvent>);
+
     private:
         int main() override;
 
         std::shared_ptr<JobManager> job_manager;
         bool abort = false;
+
     };
 };
 
