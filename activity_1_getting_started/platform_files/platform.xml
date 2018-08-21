@@ -2,15 +2,14 @@
 <!DOCTYPE platform SYSTEM "http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd">
 <platform version="4.1">
     <zone id="AS0" routing="Full">
-        <host id="Tremblay" speed="1000Gf" core="1"/>
-        <host id="Jupiter" speed="1000Gf" core="1">
-            <prop id="ram" value="1024" />
-        </host>
-        <host id="Fafard" speed="1000Gf" core="1">
-            <prop id="ram" value="1024" />
-        </host>
 
-        <link id="1" bandwidth="125MBps" latency="100us"/>
+        <!-- 10 teraflop hosts -->
+        <host id="Tremblay" speed="1000Gf" core="1"/>
+        <host id="Jupiter" speed="1000Gf" core="1"/>
+        <host id="Fafard" speed="1000Gf" core="1"/>
+
+        <!-- 1Gbps bandwidth & 0.1 second latency --> 
+        <link id="1" bandwidth="125MBps" latency="100ms"/>
 
         <route src="Tremblay" dst="Jupiter">
             <link_ctn id="1"/>

@@ -9,7 +9,7 @@ title: 'Activity 1: Running Your First Simulated Workflow Execution'
 
 # Overview
 
-## Learning objectives
+## Learning Objectives
 
   - Learn how to run WRENCH simulations from Docker containers
   - Learn how to understand a workflow execution timeline and seauence of important execution event
@@ -18,19 +18,26 @@ title: 'Activity 1: Running Your First Simulated Workflow Execution'
 
 ## Workflow and Platform Scenario
 
-In this activity, we strudy the execution of "this" workflow on "that" platform.  (show pictures of workflow and platform).  This
-is a very simple scernarios, and will be used to get our "feet wet" with WRENCH simulations.
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/workflow.svg">Workflow</object>
+
+In this activity, we study the execution of the workflow depicted in Figure 1.1 on the cyber infrastructure depicted in
+Figure 1.2. A Compute Service (CS) does exactly as its name implies and will execute tasks that the Workflow Management System
+sends to it. The Storage Service stores files, much like a database, and handles read and write requests.
+ This is a very simple scenario, and will be used to get our "feet wet" with WRENCH simulations.
+
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/cyber_infrastructure.svg">Cyber Infrastructure</object>
 
 ## WMS Scenario
 
-We execute the workflow on the platform with a (alreaedy implemented) WMS that simply greedily submits tasks
-to the Compute Service as soon as they become ready. A task is "ready" when all its parents have completed. Each
-task running on the CS reads and writes data from/to the Storage Service (which, from the perspective of the task is
-on a remote host).
+We execute the workflow with a (already implemented) WMS that greedily submits tasks
+to the Compute Service as soon as they become ready. Each task running on the CS reads and writes data
+from/to the Storage Service (which, from the perspective of the task is on a remote host).
+Once the WMS is notified by the CS that a task has completed, it will greedily submit the next ready task.
+This is repeated until all tasks have completed.
 
 # Activity Steps
 
-## Step #1: Run the simulation
+## Step #1: Run the Simulation
 
 In a terminal, run the following commands.
 
@@ -38,59 +45,71 @@ In a terminal, run the following commands.
 2. Run the simulator: `docker container run wrenchproject/wrench-pedagogic-modules:activity-1`
 
 Step 2 will display a lot of textual simulation output to your terminal window. This output indicates
-(simulated) actions and events throughout the execution of the worklow.
+(simulated) actions and events throughout the execution of the workflow.
 
-## Step #2: Interpret the workflow execution
+## Step #2: Interpret the Workflow Execution
 
-This output is color-coded where
-each color corresponds to a particular simulated process in the simulation.
-
-```
-[0.000000][Fafard:multihost_multicore_2(2)] New Multicore Job Executor starting (multihost_multicore_2) on 1 hosts with a total of 1 cores
-[0.000000][Fafard:simple_0_1(3)] Simple Storage Service simple_0_1 starting on host Fafard (capacity: 10000000000000.000000, holding 0 files, listening on simple_0_1)
-[0.000000][Fafard:simple_0_1(3)] Asynchronously receiving a control message...
-[0.000000][Tremblay:file_registry_4(4)] File Registry Service starting on host Tremblay!
-[0.000000][Tremblay:job_manager_5(5)] New Job Manager starting (job_manager_5)
-[0.000000][Tremblay:job_manager_5(5)] Waiting for a message
-[0.000000][Tremblay:wms_activity_3(1)] Scheduling tasks...
-[0.001310][Fafard:multihost_multicore_2(2)] Got a [ServiceMessage::ComputeServiceMessage::SUBMIT_STANDARD_JOB_REQUEST] message
-[0.001310][Fafard:multihost_multicore_2(2)] Asked to run a standard job with 1 tasks
-[0.001310][Fafard:multihost_multicore_2(2)] Creating a StandardJobExecutor on 1 hosts (total of 1 cores and 0.00e+00f bytes of RAM) for a standard job
-[0.001310][Fafard:standard_job_executor_7(6)] New StandardJobExecutor starting (standard_job_executor_7) with 1 cores and 0.00e+00 bytes of RAM over 1 hosts:
-.
-.
-.
-```
+<div class="wrench-output">
+<span style="font-weight:bold;color:rgb(187,0,187)">[0.000000][Tremblay:wms_activity1_3(1)] Starting on host Tremblay listening on mailbox_name wms_activity1_3<br></span>
+<span style="font-weight:bold;color:rgb(187,0,187)">[0.000000][Tremblay:wms_activity1_3(1)] About to execute a workflow with 5 tasks<br></span>
+<span style="font-weight:bold;color:rgb(0,0,187)">[0.000000][Tremblay:wms_activity1_3(1)] Submitting task0 as a job to compute service on Jupiter<br></span>
+<span style="font-weight:bold;color:rgb(187,0,0)">[33814.005184][Tremblay:wms_activity1_3(1)] Notified that task0 has completed<br></span>
+<span style="font-weight:bold;color:rgb(0,0,187)">[33814.005184][Tremblay:wms_activity1_3(1)] Submitting task1 as a job to compute service on Jupiter<br></span>
+<span>.<br></span>
+<span>.<br></span>
+<span>.<br></span>
+</div>
 
 The simulation will produce output similar to the above snippet of text. The first column denotes the simulation time at which some process is performing some action.
 The second column denotes the process name and the host that it is running on. Last is a message describing what the process is doing. For example, the second line from the output
-above, `[0.000000][Fafard:simple_0_1(3)] Simple Storage Service simple_0_1 starting on host Fafard (capacity: 10000000000000.000000, holding 0 files, listening on simple_0_1)` tells us
-that at *simulation time 0.00000*, a *storage service* with a *10 terabyte capacity* on the physical host, *Fafard*, has started.
+above, `[0.000000][Tremblay:wms_activity1_3(1)] About to execute a workflow with 5 tasks` tells us
+that at *simulation time 0.00000*, the WMS named *activity1*, located on the physical host, *Tremblay*, is *"About to execute a workflow with 5 tasks"*.
+Simulation output for this activity has been constrained such that only messages from the WMS are visible. Furthermore, the color scheme of the
+output has been set up such that general messages are <span style="font-weight:bold;color:rgb(187,0,187)">pink</span>, task submissions to the CS are
+<span style="font-weight:bold;color:rgb(0,0,187)">blue</span>, and notifications received from the CS are
+<span style="font-weight:bold;color:rgb(187,0,0)">red</span>.
+
+**Questions**
+  - At what time did the WMS submit *task1* as a job to the compute service?
+  - At what time did the WMS receive a notification that *task1* has completed?
+  - The compute service runs on a host with a speed of *1000Gf*. *task4* takes *100Tf* to compute. About
+  how long should *task4* compute for?
+  - Based on the simulation output, how long does it take for *task4* to complete?
+  - Why does *task4* take longer than what you computed in *question 3*?
+  - Assuming there is no traffic on the network, about how long would it take to send a
+  *250 megabyte file* from *Jupiter* to *Fafard* using the direct link between the two hosts?
+
+## Step #3: Visualize the Workflow Execution
+
+Analyzing the simulation output can be tedious, especially when the workflow comprises
+a large number of tasks or when there are a number of complex software services being
+simulated. Fortunately, the simulator can produce a visualization of the workflow execution
+as a Gantt chart.
+
+In the terminal run the following commands:
+1. `some command`
+2. `another command`
+3. open a browser and go to localhost:3000
+
+**Questions**
+  - What fraction of *task0* is spent doing I/O?
+  - What fraction of *task4* is spent doing I/O?
+  - Double the link bandwidth. Now, what fraction of *task4* is spent doing I/O?
+  - With the link bandwidth doubled, how much faster is the workflow execution now than before?
+
+## Step #4: Better Data locality with another storage service on the compute host
+
+The compute service is reading and writing files from and to a remote storage service, thus contributing
+to the I/O overhead. This can be avoided if the storage service were to be located on the same host as
+the compute service or vice versa. Here we introduce the idea of moving computations closer to where
+data resides, or **data locality**.
 
 
-Idea:
-  - Remove some events from the log with the --log thingy
-  - Come with a set of question that students have to answer:
-        - At what time does task1 start?
-        - At what time does task1 completes?
-        - How long should task1 compute for based on platform and flops?
-        - Why does the task take longer?
-        - Other....
+To simulate this, select `some button that says storage service on same host as cs...`.
 
-
-## Step #3: Visualize the workflow execution
-
-  - It's tedious to look at text
-  - Turns out, the simulator does visulization as Gantt Chart
-  - Here is how to look at it...
-
-  - What fraction of time is spent doing I/O?
-  - Play with platform charactersitics? Modify the network bandwith... making it faster helps
-
-## Step #4: Better data locality with another storage service on the compute host
-
-  - How about just not going over the network as much
-  - Come with some questions
+**Questions**
+  - What fraction of *task4* is spent doing I/O?
+  - How much faster is the workflow execution now than
 
 
 ## Figures disappear, and students have to run stuff to see them
