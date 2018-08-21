@@ -24,7 +24,7 @@ find_library(SIMGRID_LIBRARY NAMES simgrid)
 find_library(PUGIXML_LIBRARY NAMES pugixml)
 find_library(LEMON_LIBRARY NAMES emon)
 
-add_executable(activity_simulator ${SOURCE_FILES} src/Simulator1.cpp)
+add_executable(activity_simulator1 ${SOURCE_FILES} src/Simulator1.cpp)
 target_link_libraries(activity_simulator1
         ${WRENCH_LIBRARY}
         ${SIMGRID_LIBRARY}
