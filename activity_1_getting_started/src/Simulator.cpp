@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
     }
 /*    csv.close();*/
 
-    std::ofstream output("workflow_data.json");
+    std::ofstream output("/home/wrench/workflow_data.json");
     output << std::setw(4) << workflow_data << std::endl;
     output.close();
 

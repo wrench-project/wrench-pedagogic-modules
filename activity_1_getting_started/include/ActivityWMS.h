@@ -15,7 +15,7 @@ namespace wrench {
                     const std::set<StorageService *> &storage_services,
                     const std::string &hostname);
 
-        void processEventStandardJobCompletion(std::unique_ptr<wrench::StandardJobCompletedEvent>);
+        void processEventStandardJobCompletion(std::unique_ptr<wrench::StandardJobCompletedEvent>) override;
 
     private:
         int main() override;
