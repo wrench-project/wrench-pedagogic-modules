@@ -7,19 +7,19 @@ title: 'Activity 1: Running Your First Simulated Workflow Execution'
 2. [Overview](#overview)
 3. [Activity](#activity)
 
+
+# Learning Objectives
+
+  - Understand a simple distributed workflow execution scenario;
+  - Be able to analyze a (simulated) workflow execution timeline based on textual
+    and graphical simulation output;
+  - Be able to estimate the time it should take to complete a workflow task on a
+    given compute host, accounting for I/O overhead;
+  - Understand I/O overhead effects on workflow executions by changing simulation parameters;
+  - Gain exposure to the concept of data locality and witness how it can reduce workflow execution time.
+
+
 # Overview
-
-## Learning Objectives
-
-  - Run WRENCH simulations using Docker containers.
-  - Describe the simulated components used in these WRENCH simulations.
-  - Analyze a workflow execution timeline using textual simulation output.
-  - Visualize a workflow execution timeline using WRENCH tools.
-  - Calculate the estimated time it would take to complete a task on a specific hardware platform.
-  - Calculate the estimated time it would take to send a file of a given size over a network link
-    with little or no traffic.
-  - Determine the impact of the I/O overhead on workflow executions by applying changes to the simulation parameters.
-  - Gain exposure to the concept of data locality.
 
 ## Workflow and Platform Scenario
 
@@ -82,13 +82,19 @@ areas of interest.
 
 **Questions**
   - At what time did the WMS submit *task1* as a job to the compute service?
-  - At what time did the WMS receive a notification that *task1* has completed?
-  - The compute service runs on a host with a speed of *1000Gf*. *task4* takes *100Tf* to compute. About
-  how long should *task4* compute for?
-  - Based on the simulation output, how long does it take for *task4* to complete?
+  - From the WMS's perspective, how long did *task1* run for?
+    (this duration is called the task's *turnaround-time*)
+  - The compute service runs on a host with a speed of *1000 GFlop/sec*, and *task4*
+    must perform *100 Tflop*. About how long should we expect *task4* to compute for?
+  - Based on the simulation output, from the WMS's perspective, how long does it take
+    for *task4* to complete?
   - Why does *task4* take longer than what you computed in *question 3*?
-  - Assuming there is no traffic on the network, about how long would it take to send a
-  *250 megabyte file* from *Jupiter* to *Fafard* using the direct link between the two hosts?
+  - Assuming there is no traffic on the network, about how long would it take to send all of
+    *task4*'s input data from *Fafard* to *Jupiter* and to send all of *task4$'s output data
+    from *Jupiter* to *Fafard*, using the direct link between these two hosts and assuming no other
+    network traffic?
+  - Accounting for this I/O *overhead*, does *task4*'s execution time as experienced by the WMS make sense?
+
 
 ## Step #3: Visualize the Workflow Execution
 
@@ -103,10 +109,15 @@ In the terminal run the following commands:
 3. open a browser and go to localhost:3000
 
 **Questions**
-  - What fraction of *task0* is spent doing I/O?
-  - What fraction of *task4* is spent doing I/O?
-  - Double the link bandwidth. Now, what fraction of *task4* is spent doing I/O?
+  - What fraction of *task0*'s execution time is spent doing I/O?
+  - What fraction of *task4*'s execution time is spent doing I/O?
+  - If the link bandwidth between *Fafard* and *Jupiter* were doubled, what should
+    the fraction of *task4*'s execution time is spent doing I/O be?
+  - Double that link's bandwidth using the XXX. Is your expectation confirmed?
   - With the link bandwidth doubled, how much faster is the workflow execution now than before?
+  - What link banwidth would be necessary for the workflow to run XXX faster
+    than with the original 125MBps bandwidth? You can do this by solving a simple equation, and
+     then check that your answer is correct using the simulation.
 
 ## Step #4: Better Data locality with another storage service on the compute host
 
