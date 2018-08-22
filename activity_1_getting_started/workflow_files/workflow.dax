@@ -2,6 +2,7 @@
 <!-- Test Workflow -->
 <adag name="Test" jobCount="5" fileCount="0" childCount="4">
    	<job id="task0" namespace="task" name="task0" runtime="100" cores="1">
+        <uses file="task0::0.in"  link="input"  size="700000000"/>  
 		<uses file="task0::0.out" link="output" size="100000000"/>
 		<uses file="task0::1.out" link="output" size="200000000"/>
 		<uses file="task0::2.out" link="output" size="400000000"/>
@@ -18,7 +19,7 @@
 		<uses file="task0::2.out" link="input" size="400000000"/>
 		<uses file="task3::0.out" link="output" size="200000000"/>
 	</job>
-	<job id="task4" namespace="task" name="task4" runtime="10" cores="1">
+	<job id="task4" namespace="task" name="task4" runtime="20" cores="1">
 		<uses file="task1::0.out" link="input" size="120000000"/>
 		<uses file="task2::0.out" link="input" size="200000000"/>
 		<uses file="task3::0.out" link="input" size="200000000"/>

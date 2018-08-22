@@ -9,15 +9,14 @@ WORKDIR /home/wrench/
 RUN git clone https://github.com/wrench-project/wrench-pedagogic-modules.git \
     && cd wrench-pedagogic-modules/activity_1_getting_started \
     && git checkout master\
-    && cmake -DCMAKE_CXX_FLAGS="-DREMOTE_STORAGE" . && make clean && make && mv ./activity_simulator ./simulator_remote_storage \
-    && cmake -DCMAKE_CXX_FLAGS="-DLOCAL_STORAGE" . && make clean && make && mv ./activity_simulator ./simulator_local_storage 
+    && cmake -DCMAKE_CXX_FLAGS="-DREMOTE_STORAGE" . && make clean && make && mv ./activity_simulator ./simulator_remote_storage 
     
 RUN chown -R wrench ./wrench-pedagogic-modules
 
 USER wrench
 WORKDIR /home/wrench/wrench-pedagogic-modules/activity_1_getting_started
 
-CMD ./activity_simulator1 platform_files/platform.xml workflow_files/workflow.dax \
+CMD ./simulator_remote_storage platform_files/platform.xml workflow_files/workflow.dax \
          --log="root.fmt:[%d][%h:%t]%e%m%n" \
          --log=root.thresh:critical \
          --log=wms.thresh:debug \
