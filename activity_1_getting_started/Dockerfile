@@ -9,8 +9,8 @@ WORKDIR /home/wrench/
 RUN git clone https://github.com/wrench-project/wrench-pedagogic-modules.git \
     && cd wrench-pedagogic-modules/activity_1_getting_started \
     && git checkout master\
-    && cmake . \
-    && make
+    && cmake -DCMAKE_CXX_FLAGS="-DREMOTE_STORAGE" . && make clean && make && mv ./activity_simulator ./simulator_remote_storage \
+    && cmake -DCMAKE_CXX_FLAGS="-DLOCAL_STORAGE" . && make clean && make && mv ./activity_simulator ./simulator_local_storage 
     
 RUN chown -R wrench ./wrench-pedagogic-modules
 
