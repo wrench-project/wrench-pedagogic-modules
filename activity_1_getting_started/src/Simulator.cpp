@@ -30,7 +30,9 @@ int main(int argc, char** argv) {
     std::string fafard = hostname_list[0];
 
     // storage service on Fafard
-    wrench::StorageService *storage_service = simulation.add(new wrench::SimpleStorageService(jupiter, 10000000000000.0));
+    wrench::StorageService *fafard_storage_service = simulation.add(new wrench::SimpleStorageService(fafard, 10000000000000.0));
+    wrench::StorageService *jupiter_storage_service = simulation.add(new wrench::SimpleStorageService(jupiter, 10000000000000.0));
+    std::set<wrench::StorageService *> storage_services = {fafard_storage_service, jupiter_storage_service};
 
     // compute service on Jupiter
     std::set<std::tuple<std::string, unsigned long, double>> compute_resources = {std::make_tuple(jupiter, wrench::ComputeService::ALL_CORES, wrench::ComputeService::ALL_RAM)};
@@ -42,17 +44,17 @@ int main(int argc, char** argv) {
             ));
 
     // WMS on Tremblay
-    wrench::WMS *wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler> (new wrench::ActivityScheduler(storage_service)),
-            nullptr, {compute_service}, {storage_service}, tremblay));
+    wrench::WMS *wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler> (new wrench::ActivityScheduler(storage_services)),
+            nullptr, {compute_service}, storage_services, tremblay));
 
     wms->addWorkflow(&workflow);
 
     // file registry service on Fafard
-    //simulation.add(new wrench::FileRegistryService(fafard));
+    simulation.add(new wrench::FileRegistryService(fafard));
 
     // stage the input files
-   // std::map<std::string, wrench::WorkflowFile *> input_files = workflow.getInputFiles();
-    //simulation.stageFiles(input_files, storage_service);
+    std::map<std::string, wrench::WorkflowFile *> input_files = workflow.getInputFiles();
+    simulation.stageFiles(input_files, fafard_storage_service);
 
     // launch the simulation
     simulation.launch();

@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Test Workflow -->
 <adag name="Test" jobCount="5" fileCount="0" childCount="4">
-   	<job id="task0" namespace="task" name="task0" runtime="1000" cores="1">
+   	<job id="task0" namespace="task" name="task0" runtime="100" cores="1">
+        <uses file="task0::0.in"  link="input"  size="700000000"/>  
 		<uses file="task0::0.out" link="output" size="100000000"/>
 		<uses file="task0::1.out" link="output" size="200000000"/>
 		<uses file="task0::2.out" link="output" size="400000000"/>
 	</job>
-    <job id="task1" namespace="task" name="task1" runtime="300" cores="1">
+    <job id="task1" namespace="task" name="task1" runtime="30" cores="1">
 		<uses file="task0::0.out" link="input" size="100000000"/>
 		<uses file="task1::0.out" link="output" size="120000000"/>
 	</job>
-    <job id="task2" namespace="task" name="task2" runtime="400" cores="1">
+    <job id="task2" namespace="task" name="task2" runtime="40" cores="1">
 		<uses file="task0::1.out" link="input" size="200000000"/>
 		<uses file="task2::0.out" link="output" size="200000000"/>
 	</job>
-	<job id="task3" namespace="task" name="task3" runtime="700" cores="1">
+	<job id="task3" namespace="task" name="task3" runtime="70" cores="1">
 		<uses file="task0::2.out" link="input" size="400000000"/>
 		<uses file="task3::0.out" link="output" size="200000000"/>
 	</job>
-	<job id="task4" namespace="task" name="task4" runtime="100" cores="1">
+	<job id="task4" namespace="task" name="task4" runtime="20" cores="1">
 		<uses file="task1::0.out" link="input" size="120000000"/>
 		<uses file="task2::0.out" link="input" size="200000000"/>
 		<uses file="task3::0.out" link="input" size="200000000"/>
