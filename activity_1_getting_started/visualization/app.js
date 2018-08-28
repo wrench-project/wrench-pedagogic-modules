@@ -99,7 +99,7 @@ function generateParseStringCallback(simulation_parameters, res) {
 
       res.json({
           "simulation_output": ansi_up.ansi_to_html(stderr).replace(re, '<br>' + find),
-          "task_data": JSON.parse(fs.readFileSync("workflow_data.json"))
+          "task_data": JSON.parse(fs.readFileSync("/home/wrench/workflow_data.json"))
       });
     });
   }

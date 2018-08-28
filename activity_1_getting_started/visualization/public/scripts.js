@@ -36,19 +36,19 @@ $(function() {
 
                     var task_id = task['task_id'];
 
-                    var read_start       = toTwoDecimalPlaces(task['read'].start);
-                    var read_end         = toTwoDecimalPlaces(task['read'].end);
-                    var read_duration    = toTwoDecimalPlaces(read_end - read_start);
+                    var read_start       = toFiveDecimalPlaces(task['read'].start);
+                    var read_end         = toFiveDecimalPlaces(task['read'].end);
+                    var read_duration    = toFiveDecimalPlaces(read_end - read_start);
 
-                    var compute_start    = toTwoDecimalPlaces(task['compute'].start);
-                    var compute_end      = toTwoDecimalPlaces(task['compute'].end);
-                    var compute_duration = toTwoDecimalPlaces(compute_end - compute_start);
+                    var compute_start    = toFiveDecimalPlaces(task['compute'].start);
+                    var compute_end      = toFiveDecimalPlaces(task['compute'].end);
+                    var compute_duration = toFiveDecimalPlaces(compute_end - compute_start);
 
-                    var write_start      = toTwoDecimalPlaces(task['write'].start);
-                    var write_end        = toTwoDecimalPlaces(task['write'].end);
-                    var write_duration   = toTwoDecimalPlaces(write_end - write_start);
+                    var write_start      = toFiveDecimalPlaces(task['write'].start);
+                    var write_end        = toFiveDecimalPlaces(task['write'].end);
+                    var write_duration   = toFiveDecimalPlaces(write_end - write_start);
 
-                    var task_duration    = toTwoDecimalPlaces(write_end - read_start);
+                    var task_duration    = toFiveDecimalPlaces(write_end - read_start);
 
                     task_details_table_body.append(
                       '<tr id=' + task_id + '>'
@@ -75,7 +75,7 @@ $(function() {
     });
 });
 
-var toTwoDecimalPlaces = d3.format('.5f');
+var toFiveDecimalPlaces = d3.format('.5f');
 
 function prepare_for_graph(data) {
     var keys = ['read', 'compute', 'write', 'whole_task'];
@@ -151,6 +151,9 @@ function generate_graph(data) {
         .data(stack_data)
         .enter()
         .append('g')
+        .attr('class', function(d) {
+            return d.key;
+        })
         .style('fill', function(d, i) {
             return colors[i];
         });
@@ -191,17 +194,18 @@ function generate_graph(data) {
 
         tooltip_task_id.text('TaskID: ' + d.data.task_id);
 
-        var duration = d[1] - d[0];
+        var parent_group = d3.select(this.parentNode).attr('class');
 
-        if (duration == d.data.read) {
+        if (parent_group == 'read') {
           tooltip_task_operation.text('Read Input');
-        } else if (duration == d.data.compute) {
+        } else if (parent_group == 'compute') {
           tooltip_task_operation.text('Computation');
-        } else if (duration == d.data.write) {
+        } else if (parent_group == 'write') {
           tooltip_task_operation.text('Write Output');
         }
 
-        tooltip_task_operation_duration.text('Duration: ' + toTwoDecimalPlaces(duration) + 's');
+        var duration = toFiveDecimalPlaces(d[1] - d[0]);
+        tooltip_task_operation_duration.text('Duration: ' + duration + 's');
 
       })
       .on('mouseout', function(d) {
