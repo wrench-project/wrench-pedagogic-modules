@@ -1,0 +1,20 @@
+{
+  "name": "test_dashboard",
+  "version": "1.0.0",
+  "description": "test code for the dashboard",
+  "main": "index.js",
+  "dependencies": {
+    "ansi_up": "^3.0.0",
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "method-override": "^3.0.0",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ryan",
+  "license": "ISC"
+}
