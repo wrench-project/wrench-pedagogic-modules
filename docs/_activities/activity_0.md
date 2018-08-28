@@ -39,7 +39,17 @@ A workflow management system (WMS) is a program that executes workflow tasks on 
 
 ## Simulating a workflow execution
 
-Evaluating the performance of a WMS with a given workflow on an arbitrary set of resources can be costly and time consuming. Furthermore, accurately reproducing such test results presents itself as a challenging endeavor as real-world distributed platforms often have dynamic and unstable behaviors. Furthermore, such evaluations would be limited to resources at hand, precluding the exploration of "what if?" scenarios. These limitations can be addressed by using *simulation* so as to quantify the performance of a particular WMS implementation in a way that is repeatable while allowing the exploration of arbitrary experimental scenarios. Both the underlying infrastructure and compute resources can be accurately simulated using [WRENCH](http://wrench-project.org/), a WMS simulation framework. A benefit of this approach is that the simulation will run orders of magnitude faster than the actual time it would take to execute the workflow in real life. Additionally, the simulation is scalable and can be executed on, say, a single laptop computer. [WRENCH](http://wrench-project.org/) thus provides a simulation foundation for aiding workflow and WMS research, development, and education.  In these pedagogic modules we use [WRENCH](http://wrench-project.org/) for educational purposes.
+Evaluating the performance of a WMS with a given workflow on an arbitrary set of resources can be costly and time consuming. Furthermore, accurately reproducing such test results presents itself as a challenging endeavor as real-world distributed platforms often have dynamic and unstable behaviors.
+Furthermore, such evaluations would be limited to resources at hand, precluding the exploration of "what if?" scenarios. These limitations can be addressed by using *simulation* so as to quantify the performance of a particular WMS implementation in a way that is repeatable while allowing the exploration of arbitrary experimental scenarios.
+Both the underlying infrastructure and compute resources can be accurately simulated using [WRENCH](http://wrench-project.org/), a WMS simulation framework.
+A benefit of this approach is that the simulation will run orders of magnitude faster than the actual time it would take to execute the workflow in real life.
+Additionally, the simulation is scalable and can be executed on, say, a single laptop computer. [WRENCH](http://wrench-project.org/) thus provides a simulation foundation for aiding workflow and WMS research,
+development, and education.  In these pedagogic modules we use [WRENCH](http://wrench-project.org/) for educational purposes.
+
+WRENCH is based on the [SimGrid](http://simgrid.org) simulation framework. SimGrid strives to implement realistic simulation models that capture many of the effects seen in real-world platforms.
+For instance, sending 100MiB of data over a network link with a bandwidth of 1000MiB/sec and a latency of 10ms does not take exactly 1.01 seconds
+on real-world networks (e.g., due to the TCP protocol, due to various network overheads), which is captured in SimGrid simulations.  When going through these pedagogic modules and
+inspecting execution timelines, you will thus likely note that back-of-the-enveloppe calculations of durations, e.g., data transfer times, do not always align with the simulation.
 
 Continue to the next section,
 [Activity 1: Running Your First Simulated Workflow Execution]({{ site.baseurl }}/activities/activity_1), where we will begin running basic simulations.
