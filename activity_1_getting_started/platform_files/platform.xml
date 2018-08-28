@@ -9,7 +9,7 @@
         <host id="Fafard" speed="1000Gf" core="1"/>
 
         <!-- 1Gbps bandwidth & 0.1 second latency --> 
-        <link id="1" bandwidth="125MBps" latency="100ms"/>
+        <link id="1" bandwidth="10MBps" latency="10us"/>
 
         <route src="Tremblay" dst="Jupiter">
             <link_ctn id="1"/>
