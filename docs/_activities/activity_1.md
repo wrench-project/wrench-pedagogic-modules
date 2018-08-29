@@ -16,8 +16,8 @@ title: 'Activity 1: Running Your First Simulated Workflow Execution'
     and graphical simulation output;
   - Be able to estimate the time it should take to complete a workflow task on a
     given compute host, accounting for I/O overhead;
-  - Understand I/O overhead effects on workflow executions by changing simulation parameters;
-  - Gain exposure to the concept of data locality and witness how it can reduce workflow execution time.
+  - Understand I/O overhead effects on workflow executions;
+  - Gain exposure to the concept of data locality and its effect on workflow execution.
 
 
 # Overview
@@ -28,7 +28,8 @@ title: 'Activity 1: Running Your First Simulated Workflow Execution'
 
 In this activity, we study the execution of the workflow depicted in Figure 1.1 on the cyber infrastructure depicted in
 Figure 1.2. A Compute Service (CS) will execute tasks that the Workflow Management System (WMS)
-submits to it. The Storage Service stores files, much like a database, and handles read and write requests. When the WMS submits a job to the CS, information is included in the
+submits to it. The CS has at its disposal a single core and will execute only one task at a time.
+The SS stores files, much like a database, and handles read and write requests. When the WMS submits a job to the CS, information is included in the
 job submission that specifies what storage service to use for I/O operations.
 This is a very simple scenario, and will be used to get our "feet wet" with WRENCH simulations.
 
@@ -36,15 +37,15 @@ This is a very simple scenario, and will be used to get our "feet wet" with WREN
 
 ## WMS Scenario
 
-We execute the workflow with a (already implemented) WMS that greedily submits tasks
-to the Compute Service as soon as they become ready. Each task running on the CS reads and writes data
-from/to the Storage Service (which, from the perspective of the task is on a remote host).
-Once the WMS is notified by the CS that a task has completed, it will greedily submit the next ready task.
-For example, when *task0* has completed and its output has been written to the storage service,
-*task1*, *task2*, and *task3* become ready. At this point, the WMS will submit *task1* regardless of
-any information it knows about *task2* or *task3*.
-The process of greedily submitting tasks to the CS as they become ready is repeated until
-the entire workflow is complete.
+We execute the workflow with a (already implemented) WMS that executes tasks
+on the CS as soon as possible. Each task running on the CS reads and writes data
+from/to the SS (which, from the perspective of the task, is on a remote host).
+Once the WMS is notified by the CS that a task has completed, it will greedily submit the next ready task
+going from left-to-right in the depicted workflow whenever multiple tasks are ready.
+For example, when *task0* has completed and its output has been written to the SS,
+*task1*, *task2*, and *task3* become ready. At this point, the WMS will submit *task1* for
+execution to the CS.
+This process is repeated until workflow execution is complete.
 
 # Activity
 
@@ -74,20 +75,23 @@ Step 2 will display textual simulation output to your terminal window. This outp
 The simulation will produce output similar to the above snippet of text. The first column denotes the simulation time at which some process is performing some action.
 The second column is split into two sections: hostname, and process name. Last is a message describing what the process is doing. For example, the second line from the output
 above, `[0.000000][Tremblay:wms_activity1_3] About to execute a workflow with 5 tasks` tells us
-that at *simulation time 0.00000*, the WMS named *activity1*, located on the physical host, *Tremblay*, is *"About to execute a workflow with 5 tasks"*.
+that at *simulation time 0.00000*, the WMS named *wms_activity1*, located on the physical host, *Tremblay*, is *"About to execute a workflow with 5 tasks"*.
+Note that the process name is actually *wms_activity1_3*. The "3" there is added to distinguish different instances of the WMS in case
+the simulation executes multiple of them (which we don't do in this activity).
 Simulation output for this activity has been constrained such that only messages from the WMS are visible. Furthermore, the color scheme of the
 output has been set up such that general messages are <span style="font-weight:bold;color:rgb(187,0,187)">pink</span>, task submissions to the CS are
 <span style="font-weight:bold;color:rgb(0,0,187)">blue</span>, and notifications received from the CS are
-<span style="font-weight:bold;color:rgb(187,0,0)">red</span>. In the following activities, we will expose more simulation output to highlight
+<span style="font-weight:bold;color:rgb(187,0,0)">red</span>.  You'll note that, for instance, we do not see any simulation output
+corresponding to what the SS is doing. In the following activities, we will expose more simulation output to highlight
 areas of interest.
 
-**Questions**
+**Answer these questions**
   - At what time did the WMS submit *task1* as a job to the compute service?
   - From the WMS's perspective, how long did *task1* run for?
     (this duration is called the task's **turnaround-time**)
   - The compute service runs on a host with a speed of *1000 GFlop/sec*, and *task4*
     must perform *10 Tflop*. About how long should we expect *task4* to compute for?
-  - Based on the simulation output, from the WMS's perspective, how long does it take
+  - Based on the simulation output, from the WMS's perspective how long does it take
     for *task4* to complete?
   - Why does *task4* take longer than what you computed in *question 3*?
   - Assuming there is no traffic on the network, about how long would it take to send all of
@@ -115,9 +119,8 @@ areas of interest.
 
 ## Step #3: Visualize the Workflow Execution
 
-Analyzing the simulation output can be tedious, especially when the workflow comprises
-a large number of tasks or when there are a number of complex software services being
-simulated. Fortunately, the simulator can produce a visualization of the workflow execution
+Analyzing the textual simulation output can be tedious, especially when the workflow comprises
+many tasks and/or when there are many simulated software services. Fortunately, the simulator can produce a visualization of the workflow execution
 as a Gantt chart.
 
 In the terminal run the following commands:
@@ -125,7 +128,7 @@ In the terminal run the following commands:
 2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:activity-1-visualization`
 3. open a browser and go to localhost:3000
 
-**Questions**
+**Answer these questions**
   - What fraction of *task0*'s execution time is spent doing I/O?
   - What fraction of *task4*'s execution time is spent doing I/O?
   - If the link bandwidth between *Fafard* and *Jupiter* were doubled, what should
@@ -134,7 +137,7 @@ In the terminal run the following commands:
       Is your expectation confirmed?
   - With the link bandwidth doubled, how much faster is the workflow execution now than before?
   - What link bandwidth would be necessary for the workflow to run 2x faster
-    than with the original 10MBps bandwidth? You can do this by solving a simple equation, and
+    than with the original 10MBps bandwidth? Hint: You can do this by solving a simple equation, and
      then check that your answer is correct using the simulation.
 
 {% comment %}
@@ -174,14 +177,15 @@ Figure 1.1. Now, consider the scenario where a WMS user is only concerned with a
 the final output file, *task4::0.out* via the remote storage service. Other files created during the execution of the workflow need
 not be analyzed or accessed by the WMS user and serve only as intermediate steps required to complete the workflow in its entirety.
 Furthermore, let us say that another storage service resides on the host Jupiter and that the CS has access to this
-storage service. Since the WMS user will only access the *remote storage service* to handle the two files, *task0::0.in* and *task4::0.out*,
-the WMS is implemented such that it requests the CS to use its *local storage service* (the storage service located on Jupiter) for all read and write operations.
+storage service. Since the WMS user will only access the *remote storage service* to handle  two files, *task0::0.in* and *task4::0.out*,
+we have enhanced our previous WMS implementation so that it tells the CS to use its *local storage service* (the storage service located on Jupiter) for all
+read and write operations for intermediate files.
 Figure 1.3 above illustrates our new cyber infrastructure and WMS/Workflow scenario.
 
 Using the visualization tool from Step 3, input *10MBps* as the link bandwidth.
 Select the radio button that says: *Storage Service on Fafard and Jupiter*. Run the simulation.
 
-**Questions**
+**Answer these questions**
   - What fraction of *task4* is spent doing I/O?
   - How much faster is the workflow execution now than compared to what was observed in *Step 2*?
   - Using only a single remote storage service, what would you need to increase the bandwidth to in order to have a workflow execution that is
@@ -208,7 +212,9 @@ When you are finished using the visualization tool, run: `docker kill $(docker p
 
 # Conclusion
 
-In this activity, we have simulated the execution of a small workflow on two simple distributed computing environments that exposed the cost of performing I/O operations.
-Using both textual and visualized simulation output, we have become familiarized with network bandwidth and **data locality**, two of the many factors that can affect task **turnaround** times, which consequently affect overall workflow execution performance. With these concepts in mind, proceed to the next
- activity, "Activity 2: Parallelism", where we construct a more complex distributed computing environment in order to explore the concept of "parallelism", its benefits,
- and limitations.
+In this activity, we have simulated the execution of a small workflow on two simple distributed computing environments that exposed the
+cost of performing I/O operations.
+Using both textual and visualized simulation output, we have familiarized ourselves with network bandwidth and **data locality**,
+two of the many factors that can affect task **turnaround** times, which consequently affect overall workflow execution performance.
+With these concepts in mind, proceed to the next
+ activity, "Activity 2: Parallelism", where we construct a more complex distributed computing environment in order to explore the concept of "parallelism".
