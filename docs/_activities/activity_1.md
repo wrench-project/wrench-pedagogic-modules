@@ -27,7 +27,7 @@ title: 'Activity 1: Running Your First Simulated Workflow Execution'
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/workflow.svg">Workflow</object>
 
 In this activity, we study the execution of the workflow depicted in Figure 1.1 on the cyber infrastructure depicted in
-Figure 1.2. A CS (CS) will execute tasks that the Workflow Management System (WMS)
+Figure 1.2. A Compute Service (CS) will execute tasks that the Workflow Management System (WMS)
 submits to it. The Storage Service stores files, much like a database, and handles read and write requests. When the WMS submits a job to the CS, information is included in the
 job submission that specifies what storage service to use for I/O operations.
 This is a very simple scenario, and will be used to get our "feet wet" with WRENCH simulations.
