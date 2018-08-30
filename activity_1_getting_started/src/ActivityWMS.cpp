@@ -1,5 +1,6 @@
 
 #include "ActivityWMS.h"
+#include <algorithm>
 
 XBT_LOG_NEW_DEFAULT_CATEGORY(simple_wms, "Log category for Simple WMS");
 
@@ -33,10 +34,14 @@ namespace wrench {
         
         while (true) {
 
-            // Get the ready tasks
+            // Get the ready tasks and SORT them by taskID
             std::vector<WorkflowTask *> ready_tasks = this->getWorkflow()->getReadyTasks();
 
-            // Get the available compute services
+            std::sort(ready_tasks.begin(), ready_tasks.end(), [ ] (WorkflowTask *lhs, WorkflowTask *rhs) {
+                return lhs->getID() < rhs->getID();
+            });
+
+            // Get the available compute services, in this case only one for activity1
             std::set<ComputeService *> compute_services = this->getAvailableComputeServices();
 
             // Run ready tasks with defined scheduler implementation
