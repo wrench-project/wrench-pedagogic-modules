@@ -29,7 +29,7 @@ title: 'Activity 1: Running Your First Simulated Workflow Execution'
 In this activity, we study the execution of the workflow depicted in Figure 1.1 on the cyber infrastructure depicted in
 Figure 1.2. A Compute Service (CS) will execute tasks that the Workflow Management System (WMS)
 submits to it. The CS has at its disposal a single core and will execute only one task at a time.
-The SS stores files, much like a database, and handles read and write requests. When the WMS submits a job to the CS, information is included in the
+The Storage Service (SS) stores files, much like a database, and handles read and write requests. When the WMS submits a job to the CS, information is included in the
 job submission that specifies what storage service to use for I/O operations.
 This is a very simple scenario, and will be used to get our "feet wet" with WRENCH simulations.
 
@@ -62,11 +62,11 @@ Step 2 will display textual simulation output to your terminal window. This outp
 ## Step #2: Interpret the Workflow Execution
 
 <div class="wrench-output">
-<span style="font-weight:bold;color:rgb(187,0,187)">[0.000000][Tremblay:wms_activity1_3] Starting on host Tremblay listening on mailbox_name wms_activity1_3<br></span>
-<span style="font-weight:bold;color:rgb(187,0,187)">[0.000000][Tremblay:wms_activity1_3] About to execute a workflow with 5 tasks<br></span>
-<span style="font-weight:bold;color:rgb(0,0,187)">[0.000000][Tremblay:wms_activity1_3] Submitting task0 as a job to compute service on Jupiter<br></span>
-<span style="font-weight:bold;color:rgb(187,0,0)">[33814.005184][Tremblay:wms_activity1_3] Notified that task0 has completed<br></span>
-<span style="font-weight:bold;color:rgb(0,0,187)">[33814.005184][Tremblay:wms_activity1_3] Submitting task1 as a job to compute service on Jupiter<br></span>
+<span style="font-weight:bold;color:rgb(187,0,187)">[0.000000][my_lab_computer.edu:wms_activity1_3] Starting on host my_lab_computer.edu listening on mailbox_name wms_activity1_3<br></span>
+<span style="font-weight:bold;color:rgb(187,0,187)">[0.000000][my_lab_computer.edu:wms_activity1_3] About to execute a workflow with 5 tasks<br></span>
+<span style="font-weight:bold;color:rgb(0,0,187)">[0.000000][my_lab_computer.edu:wms_activity1_3] Submitting task0 as a job to compute service on hpc.edu<br></span>
+<span style="font-weight:bold;color:rgb(187,0,0)">[33814.005184][my_lab_computer.edu:wms_activity1_3] Notified that task0 has completed<br></span>
+<span style="font-weight:bold;color:rgb(0,0,187)">[33814.005184][my_lab_computer.edu:wms_activity1_3] Submitting task1 as a job to compute service on hpc.edu<br></span>
 <span>.<br></span>
 <span>.<br></span>
 <span>.<br></span>
@@ -74,8 +74,8 @@ Step 2 will display textual simulation output to your terminal window. This outp
 
 The simulation will produce output similar to the above snippet of text. The first column denotes the simulation time at which some process is performing some action.
 The second column is split into two sections: hostname, and process name. Last is a message describing what the process is doing. For example, the second line from the output
-above, `[0.000000][Tremblay:wms_activity1_3] About to execute a workflow with 5 tasks` tells us
-that at *simulation time 0.00000*, the WMS named *wms_activity1*, located on the physical host, *Tremblay*, is *"About to execute a workflow with 5 tasks"*.
+above, `[0.000000][my_lab_computer.edu:wms_activity1_3] About to execute a workflow with 5 tasks` tells us
+that at *simulation time 0.00000*, the WMS named *wms_activity1*, located on the physical host, *my_lab_computer.edu*, is *"About to execute a workflow with 5 tasks"*.
 Note that the process name is actually *wms_activity1_3*. The "3" there is added to distinguish different instances of the WMS in case
 the simulation executes multiple of them (which we don't do in this activity).
 Simulation output for this activity has been constrained such that only messages from the WMS are visible. Furthermore, the color scheme of the
@@ -90,13 +90,13 @@ areas of interest.
   - From the WMS's perspective, how long did *task1* run for?
     (this duration is called the task's **turnaround-time**)
   - The compute service runs on a host with a speed of *1000 GFlop/sec*, and *task4*
-    must perform *10 Tflop*. About how long should we expect *task4* to compute for?
+    must perform *10 TFlop*. About how long should we expect *task4* to compute for?
   - Based on the simulation output, from the WMS's perspective how long does it take
     for *task4* to complete?
   - Why does *task4* take longer than what you computed in *question 3*?
   - Assuming there is no traffic on the network, about how long would it take to send all of
-    *task4*'s input data from *Fafard* to *Jupiter* and to send all of *task4*'s output data
-    from *Jupiter* to *Fafard*, using the direct link between these two hosts and assuming no other
+    *task4*'s input data from *storage_db.edu* to *hpc.edu* and to send all of *task4*'s output data
+    from *hpc.edu* to *storage_db.edu*, using the direct link between these two hosts and assuming no other
     network traffic?
   - Accounting for this I/O *overhead*, does *task4*'s execution time as experienced by the WMS make sense?
 
@@ -131,7 +131,7 @@ In the terminal run the following commands:
 **Answer these questions**
   - What fraction of *task0*'s execution time is spent doing I/O?
   - What fraction of *task4*'s execution time is spent doing I/O?
-  - If the link bandwidth between *Fafard* and *Jupiter* were doubled, what should
+  - If the link bandwidth between *storage_db.edu* and *hpc.edu* were doubled, what should
     the fraction of *task4*'s execution time is spent doing I/O be?
   - Double the platform link bandwidth (set it to 20MBps) using the visualization and run the simulation.
       Is your expectation confirmed?
@@ -176,20 +176,20 @@ service accessed a *remote storage service* to perform all of the read and write
 Figure 1.1. Now, consider the scenario where a WMS user is only concerned with accessing the initial input file, *task0::0.in* and
 the final output file, *task4::0.out* via the remote storage service. Other files created during the execution of the workflow need
 not be analyzed or accessed by the WMS user and serve only as intermediate steps required to complete the workflow in its entirety.
-Furthermore, let us say that another storage service resides on the host Jupiter and that the CS has access to this
+Furthermore, let us say that another storage service resides on the host hpc.edu and that the CS has access to this
 storage service. Since the WMS user will only access the *remote storage service* to handle  two files, *task0::0.in* and *task4::0.out*,
-we have enhanced our previous WMS implementation so that it tells the CS to use its *local storage service* (the storage service located on Jupiter) for all
+we have enhanced our previous WMS implementation so that it tells the CS to use its *local storage service* (the storage service located on hpc.edu) for all
 read and write operations for intermediate files.
 Figure 1.3 above illustrates our new cyber infrastructure and WMS/Workflow scenario.
 
 Using the visualization tool from Step 3, input *10MBps* as the link bandwidth.
-Select the radio button that says: *Storage Service on Fafard and Jupiter*. Run the simulation.
+Select the radio button that says: *Storage Service on storage_db.edu and hpc.edu*. Run the simulation.
 
 **Answer these questions**
   - What fraction of *task4* is spent doing I/O?
   - How much faster is the workflow execution now than compared to what was observed in *Step 2*?
   - Using only a single remote storage service, what would you need to increase the bandwidth to in order to have a workflow execution that is
-    faster than what was realized using a 10MBps link bandwidth with a storage service on Fafard and Jupiter?
+    faster than what was realized using a 10MBps link bandwidth with a storage service on storage_db.edu and hpc.edu?
   - Other than affecting the workflow execution, what is another benefit of utilizing data locality?
 
 {% comment %}
