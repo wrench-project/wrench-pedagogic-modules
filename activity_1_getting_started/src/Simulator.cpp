@@ -24,48 +24,41 @@ int main(int argc, char** argv) {
     // read and instantiate the platform
     simulation.instantiatePlatform(platform_file);
 
-    std::vector<std::string> hostname_list = simulation.getHostnameList();
-    std::string tremblay = hostname_list[2];
-    std::string jupiter = hostname_list[1];
-    std::string fafard = hostname_list[0];
+    std::string my_lab_computer_edu("my_lab_computer.edu");
+    std::string hpc_edu("hpc.edu");
+    std::string storage_db_edu("storage_db.edu");
 
-    // storage service on Fafard
-    wrench::StorageService *fafard_storage_service = simulation.add(new wrench::SimpleStorageService(fafard, 10000000000000.0));
-    wrench::StorageService *jupiter_storage_service = simulation.add(new wrench::SimpleStorageService(jupiter, 10000000000000.0));
-    std::set<wrench::StorageService *> storage_services = {fafard_storage_service, jupiter_storage_service};
+    // storage service on storage_db_edu
+    wrench::StorageService *storage_db_edu_storage_service = simulation.add(new wrench::SimpleStorageService(storage_db_edu, 10000000000000.0));
+    wrench::StorageService *hpc_edu_storage_service = simulation.add(new wrench::SimpleStorageService(hpc_edu, 10000000000000.0));
+    std::set<wrench::StorageService *> storage_services = {storage_db_edu_storage_service, hpc_edu_storage_service};
 
-    // compute service on Jupiter
-    std::set<std::tuple<std::string, unsigned long, double>> compute_resources = {std::make_tuple(jupiter, wrench::ComputeService::ALL_CORES, wrench::ComputeService::ALL_RAM)};
+    // compute service on hpc_edu
+    std::set<std::tuple<std::string, unsigned long, double>> compute_resources = {std::make_tuple(hpc_edu, wrench::ComputeService::ALL_CORES, wrench::ComputeService::ALL_RAM)};
 
     wrench::ComputeService *compute_service = simulation.add(new wrench::MultihostMulticoreComputeService(
-                jupiter,
+                hpc_edu,
                 compute_resources,
                 0, {}, {}
             ));
 
-    // WMS on Tremblay
+    // WMS on my_lab_computer_edu
     wrench::WMS *wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler> (new wrench::ActivityScheduler(storage_services)),
-            nullptr, {compute_service}, storage_services, tremblay));
+            nullptr, {compute_service}, storage_services, my_lab_computer_edu));
 
     wms->addWorkflow(&workflow);
 
-    // file registry service on Fafard
-    simulation.add(new wrench::FileRegistryService(fafard));
+    // file registry service on storage_db_edu
+    simulation.add(new wrench::FileRegistryService(storage_db_edu));
 
     // stage the input files
     std::map<std::string, wrench::WorkflowFile *> input_files = workflow.getInputFiles();
-    simulation.stageFiles(input_files, fafard_storage_service);
+    simulation.stageFiles(input_files, storage_db_edu_storage_service);
 
     // launch the simulation
     simulation.launch();
 
     auto starts = simulation.getOutput().getTrace<wrench::SimulationTimestampTaskStart>();
-
-    // write csv of task data
-/*    std::ofstream csv;
-    csv.open("workflow_data.csv");
-
-    csv << "task_id,execution_host,task_start,read_start,read_end,compute_start,compute_end,write_start,write_end,task_end" << std::endl;*/
 
     nlohmann::json workflow_data;
     std::string start("start");
@@ -99,20 +92,10 @@ int main(int argc, char** argv) {
         task_data["write"] = {{start, write_start}, {end, write_end}};
 
         workflow_data.push_back(task_data);
-
-/*        csv << task_id << ",";
-        csv << execution_host << ",";
-        csv << read_start << ",";
-        csv << read_end << ",";
-        csv << compute_start << ",";
-        csv << compute_end << ",";
-        csv << write_start << ",";
-        csv << write_end << ",";
-        csv << task_end << std::endl;*/
     }
-/*    csv.close();*/
 
-    std::ofstream output("/home/wrench/workflow_data.json");
+    std::string workflow_data_file_path = "workflow_data.json";
+    std::ofstream output(workflow_data_file_path);
     output << std::setw(4) << workflow_data << std::endl;
     output.close();
 

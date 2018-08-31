@@ -8,9 +8,9 @@ namespace wrench {
 
     ActivityScheduler::ActivityScheduler(std::set<wrench::StorageService *> storage_services) : StandardJobScheduler() {
         for (auto &s : storage_services) {
-            if (s->getHostname() == "Fafard") {
+            if (s->getHostname() == "storage_db.edu") {
                 this->storage_services.insert(std::make_pair(s->getHostname(), s));
-            } else if (s->getHostname() == "Jupiter") {
+            } else if (s->getHostname() == "hpc.edu") {
                 this->storage_services.insert(std::make_pair(s->getHostname(), s));
             }
         }
@@ -28,28 +28,28 @@ namespace wrench {
 
             #ifdef REMOTE_STORAGE
             for (auto f : task->getInputFiles()) {
-                file_locations.insert(std::make_pair(f, storage_services["Fafard"]));
+                file_locations.insert(std::make_pair(f, storage_services["storage_db.edu"]));
             }
 
             for (auto f : task->getOutputFiles()) {
-                file_locations.insert(std::make_pair(f, storage_services["Fafard"]));
+                file_locations.insert(std::make_pair(f, storage_services["storage_db.edu"]));
             }
             #endif
 
             #ifdef LOCAL_STORAGE
             for (auto f : task->getInputFiles()) {
                 if (task->getNumberOfParents() == 0) { // if im the first task, all my inputs should be read from remote
-                    file_locations.insert(std::make_pair(f, storage_services["Fafard"]));
+                    file_locations.insert(std::make_pair(f, storage_services["storage_db.edu"]));
                 } else {
-                    file_locations.insert(std::make_pair(f, storage_services["Jupiter"]));
+                    file_locations.insert(std::make_pair(f, storage_services["hpc.edu"]));
                 }
             }
 
             for (auto f : task->getOutputFiles()) {
                 if (task->getNumberOfChildren() == 0) { // if im the last task, all my outputs should be written to remote
-                    file_locations.insert(std::make_pair(f, storage_services["Fafard"]));
+                    file_locations.insert(std::make_pair(f, storage_services["storage_db.edu"]));
                 }
-                file_locations.insert(std::make_pair(f, storage_services["Jupiter"]));
+                file_locations.insert(std::make_pair(f, storage_services["hpc.edu"]));
             }
             #endif
 

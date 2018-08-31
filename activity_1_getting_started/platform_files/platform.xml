@@ -4,20 +4,20 @@
     <zone id="AS0" routing="Full">
 
         <!-- 10 teraflop hosts -->
-        <host id="Tremblay" speed="1000Gf" core="1"/>
-        <host id="Jupiter" speed="1000Gf" core="1"/>
-        <host id="Fafard" speed="1000Gf" core="1"/>
+        <host id="my_lab_computer.edu" speed="1000Gf" core="1"/>
+        <host id="hpc.edu" speed="1000Gf" core="1"/>
+        <host id="storage_db.edu" speed="1000Gf" core="1"/>
 
-        <!-- 1Gbps bandwidth & 0.1 second latency --> 
+        <!-- 1Gbps bandwidth & 0.1 second latency -->
         <link id="1" bandwidth="10MBps" latency="10us"/>
 
-        <route src="Tremblay" dst="Jupiter">
+        <route src="my_lab_computer.edu" dst="hpc.edu">
             <link_ctn id="1"/>
         </route>
-        <route src="Fafard" dst="Tremblay">
+        <route src="storage_db.edu" dst="my_lab_computer.edu">
             <link_ctn id="1"/>
         </route>
-        <route src="Fafard" dst="Jupiter">
+        <route src="storage_db.edu" dst="hpc.edu">
             <link_ctn id="1"/>
         </route>
     </zone>
