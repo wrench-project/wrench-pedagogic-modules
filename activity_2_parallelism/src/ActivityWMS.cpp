@@ -78,6 +78,6 @@ namespace wrench {
     void ActivityWMS::processEventStandardJobCompletion(std::unique_ptr<wrench::StandardJobCompletedEvent> event) {
         auto standard_job = event->standard_job;
         TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_RED);
-        WRENCH_INFO("Notified that a standard job with %d tasks has completed", standard_job->getTasks().size());
+        WRENCH_INFO("Notified that a standard job with %lu tasks has completed", standard_job->getTasks().size());
     }
 }
