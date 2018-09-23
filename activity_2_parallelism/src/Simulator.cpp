@@ -21,7 +21,7 @@ void generateTaskJoinWorkflow(wrench::Workflow *workflow, int num_tasks_to_join,
     const unsigned long    MIN_CORES = 1;
     const unsigned long    MAX_CORES = 1;
     const double PARALLEL_EFFICIENCY = 1.0;
-    const double  MEMORY_REQUIREMENT = requiresMemory ? 16.0 * 1000.0 * 1000.0 * 1000.0 : 0.0;
+    const double  MEMORY_REQUIREMENT = requiresMemory ? 9.0 * 1000.0 * 1000.0 * 1000.0 : 0.0;
 
     // WorkflowFile size
     const double FILE_SIZE = 100;
@@ -45,20 +45,52 @@ void generateTaskJoinWorkflow(wrench::Workflow *workflow, int num_tasks_to_join,
 }
 
 // cant change host attributes programatically at the moment so will use pugixml to set num_nodes and num_cores for our cluster
-void generatePlatformWithHPCSpecs(std::string src_platform_file, std::string dst_platform_file, int num_nodes, int num_cores) {
-    pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file(src_platform_file.c_str(), pugi::parse_doctype);
+// TODO: instead, just write the string to /tmp
+void generatePlatformWithHPCSpecs(std::string platform_file_path, int num_nodes, int num_cores) {
 
-    if (result) {
-        pugi::xml_node hpc_cluster = doc.child("platform").child("zone").child("cluster");
-
-        hpc_cluster.attribute("radical").set_value(std::string("0-" + std::to_string(num_nodes)).c_str());
-        hpc_cluster.attribute("core").set_value(num_cores);
-
-        doc.save_file(dst_platform_file.c_str());
-    } else {
-        throw std::runtime_error("pugi had some problems with the xml");
+    if (platform_file_path.empty()) {
+        throw std::invalid_argument("generatePlatformWithHPCSpecs() platform_file_path cannot be empty");
     }
+
+    if (num_nodes < 1) {
+        throw std::invalid_argument("generatePlatformWithHPCSpecs() num_nodes must be greater than 1");
+    }
+
+    if (num_cores < 1) {
+        throw std::invalid_argument("generatePlatformWithHPCSpecs() num_cores must be greater than 1");
+    }
+
+    // Create a the platform file
+    std::string xml = "<?xml version='1.0'?>\n"
+                      "<!DOCTYPE platform SYSTEM \"http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd\">\n"
+                      "<platform version=\"4.1\">\n"
+                      "   <zone id=\"AS0\" routing=\"Full\">\n"
+                      "     <cluster id=\"hpc.edu\" prefix=\"hpc.edu/node_\" suffix=\"\" radical=\"0-";
+            xml += std::to_string(num_nodes)  + "\" core=\"" + std::to_string(num_cores) + "\" speed=\"1000Gf\" bw=\"125GBps\" lat=\"10us\" router_id=\"hpc_gateway\">\n";
+            xml += "         <prop id=\"ram\" value=\"32000000000\"/>\n";
+            xml += "        </cluster>\n";
+            xml += "      <zone id=\"AS2\" routing=\"Full\">\n";
+            xml += "          <host id=\"storage_db.edu\" speed=\"1000Gf\"/>\n";
+            xml += "      </zone>\n";
+            xml += "      <zone id=\"AS3\" routing=\"Full\">\n";
+            xml += "          <host id=\"my_lab_computer.edu\" speed=\"1000Gf\" core=\"1\"/>\n";
+            xml += "      </zone>\n";
+            xml += "      <link id=\"link1\" bandwidth=\"10MBps\" latency=\"100us\"/>\n";
+            xml += "      <zoneRoute src=\"AS2\" dst=\"hpc.edu\" gw_src=\"storage_db.edu\" gw_dst=\"hpc_gateway\">\n";
+            xml += "        <link_ctn id=\"link1\"/>\n";
+            xml += "      </zoneRoute>\n";
+            xml += "      <zoneRoute src=\"AS3\" dst=\"hpc.edu\" gw_src=\"my_lab_computer.edu\" gw_dst=\"hpc_gateway\">\n";
+            xml += "        <link_ctn id=\"link1\"/>\n";
+            xml += "      </zoneRoute>\n";
+            xml += "      <zoneRoute src=\"AS3\" dst=\"AS2\" gw_src=\"my_lab_computer.edu\" gw_dst=\"storage_db.edu\">\n";
+            xml += "        <link_ctn id=\"link1\"/>\n";
+            xml += "      </zoneRoute>\n";
+            xml += "   </zone>\n";
+            xml += "</platform>\n";
+
+    FILE *platform_file = fopen(platform_file_path.c_str(), "w");
+    fprintf(platform_file, "%s", xml.c_str());
+    fclose(platform_file);
 }
 
 int main(int argc, char** argv) {
@@ -66,11 +98,10 @@ int main(int argc, char** argv) {
     wrench::Simulation simulation;
     simulation.init(&argc, argv);
 
-    char *platform_file_input = argv[1];
-    char *num_nodes_input     = argv[2];
-    char *num_cores_input     = argv[3];
-    char *num_task_join_input = argv[4];
-    std::string task_memory_required_input  = std::string(argv[5]);
+    char *num_nodes_input     = argv[1];
+    char *num_cores_input     = argv[2];
+    char *num_task_join_input = argv[3];
+    std::string task_memory_required_input  = std::string(argv[4]);
 
     const int MAX_NODES         = 32;
     const int MAX_CORES         = 64;
@@ -80,11 +111,10 @@ int main(int argc, char** argv) {
     int  NUM_CORES_PER_HPC_NODE;
     int  NUM_TASKS_TO_JOIN;
     bool TASK_MEMORY_REQUIRED;
-    std::string MODIFIED_PLATFORM("./platform_files/modified_platform.xml");
 
     try {
 
-        if (argc != 6) {
+        if (argc != 5) {
             throw std::invalid_argument("bad args");
         }
 
@@ -120,7 +150,6 @@ int main(int argc, char** argv) {
 
     } catch(std::invalid_argument &e) {
         std::cerr << "Usage: activity_2_simulator <platform_file> <num_hpc_nodes> <num_hpc_cores_per_node> <num_tasks_to_join> <task_memory_requirement>" << std::endl;
-        std::cerr << "   platform_file: path to the xml platform file" << std::endl;
         std::cerr << "   num_hpc_nodes: number of execution nodes in the range [1, " + std::to_string(MAX_NODES) + "]" << std::endl;
         std::cerr << "   num_hpc_cores_per_node: number of cores per node in the range [1, " + std::to_string(MAX_CORES) + "]" << std::endl;
         std::cerr << "   num_tasks_to_join: the number of independent tasks to join in the range [2, " + std::to_string(MAX_TASKS_TO_JOIN) + "]" << std::endl;
@@ -133,8 +162,9 @@ int main(int argc, char** argv) {
     generateTaskJoinWorkflow(&workflow, NUM_TASKS_TO_JOIN, TASK_MEMORY_REQUIRED);
 
     // read and instantiate the platform with the desired HPC specifications
-    generatePlatformWithHPCSpecs(platform_file_input, MODIFIED_PLATFORM, NUM_HPC_NODES, NUM_CORES_PER_HPC_NODE);
-    simulation.instantiatePlatform(MODIFIED_PLATFORM);
+    std::string platform_file_path = "/tmp/platform.xml";
+    generatePlatformWithHPCSpecs(platform_file_path,  NUM_HPC_NODES, NUM_CORES_PER_HPC_NODE);
+    simulation.instantiatePlatform(platform_file_path);
 
     // get all the hosts in the cluster zone
     simgrid::s4u::Engine *simgrid_engine = simgrid::s4u::Engine::get_instance();
