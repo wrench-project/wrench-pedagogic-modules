@@ -1,4 +1,5 @@
 from enum import Enum
+import json
 
 class Event():
 
@@ -7,11 +8,20 @@ class Event():
         self.start = start
         self.end = end
         self.num_cores_allocated = num_cores_allocated
-        self.num_levels = 4 - num_cores_allocated + 1
-        self.current_level = 0
+        self.num_levels = 4 - num_cores_allocated + 1 # change 4 to be whatever number of cores the host has
+        self.current_position = 0
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "start": self.start,
+            "end": self.end,
+            "num_cores": self.num_cores_allocated,
+            "position": self.current_position
+        }
 
     def __repr__(self):
-        return "(task_{}, {})".format(self.id, self.current_level)
+        return "(task_{}, {})".format(self.id, self.current_position)
 
 
 def on_segment(p1, q, p2):
@@ -42,6 +52,11 @@ def find_layout(data):
 
     if status == Status.FOUND_VALID_LAYOUT:
         print("Layout was generated..")
+
+        with open("/Users/ryan/WebstormProjects/host_utilization/test_data.json", "w") as json_file:
+            json_file.write(json.dumps([e.to_dict() for e in data], indent=4))
+
+
     elif status == Status.KEEP_SEARCHING:
         print("No solution was found..")
 
@@ -54,7 +69,7 @@ def search_space(data, next_index):
 
         for i in range(next_index):
             if does_overlap(current_event.start, current_event.end, data[i].start, data[i].end):
-                if does_overlap(current_event.current_level, current_event.current_level + current_event.num_cores_allocated, data[i].current_level, data[i].current_level + data[i].num_cores_allocated):
+                if does_overlap(current_event.current_position, current_event.current_position + current_event.num_cores_allocated, data[i].current_position, data[i].current_position + data[i].num_cores_allocated):
                     has_overlap = True
                     break
 
@@ -64,14 +79,14 @@ def search_space(data, next_index):
         current_event = data[next_index]
 
         for level in range(current_event.num_levels):
-            current_event.current_level = level
+            current_event.current_position = level
 
             print_path(data, next_index)
 
             has_overlap = False
             for i in range(next_index):
                 if does_overlap(current_event.start, current_event.end, data[i].start, data[i].end):
-                    if does_overlap(current_event.current_level, current_event.current_level + current_event.num_cores_allocated, data[i].current_level, data[i].current_level + data[i].num_cores_allocated):
+                    if does_overlap(current_event.current_position, current_event.current_position + current_event.num_cores_allocated, data[i].current_position, data[i].current_position + data[i].num_cores_allocated):
                         has_overlap = True
                         break
 
@@ -86,16 +101,36 @@ def search_space(data, next_index):
         return Status.KEEP_SEARCHING
 
 if __name__=='__main__':
+
+# some test cases
+
+# has layout
 #    data = [
 #        Event(1, 0, 1, 2),
 #        Event(2, 0, 1, 2),
 #        Event(3, 2, 4, 4)
 #    ]
 
+# has no valid layout
+#    data = [
+#        Event(1, 0, 1, 2),
+#        Event(2, 0, 1, 2),
+#        Event(3, 0, 1, 2)
+#    ]
+
+# has layout
     data = [
-        Event(1, 0, 1, 2),
-        Event(2, 0, 1, 2),
-        Event(3, 0, 1, 2)
+        Event(1, 0, 1, 1),
+        Event(2, 0, 1, 1),
+        Event(3, 0, 1, 2),
+        Event(4, 1, 2, 3),
+        Event(5, 1, 2, 1),
+        Event(6, 2, 3, 2),
+        Event(7, 4, 6, 4),
+        Event(8, 7, 9, 1),
+        Event(9, 7, 8, 2),
+        Event(10, 7, 10, 1),
+        Event(11, 9, 11, 3)
     ]
 
     find_layout(data)
