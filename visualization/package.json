@@ -8,8 +8,7 @@
     "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
-    "method-override": "^3.0.0",
-    "xml2js": "^0.4.19"
+    "method-override": "^3.0.0"
   },
   "devDependencies": {},
   "scripts": {
