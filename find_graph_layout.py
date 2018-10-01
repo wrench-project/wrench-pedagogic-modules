@@ -26,7 +26,8 @@ def does_overlap(p1, q1, p2, q2):
 
     if on_segment(p1, p2, q1) or on_segment(p1, q2, q1) or on_segment(p2, p1, q2) or on_segment(p2, q1, q2):
         return True
-
+    else:
+        return False
 
 class Status(Enum):
     FOUND_VALID_LAYOUT = 1
@@ -47,6 +48,7 @@ def find_layout(data):
 
 def search_space(data, next_index):
     if next_index == len(data) - 1:
+        print_path(data, next_index)
         current_event = data[next_index]
         has_overlap = False
 
@@ -87,7 +89,7 @@ if __name__=='__main__':
 #    data = [
 #        Event(1, 0, 1, 2),
 #        Event(2, 0, 1, 2),
-#        Event(3, 1, 4, 4)
+#        Event(3, 2, 4, 4)
 #    ]
 
     data = [
