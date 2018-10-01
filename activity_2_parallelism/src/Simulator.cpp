@@ -22,6 +22,8 @@
  * @param num_tasks_to_join: number of tasks to join into one final task
  * @param file_size: file size for all files in this workflow
  * @param requires_memory: bool specifying if the tasks have a RAM requirement of 9.0GB or not
+ *
+ * @throws std::invalid_argument
  */
 void generateTaskJoinWorkflow(wrench::Workflow *workflow, int num_tasks_to_join, double file_size, bool requires_memory) {
 
@@ -67,7 +69,9 @@ void generateTaskJoinWorkflow(wrench::Workflow *workflow, int num_tasks_to_join,
  * @description Generates a platform where the cluster has a configurable number of nodes and number of cores per node
  * @param platform_file_path: path to write the platform file to
  * @param num_nodes: number of nodes in the cluster
- * @param num_cores: number of cores per node 
+ * @param num_cores: number of cores per node
+ *
+ * @throws std::invalid_argumemnt
  */
 void generatePlatformWithHPCSpecs(std::string platform_file_path, int num_nodes, int num_cores) {
 
@@ -178,7 +182,7 @@ int main(int argc, char** argv) {
         }
 
     } catch(std::invalid_argument &e) {
-        std::cerr << "Usage: activity_2_simulator <platform_file> <num_hpc_nodes> <num_hpc_cores_per_node> <num_tasks_to_join> <file_size> <task_memory_requirement>" << std::endl;
+        std::cerr << "Usage: activity_2_simulator <num_hpc_nodes> <num_hpc_cores_per_node> <num_tasks_to_join> <file_size> <task_memory_requirement>" << std::endl;
         std::cerr << "   num_hpc_nodes: number of execution nodes in the range [1, " + std::to_string(MAX_NODES) + "]" << std::endl;
         std::cerr << "   num_hpc_cores_per_node: number of cores per node in the range [1, " + std::to_string(MAX_CORES) + "]" << std::endl;
         std::cerr << "   num_tasks_to_join: the number of independent tasks to join in the range [2, " + std::to_string(MAX_TASKS_TO_JOIN) + "]" << std::endl;
@@ -296,6 +300,8 @@ int main(int argc, char** argv) {
    simulation.stageFiles(workflow.getInputFiles(), remote_storage_service);
 
    simulation.launch();
+
+   simulation.dumpWorkflowTaskDataJSON(&workflow, "workflow_task_data.json");
 
    return 0;
 }
