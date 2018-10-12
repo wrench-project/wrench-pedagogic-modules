@@ -54,29 +54,41 @@ h6 {
   margin-left: 15px;
 }
 
-#chart {
-  height: 400;
+.chart-card {
+    overflow: auto;
+}
+
+.chart {
+  height: 600px;
   width: 800px;
   margin: auto;
   display: none;
 }
 
-#legend small {
+.legend small {
   padding-left: 3px;
   margin-right: 5px;
   border-radius: 3px;
 }
 
-#legend-read-input {
+#workflow-execution-chart-legend-read-input {
   border-left: 15px solid #cbb5dd;
 }
 
-#legend-computation {
+#workflow-execution-chart-legend-computation {
   border-left: 15px solid #f7daad;
 }
 
-#legend-write-output {
+#workflow-execution-chart-legend-write-output {
   border-left: 15px solid #abdcf4;
+}
+
+#host-utilization-chart-legend-compute-time {
+    border-left: 15px solid #f7daad;
+}
+
+#host-utilization-chart-legend-idle-time {
+    border-left: 15px solid #ffd8f8;
 }
 
 .x-axis path .x-axis line {
@@ -107,15 +119,28 @@ h6 {
   background-color: #e2f5ff;
 }
 
-#tooltip {
+#workflow-execution-chart-tooltip {
     position: absolute;
     width: auto;
     padding: 10px;
     background-color: #f2f2f2;
     border-radius: 2px;
     border: 0px solid #000;
-    pointer-events: none;
     display: none;
+    pointer-events: none;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+#host-utilization-chart-tooltip {
+    position: absolute;
+    width: auto;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 2px;
+    border: 0px solid #000;
+    display: none;
+    pointer-events: none;
     font-family: sans-serif;
     font-size: 12px;
 }

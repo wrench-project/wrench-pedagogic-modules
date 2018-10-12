@@ -70,15 +70,15 @@
   <div class="card text-center " id="chart-card">
     <div class="card-body" id="chart-block">
       <h6 class="card-title text-left rounded border-left border-warning border-8">Workflow Execution</h6>
-      <div id="chart">
+      <div class="chart" id="workflow-execution-chart">
 
-        <div class="container" id="legend">
-          <small class="inline-block" id="legend-read-input">Reading Input</small>
-          <small class="inline-block" id="legend-computation">Performing Computation</small>
-          <small class="inline-block" id="legend-write-output">Writing Output</small>
+        <div class="container legend" id="workflow-execution-chart-legend">
+          <small class="inline-block" id="workflow-execution-chart-legend-read-input">Reading Input</small>
+          <small class="inline-block" id="workflow-execution-chart-legend-computation">Performing Computation</small>
+          <small class="inline-block" id="workflow-execution-chart-legend-write-output">Writing Output</small>
         </div>
 
-        <div class="text-left" id="tooltip">
+        <div class="text-left" id="workflow-execution-chart-tooltip">
           <span id="tooltip-task-id"></span><br>
           <span id="tooltip-task-operation"></span><br>
           <span id="tooltip-task-operation-duration"></span>
@@ -134,7 +134,8 @@
 
     <script src="d3.min.js" type="text/javascript"></script>
     <script src="jquery.js" type="text/javascript"></script>
-    <script src="scripts.js" type="text/javascript"></script>
+    <script src="graphs.js" type="text/javascript"></script>
+    <script src="activity_1.js" type="text/javascript"></script>
     <script src="bootstrap.min.js" type="text/javascript"></script>
 
 </body>

@@ -301,7 +301,9 @@ int main(int argc, char** argv) {
 
    simulation.launch();
 
-   simulation.dumpWorkflowTaskDataJSON(&workflow, "workflow_task_data.json");
+
+   simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json");
+   simulation.getOutput().dumpWorkflowGraphJSON(&workflow, "workflow_graph.json");
 
    return 0;
 }
