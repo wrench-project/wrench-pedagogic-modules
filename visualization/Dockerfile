@@ -7,6 +7,7 @@ WORKDIR /home/wrench/
 
 # pull pedagogic-modules, go to desired activity, checkout gh-pages for "published" version, build
 RUN git clone https://github.com/wrench-project/wrench-pedagogic-modules.git \
+    && cd wrench-pedagogic-modules \
     && git checkout master 
 
 RUN chown -R wrench ./wrench-pedagogic-modules
