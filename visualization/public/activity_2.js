@@ -1,6 +1,16 @@
 $(function() {
 
     $('#simulator-form').on('submit', function(event) {
+
+        var run_button = document.getElementById("run-button");
+
+        run_button.disabled = true;
+        setTimeout(function(){
+            run_button.disabled = false;
+        },5000);
+
+
+
         event.preventDefault(); // we don't want the page reloading, so things look dynamic (this will be nice when we use d3's transitions)
 
         var num_nodes = $('#num-nodes').val();
