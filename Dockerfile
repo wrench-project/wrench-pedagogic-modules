@@ -10,7 +10,7 @@ WORKDIR /tmp
 # clone WRENCH, checkout a desired version (latest at the moment), build, and install
 RUN git clone https://github.com/wrench-project/wrench \
     && cd wrench \
-    && git checkout 17e3596 \
+    && git checkout master \
     && cmake . \
     && make \
     && sudo make install
