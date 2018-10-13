@@ -22,7 +22,8 @@ RUN cd activity_2_parallelism \
     && ./build.sh
 
 # install Node 10.x for the visualization
-RUN sudo apt install curl \
+RUN sudo apt update \
+    && sudo apt install -y curl \
     && curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash - \
     && sudo apt-get install -y nodejs
 
