@@ -1,8 +1,9 @@
 $(function() {
 
-
+    $('.local-storage-service-label').css('display', 'none');
 
     $('#simulator-form').on('submit', function(event) {
+        event.preventDefault(); // we don't want the page reloading, so things look dynamic (this will be nice when we use d3's transitions)
 
         var run_button = document.getElementById("run-button");
 
@@ -11,10 +12,15 @@ $(function() {
             run_button.disabled = false;
         },5000);
 
-        event.preventDefault(); // we don't want the page reloading, so things look dynamic (this will be nice when we use d3's transitions)
-
         var selected_simulator_number = $('#simulator-form input:radio:checked').val();
         var selected_link_bandwidth   = $('#link-bandwidth').val();
+        $('.bandwidth-label').text("Bandwidth: " + selected_link_bandwidth + " MBps");
+
+        if (selected_simulator_number == 1) {
+            $('.local-storage-service-label').css('display', 'none');
+        } else if (selected_simulator_number == 2) {
+            $('.local-storage-service-label').css('display', 'block');
+        }
 
         // empty these DOM elements so that new things can be added in
         var simulation_output     = $('#simulation-output').empty();
@@ -25,8 +31,8 @@ $(function() {
         // empty the table body since we will add new simulation data in
         var task_details_table_body = $('#task-details-table > tbody').empty();
 
-        $('#workflow-execution-chart').css('display', 'block');
-        $('svg').remove(); // remove the graph, since we will append a new one to the chart
+        $('.chart').css('display', 'block');
+        $('#workflow-execution-chart > svg').remove(); // remove the graph, since we will append a new one to the chart
 
         /**
          * In the current implementation, the gantt chart is removed and then created
@@ -102,6 +108,7 @@ $(function() {
                       + '</tr>'
                     );
                 });
+
 
 
                 // generate the graph

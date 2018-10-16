@@ -15,6 +15,10 @@ $(function() {
 
         var num_nodes = $('#num-nodes').val();
         var num_cores_per_node   = $('#num-cores').val();
+
+        $('.num-nodes-label').text(num_nodes + " x Compute Nodes").css("font-size", "16px").css("color", "#808080");
+        $('.num-cores-label').text("Cores: " + num_cores_per_node);
+
         var ram_required = $('#ram-required').is(':checked') ? 1 : 0;
 
         // empty these DOM elements so that new things can be added in
@@ -25,9 +29,9 @@ $(function() {
         // empty the table body since we will add new simulation data in
         var task_details_table_body = $('#task-details-table > tbody').empty();
 
-        $('#workflow-execution-chart').css('display', 'block');
-        $('#host-utilization-chart').css('display', 'block');
-        $('svg').remove(); // remove the graph, since we will append a new one to the chart
+        $('.chart').css('display', 'block');
+        $('.chart > svg').remove(); // remove the graph, since we will append a new one to the chart
+        $('#workflow-dag-chart > svg').remove();
 
         /**
          * In the current implementation, the gantt chart is removed and then created
@@ -99,7 +103,7 @@ $(function() {
                     );
                 });
 
-
+                generate_workflow_dag(response.workflow_graph_json);
 
                 generate_host_utilization_graph(response.task_data);
 

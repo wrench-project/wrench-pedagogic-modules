@@ -16,7 +16,8 @@ var ansi_up     = new au.default; // WRENCH produces output to the terminal usin
 
 // default route that displays the page with no data and only a form to be filled
 app.get("/activity_1", function(req, res) {
-    res.render("activity_1");
+    res.render("activity_1", {workflow_graph_json: JSON.parse(fs.readFileSync(__dirname + "/../activity_1_getting_started/workflow_graph.json")),
+                                cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/activity_1_cyber_infrastructure.svg")});
 });
 
 app.post("/run/activity_1", function(req, res) {
@@ -69,7 +70,10 @@ app.post("/run/activity_1", function(req, res) {
 });
 
 app.get("/activity_2", function(req, res) {
-   res.render("activity_2");
+   res.render("activity_2", {
+       workflow_graph_json: JSON.parse(fs.readFileSync(__dirname + "/../activity_2_parallelism/workflow_graph.json")),
+       cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/activity_2_cyber_infrastructure.svg")
+   });
 });
 
 app.post("/run/activity_2", function(req, res) {
@@ -121,7 +125,8 @@ app.post("/run/activity_2", function(req, res) {
 
         res.json({
             "simulation_output": ansi_up.ansi_to_html(simulation_output).replace(re, "<br>" + find),
-            "task_data": JSON.parse(fs.readFileSync(__dirname + "/workflow_data.json"))
+            "task_data": JSON.parse(fs.readFileSync(__dirname + "/workflow_data.json")),
+            "workflow_graph_json": JSON.parse(fs.readFileSync(__dirname + "/workflow_graph.json"))
         });
     }
 });

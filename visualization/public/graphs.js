@@ -276,7 +276,8 @@ function generate_host_utilization_graph(data) {
         .on('mouseover', function() {
             tooltip.style('display', 'inline');
 
-            d3.select(this).attr('fill', '#ffdd7f');
+            d3.select(this)
+                .attr('fill', '#ffdd7f');
         })
         .on('mousemove', function(d) {
             var offset = getOffset(chart);
@@ -351,3 +352,142 @@ function generate_host_utilization_graph(data) {
         .text("Host");
 }
 
+function generate_workflow_dag(data) {
+
+    var graph = new dagreD3.graphlib
+        .Graph()
+        .setGraph({});
+
+    data.nodes.forEach(function(node) {
+        graph.setNode(node.id,
+            {
+                label: node.id,
+                shape: node.type === "file" ? "rect" : "circle",
+                style: "stroke: #6c757d; fill: #fff;",
+                labelStyle: "font-weight: 200; stroke: #6c757d",
+                data: node
+            });
+    });
+
+    data.links.forEach(function(link) {
+        graph.setEdge(link.source, link.target,
+            {
+                label: "",
+                style: " stroke: #6c757d; fill: none; stroke-width: 1px;",
+                arrowheadStyle: "fill: #6c757d"
+        });
+    });
+
+    var container = d3.select("#workflow-dag-chart");
+    const CONTAINER_WIDTH = container.style("width").slice(0, -2); // returns "XXXXpx" so need to remove "px"
+    const CONTAINER_HEIGHT = container.style("height").slice(0, -2);
+
+    var svg =  container.append("svg")
+        .attr("width", CONTAINER_WIDTH)
+        .attr("height", CONTAINER_HEIGHT);
+
+    var inner = svg.append("g");
+
+    // Set up zoom support
+    var zoom = d3.zoom().on("zoom", function() {
+        inner.attr("transform", d3.event.transform);
+    });
+    svg.call(zoom);
+
+    // Create the renderer
+    var render = new dagreD3.render();
+
+    // Run the renderer. This is what draws the final graph.
+    render(inner, graph);
+
+    // Center the graph
+    var initialScale = 0.5;
+    svg.call(zoom.transform,
+            d3.zoomIdentity.translate((svg.attr("width") - graph.graph().width * initialScale) / 2, 0).scale(initialScale));
+
+
+
+    var chart = document.getElementById("workflow-dag-chart");
+    var task_tooltip                         = d3.select('#workflow-dag-chart-task-tooltip');
+    var task_tooltip_id                 = d3.select('#workflow-dag-chart-task-tooltip-id');
+    var task_tooltip_flops                 = d3.select('#workflow-dag-chart-task-tooltip-flops');
+    var task_tooltip_memory                 = d3.select('#workflow-dag-chart-task-tooltip-memory');
+
+    var file_tooltip = d3.select("#workflow-dag-chart-file-tooltip");
+    var file_tooltip_id = d3.select("#workflow-dag-chart-file-tooltip-id");
+    var file_tooltip_size = d3.select("#workflow-dag-chart-file-tooltip-size");
+
+    d3.select(".nodes")
+        .selectAll(".node")
+        .on('mouseover', function() {
+
+            var current_node = d3.select(this);
+
+            var node_id = current_node.select("g")
+                .select("g")
+                .select("text").select("tspan").text();
+
+            var current_node_data = graph._nodes[node_id].data;
+
+            if (current_node_data.type == "task") {
+                task_tooltip.style('display', 'inline');
+                current_node.select("circle")
+                    .style('fill', "#f7daad");
+            } else if (current_node_data.type == "file") {
+                file_tooltip.style('display', 'inline');
+                current_node.select("rect")
+                    .style('fill', "#f7daad");
+            }
+
+
+        })
+        .on('mousemove', function() {
+
+            var offset = getOffset(chart);
+            var x = d3.event.pageX - offset.left + 30;
+            var y = d3.event.pageY - offset.top + 15;
+
+            var current_node = d3.select(this);
+
+            var node_id = current_node.select("g")
+                .select("g")
+                .select("text").select("tspan").text();
+
+            var current_node_data = graph._nodes[node_id].data;
+
+            if (current_node_data.type == "task") {
+                task_tooltip.style('left', x + 'px')
+                    .style('top', y + 'px');
+
+                task_tooltip_id.text("TaskID: " + current_node_data.id);
+                task_tooltip_flops.text((current_node_data.flops / (1000 * 1000 * 1000)) + " GFlop");
+                task_tooltip_memory.text("RAM Requirement: " + (current_node_data.memory / (1000 * 1000)) + " MB");
+            } else if (current_node_data.type == "file") {
+                file_tooltip.style('left', x + 'px')
+                    .style('top', y + 'px');
+
+                file_tooltip_id.text("Filename: " + current_node_data.id);
+                file_tooltip_size.text("Size: " + (current_node_data.size / (1000 * 1000)) + " MB");
+            }
+        })
+        .on('mouseout', function() {
+
+            var current_node = d3.select(this);
+
+            var node_id = current_node.select("g")
+                .select("g")
+                .select("text").select("tspan").text();
+
+            var current_node_data = graph._nodes[node_id].data;
+
+            if (current_node_data.type == "task") {
+                task_tooltip.style('display', 'none');
+                current_node.select("circle")
+                    .style('fill', "none");
+            } else if (current_node_data.type == "file") {
+                file_tooltip.style('display', 'none');
+                current_node.select("rect")
+                    .style('fill', "none");
+            }
+        });
+}

@@ -34,6 +34,20 @@ h6 {
   margin: auto;
 }
 
+.input-card {
+    display: inline-block;
+    width: 50%;
+}
+
+#inputs {
+    white-space: nowrap;
+}
+
+#workflow-dag-chart {
+    height: 400px;
+    width: 400px;
+}
+
 #task-details-card {
   overflow: auto;
   white-space: nowrap;
@@ -133,6 +147,32 @@ h6 {
 }
 
 #host-utilization-chart-tooltip {
+    position: absolute;
+    width: auto;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 2px;
+    border: 0px solid #000;
+    display: none;
+    pointer-events: none;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+#workflow-dag-chart-task-tooltip {
+    position: absolute;
+    width: auto;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 2px;
+    border: 0px solid #000;
+    display: none;
+    pointer-events: none;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+#workflow-dag-chart-file-tooltip {
     position: absolute;
     width: auto;
     padding: 10px;
