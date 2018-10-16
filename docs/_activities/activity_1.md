@@ -126,7 +126,7 @@ as a Gantt chart.
 In the terminal run the following commands:
 1. run `docker pull wrenchproject/wrench-pedagogic-modules:activity-visualization`
 2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:activity-visualization`
-3. open a browser and go to localhost:3000
+3. open a browser and go to localhost:3000/activity_1
 
 **Answer these questions**
   - What fraction of *task0*'s execution time is spent doing I/O?
