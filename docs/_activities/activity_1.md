@@ -124,8 +124,8 @@ many tasks and/or when there are many simulated software services. Fortunately, 
 as a Gantt chart.
 
 In the terminal run the following commands:
-1. run `docker pull wrenchproject/wrench-pedagogic-modules:activity-1-visualization`
-2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:activity-1-visualization`
+1. run `docker pull wrenchproject/wrench-pedagogic-modules:activity-visualization`
+2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:activity-visualization`
 3. open a browser and go to localhost:3000
 
 **Answer these questions**
@@ -208,7 +208,7 @@ Select the radio button that says: *Storage Service on storage_db.edu and hpc.ed
 
 {% endcomment %}
 
-When you are finished using the visualization tool, run: `docker kill $(docker ps -a -q  --filter ancestor=wrenchproject/wrench-pedagogic-modules:activity-1-visualization)`
+When you are finished using the visualization tool, run: `docker kill $(docker ps -a -q  --filter ancestor=wrenchproject/wrench-pedagogic-modules:activity-visualization)`
 
 # Conclusion
 
