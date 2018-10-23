@@ -1,3 +1,4 @@
+// Workflow as a DAG
 var workflow_dag_no_ram =
     {
         "links": [
@@ -1292,58 +1293,14 @@ var workflow_dag_uses_ram =
     }
 /////////
 
-function updateNumCoresPerComputeNode() {
-    var input_text = parseInt($("#num-cores").val());
-    if (input_text >= 1 && input_text <= 64) {
-        $(".num-cores-label").text("Cores: " + input_text)
-            .css("background-color", "#d3ffe9");
-
-        $("#num-cores").removeClass("is-invalid");
-        $("#num-cores").addClass("is-valid");
-
-        setTimeout(function() {
-            $(".num-cores-label").css("background-color", "");
-        }, 500);
-    } else {
-        $(".num-cores-label").css("background-color", "#ffb7b5");
-        $("#num-cores").removeClass("is-valid").addClass("is-invalid");
-    }
-}
-
-function updateNumComputeNodes() {
-    var num_nodes_input = parseInt($("#num-nodes").val());
-
-    if (num_nodes_input >= 1 && num_nodes_input <= 5) {
-        $("#num-nodes").removeClass("is-invalid").addClass("is-valid");
-
-        for (var i = 1; i <= 5; i++) {
-            if (i <= num_nodes_input) {
-                $("#compute-node-" + i).css("display", "block");
-            } else {
-                $("#compute-node-" + i).css("display", "none");
-            }
-        }
-
-        $("#num-nodes-label").text(num_nodes_input + " x Compute Nodes")
-                .css("background-color", "#d3ffe9");
-
-        setTimeout(function() {
-            $("#num-nodes-label").css("background-color", "");
-        }, 500);
-
-    } else {
-        $("#num-nodes").removeClass("is-valid").addClass("is-invalid");
-        $("#num-nodes-label").css("background-color", "#ffb7b5");
-    }
-}
-
 $(function() {
 
-    // set only 1 compute node visible in the beginning
+    // Set only 1 compute node visible in the beginning
     for (let i = 2; i <= 5; i++) {
         $("#compute-node-" + i).css("display", "none");
     }
 
+    // Show the workflow, and update if the user wants to use the Workflow where tasks use RAM
     generate_workflow_dag(workflow_dag_no_ram);
 
     $("#ram-required").on("click", function() {
@@ -1355,116 +1312,99 @@ $(function() {
        }
     });
 
-    $("#num-nodes").on("keyup", updateNumComputeNodes);
+    $("#num-nodes").on("keyup", function() {
+        let num_nodes_input_el = $(this);
+        let num_nodes_input_value = parseInt(num_nodes_input_el.val());
+        let num_nodes_label_el = $("#num-nodes-label");
 
-    $("#num-cores").on("keyup", updateNumCoresPerComputeNode);
+        if (num_nodes_input_value >= 1 && num_nodes_input_value <= 5) {
+            num_nodes_input_el.removeClass("is-invalid")
+                .addClass("is-valid");
+
+            for (var i = 1; i <= 5; i++) {
+                if (i <= num_nodes_input_value) {
+                    $("#compute-node-" + i).css("display", "block");
+                } else {
+                    $("#compute-node-" + i).css("display", "none");
+                }
+            }
+
+            num_nodes_label_el.text(num_nodes_input_value + " x Compute Nodes")
+                .css("background-color", "#d3ffe9");
+
+            setTimeout(function() {
+                if (num_nodes_label_el.css("background-color") == "rgb(211, 255, 233)") {
+                    num_nodes_label_el.css("background-color", "");
+                }
+            }, 500);
+
+        } else {
+            num_nodes_input_el.removeClass("is-valid")
+                .addClass("is-invalid");
+
+            num_nodes_label_el.css("background-color", "#ffb7b5");
+        }
+    });
+
+
+    $("#num-cores").on("keyup", function() {
+        let num_cores_input_el = $(this);
+        let num_cores_input_value = parseInt(num_cores_input_el.val());
+        let num_cores_label_el = $(".num-cores-label");
+
+        if (num_cores_input_value >= 1 && num_cores_input_value <= 64) {
+
+            num_cores_label_el.text("Cores: " + num_cores_input_value)
+                .css("background-color", "#d3ffe9");
+
+            num_cores_input_el.removeClass("is-invalid")
+                .addClass("is-valid");
+
+            setTimeout(function() {
+                if (num_cores_label_el.css("background-color") == "rgb(211, 255, 233)") {
+                    num_cores_label_el.css("background-color", "");
+                }
+            }, 500);
+        } else {
+            num_cores_label_el.css("background-color", "#ffb7b5");
+            num_cores_input_el.removeClass("is-valid")
+                .addClass("is-invalid");
+        }
+    });
 
     $('#simulator-form').on('submit', function(event) {
-
-        var run_button = document.getElementById("run-button");
-
-        run_button.disabled = true;
-        setTimeout(function(){
-            run_button.disabled = false;
-        },5000);
-
-        event.preventDefault(); // we don't want the page reloading, so things look dynamic (this will be nice when we use d3's transitions)
-
-        var num_nodes = $('#num-nodes').val();
-        var num_cores_per_node   = $('#num-cores').val();
-
-        $('.num-nodes-label').text(num_nodes + " x Compute Nodes").css("font-size", "16px").css("color", "#808080");
-        $('.num-cores-label').text("Cores: " + num_cores_per_node);
-
-        var ram_required = $('#ram-required').is(':checked') ? 1 : 0;
-
-        // empty these DOM elements so that new things can be added in
-        var simulation_output     = $('#simulation-output').empty();
-
-        var task_details_table      = $('#task-details-table');
-
-        // empty the table body since we will add new simulation data in
-        var task_details_table_body = $('#task-details-table > tbody').empty();
+        // we don't want the page reloading, so things look dynamic (this will be nice when we use d3's transitions)
+        event.preventDefault();
+        disableRunSimulationButton();
 
         $('.chart').css('display', 'block');
-        $('.chart > svg').remove(); // remove the graph, since we will append a new one to the chart
 
-        /**
-         * In the current implementation, the gantt chart is removed and then created
-         * as a completely new element with the new data. An ajax request is used, however
-         * because it would be nice to take advantage of d3's transition api which will
-         * show nice smooth transition of the data changing on the graph. So instead of a
-         * function call like generate_graph, it would be great to have something like
-         * initialize_graph(empty_data) called when the user first sees the page, and then
-         * update_graph(new_data) when the user clicks on run simulation.
-         *
-         * In summary, we first send the simulation parameters selected by the user to node
-         * (which is running app.js). After node runs the simulation with those parameters,
-         * it will send this client back a response with data from that simulation.
-         *
-         * Upon successfully receiving that data, we first fill up the 'Workflow Data'
-         * table. Then, we do some cleaning of the data (see parse_for_graph(data))
-         * and finally generate the graph with that data.
-         */
+        // remove the graphs, since we will append a new ones to the chart
+        $('.chart > svg').remove();
+
         $.ajax({
             url: '/run/activity_2',
             method: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({num_nodes: num_nodes,
-                num_cores_per_node: num_cores_per_node,
-                ram_required: ram_required}),
-            success: function(response) {
+            data: JSON.stringify(
+                {
+                    num_nodes: $("#num-nodes").val(),
+                    num_cores_per_node: $("#num-cores").val(),
+                    ram_required: $('#ram-required').is(':checked') ? 1 : 0
+                }),
 
-                simulation_output.append(response.simulation_output);
+                success: function(response) {
 
-                // generate the Workflow Data table
-                task_details_table.css('display', 'block');
+                    // Add the new simulation output into the "Simulation Output" section
+                    $("#simulation-output").empty()
+                        .append(response.simulation_output);
 
-                response.task_data.sort(function(lhs, rhs) {
-                    return parseInt(lhs.task_id.slice(4)) - parseInt(rhs.task_id.slice(4));
-                });
+                    generate_host_utilization_graph(response.task_data);
 
-                response.task_data.forEach(function(task, i) {
+                    generate_workflow_execution_graph(response.task_data);
 
-                    var task_id = task['task_id'];
-
-                    var read_start       = toFiveDecimalPlaces(task['read'].start);
-                    var read_end         = toFiveDecimalPlaces(task['read'].end);
-                    var read_duration    = toFiveDecimalPlaces(read_end - read_start);
-
-                    var compute_start    = toFiveDecimalPlaces(task['compute'].start);
-                    var compute_end      = toFiveDecimalPlaces(task['compute'].end);
-                    var compute_duration = toFiveDecimalPlaces(compute_end - compute_start);
-
-                    var write_start      = toFiveDecimalPlaces(task['write'].start);
-                    var write_end        = toFiveDecimalPlaces(task['write'].end);
-                    var write_duration   = toFiveDecimalPlaces(write_end - write_start);
-
-                    var task_duration    = toFiveDecimalPlaces(write_end - read_start);
-
-                    task_details_table_body.append(
-                        '<tr id=' + task_id + '>'
-                        + '<td>' + task_id +'</td>'
-                        + '<td>' + read_start +'</td>'
-                        + '<td>' + read_end +'</td>'
-                        + '<td>' + read_duration +'</td>'
-                        + '<td>' + compute_start +'</td>'
-                        + '<td>' + compute_end +'</td>'
-                        + '<td>' + compute_duration +'</td>'
-                        + '<td>' + write_start +'</td>'
-                        + '<td>' + write_end +'</td>'
-                        + '<td>' + write_duration +'</td>'
-                        + '<td>' + task_duration +'</td>'
-                        + '</tr>'
-                    );
-                });
-
-                generate_host_utilization_graph(response.task_data);
-
-
-                // generate the graph
-                generate_workflow_execution_graph(response.task_data);
-            }
+                    populateWorkflowTaskDataTable(response.task_data);
+                }
         });
     });
 });

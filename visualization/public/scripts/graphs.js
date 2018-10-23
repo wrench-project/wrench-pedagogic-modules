@@ -85,9 +85,6 @@ function generate_workflow_execution_graph(workflow_execution_data) {
 
     var stack_data = stack(data);
 
-    console.log(data);
-    console.log(stack_data);
-
     // Groups
     var groups = svg.selectAll('g')
         .data(stack_data)
@@ -406,9 +403,10 @@ function generate_workflow_dag(data) {
     // Center the graph
     var initialScale = 0.5;
     svg.call(zoom.transform,
-            d3.zoomIdentity.translate((svg.attr("width") - graph.graph().width * initialScale) / 2, 0).scale(initialScale));
-
-
+            d3.zoomIdentity.translate(
+                (svg.attr("width") - graph.graph().width * initialScale) / 2,
+                (svg.attr("height") - graph.graph().height * initialScale) / 2)
+                .scale(initialScale));
 
     var chart = document.getElementById("workflow-dag-chart");
     var task_tooltip                         = d3.select('#workflow-dag-chart-task-tooltip');

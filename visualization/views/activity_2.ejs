@@ -1,217 +1,62 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Activity_2</title>
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
-</head>
+<%- include("partials/header", {activity: 'ACTIVITY 2'}); %>
 
-<body>
-<div class="container-fixed text-muted" id="con">
+<%- include("partials/inputs"); %>
 
-    <div class="card text-center border-0" id="title-card">
-        <div class="card-body">
-            <img id="wrench-logo" src="img/wrench_logo.png">
-            <h6>
-                <span class="text-dark">WRENCH PEDAGOGIC MODULES</span>
-                <small>ACTIVITY 2</small>
-            </h6>
-
+<%- include("partials/simulation_parameters_form_start"); %>
+    <div class="form-group">
+        <label for="num_nodes">Number of Compute Nodes</label>
+        <input class="form-control" type="number" id="num-nodes" placeholder="1" value="1" min="1" max="5" step="1" required>
+        <div class="invalid-feedback">
+            Please provide the number of compute nodes in the range of [1, 5]
         </div>
     </div>
 
-    <div id="inputs">
-        <div class="input-card card " id="workflow-dag-card">
-            <div class="card-body" id="workflow-dag-card-body">
-                <h6 class="card-title rounded border-left border-primary border-8">Workflow</h6>
-
-                <div id="workflow-dag-chart">
-
-                    <div class="text-left" id="workflow-dag-chart-task-tooltip">
-                        <span id="workflow-dag-chart-task-tooltip-id"></span><br>
-                        <span id="workflow-dag-chart-task-tooltip-flops"></span><br>
-                        <span id="workflow-dag-chart-task-tooltip-memory"></span><br>
-                    </div>
-
-                    <div class="text-left" id="workflow-dag-chart-file-tooltip">
-                        <span id="workflow-dag-chart-file-tooltip-id"></span><br>
-                        <span id="workflow-dag-chart-file-tooltip-size"></span><br>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <div class="input-card card " id="platform-card">
-            <div class="card-body" id="platform-card-body">
-                <h6 class="card-title rounded border-left border-primary border-8">Platform</h6>
-
-                <%- cyber_infrastructure_svg %>
-
-            </div>
+    <div class="form-group">
+        <label for="num_cores">Number of Cores per Compute Node</label>
+        <input class="form-control" type="number" id="num-cores" placeholder="1" value="1" min="1" max="64" step="1" required>
+        <div class="invalid-feedback">
+            Please provide a number of cores per compute node in the range of [1, 64]
         </div>
     </div>
 
-    <div class="card " id="run-trials-card">
-        <div class="card-body">
-            <h6 class="card-title rounded border-left border-info border-8">Enter Simulation Parameters</h6>
-            <form id="simulator-form" class="font-weight-light">
-                <div class="row justify-content-center">
-
-                    <div class="col-5">
-                        <div class="form-group">
-                            <label for="num_nodes">Number of Compute Nodes</label>
-                            <input class="form-control" type="number" id="num-nodes" placeholder="1" value="1" min="1" max="5" step="1" required>
-                            <div class="invalid-feedback">
-                                Please provide the number of compute nodes in the range of [1, 5]
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="num_cores">Number of Cores per Compute Node</label>
-                            <input class="form-control" type="number" id="num-cores" placeholder="1" value="1" min="1" max="64" step="1" required>
-                            <div class="invalid-feedback">
-                                Please provide a number of cores per compute node in the range of [1, 64]
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" name="ram-required" type="checkbox" id="ram-required" value="1">
-                                    Workflow Tasks Use 9 GB of RAM
-                                </label>
-                            </div>
-                        </div>
-
-
-                        <button type="submit" class="btn btn-info btn-block btn-sm" id="run-button">Run Simulation</button>
-                    </div>
-                </div>
-            </form>
+    <div class="form-group">
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" name="ram-required" type="checkbox" id="ram-required" value="1">
+                Workflow Tasks Use 9 GB of RAM
+            </label>
         </div>
     </div>
+<%- include("partials/simulation_parameters_form_end"); %>
 
+<%- include("partials/simulation_output"); %>
 
-    <div class="card" id="simulation-output-card">
-        <div class="card-body" id="simulation-output-card-body">
-            <h6 class="card-title rounded border-left border-danger border-8">Simulation Output</h6>
-            <h6 class="card-subtitle mb-2 text-muted font-weight-light" id="simulation-parameters"></h6>
-            <div id="simulation-output"></div>
-        </div>
-    </div>
+<%- include("partials/workflow_execution_graph"); %>
 
-    <div class="card text-center chart-card" id="workflow-execution-chart-card">
-        <div class="card-body" id="workflow-execution-chart-block">
-            <h6 class="card-title text-left rounded border-left border-warning border-8">Workflow Execution</h6>
-            <div class="chart" id="workflow-execution-chart">
+<%- include("partials/host_utilization_graph"); %>
 
-                <div class="container legend" id="workflow-execution-chart-legend">
-                    <small class="inline-block" id="workflow-execution-chart-legend-read-input">Reading Input</small>
-                    <small class="inline-block" id="workflow-execution-chart-legend-computation">Performing Computation</small>
-                    <small class="inline-block" id="workflow-execution-chart-legend-write-output">Writing Output</small>
-                </div>
+<%- include("partials/workflow_execution_data"); %>
 
-                <div class="text-left" id="workflow-execution-chart-tooltip">
-                    <span id="tooltip-task-id"></span><br>
-                    <span id="tooltip-task-operation"></span><br>
-                    <span id="tooltip-task-operation-duration"></span>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="card text-center chart-card" id="host-utilization-chart-card">
-        <div class="card-body" id="host-utilization-chart-block">
-            <h6 class="card-title text-left rounded border-left border-warning border-8">Host Utilization</h6>
-            <div class="chart" id="host-utilization-chart">
-
-                <div class="container legend" id="host-utilization-chart-legend">
-                    <small class="inline-block" id="host-utilization-chart-legend-compute-time">Compute Time</small>
-                    <small class="inline-block" id="host-utilization-chart-legend-idle-time">Idle Time</small>
-                </div>
-
-                <div class="text-left" id="host-utilization-chart-tooltip">
-                    <span id="host-utilization-chart-tooltip-task-id"></span><br>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-
-
-    <div class="card text-center ">
-        <div class="card-body" id="task-details-card">
-            <h6 class="card-title text-left rounded border-left  border-dark border-8">Workflow Task Data</h6>
-            <table class="table table-hover text-muted" id="task-details-table">
-                <colgroup>
-                    <col span="1"></col>
-                    <col span="3" class="read-col"></col>
-                    <col span="3" class="compute-col"></col>
-                    <col span="3" class="write-col"></col>
-                    <col span="1"></col>
-                </colgroup>
-                <thead>
-                <tr>
-                    <td></td>
-                    <td colspan="3" class="text-center">Read Input</td>
-                    <td colspan="3" class="text-center">Computation</td>
-                    <td colspan="3" class="text-center">Write Output</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th scope="col">TaskID</th>
-                    <th scope="col">Start Time</th>
-                    <th scope="col">End Time</th>
-                    <th scope="col">Duration</th>
-                    <th scope="col">Start Time</th>
-                    <th scope="col">End Time</th>
-                    <th scope="col">Duration</th>
-                    <th scope="col">Start Time</th>
-                    <th scope="col">End Time</th>
-                    <th scope="col">Duration</th>
-                    <th scope="col">Task Duration</th>
-                </tr>
-                </thead>
-
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-</div>
-
-<script src="d3.min.js" type="text/javascript"></script>
-<script src="dagre-d3.min.js"></script>
-<script src="jquery.js" type="text/javascript"></script>
-<script src="graphs.js" type="text/javascript"></script>
-<script src="activity_2.js" type="text/javascript"></script>
-<script src="bootstrap.min.js" type="text/javascript"></script>
+<script src="scripts/activity_2.js" type="text/javascript"></script>
 
 <script>
-    var svg = d3.select("#cyberinfrastructure");
-    var height = svg.attr("height").slice(0, -2);
-    var width = 400;
+    let svg = d3.select("#cyberinfrastructure");
+    let height = svg.attr("height").slice(0, -2);
 
-    var inner = svg.select("g");
+    let inner = svg.select("g");
 
     // Set up zoom support
-    var zoom = d3.zoom().on("zoom", function() {
+    let zoom = d3.zoom().on("zoom", function() {
         inner.attr("transform", d3.event.transform);
     });
     svg.call(zoom);
 
     // Center the graph
-    var initialScale = 0.5;
+    let initialScale = 0.5;
     svg.call(zoom.transform,
         d3.zoomIdentity.translate(20, 10).scale(initialScale));
 
     svg.attr('height', height);
 </script>
 
-</body>
-</html>
+<%- include("partials/footer"); %>
