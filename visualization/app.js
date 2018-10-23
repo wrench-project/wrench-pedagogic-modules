@@ -71,7 +71,6 @@ app.post("/run/activity_1", function(req, res) {
 
 app.get("/activity_2", function(req, res) {
    res.render("activity_2", {
-       workflow_graph_json: JSON.parse(fs.readFileSync(__dirname + "/../activity_2_parallelism/workflow_graph.json")),
        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/activity_2_cyber_infrastructure.svg")
    });
 });
@@ -126,7 +125,6 @@ app.post("/run/activity_2", function(req, res) {
         res.json({
             "simulation_output": ansi_up.ansi_to_html(simulation_output).replace(re, "<br>" + find),
             "task_data": JSON.parse(fs.readFileSync(__dirname + "/workflow_data.json")),
-            "workflow_graph_json": JSON.parse(fs.readFileSync(__dirname + "/workflow_graph.json"))
         });
     }
 });

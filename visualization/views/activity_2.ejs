@@ -61,20 +61,24 @@
                     <div class="col-5">
                         <div class="form-group">
                             <label for="num_nodes">Number of Compute Nodes</label>
-                            <input type="number" id="num-nodes" placeholder="1" value="1" min="1" max="5" step="1" required>
-                            <small>Nodes</small>
+                            <input class="form-control" type="number" id="num-nodes" placeholder="1" value="1" min="1" max="5" step="1" required>
+                            <div class="invalid-feedback">
+                                Please provide the number of compute nodes in the range of [1, 5]
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label for="num_cores">Number of Cores per Compute Node</label>
-                            <input type="number" id="num-cores" placeholder="1" value="1" min="1" max="64" step="1" required>
-                            <small>Cores</small>
+                            <input class="form-control" type="number" id="num-cores" placeholder="1" value="1" min="1" max="64" step="1" required>
+                            <div class="invalid-feedback">
+                                Please provide a number of cores per compute node in the range of [1, 64]
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input class="form-check-input" name="ram-required" type="checkbox" id="ram-required" value="1" checked>
+                                    <input class="form-check-input" name="ram-required" type="checkbox" id="ram-required" value="1">
                                     Workflow Tasks Use 9 GB of RAM
                                 </label>
                             </div>
@@ -206,18 +210,7 @@
     svg.call(zoom.transform,
         d3.zoomIdentity.translate(20, 10).scale(initialScale));
 
-
     svg.attr('height', height);
-
-
-    var workflow_graph_json = JSON.parse('<%- JSON.stringify(workflow_graph_json) %>');
-    generate_workflow_dag(workflow_graph_json);
-
-    // Center the graph
-/*    var initialScale = 0.5;
-    d3.select('#workflow-dag-chart').call(zoom.transform,
-        d3.zoomIdentity.translate(400 / 2, 0).scale(initialScale));*/
-
 </script>
 
 </body>

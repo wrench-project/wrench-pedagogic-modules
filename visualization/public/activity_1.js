@@ -1,6 +1,35 @@
+function updateLinkBandwidth() {
+    var input_text = $("#link-bandwidth").val();
+    if (input_text.length < 4 && parseInt(input_text) >= 1) {
+        $(".bandwidth-label").text("Bandwidth: " + input_text + " MBps")
+            .css("background-color", "#d3ffe9");
+
+        $("#link-bandwidth").removeClass("is-invalid");
+        $("#link-bandwidth").addClass("is-valid");
+
+        setTimeout(function() {
+            $(".bandwidth-label").css("background-color", "");
+        }, 500);
+    } else {
+        $(".bandwidth-label").css("background-color", "#ffb7b5");
+        $("#link-bandwidth").removeClass("is-valid").addClass("is-invalid");
+
+    }
+}
+
 $(function() {
 
     $('.local-storage-service-label').css('display', 'none');
+
+    $("#remote-storage-service-input").on("click", function() {
+        $('.local-storage-service-label').css('display', 'none');
+    });
+
+    $("#local-storage-service-input").on("click", function() {
+        $('.local-storage-service-label').css('display', 'block');
+    });
+
+    $('#link-bandwidth').on('keyup', updateLinkBandwidth);
 
     $('#simulator-form').on('submit', function(event) {
         event.preventDefault(); // we don't want the page reloading, so things look dynamic (this will be nice when we use d3's transitions)
@@ -13,14 +42,7 @@ $(function() {
         },5000);
 
         var selected_simulator_number = $('#simulator-form input:radio:checked').val();
-        var selected_link_bandwidth   = $('#link-bandwidth').val();
-        $('.bandwidth-label').text("Bandwidth: " + selected_link_bandwidth + " MBps");
-
-        if (selected_simulator_number == 1) {
-            $('.local-storage-service-label').css('display', 'none');
-        } else if (selected_simulator_number == 2) {
-            $('.local-storage-service-label').css('display', 'block');
-        }
+        var selected_link_bandwidth = $('#link-bandwidth').val();
 
         // empty these DOM elements so that new things can be added in
         var simulation_output     = $('#simulation-output').empty();

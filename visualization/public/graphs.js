@@ -85,6 +85,9 @@ function generate_workflow_execution_graph(workflow_execution_data) {
 
     var stack_data = stack(data);
 
+    console.log(data);
+    console.log(stack_data);
+
     // Groups
     var groups = svg.selectAll('g')
         .data(stack_data)

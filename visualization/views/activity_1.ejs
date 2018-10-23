@@ -63,15 +63,17 @@
 
             <div class="col-5">
               <div class="form-group">
-                <label for="link_bandwidth">Platform Link Bandwidth</label>
-                <input type="number" id="link-bandwidth" placeholder="10" value="10" min="1" max="999" step="1" required>
-                <small>MBps</small>
+                <label for="link_bandwidth">Platform Link Bandwidth in MBps</label>
+                <input type="number" class="form-control" id="link-bandwidth" placeholder="10" value="10" min="1" max="999" step="1" required>
+                <div class="invalid-feedback">
+                  Please provide a bandwidth in the range [1, 999]
+                </div>
               </div>
 
               <div class="form-group">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" name="storage_service_options" type="radio" id="one_storage" value="1" checked>
+                    <input class="form-check-input" id="remote-storage-service-input" name="storage_service_options" type="radio" id="one_storage" value="1" checked>
                     Storage Service on <span class="font-weight-normal font-italic">storage_db.edu</span>
                   </label>
                 </div>
@@ -80,7 +82,7 @@
               <div class="form-group">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input class="form-check-input" name="storage_service_options" type="radio" id="two_storage" value="2">
+                    <input class="form-check-input" id="local-storage-service-input" name="storage_service_options" type="radio" id="two_storage" value="2">
                     Storage Service on <span class="font-weight-normal font-italic">storage_db.edu and hpc.edu</span>
                   </label>
                 </div>
