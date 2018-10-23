@@ -14,7 +14,7 @@ title: 'Activity 2: Parallelism'
 - Be able to estimate workflow execution times when tasks are executed in parallel;
 - Be able to compute core utilization for multi-core platforms;
 - Understand the tradeoffs between parallelism and utilization;
-- Learn two strategies to executing tasks in parallel; 
+- Learn two strategies to executing tasks in parallel;
 
 # Overview
 ## Workflow and Platform Scenario
@@ -79,6 +79,11 @@ cores could have computed for. The colored area represents how much time all cor
 the colored area to the total area tells us the utilization of this host for a given workload. Optimizing for utilization
 means maximizing the colored area.   
 
+For the remainder of this activity, we will be using the visualization tool. In the terminal, run the following
+commands:
+1. run `docker pull wrenchproject/wrench-pedagogic-modules:activity-visualization`
+2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:activity-visualization`
+3. open a browser and go to [localhost:3000/activity_2](localhost:3000/activity_2)
 
 **Answer these questions**
 
@@ -229,11 +234,13 @@ Set the simulator to have 5 nodes with 4 cores each (Figure 2.9).
 
   3. ((15*3600) + (5*3600) + (1*300)) / 20*(3600 + 3600 + 300) = 0.482
 
-  4. 
+  4.
 
   5.  ceil(20 / 3)  = 7 nodes, then the top level can be done completely in parallel
 
 {% endcomment %}  
+
+When you are finished using the visualization tool, run: `docker kill $(docker ps -a -q  --filter ancestor=wrenchproject/wrench-pedagogic-modules:activity-visualization)`
 
 # Conclusion
 
