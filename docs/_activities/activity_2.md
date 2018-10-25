@@ -89,8 +89,9 @@ commands:
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_1.svg">Compute Service 1</object>
 
-Set the cluster to have 1 single-core node (Figure 2.5). Set the workflow to use 100MB files and workflow tasks to require no RAM.
-  - What do you expect the makespan of the workflow to be? To this end, write a simple formula. Run the simulation and check your answer.
+  - Assuming the cluster has 1 single-core compute node (Figure 2.5), what do you expect the makespan of the workflow to be?
+  To this end, write a simple formula. In the visualization tool,  
+  set the cluster to have 1 single-core node. Run the simulation and check your answer.
   - Based on the dependencies present in the workflow, what tasks could we potentially
   execute in parallel assuming we had at least 20 cores instead of 1 core?
 
@@ -107,10 +108,12 @@ Set the cluster to have 1 single-core node (Figure 2.5). Set the workflow to use
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_2.svg">Compute Service 2</object>
 
-Set the cluster to have one 10-core node (Figure 2.6). Set the workflow to use 100MB files and workflow tasks to require no RAM.
-  - What do you expect the makespan of the workflow to be? To this end, write a simple formula. Run the simulation and check your answer.
-  - By visually examining the Gantt chart, is the platform utilization greater than 50%? Explain.
-  - What is the percentage utilization of the node throughout workflow execution? Write a formula for the utilization and compute the value as a percentage.
+  - Assuming the cluster has 1 10-core compute node (Figure 2.6), what do you expect the makespan of the workflow to be?
+  To this end, write a simple formula. In the visualization tool, set the cluster to have 1 10-core node.
+   Run the simulation and check your answer.
+  - By inspecting the Host Utilization Gantt chart in the visualization tool, is the compute node utilization greater than 50%? Explain.
+  - What percentage of the compute node is being utilized throughout workflow execution?
+  Write a formula for the utilization and compute the value as a percentage.
 
 {% comment %}
 
@@ -119,44 +122,47 @@ Set the cluster to have one 10-core node (Figure 2.6). Set the workflow to use 1
      total estimated time: 7517s
      actual simulated time: 7521.490982
 
-   2. There is less white than color in the Gantt chart, to the utilization has to be > 50%.
+   2. There is much more yellow than pink in the Gantt chart, so the utilization has to be > 50%.
 
-   3. (10 * (2*3600) + 9 * 0  + 1 * 300) / (10 * (2*3600 + 300)) = 93%  
+   3. (10 * (2*3600) + 9 * 0  + 1 * 300) / (10 * 7521.48783) = 96%  
 
 {% endcomment %}
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_3.svg">Compute Service 3</object>
 
-Set the cluster to have a one 15-core node (Figure 2.7). Set the workflow to use 100MB files and workflow tasks to require no RAM.
-  - What do you expect the makespan of workflow to be? To this end, write a simple formula. Run the simulation and check your answer.
-  - What is the percentage utilization of the node throughout workflow execution while executing this workflow? Write a formula for the utilization and compute the value as a percentage.
+  - Assuming the cluster has 1 15-core compute node (Figure 2.7), what do you expect the makespan of workflow to be?
+  To this end, write a simple formula. In the visualization tool, set the cluster to have 1 15-core node.
+  Run the simulation and check your answer.
+  - What percentage of the compute node is being utilized while executing this workflow?
+  Write a formula for the utilization and compute the value as a percentage.
   - What did we gain (or lose) by switching from a 10 core node to a 15 core node?
 
 {% comment %}
 
   1. same as above
      actual simulated time: 7521.509456
-     ?? this was a touch slower than with 10 cores, could this be because there is more bandwidth sharing happening
-      for the first 15 tasks being executed?
 
-  2. ((15*3600) + (5*3600) + (1*300)) / (15 * 7500) = 0.642
+  2. ((15*3600) + (5*3600) + (1*300)) / (15 * 7521.5) = 64%
 
-  3. execution wasn't faster and utilization decreased
+  3. execution wasn't faster and utilization decreased..
 
 {% endcomment %}
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_4.svg">Compute Service 4</object>
 
-Set the cluster to have a one 20-core node (Figure 2.8). Set the workflow to use 100MB files and workflow tasks to require no RAM.
+Assuming the cluster has 1 20-core node:
   - At what time should task T1 start?
   - At what time should task T1 end?
   - At what time should task T3 start?
   - At what time should task T3 end?
   - At what time should task T20 start?
-  - How long can we expect the makespan of this workflow to be? To this end, write a simple formula. Run the simulation and check your answer against the results.
+  - How long can we expect the makespan of this workflow to be? To this end, write a simple formula.
+    In the visualization tool, set the cluster to have a 1 20-core node (Figure 2.8).
+    Run the simulation and check your answer against the results.
   - How much faster did we execute the workflow on this platform compared to the initial platform that had only a single core?
-  - Would adding one extra core to our machine further decrease the workflow makespan? Explain. (dependencies)
-  - What is the percentage utilization of the node throughout workflow execution while executing this workflow? Write a formula for the utilization and compute the value as a percentage.
+  - Would adding one extra core to our machine further decrease the workflow makespan? Explain.
+  - What percentage of the compute node is being utilized while executing this workflow?
+  Write a formula for the utilization and compute the value as a percentage.
 
 
 {% comment %}
@@ -180,7 +186,7 @@ Set the cluster to have a one 20-core node (Figure 2.8). Set the workflow to use
   8. no, the most cores we can take advantage of is 20 at the top level. then, due to dependencies, an extra core doesn't
      help us execute the bottom level any faster as well
 
-  9. ((20*3600) + (1*300)) / (20*3900) = 0.92
+  9. ((20*3600) + (1*300)) / (20 * 3921.5) = 0.92
 
 {% endcomment %}
 
@@ -194,10 +200,11 @@ how this requirement forces us to find another means of utilizing parallelism an
 
 **Answer these questions**
 
-Set the simulator to have a single compute node with 20 cores (Figure 2.8). The workflow will be a 20-task join (21 tasks)
-where each task uses 9GB of RAM.
-  - What can we expect the makespan of the workflow to be? Write a simple formula. Check your results against the simulator.
-  - Set the number of cores to be 64. What is the makespan of the workflow?
+  - Assuming the cluster has 1 20-core node, and that **Workflow Tasks each require 9 GB of RAM**, what can we expect the makespan of the
+  workflow to be? Write a simple formula. In the visualization tool, set the simulator to have a single compute node with 20 cores (Figure 2.8).
+  Check the box that says, "Workflow Tasks use 9 GB of RAM". Run the simulation and check your results against the simulator.
+  - Set the number of cores to be 64 and check the box that says, "Workflow Tasks use 9 GB of RAM". Run the simulation.
+  What is the makespan of the workflow?
   - Why doesn't going to 64 cores improve workflow execution performance?
   - In fact, what is the minimum number of cores on the host that will give us the same performance?
 
@@ -216,8 +223,9 @@ where each task uses 9GB of RAM.
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_5.svg">Compute Service 5</object>
 
-Set the simulator to have 5 nodes with 4 cores each (Figure 2.9).
-  - What can we expect the makespan of the workflow to be? Write a simple formula. Check your results against the simulator.
+  - Assuming the cluster has 5 4-core compute nodes, what can we expect the makespan of the workflow to be?
+    Write a simple formula. Now set the simulator to have 5 compute nodes, each with 10 cores. Check the box that
+    says "Workflow Tasks use 9 GB of RAM". Run the simulation and check your results against the simulator.
   - How much faster did the workflow execute in this execution when compared to the previous one?
   - What about the utilization of the cluster? Compute it as a percentage using a simple formula.
   - Assuming we had been able to purchase 3-core computers, what would the utilization have been?
@@ -232,9 +240,9 @@ Set the simulator to have 5 nodes with 4 cores each (Figure 2.9).
 
   2. ((25520 - 7521) / 25520) = 0.705
 
-  3. ((15*3600) + (5*3600) + (1*300)) / 20*(3600 + 3600 + 300) = 0.482
+  3. ((15*3600) + (5*3600) + (1*300)) / (20 * 7521.5) = 0.48
 
-  4.
+  4. ((15*3600) + (5*3600) + (1*300)) / (15 * 7521.5) = 0.64
 
   5.  ceil(20 / 3)  = 7 nodes, then the top level can be done completely in parallel
 
