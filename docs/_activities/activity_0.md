@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 'Activity 0: What is this about?'
+title: 'Activity 0: What Is This About?'
 ---
 
 The goal of these WRENCH pedagogic modules is for

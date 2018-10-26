@@ -157,7 +157,7 @@ Assuming the cluster has 1 20-core node:
   - At what time should task T3 end?
   - At what time should task T20 start?
   - How long can we expect the makespan of this workflow to be? To this end, write a simple formula.
-    In the visualization tool, set the cluster to have a 1 20-core node (Figure 2.8).
+    In the visualization tool, set the cluster to have 1 20-core node (Figure 2.8).
     Run the simulation and check your answer against the results.
   - How much faster did we execute the workflow on this platform compared to the initial platform that had only a single core?
   - Would adding one extra core to our machine further decrease the workflow makespan? Explain.
@@ -195,7 +195,9 @@ Assuming the cluster has 1 20-core node:
 In Step 1, we executed the workflow under the assumption that tasks require no RAM. Real world Workflow tasks (and
 programs in general) usually require some amount of RAM to be available in the system. This step introduces a RAM requirement
 for our Workflow such that each task consumes 9 GB of RAM during its execution. If a compute node does not have enough
-RAM to execute the task, its execution must be deferred until the required amount of RAM becomes available (in other terms, we do not allow swapping - see an OS course). Since our hosts have 32 GB of RAM, this means that at most 3 tasks can run concurrently on a host. The following questions reveal
+RAM to execute the task, its execution must be deferred until the required amount of RAM becomes available
+(in other terms, we do not allow swapping - see an OS course). Since our hosts have 32 GB of RAM, this means that at most 3 tasks
+can run concurrently on a host. The following questions reveal
 how this requirement forces us to find another means of utilizing parallelism and increasing workflow execution performance.
 
 **Answer these questions**
@@ -271,6 +273,14 @@ But most importantly, both strategies, when used judiciously, can be beneficial.
 it is crucial to be cognizant of the hardware resources a workflow demands in addition to dependencies
 present in its structure.   
 
+Head over to the next section, "Activity 3: The Right Tool For the Job", where we present
+you with a case study on purchasing hardware infrastructure to improve the performance of a
+specific workflow execution.
+
+{% comment %}
+saving this for intro of activity 4
+
+Then, in "Activity 4: Name TBD", we will explore more complicated workflow scenarios.
 The files used in this workflow were relatively small, and the workflow tasks were more or less homogeneous. What happens
-when files are large and tasks require varying amounts of computation to complete? We will address these issues
-in next section, "Activity 3: ? what to call this one".
+when files are large and tasks require varying amounts of computation to complete?
+{% endcomment %}
