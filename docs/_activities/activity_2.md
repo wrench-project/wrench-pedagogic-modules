@@ -40,8 +40,11 @@ multiple compute nodes. The CS in this activity is what is known as a
 "cluster" and can be decomposed into two parts: a "frontend node" and
 "compute node(s)". The frontend node handles job requests from the Workflow
 Management System (WMS) and dispatches work to the compute node(s)
-according to the WMS's instructions.  Connecting these components together
-are high-bandwidth, low latency-network links going from each machine to a
+according to the WMS's instructions. In this activity, our WMS submits
+all workflow tasks to the CS at once, specifying for each task on which 
+compute node it should run, trying to utilize the available compute nodes
+as much as possible.  Connecting the CS's frontend node and compute nodes are 
+high-bandwidth, low latency-network links going from each machine to a
 centralized switch, which also serves as the gateway for network traffic
 entering and exiting the cluster's local area network.
 
@@ -49,7 +52,7 @@ entering and exiting the cluster's local area network.
 You will start this activity by using a CS with only a single compute node.
 We will then augment the CS with more cores and more nodes to see how, and
 why, the execution of our workflow is affected. Processor speed and RAM
-capacity of a compute node are kept constant throughout his entire
+capacity of a compute node are kept constant throughout this entire
 activity.
 
 ## WMS Scenario
@@ -207,13 +210,18 @@ q17. ((20*3600) + (1*300)) / (20 * 3921.5) = 0.92
 
 ## Step 2: Augment the Compute Service to Have Multiple Compute Nodes
 
-In Step 1, we executed the workflow under the assumption that tasks require no RAM. Real-world workflow tasks (and
-programs in general) usually require some amount of RAM to be available in the system. This step introduces a RAM requirement
-for our workflow such that each task consumes 9 GB of RAM during its execution. If a compute node does not have enough
-RAM to execute the task, its execution must be deferred until the required amount of RAM becomes available
-(in other terms, we do not allow swapping - see your OS course!). Since our hosts have 32 GB of RAM, this means that at most 3 tasks
-can run concurrently on a host (because 4 times 9 is greater than 32). The following questions reveal
-how this requirement forces us to find another means of utilizing parallelism and increasing workflow execution performance.
+In Step 1, we executed the workflow under the assumption that tasks require
+no RAM. Real-world workflow tasks (and programs in general) usually require
+some amount of RAM to be available in the system. This step introduces a
+RAM requirement for our workflow such that each task consumes 9 GB of RAM
+during its execution. If a compute node does not have enough RAM to execute
+the task, its execution is deferred by the CS until the required amount of RAM
+becomes available on that compute node (in other terms, we do not allow swapping - see your OS
+course!). Since our hosts have 32 GB of RAM, this means that at most 3
+tasks can run concurrently on a host (because 4 times 9 is greater than
+32). The following questions reveal how this requirement forces us to find
+another means of utilizing parallelism and increasing workflow execution
+performance.
 
 **Answer these questions**
 
