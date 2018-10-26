@@ -273,7 +273,7 @@ But most importantly, both strategies, when used judiciously, can be beneficial.
 it is crucial to be cognizant of the hardware resources a workflow demands in addition to dependencies
 present in its structure.   
 
-Head over to the next section, "Activity 3: The Right Tool For the Job", where we present
+Head over to the next section, [Activity 3: The Right Tool for the Job]({{ site.baseurl }}/activities/activity_3), where we present
 you with a case study on purchasing hardware infrastructure to improve the performance of a
 specific workflow execution.
 

@@ -217,4 +217,4 @@ cost of performing I/O operations.
 Using both textual and visualized simulation output, we have familiarized ourselves with network bandwidth and **data locality**,
 two of the many factors that can affect task **turnaround** times, which consequently affect overall workflow execution performance.
 With these concepts in mind, proceed to the next
- activity, "Activity 2: Parallelism", where we construct a more complex distributed computing environment in order to explore the concept of "parallelism".
+ activity, [Activity 2: Parallelism]({{ site.baseurl }}/activities/activity_2), where we construct a more complex distributed computing environment in order to explore the concept of "parallelism".
