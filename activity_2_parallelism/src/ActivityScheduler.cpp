@@ -35,7 +35,7 @@ namespace wrench {
         }
 
         WorkflowJob *job = (WorkflowJob *) this->getJobManager()->createStandardJob(tasks, file_locations);
-        this->getJobManager()->submitJob(job, *compute_services.begin());
+        this->getJobManager()->submitJob(job, compute_service);
 
     }
 }

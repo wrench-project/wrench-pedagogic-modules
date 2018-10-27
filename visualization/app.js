@@ -23,7 +23,7 @@ app.get("/activity_1", function(req, res) {
 app.post("/run/activity_1", function(req, res) {
 
     const PATH_PREFIX = __dirname.replace("visualization", "activity_1_getting_started/");
-    
+
     const EXECUTABLE             = PATH_PREFIX + (req.body.simulator_number == 1 ? "simulator_remote_storage" : "simulator_local_storage");
     const LINK_BANDWIDTH         = req.body.link_bandwidth;
 
@@ -84,7 +84,7 @@ app.post("/run/activity_2", function(req, res) {
     const NUM_NODES = req.body.num_nodes;
     const NUM_CORES_PER_NODE = req.body.num_cores_per_node;
     const NUM_TASKS_TO_JOIN = 20;
-    const FILE_SIZE = 100000000;
+    const FILE_SIZE = 2000000000;
     const RAM_REQUIRED = (req.body.ram_required == 1) ? "RAM_REQUIRED" : "RAM_NOT_REQUIRED";
 
     // additional WRENCH arguments that filter simulation output (We only want simulation output from the WMS in this activity)

@@ -11,7 +11,6 @@
 
 #include "ActivityWMS.h"
 #include "ActivityScheduler.h"
-#include "./WorkflowToJSON.cpp"
 
 /**
  * @brief Generates a join Workflow
@@ -302,6 +301,7 @@ int main(int argc, char** argv) {
    simulation.launch();
 
    simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json");
+   //simulation.getOutput().dumpWorkflowGraphJSON(&workflow, "workflow_graph.json");
 
    return 0;
 }
