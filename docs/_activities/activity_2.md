@@ -109,7 +109,7 @@ commands:
 
   - [q1] Assuming the cluster has 1 single-core compute node (Figure 2.5), what do you expect the makespan of the workflow to be?
   To this end, write a simple formula. In the visualization tool,  
-  set the cluster to have 1 single-core node. Run the simulation and check your answer.
+  set the cluster to have 1 single-core node. Run the simulation and check your answer. (Note that you might not be able to see file transfer operations in the displayed Gantt charts because these operations could very short relatively to the overall makespan.)
   - [q2] Based on the dependencies present in the workflow, what tasks could we potentially
   execute in parallel assuming we had at least 20 cores instead of 1 core?
 
