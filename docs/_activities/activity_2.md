@@ -41,9 +41,9 @@ multiple compute nodes. The CS in this activity is what is known as a
 "compute node(s)". The frontend node handles job requests from the Workflow
 Management System (WMS) and dispatches work to the compute node(s)
 according to the WMS's instructions. In this activity, our WMS submits
-all workflow tasks to the CS at once, specifying for each task on which 
+all workflow tasks to the CS at once, specifying for each task on which
 compute node it should run, trying to utilize the available compute nodes
-as much as possible.  Connecting the CS's frontend node and compute nodes are 
+as much as possible.  Connecting the CS's frontend node and compute nodes are
 high-bandwidth, low latency-network links going from each machine to a
 centralized switch, which also serves as the gateway for network traffic
 entering and exiting the cluster's local area network.
@@ -115,10 +115,10 @@ commands:
 
 {% comment %}
 
-q1. top level of workflow: 20((100MBps / 125MBps) + 3600s) = 72016s
-     bottom level of workflow: (100MBps / 125MBps) + 300s = 300.8s
-     total estimated time: 72317s
-     actual simulated time: 72321.620633s
+q1.  top level of the workflow: 20 * ((2000 / 125) + 3600 + (2000 / 1250)) = 72352
+     bottom level of the workflow: 20 * (2000 / 1250) + 300 + (2000 / 125) = 348
+     total estimated time: 72700s
+     actual simulated time: 72729.82466s
 
 q2. all of the top level tasks   
 
@@ -135,14 +135,14 @@ q2. all of the top level tasks
 
 {% comment %}
 
-q3. top level of workflow: 2(10 * (100MB / 125MBps) + 3600s) = 7216s
-     bottom level of workflow: (100MB / 125MBps) + 300s = about 301s
-     total estimated time: 7517s
-     actual simulated time: 7521.490982
+q3.  top level of workflow: 2 * (10 * (2000 / 125) + 3600 + 10 * (2000 / 1250)) = 7552
+     bottom level of workflow: 20 * (2000 / 1250) + 300 + (2000 / 125) = 348
+     total estimated time: 7900s
+     actual simulated time: 7929.6s
 
 q4. There is much more yellow than pink in the Gantt chart, so the utilization has to be > 50%.
 
-q5. (10 * (2*3600) + 9 * 0  + 1 * 300) / (10 * 7521.48783) = 96%  
+q5. (10 * (2 * 3600) + (9 * 0) + (1 * 300)) / (10 * 7929.6) = .9117
 
 {% endcomment %}
 
@@ -158,9 +158,9 @@ q5. (10 * (2*3600) + 9 * 0  + 1 * 300) / (10 * 7521.48783) = 96%
 {% comment %}
 
 q6. same as above
-     actual simulated time: 7521.509456
+     actual simulated time: 7929.71s
 
-q7. ((15*3600) + (5*3600) + (1*300)) / (15 * 7521.5) = 64%
+q7. ((15 * 3600) + (5 * 3600) + (1 * 300)) / (15 * 7929.71) = .60784
 
 q8. execution wasn't faster and utilization decreased..
 
@@ -187,24 +187,24 @@ Assuming the cluster has 1 20-core node:
 
 q9. within the first second
 
-q10. 20(100MBps / 125MBps) + 3600 = 3616, so at about 3616 + 1 or 2 seconds
+q10. 20 * (2000 / 125) + 3600 + 20 * (2000 / 1250) = 3952
 
 q11. same as 1
 
 q12. same as 2
 
-q13. within a few seconds after the time mentioned in 2
+q13. right after the time mentioned in q10
 
-q14. 20(100MBps / 125MBps) + 3600s + 300s + (100MBps / 125MBps) = 3917s
+q14. 20 * (2000 / 125) + 3600 + 20 * (2000 / 1250) + 20 * (2000 / 1250) + 300 + (2000 / 125) = 4300s
 
-     actual simulated time: 3921.515231s
+     actual simulated time: 4329.72s
 
-q15. ((72317 - 3921) / 72317) = 0.94
+q15. (72729.82 - 4329.72) / 72729.82 = .94046
 
 q16. no, the most cores we can take advantage of is 20 at the top level. then, due to dependencies, an extra core doesn't
      help us execute the bottom level any faster as well
 
-q17. ((20*3600) + (1*300)) / (20 * 3921.5) = 0.92
+q17. ((20*3600) + (1*300)) / (20 * 4329.72) = .834926
 
 {% endcomment %}
 
@@ -235,8 +235,8 @@ performance.
 
 {% comment %}
 
-q18. 20(100MBps / 125MBps) + ceil(20 / 3)*3600s + 300s + (100MB / 125MBps) = 25517s
-     actual simulated time: 25520.804330s
+q18. 6 * (3 * (2000 / 125) + 3600 + 3 * (2000 / 1250)) + (2 * (2000 / 125) + 3600 + 2 * (2000 / 1250)) + 20 * (2000 / 1250) + 300 + (2000 / 125) = 25900s
+     actual simulated time: 25928.298330s
 
 q19. stays the same
 
@@ -249,28 +249,29 @@ q21. 3 cores
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_5.svg">Compute Service 5</object>
 
   - [q22] Assuming the cluster has 5 4-core compute nodes, what can we expect the makespan of the workflow to be?
-    Write a simple formula. Now set the simulator to have 5 compute nodes, each with 10 cores. Check the box that
+    Write a simple formula. Now set the simulator to have 5 compute nodes, each with 4 cores. Check the box that
     says "Workflow Tasks use 9 GB of RAM". Run the simulation and check your results against the simulator.
   - [q23] How much faster did the workflow execute in this execution when compared to the previous one?
   - [q24] What about the utilization of the cluster? Compute it as a percentage using a simple formula.
-  - [q25] Assuming we had been able to purchase 3-core computers, what would the utilization have been?
+  - [q25] Assuming we had been able to purchase 5 3-core compute nodes instead of 5 4-core compute nodes, what would the utilization have been?
   - [q26] Assuming that you can add an arbitrary number of 4-core nodes, with the same per-core compute speed,
   estimate the fastest possible execution time for this workflow?
   - [q27] What is the minimum number of 3-core nodes that achieves this fastest possible execution time?
 
 {% comment %}
 
-q23. 20(100MBps / 125MBps) + ceil(20 / (3 * 5))*3600s + 300s + (100MBps / 125MBps) = 7517s
-     actual simulated time: 7521.493764s
+q22. ceil(20 / (3 * 5)) = 2
 
-  ((25520 - 7521) / 25520) = 0.705
+  20 * (2000 / 125) + (2 * 3600) + 20 * (2000 / 1250) + 20 * (2000 / 1250) + 300 + (2000 / 125) = 7900.00
+  actual simulated time = 7929.698949
 
-q24. ((15*3600) + (5*3600) + (1*300)) / (20 * 7521.5) = 0.48
+q23. ((25928.29 - 7929.69) / 25928.29) = .69 so, about 69% faster
 
-q25. ((15*3600) + (5*3600) + (1*300)) / (15 * 7521.5) = 0.64
- 
-q26. 20(100MBps / 125MBps) + 3600s + 300s + (100MBps / 125MBps) = 3916s
-     actual simulated time: 7521.493764s
+q24. ((15*3600) + (5*3600) + (1*300)) / (20 * 7929.69) = 0.455
+
+q25. ((15*3600) + (5*3600) + (1*300)) / (15 * 7929.69) = .607842
+
+q26. 20 * (2000 / 125) + 3600 + 20 * (2000 / 1250) + 20 * (2000 / 1250) + 300 + (2000 / 125) = 4300s
 
 q27.  ceil(20 / 3)  = 7 nodes, then the top level can be done completely in parallel
 
