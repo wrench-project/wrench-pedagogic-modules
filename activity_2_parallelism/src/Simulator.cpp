@@ -79,11 +79,11 @@ void generatePlatformWithHPCSpecs(std::string platform_file_path, int num_nodes,
     }
 
     if (num_nodes < 1) {
-        throw std::invalid_argument("generatePlatformWithHPCSpecs() num_nodes must be greater than 1");
+        throw std::invalid_argument("generatePlatformWithHPCSpecs() num_nodes must be at least 1");
     }
 
     if (num_cores < 1) {
-        throw std::invalid_argument("generatePlatformWithHPCSpecs() num_cores must be greater than 1");
+        throw std::invalid_argument("generatePlatformWithHPCSpecs() num_cores must at least 1");
     }
 
     // Create a the platform file
