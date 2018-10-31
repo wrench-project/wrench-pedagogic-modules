@@ -1,16 +1,31 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <algorithm>
+#include <cmath>
 #include <pugixml.hpp>
 
 #include "ActivityWMS.h"
 
+/**
+ * @brief Generate a workflow containing only files
+ * @param workflow: pointer to the workflow
+ * @param num_files: number of files in this workflow
+ * @param file_size_in_MB: the size of each file
+ */
 void generateWorkflow(wrench::Workflow *workflow, int num_files, int file_size_in_MB) {
     for (int i = 0; i < num_files; ++i) {
         workflow->addFile(("file_" + std::to_string(i)), file_size_in_MB * 1000.0 * 1000.0);
     }
 }
 
+/**
+ * @brief Generate a platform with two hosts connected by three links.
+ * @param platform_file_path: the path where the platform.xml file will be written to
+ * @param bandwidth: bandwidth of the second (middle) of the three links in MBps
+ *
+ * throws std::invalid_argument
+ */
 void generatePlatform(std::string platform_file_path, unsigned long bandwidth) {
     if (platform_file_path.empty()) {
         throw std::invalid_argument("generateSingleLinkPlatform() platform_file_path cannot be empty");
@@ -27,9 +42,9 @@ void generatePlatform(std::string platform_file_path, unsigned long bandwidth) {
                              "       <host id=\"host1\" speed=\"1000Gf\" core=\"1\"/>\n"
                              "       <host id=\"host2\" speed=\"1000Gf\" core=\"1\"/>\n"
 
-                             "       <link id=\"link1\" bandwidth=\"100MBps\" latency=\"1us\"/>\n"
-                             "       <link id=\"link2\" bandwidth=\"100MBps\" latency=\"1us\"/>\n"
-                             "       <link id=\"link3\" bandwidth=\"100MBps\" latency=\"1us\"/>\n"
+                             "       <link id=\"link1\" bandwidth=\"100MBps\" latency=\"100us\"/>\n"
+                             "       <link id=\"link2\" bandwidth=\"100MBps\" latency=\"100us\"/>\n"
+                             "       <link id=\"link3\" bandwidth=\"100MBps\" latency=\"100us\"/>\n"
 
                              "       <route src=\"host1\" dst=\"host2\">\n"
                              "           <link_ctn id=\"link1\"/>\n"
@@ -104,7 +119,7 @@ int main(int argc, char **argv) {
     generatePlatform(platform_file_path, BANDWIDTH);
     simulation.instantiatePlatform(platform_file_path);
 
-    // two storage services
+    // two storage services, one on each host
     const double STORAGE_CAPACITY = MAX_FILE_SIZE * MAX_NUM_FILES * 1000.0 * 1000.0;
     wrench::StorageService *storage_service_1 = simulation.add(
             new wrench::SimpleStorageService("host1", STORAGE_CAPACITY)
@@ -124,6 +139,7 @@ int main(int argc, char **argv) {
     // file registry service
     simulation.add(new wrench::FileRegistryService("host1"));
 
+    // stage all the files in the workflow at ss on host1
     for (const auto &file : workflow.getFiles()) {
         simulation.stageFile(file, storage_service_1);
     }
@@ -132,15 +148,33 @@ int main(int argc, char **argv) {
 
     auto file_copy_starts = simulation.getOutput().getTrace<wrench::SimulationTimestampFileCopyStart>();
 
-/*    std::string file_name_format("file_XXX");
-    std::string::size_type index_of_file_number = file_name_format.find('_') + 1;
-
-    std::sort(file_copy_starts.begin(), file_copy_starts.end(), [&index_of_file_number] (wrench::SimulationTimestamp<wrench::SimulationTimestampFileCopyStart> *lhs, wrench::SimulationTimestamp<wrench::SimulationTimestampFileCopyStart> *rhs) {
-       return std::stoi(lhs->getContent()->getFile()->getID().substr(index_of_file_number)) < std::stoi(rhs->getContent()->getFile()->getID().substr(index_of_file_number));
-    });*/
-
-    for (auto const &file_copy : file_copy_starts) {
+    // print id | start | end
+/*    for (auto const &file_copy : file_copy_starts) {
         std::cerr << std::setw(8) << file_copy->getContent()->getFile()->getID() << std::setw(20) << " start: " + std::to_string(file_copy->getDate()) << std::setw(20) << " end: " + std::to_string(file_copy->getContent()->getEndpoint()->getDate()) << std::endl;
+    }*/
+
+    std::vector<double> file_copy_durations;
+    for (const auto &file_copy : file_copy_starts) {
+        double start_time = file_copy->getDate();
+        double end_time = file_copy->getContent()->getEndpoint()->getDate();
+        double duration = end_time - start_time;
+        
+        file_copy_durations.push_back(duration);
     }
 
+    double min_duration = *std::min_element(file_copy_durations.begin(), file_copy_durations.end());
+    double max_duration = *std::max_element(file_copy_durations.begin(), file_copy_durations.end());
+    double mean_duration = std::accumulate(file_copy_durations.begin(), file_copy_durations.end(), 0.0) / (double)file_copy_durations.size();
+
+    double standard_devation = std::sqrt(std::accumulate(file_copy_durations.begin(), file_copy_durations.end(), 0.0, [&mean_duration] (double result, double current_file_copy_duration) {
+        return result + std::pow(mean_duration - current_file_copy_duration, 2);
+    }) / (double)file_copy_durations.size());
+
+    std::cerr.precision(30);
+    std::cerr << "min duration: " << min_duration << std::endl;
+    std::cerr << "max duration: " << max_duration << std::endl;
+    std::cerr << "mean duration: " << mean_duration << std::endl;
+    std::cerr << "standard deviation: " << standard_devation << std::endl;
+
+    return 0;
 }
