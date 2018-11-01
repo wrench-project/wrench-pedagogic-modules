@@ -158,7 +158,7 @@ int main(int argc, char **argv) {
         double start_time = file_copy->getDate();
         double end_time = file_copy->getContent()->getEndpoint()->getDate();
         double duration = end_time - start_time;
-        
+
         file_copy_durations.push_back(duration);
     }
 
@@ -170,11 +170,17 @@ int main(int argc, char **argv) {
         return result + std::pow(mean_duration - current_file_copy_duration, 2);
     }) / (double)file_copy_durations.size());
 
-    std::cerr.precision(30);
-    std::cerr << "min duration: " << min_duration << std::endl;
-    std::cerr << "max duration: " << max_duration << std::endl;
-    std::cerr << "mean duration: " << mean_duration << std::endl;
-    std::cerr << "standard deviation: " << standard_devation << std::endl;
+
+    std::cerr << std::setw(27) << "Simulation Results" << std::endl;
+    std::cerr << std::setw(27) << "------------------" << std::endl;
+    std::cerr << std::setw(21) << "files transferred: " << NUM_FILES << std::endl;
+    std::cerr << std::setw(21) << "file size: " << FILE_SIZE << " MB" << std::endl;
+
+    std::cerr.precision(10);
+    std::cerr << std::setw(21) << "min duration: " << min_duration << std::endl;
+    std::cerr << std::setw(21) << "max duration: " << max_duration << std::endl;
+    std::cerr << std::setw(21) << "mean duration: " << mean_duration << std::endl;
+    std::cerr << std::setw(21) << "standard deviation: " << standard_devation << std::endl;
 
     return 0;
 }
