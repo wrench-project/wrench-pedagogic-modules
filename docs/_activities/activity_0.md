@@ -1,6 +1,7 @@
 ---
 layout: page
 title: 'Activity 0: What Is This About?'
+usemathjax: true
 ---
 
 The goal of these WRENCH pedagogic modules is for
@@ -177,7 +178,7 @@ scenario 2 and print the following output to your screen:
 
 Notice that there are some statistics provided about the file transfers. When transferring more than one file
 concurrently, the duration it takes to transfer each file may differ slightly. Additionally, these file
-transfers do not start at the exact same moment, nor do they end at the exact same moment. These are minute details 
+transfers do not start at the exact same moment, nor do they end at the exact same moment. These are minute details
 captured by the simulation, which we cannot fully model with the equations above.  
 
 ## Conclusion
