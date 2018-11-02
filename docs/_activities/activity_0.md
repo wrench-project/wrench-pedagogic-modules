@@ -67,7 +67,6 @@ For instance, sending 100MiB of data over a network link with a bandwidth of 100
 on real-world networks (e.g., due to the TCP protocol, due to various network overheads), which is captured in [SimGrid](http://simgrid.org) simulations.  When going through these pedagogic modules and
 inspecting execution timelines, you will thus likely note that back-of-the-envelope calculations of durations, e.g., data transfer times, do not always align with the simulation.
 
-
 To demonstrate this discrepancy between back-of-the-envelope calculations and simulation derived data, we present
 to you three simple scenarios where files need to be sent from one host to another.
 
@@ -75,9 +74,16 @@ to you three simple scenarios where files need to be sent from one host to anoth
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_0/scenario_1.svg">Scenario 1</object>
 
-*About how long should it take to send a single 100 MB file from "host1" to "host2"?* Let
-$l$ be a link on the route $r$ over which the file
-is being sent, and $m$ be the size of our file. Then we can estimate, naively, the file transfer time with the following:
+*About how long should it take to send a single 100 MB file from "host1" to "host2"?*
+ The time $T$ it takes to send a file of size $m$ over a single link with a bandwidth $\beta$ and latency $\alpha$,
+can be modeled by the following:
+
+$$ T = \alpha + \frac{m}{\beta} $$
+
+In this scenario, the file transfer will travel through a route consisting of 3 network links so we
+can modify the equation.
+Let $l$ be a link on the route $r$ over which the file is being sent.
+Then we can estimate, naively, the file transfer time with the following:
 
 $$
 \begin{align}
@@ -107,8 +113,8 @@ $$
 This calculation is much closer to what was derived from the simulation, however a discrepancy still
 exists between our calculation and the simulation. [SimGrid's](http://simgrid.org) rigorous approach
 to modeling networks can be difficult to mimic with back-of-the-envelope calculations, especially
-in situations where the state of the network is in constant flux due to changes in network traffic. As such,
-you can use either of the two equations for rough estimates of file transfer times.
+in situations where the state of the network is in constant flux due to changes in network traffic.
+As such, you can use either of the two equations for rough estimates of file transfer times.
 
 ### Scenario 2: Two concurrent file transfers
 
@@ -157,7 +163,7 @@ Simulation results for this scenario show that the file transfer would take 10.8
 We provide the simulation used in this activity. In a terminal, run the following commands.
 
 1. Install the simulator: `docker pull wrenchproject/wrench-pedagogic-modules:activity-0`
-2. Run the simulator: `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 num_files file_size center_link_bandwidth`
+2. Run the simulator: `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 <num_files> <file_size> <center_link_bandwidth>`
     - `num_files`: the number of files in the range [1, 100]
     - `file_size`: the size of each file (in MB) in the range [1, 1000]
     - `center_link_bandwidth`: the bandwidth of the center link (in MBps) in the range [1, 1000]
