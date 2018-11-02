@@ -136,13 +136,13 @@ but does not align perfectly with the simulation.
 
 *About how long should it take to send a single 100 MB file from "host1" to "host2" given that the middle network link now
 has a bandwidth of 10 MBps?* It is almost always the case that data will be transmitted over a heterogeneous set of
-network links, hence the use of the $min$ operation. In this scenario, the throughput
-of our network links are bounded at 10 MBps because of the middle bottleneck link.
+network links, hence the use of the $min$ operation to account for a bottleneck link. In this scenario, the throughput
+of our network links are bounded at 10 MBps because of the middle link.
 
 $$
 \begin{align}
 
-T_{2files} & = \sum_{l \in r} Latency(l) + \frac{m}{0.92 (\min\limits_{l \in r} Bandwidth(l))} \\
+T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{0.92 (\min\limits_{l \in r} Bandwidth(l))} \\
   & = 3(0.0001s) + \frac{100MB}{0.92(10MBps)} \\
   & = 10.8698
 
