@@ -161,8 +161,24 @@ We provide the simulation used in this activity. In a terminal, run the followin
     - `file_size`: the size of each file (in MB) in the range [1, 1000]
     - `center_link_bandwidth`: the bandwidth of the center link (in MBps) in the range [1, 1000]
 
-For example, the command `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 1 100 10` would simulate
-scenario 3.
+For example, the command `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 2 75 100` will simulate
+scenario 2 and print the following output to your screen:
+
+```
+         Simulation Results
+         ------------------
+  files transferred: 2
+          file size: 75 MB
+       min duration: 1.631561678
+       max duration: 1.635486847
+      mean duration: 1.633524263
+ standard deviation: 0.001962584536
+```
+
+Notice that there are some statistics provided about the file transfers. When transferring more than one file
+concurrently, the duration it takes to transfer each file may differ slightly. Additionally, these file
+transfers do not start at the exact same moment, nor do they end at the exact same moment. These are minute details 
+captured by the simulation, which we cannot fully model with the equations above.  
 
 ## Conclusion
 
