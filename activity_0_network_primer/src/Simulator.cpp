@@ -148,11 +148,6 @@ int main(int argc, char **argv) {
 
     auto file_copy_starts = simulation.getOutput().getTrace<wrench::SimulationTimestampFileCopyStart>();
 
-    // print id | start | end
-/*    for (auto const &file_copy : file_copy_starts) {
-        std::cerr << std::setw(8) << file_copy->getContent()->getFile()->getID() << std::setw(20) << " start: " + std::to_string(file_copy->getDate()) << std::setw(20) << " end: " + std::to_string(file_copy->getContent()->getEndpoint()->getDate()) << std::endl;
-    }*/
-
     std::vector<double> file_copy_durations;
     for (const auto &file_copy : file_copy_starts) {
         double start_time = file_copy->getDate();
@@ -166,21 +161,23 @@ int main(int argc, char **argv) {
     double max_duration = *std::max_element(file_copy_durations.begin(), file_copy_durations.end());
     double mean_duration = std::accumulate(file_copy_durations.begin(), file_copy_durations.end(), 0.0) / (double)file_copy_durations.size();
 
-    double standard_devation = std::sqrt(std::accumulate(file_copy_durations.begin(), file_copy_durations.end(), 0.0, [&mean_duration] (double result, double current_file_copy_duration) {
+    double standard_deviation = std::sqrt(std::accumulate(file_copy_durations.begin(), file_copy_durations.end(), 0.0, [&mean_duration] (double result, double current_file_copy_duration) {
         return result + std::pow(mean_duration - current_file_copy_duration, 2);
     }) / (double)file_copy_durations.size());
 
-
+    std::cerr << "\n------------------------------------" << std::endl;
     std::cerr << std::setw(27) << "Simulation Results" << std::endl;
-    std::cerr << std::setw(27) << "------------------" << std::endl;
-    std::cerr << std::setw(21) << "files transferred: " << NUM_FILES << std::endl;
-    std::cerr << std::setw(21) << "file size: " << FILE_SIZE << " MB" << std::endl;
+    std::cerr << "------------------------------------" << std::endl;
+    std::cerr << std::setw(26) << "files transferred: " << NUM_FILES << std::endl;
+    std::cerr << std::setw(26) << "file size: " << FILE_SIZE << " MB" << std::endl;
 
-    std::cerr.precision(10);
-    std::cerr << std::setw(21) << "min duration: " << min_duration << std::endl;
-    std::cerr << std::setw(21) << "max duration: " << max_duration << std::endl;
-    std::cerr << std::setw(21) << "mean duration: " << mean_duration << std::endl;
-    std::cerr << std::setw(21) << "standard deviation: " << standard_devation << std::endl;
+    std::cerr.precision(8);
+    std::cerr << std::setw(26) << "min duration: " << min_duration << std::endl;
+    std::cerr << std::setw(26) << "max duration: " << max_duration << std::endl;
+    std::cerr << std::setw(26) << "mean duration: " << mean_duration << std::endl;
+
+    std::cerr.precision(3);
+    std::cerr << std::setw(26) << "coefficient of variation: " << ((standard_deviation / mean_duration) * 100) << "%\n" << std::endl;
 
     return 0;
 }
