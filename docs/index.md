@@ -1,5 +1,6 @@
 ---
 layout: default
+order: 0
 ---
 ## Welcome to the [WRENCH](http://wrench-project.org)-Pedagogic-Modules,
 

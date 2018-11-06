@@ -1,6 +1,7 @@
 ---
 layout: page
 title: 'A brief primer on file transfer times'
+order: 1
 usemathjax: true
 ---
 
@@ -31,7 +32,7 @@ another.
 
 ### Scenario 1: Single file transfer
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_0/scenario_1.svg">Scenario 1</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_file_transfer_times/scenario_1.svg">Scenario 1</object>
 
 *About how long should it take to send a single 100 MB file from "host1" to "host2"?*
  The time $T$ it takes to send a file of size $m$ over a single link with a bandwidth $\beta$ and latency $\alpha$,
@@ -77,7 +78,7 @@ As such, you can use either of the two equations for rough estimates of file tra
 
 ### Scenario 2: Two concurrent file transfers
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_0/scenario_2.svg">Scenario 2</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_file_transfer_times/scenario_2.svg">Scenario 2</object>
 
 *About how long should it take to send two 75 MB files concurrently from "host1" to "host2"?* In this situation,
 the bandwidth will be shared amongst the two concurrent file transfers. Let $n$ be the number of files to send
@@ -98,7 +99,7 @@ but does not align perfectly with the simulation.
 
 ### Scenario 3: Bottleneck links
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_0/scenario_3.svg">Scenario 3</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_file_transfer_times/scenario_3.svg">Scenario 3</object>
 
 *About how long should it take to send a single 100 MB file from "host1" to "host2" given that the middle network link now
 has a bandwidth of 10 MBps?* It is almost always the case that data will be transmitted over a heterogeneous set of

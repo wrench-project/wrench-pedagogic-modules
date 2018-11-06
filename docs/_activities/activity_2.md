@@ -1,6 +1,7 @@
 ---
 layout: page
 title: 'Activity 2: Parallelism'
+order: 3
 ---
 
 1. [Learning objectives](#learning-objectives)
@@ -20,7 +21,7 @@ title: 'Activity 2: Parallelism'
 ## Workflow and Platform Scenario
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/workflow.svg">Workflow</object>
 
-The workflow depicted in Figure 2.1 will be used in this activity. It consists of 20 computationally
+The workflow depicted in Figure 1 will be used in this activity. It consists of 20 computationally
 intensive, independent tasks followed by a less intensive final task that depends on the previous 20 tasks. The term "independent" refers
 to a set of tasks that may all be executed concurrently. The structure of this workflow appears
 to be "joining" multiple tasks into one, so naturally this structure is typically called a "join"
@@ -29,7 +30,7 @@ to be "joining" multiple tasks into one, so naturally this structure is typicall
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/cyber_infrastructure.svg">Cyber Infrastructure</object>
 
 
-Figure 2.2 depicts this activity's cyber infrastructure. We build upon the
+Figure 2 depicts this activity's cyber infrastructure. We build upon the
 basic cyber infrastructure that was introduced in the previous activity.
 The Compute Service (CS) now has a configurable number of resources on
 which it can execute tasks. For example, the CS could have access to two
@@ -92,7 +93,7 @@ understand how well or badly we are utilizing them.
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/utilization.svg">Utilization</object>
 
-Figure 2.4 illustrates the concept of utilization. The area of the container rectangle (in this example a 2-by-60 rectangle) represents the total amount of time all
+Figure 4 illustrates the concept of utilization. The area of the container rectangle (in this example a 2-by-60 rectangle) represents the total amount of time all
 cores could have computed for. The colored area represents how much time all cores actually computed for. The proportion of
 the colored area to the total area tells us the utilization of this host for a given workload. Optimizing for utilization
 means maximizing the colored area.   
@@ -107,7 +108,7 @@ commands:
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_1.svg">Compute Service 1</object>
 
-  - [q1] Assuming the cluster has 1 single-core compute node (Figure 2.5), what do you expect the makespan of the workflow to be?
+  - [q1] Assuming the cluster has 1 single-core compute node (Figure 5), what do you expect the makespan of the workflow to be?
   To this end, write a simple formula. In the visualization tool,  
   set the cluster to have 1 single-core node. Run the simulation and check your answer. (Note that you might not be able to see file transfer operations in the displayed Gantt charts because these operations could very short relatively to the overall makespan.)
   - [q2] Based on the dependencies present in the workflow, what tasks could we potentially
@@ -126,7 +127,7 @@ q2. all of the top level tasks
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_2.svg">Compute Service 2</object>
 
-  - [q3] Assuming the cluster has 1 10-core compute node (Figure 2.6), what do you expect the makespan of the workflow to be?
+  - [q3] Assuming the cluster has 1 10-core compute node (Figure 6), what do you expect the makespan of the workflow to be?
   To this end, write a simple formula. In the visualization tool, set the cluster to have 1 10-core node.
    Run the simulation and check your answer.
   - [q4] By inspecting the Host Utilization Gantt chart in the visualization tool, is the compute node utilization greater than 50%? Explain.
@@ -148,7 +149,7 @@ q5. (10 * (2 * 3600) + (9 * 0) + (1 * 300)) / (10 * 7929.6) = .9117
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_3.svg">Compute Service 3</object>
 
-  - [q6] Assuming the cluster has 1 15-core compute node (Figure 2.7), what do you expect the makespan of the workflow to be?
+  - [q6] Assuming the cluster has 1 15-core compute node (Figure 7), what do you expect the makespan of the workflow to be?
   To this end, write a simple formula. In the visualization tool, set the cluster to have 1 15-core node.
   Run the simulation and check your answer.
   - [q7] What percentage of the compute node is being utilized while executing this workflow?
@@ -175,7 +176,7 @@ Assuming the cluster has 1 20-core node:
   - [q12] At what time should task T3 end?
   - [q13] At what time should task T20 start?
   - [q14] How long can we expect the makespan of this workflow to be? To this end, write a simple formula.
-    In the visualization tool, set the cluster to have 1 20-core node (Figure 2.8).
+    In the visualization tool, set the cluster to have 1 20-core node (Figure 8).
     Run the simulation and check your answer against the results.
   - [q15] How much faster did we execute the workflow on this platform compared to the initial platform that had only a single core?
   - [q16] Would adding one extra core to our machine further decrease the workflow makespan? Explain.
@@ -226,7 +227,7 @@ performance.
 **Answer these questions**
 
   - [q18] Assuming the cluster has 1 20-core node, and that **Workflow Tasks each require 9 GB of RAM**, what can we expect the makespan of the
-  workflow to be? Write a simple formula. In the visualization tool, set the simulator to have a single compute node with 20 cores (Figure 2.8).
+  workflow to be? Write a simple formula. In the visualization tool, set the simulator to have a single compute node with 20 cores (Figure 8).
   Check the box that says, "Workflow Tasks use 9 GB of RAM". Run the simulation and check your results against the simulator.
   - [q19] Set the number of cores to be 64 and check the box that says, "Workflow Tasks use 9 GB of RAM". Run the simulation.
   What is the makespan of the workflow?

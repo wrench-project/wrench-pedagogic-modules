@@ -1,6 +1,7 @@
 ---
 layout: page
 title: 'What Is This About?'
+order: 0
 usemathjax: true
 ---
 
@@ -30,7 +31,7 @@ the computational cost of each task (in number of floating point operations, or 
 produced as output of the tasks, are shown as rectangle. In these pedagogic modules we assume that we know all file
 sizes (in bytes).
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_0/dag.svg">Dag</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/what_is_this_about/dag.svg">Dag</object>
 
 Some examples of real-world workflows for scientific applications, along with their DAG representations, can be found [here](https://pegasus.isi.edu/application-showcase/).
 
@@ -38,7 +39,7 @@ Some examples of real-world workflows for scientific applications, along with th
 
 Workflows are often comprised of many tasks that are computationally intensive and require large amounts of storage. As a result, it is necessary to deploy their executions on multiple compute/storage resources connected via some network, i.e., distributed computing platforms. These hardware resources are managed by software infrastructures, together forming a "*cyber infrastructure*" (a term you may have encountered before). Examples of such infrastructures include cloud services that rely on virtual machines,  batch-scheduled high performance clusters (a.k.a. "supercomputers"), publicly available data stores that provide data access using various network protocols, compositions of any number of theses over possibly wide-area networks, etc. Communications between these resources are subject to network latency and bandwidth constraints. Therefore the underlying network infrastructure, in conjunction with the specifications of the interconnected storage and compute resources,  constrains the performance of distributed applications, in our case workflow applications. Due to the complexity and diversity of these infrastructures, users are not left to their own devices for executing workflows. Instead, they rely on software tools that orchestrate workflow executions automatically. These tools are known as *Workflow Management Systems*.
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_0/infrastructure.svg">Infrastructure</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/what_is_this_about/infrastructure.svg">Infrastructure</object>
 
 ## What is a Workflow Management System?
 
@@ -63,6 +64,4 @@ When going through these pedagogic modules, you will need to do back-of-the-enve
 of durations of computation and of file transfer times.  While estimating computation times
 is straightforward, estimating data transfer times is a bit more involved and may be something
 to which you have not been exposed previously.  To make sure you are well-prepared for the upcoming
-pedagogic activities, we provide you with a [a brief primer on file transfer times]({{ site.baseurl }}/activities/data_transfer_primer)
-
-
+pedagogic activities, we provide you with a [a brief primer on file transfer times]({{ site.baseurl }}/activities/primer_on_file_transfer_times)

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: 'Activity 1: Running Your First Simulated Workflow Execution'
+order: 2
 ---
 
 1. [Learning objectives](#learning-objectives)
@@ -26,8 +27,8 @@ title: 'Activity 1: Running Your First Simulated Workflow Execution'
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/workflow.svg">Workflow</object>
 
-In this activity, we study the execution of the workflow depicted in Figure 1.1 on the cyber infrastructure depicted in
-Figure 1.2. A Compute Service (CS) will execute tasks that the Workflow Management System (WMS)
+In this activity, we study the execution of the workflow depicted in Figure 1 on the cyber infrastructure depicted in
+Figure 2. A Compute Service (CS) will execute tasks that the Workflow Management System (WMS)
 submits to it. The CS has at its disposal a single core and will execute only one task at a time.
 The Storage Service (SS) stores files, much like a database, and handles read and write requests. When the WMS submits a job to the CS, information is included in the
 job submission that specifies what storage service to use for I/O operations.
@@ -171,16 +172,16 @@ data resides, or **data locality**.
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/scenario_2.svg">Scenario 2</object>
 
 
-In the previous steps we ran simulations using the platform scenario described in Figure 1.2 where the compute
+In the previous steps we ran simulations using the platform scenario described in Figure 2 where the compute
 service accessed a *remote storage service* to perform all of the read and write operations as required by the workflow in
-Figure 1.1. Now, consider the scenario where a WMS user is only concerned with accessing the initial input file, *task0::0.in* and
+Figure 1. Now, consider the scenario where a WMS user is only concerned with accessing the initial input file, *task0::0.in* and
 the final output file, *task4::0.out* via the remote storage service. Other files created during the execution of the workflow need
 not be analyzed or accessed by the WMS user and serve only as intermediate steps required to complete the workflow in its entirety.
 Furthermore, let us say that another storage service resides on the host hpc.edu and that the CS has access to this
 storage service. Since the WMS user will only access the *remote storage service* to handle  two files, *task0::0.in* and *task4::0.out*,
 we have enhanced our previous WMS implementation so that it tells the CS to use its *local storage service* (the storage service located on hpc.edu) for all
 read and write operations for intermediate files.
-Figure 1.3 above illustrates our new cyber infrastructure and WMS/Workflow scenario.
+Figure 3 above illustrates our new cyber infrastructure and WMS/Workflow scenario.
 
 Using the visualization tool from Step 3, input *10MBps* as the link bandwidth.
 Select the radio button that says: *Storage Service on storage_db.edu and hpc.edu*. Run the simulation.
