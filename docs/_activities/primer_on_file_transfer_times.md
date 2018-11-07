@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 'A brief primer on file transfer times'
+title: 'A Brief Primer On File Transfer Times'
 order: 1
 usemathjax: true
 ---
