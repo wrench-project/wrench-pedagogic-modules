@@ -28,7 +28,7 @@ with the simulation.
 To make sure you are able to estimate file transfer times and to
 demonstrate discrepancies between estimated and simulated times, we present
 to you three simple scenarios where files need to be sent from one host to
-another.
+another. Then we explain how you can mathematically model each situation.
 
 ### Scenario 1: Single file transfer
 
@@ -48,7 +48,7 @@ Then we can estimate, naively, the file transfer time with the following:
 $$
 \begin{align}
 
- T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{\min\limits_{l \in r} Bandwidth(l)} \\
+ T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{100MBps} \\
   & = 3(0.0001s) + \frac{100MB}{100MBps} \\
   & = 1.0003s
 
@@ -63,7 +63,7 @@ our equation to be:
 $$
 \begin{align}
 
-T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{0.92 (\min\limits_{l \in r} Bandwidth(l))} \\
+T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{0.92(100MBps)} \\
   & = 3(0.0001s) + \frac{100MB}{0.92(100MBps)} \\
   & = 1.0872s
 
@@ -76,9 +76,31 @@ to modeling networks can be difficult to mimic with back-of-the-envelope calcula
 in situations where the state of the network is in constant flux due to changes in network traffic.
 As such, you can use either of the two equations for rough estimates of file transfer times.
 
-### Scenario 2: Two concurrent file transfers
+
+### Scenario 2: Bottleneck links
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_file_transfer_times/scenario_2.svg">Scenario 2</object>
+
+*About how long should it take to send a single 100 MB file from "host1" to "host2" given that the middle network link now
+has a bandwidth of 10 MBps?* It is almost always the case that data will be transmitted over a heterogeneous set of
+network links, hence the use of the $min$ operation to account for a bottleneck link. In this scenario, the file
+transfer rate of our network links are bounded at 10 MBps because of the middle link.
+
+$$
+\begin{align}
+
+T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{0.92 (\min\limits_{l \in r} Bandwidth(l))} \\
+  & = 3(0.0001s) + \frac{100MB}{0.92(10MBps)} \\
+  & = 10.8698
+
+\end{align}
+$$
+
+Simulation results for this scenario show that the file transfer would take 10.8406 seconds to complete.
+
+### Scenario 3: Two concurrent file transfers
+
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_file_transfer_times/scenario_3.svg">Scenario 3</object>
 
 *About how long should it take to send two 75 MB files concurrently from "host1" to "host2"?* In this situation,
 the bandwidth will be shared amongst the two concurrent file transfers. Let $n$ be the number of files to send
@@ -97,27 +119,6 @@ $$
 Based on the simulation results, 2 concurrent file transfers should take about 1.6335 seconds. Again, the estimate is close,
 but does not align perfectly with the simulation.
 
-### Scenario 3: Bottleneck links
-
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_file_transfer_times/scenario_3.svg">Scenario 3</object>
-
-*About how long should it take to send a single 100 MB file from "host1" to "host2" given that the middle network link now
-has a bandwidth of 10 MBps?* It is almost always the case that data will be transmitted over a heterogeneous set of
-network links, hence the use of the $min$ operation to account for a bottleneck link. In this scenario, the throughput
-of our network links are bounded at 10 MBps because of the middle link.
-
-$$
-\begin{align}
-
-T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{0.92 (\min\limits_{l \in r} Bandwidth(l))} \\
-  & = 3(0.0001s) + \frac{100MB}{0.92(10MBps)} \\
-  & = 10.8698
-
-\end{align}
-$$
-
-Simulation results for this scenario show that the file transfer would take 10.8406 seconds to complete.
-
 ### Try the file transfer simulation
 
 We provide the simulation used in this activity. In a terminal, run the following commands.
@@ -129,17 +130,18 @@ We provide the simulation used in this activity. In a terminal, run the followin
     - `center_link_bandwidth`: the bandwidth of the center link (in MBps) in the range [1, 1000]
 
 For example, the command `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 2 75 100` will simulate
-scenario 2 and print the following output to your screen:
+scenario 3 and print the following output to your screen:
 
 ```
+------------------------------------
          Simulation Results
-         ------------------
-  files transferred: 2
-          file size: 75 MB
-       min duration: 1.631561678
-       max duration: 1.635486847
-      mean duration: 1.633524263
- standard deviation: 0.001962584536
+------------------------------------
+       files transferred: 2
+               file size: 75 MB
+            min duration: 1.6315617
+            max duration: 1.6354868
+           mean duration: 1.6335243
+coefficient of variation: 0.12%
 ```
 
 Notice that there are some statistics provided about the file transfers. When transferring more than one file
