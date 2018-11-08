@@ -8,32 +8,32 @@ usemathjax: true
 ### Overview
 
 When going through these pedagogic modules, you will need to estimate
-durations of data transfer times,  which is something you may not have been
-done previously.  Back-of-the-envelope estimates are not difficult to
+durations of data transfer times,  which is something you may not have
+done previously. Back-of-the-envelope estimates are not difficult to
 compute.
 For instance, sending 100MB of data over a network link with a
 1000MB/s bandwidth and a 0.001s latency would be estimated to take
-10.001 seconds.  Real-world networks exhibit several hardware and software
-effects that are not captured by this estimate. 
+10.001 seconds. Real-world networks exhibit several hardware and software
+effects that are not captured by this estimate.
 In the upcoming pedagogic module we do not use real-world
 networks and instead we simulate them. But simulations are done using
 [WRENCH](http://wrench-project.org/), which is based on the
 [SimGrid](http://simgrid.org) simulation framework, which implements
-realistic simulations models that do capture many real-world network
-effects.  So, in our simulations, sending 100MB of data over a network link
-with a 1000MB/s bandwidth and a 0.0001s latency does not take 10.001
+realistic simulation models that do capture many real-world network
+effects. So, in our simulations, sending 100MB of data over a network link
+with a 1000MB/s bandwidth and a 0.001s latency does not take 10.001
 seconds (it takes longer, as it would in real-world networks).  When going
 through these pedagogic modules and inspecting execution timelines, you
 will thus note that your back-of-the-envelope calculations of data transfer
 times, which are sufficient to answer all questions, do not exactly align
 with the simulation. In other words, it is normal to see some discrepancies
-between your estimates and what you observe is simulation.
+between your estimates and what you observe in simulation.
 
 To make sure you are able to estimate file transfer times and to
 demonstrate discrepancies between estimated and simulated times, we present
 below three simple scenarios where files need to be sent from one host to
 another. For each scenario we explain how data transfer times can be
-estimated. 
+estimated.
 
 ### Scenario 1: A Single file transfer
 
@@ -61,13 +61,13 @@ $$
 $$
 
 This is correct because all 3 links have the same bandwidth, i.e., our estimate
-assumes there is a single link with a latency that is the sum of the latencies. 
-Using [WRENCH](http://wrench-project.org/) to simulate this scenario, we 
+assumes there is a single link with a latency that is the sum of the latencies.
+Using [WRENCH](http://wrench-project.org/) to simulate this scenario, we
 would observe a file transfer time of 1.098119 seconds.
 As previously mentioned, [SimGrid](http://simgrid.org) models several network overheads
 and network protocol (TCP) effects. In fact, due to network data overheads,
 only 92% of the maximum physical bandwidth of a link can be used for the
-data transfer. 
+data transfer.
 We can account for this phenomenon by modifying
 our equation to be:
 
@@ -84,10 +84,10 @@ $$
 This estimate is much closer to what is observed in simulation. However, a
 discrepancy still exists, because our estimate does not capture many
 other network effects, e.g., the famous TCP "slow start" behavior (see a
-networking course).  Attempting to estimate the data transfer time more
+networking course). Attempting to estimate the data transfer time more
 precisely would be difficult (which is why ultimately one must rely on
 simulation). But, in all the upcoming pedagogic modules, you can use either
-of the two above equations to obtained useful, but somewhat inaccurate,
+of the two above equations to obtain useful, but somewhat inaccurate,
 estimates of data transfer times.
 
 
@@ -98,8 +98,8 @@ estimates of data transfer times.
 *About how long should it take to send a single 100 MB file from "host1" to "host2" given that the middle network link now
 has a bandwidth of only 10MBps?* It is almost always the case in practice that data will be transmitted over a heterogeneous set of
 network links. Along a route, the data transfer rate is bounded by the link with the
-smallest bandwidth, or the *bottleneck link*.  In this scenario, the
-bottleneck link is the middle link, which has a bandwidth of 10MBps.  We
+smallest bandwidth, or the *bottleneck link*. In this scenario, the
+bottleneck link is the middle link, which has a bandwidth of 10MBps. We
 can thus modify the estimate for the previous scenario by using a $min$
 operator:
 
@@ -113,7 +113,7 @@ T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{0.92 (\min\limits_{l \in r} B
 \end{align}
 $$
 
-Simulation results for this scenario show that the date transfer would in fact take 10.8406 seconds. There is thus, here again, a small discrepancy. 
+Simulation results for this scenario show that the date transfer would in fact take 10.8406 seconds. There is thus, here again, a small discrepancy.
 
 ### Scenario 3: Two concurrent file transfers
 
@@ -139,7 +139,7 @@ perfectly with the simulation.
 
 ### Try the file transfer simulation
 
-We provide your with the simulator used to obtained the above simulation
+We provide you with the simulator used to obtain the above simulation
 results, in case you want to experiment yourselves with different
 latencies, bandwidths, and numbers of concurrent file transfers, and check whether
 your computed estimates are roughly accurate. In a
@@ -167,12 +167,12 @@ coefficient of variation: 0.12%
 ```
 
 Notice that some statistics are provided about the file transfers.
-This is because when transferring more than one file concurrently, the 
-file transfer times 
+This is because when transferring more than one file concurrently, the
+file transfer times
 may differ slightly. Additionally, these file transfers
 do not start at the exact same moment, nor do they end at the exact same
 moment. These are minute details captured by the simulation, which we do
-not model in the estimate equations above. 
+not model in the estimate equations above.
 
 ### Conclusion
 
