@@ -290,7 +290,7 @@ certain degree. Next, we calculated utilization when using a different number of
 have demonstrated to you that we can't always execute workflows as fast as possible while achieving 100% utilization.
 
 After being introduced to parallelism and utilization, we added the
-requirement of RAM usage to the workflow. in order to simulate a situation
+requirement of RAM usage to the workflow in order to simulate a situation
 more relevant to actual practice. Under those circumstances, the workflow
 execution performance collapsed when running this workflow on a single node
 CS. Rather than simply adding more cores to the single compute node, we
