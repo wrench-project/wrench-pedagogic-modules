@@ -26,6 +26,8 @@ your argument.
 
 ## Case Study
 
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_3/workflow.svg">Workflow</object>
+
 You are a software engineer at a large corporation that routinely executes
 workflows for many customer applications. You have been tasked with
 ensuring that a particularly important workflow (Figure 1), which is
@@ -34,9 +36,9 @@ possible on your corporation's cyber infrastructure (Figure 2).  Your
 customers produce the input files, which are always the same size, at the
 remote storage service.  The workflow's single output file must be stored,
 once it's been created, at that same storage service. All computation takes
-place on your corporation's compute service (CS). 
+place on your corporation's compute service (CS).
 
-**Figure 1 the workflow**, **Figure 2 the platform**
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_3/cyber_infrastructure.svg">Platform</object>
 
 The Workflow Management System (WMS) that your corporation uses for this
 workflow submits tasks to the CS with the following instructions regarding
@@ -44,7 +46,7 @@ file operations (Figure 3): read the initial input files from the remote
 storage service, write the final output file to the remote storage service,
 read and write all other files using the CS's scratch space.
 
-**Figure 3 the wms scenario**
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_3/wms.svg">WMS Secenario</object>
 
 ### The Problem
 
@@ -68,10 +70,10 @@ the upgrade(s) you choose is/are warranted.
 
 ## Step 1: Evaluate All the Options
 
-**Figure 4 the hardware upgrades**
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_3/upgrades.svg">Upgrades</object>
 
 Your cyberinfrastructure provider says they can offer you several hardware
-upgrades for various costs, as shown in Figure 4. 
+upgrades for various costs, as shown in Figure 4.
 Given your budget, you thus have 3 options:
 
 | Option | Cores |  RAM  | Link Bandwidth |  Cost  |
@@ -98,8 +100,8 @@ Given your budget, you thus have 3 options:
 
 - [q5] Which option gives you the fastest workflow execution time while keeping utilization as high as possible? Your answer
        is of course based on your answers in the previous step. But also give an intuitive reason why the best option is
-       indeed the best. 
-- [q6] What is the CS's utilization with the best option? 
+       indeed the best.
+- [q6] What is the CS's utilization with the best option?
 - [q7] How does it compare with the utilization of the current non-upgraded cyberinfrastructure?
 - [q8] Write several sentences (not more than 5) to convince your boss that you have found the best hardware upgrade. Use your findings from the previous step to strengthen your claim.
 
@@ -111,7 +113,7 @@ yet, your boss asks you for some information about how different file sizes may 
 **Answer these questions**
 
 - [q9] Assuming the input file size is now 7 GB (all three files), which option would be the *best option*?
-- [q10] At what input file size would the *best option*  (i.e., your answer for q5) no longer be the best option? 
+- [q10] At what input file size would the *best option*  (i.e., your answer for q5) no longer be the best option?
 
 # Conclusion
 
