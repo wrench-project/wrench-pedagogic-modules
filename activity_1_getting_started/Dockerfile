@@ -1,7 +1,7 @@
 # wrench is the name of the 'wrench' docker image which was created with the base dockerfile in the root directory
-FROM wrenchproject/wrench-pedagogic-modules:wrench-1.0
+FROM wrenchproject/wrench-pedagogic-modules:wrench-1.2
 
-USER root
+USER wrench 
 
 WORKDIR /home/wrench/
 
@@ -11,14 +11,11 @@ RUN git clone https://github.com/wrench-project/wrench-pedagogic-modules.git \
     && git checkout master\
     && cmake -DCMAKE_CXX_FLAGS="-DREMOTE_STORAGE" . && make clean && make && mv ./activity_simulator ./simulator_remote_storage
 
-RUN chown -R wrench ./wrench-pedagogic-modules
-
-USER wrench
 WORKDIR /home/wrench/wrench-pedagogic-modules/activity_1_getting_started
 
-CMD ./simulator_remote_storage platform_files/platform.xml workflow_files/workflow.dax \
+CMD ./simulator_remote_storage 10 \
          --log="root.fmt:[%d][%h:%t]%e%m%n" \
          --log=root.thresh:critical \
          --log=wms.thresh:debug \
          --log=simple_wms.thresh:debug \
-         --log=simple_wms_scheduler.thresh:debug
+         --log=simple_wms_scheduler.thresh:debug 

@@ -1,7 +1,7 @@
 # wrench is the name of the 'wrench' docker image which was created with the base dockerfile in the root directory
-FROM wrenchproject/wrench-pedagogic-modules:wrench-1.0
+FROM wrenchproject/wrench-pedagogic-modules:wrench-1.2
 
-USER root
+USER wrench 
 
 WORKDIR /home/wrench/
 
@@ -11,9 +11,6 @@ RUN git clone https://github.com/wrench-project/wrench-pedagogic-modules.git \
     && cmake . \
     && make
 
-RUN chown -R wrench ./wrench-pedagogic-modules
-
-USER wrench
 WORKDIR /home/wrench/wrench-pedagogic-modules/activity_0_network_primer
 
 ENTRYPOINT ["./activity_0_simulator", "--log=root.thresh:critical"]
