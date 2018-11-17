@@ -1,0 +1,63 @@
+
+#include "ActivityScheduler.h"
+
+XBT_LOG_NEW_DEFAULT_CATEGORY(simple_wms_scheduler, "Log category for Simple WMS Scheduler");
+
+
+namespace wrench {
+
+    ActivityScheduler::ActivityScheduler(StorageService *remote_storage_service) : StandardJobScheduler() {
+        this->remote_storage_service = remote_storage_service;
+    }
+
+    void ActivityScheduler::scheduleTasks(const std::set<wrench::ComputeService *> &compute_services,
+                                          const std::vector<WorkflowTask *> &ready_tasks) {
+
+        TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_BLUE);
+
+        // only a single compute service in this activity
+        ComputeService *compute_service = *compute_services.begin();
+        auto compute_host = compute_service->getHostname();
+        auto idle_core_counts = compute_service->getNumIdleCores();
+        auto ram_capacities = compute_service->getMemoryCapacity();
+
+        auto num_idle_cores = idle_core_counts.at(compute_service->getHostname());
+        auto available_ram = ram_capacities.at(compute_service->getHostname());
+
+        // add tasks to a "tasks_to_submit" vector until core and or ram requirements cannot be met
+        std::vector<WorkflowTask *> tasks_to_submit;
+        std::map<std::string, std::string> service_specific_args;
+        for (const auto &task : ready_tasks) {
+            if (task->getMaxNumCores() <= num_idle_cores && task->getMemoryRequirement() <= available_ram) {
+                tasks_to_submit.push_back(task);
+                service_specific_args[task->getID()] = compute_host + ":1";
+
+                num_idle_cores -= task->getMaxNumCores();
+                available_ram -= task->getMemoryRequirement();
+            } else {
+                break;
+            }
+        }
+
+        std::map<WorkflowFile *, StorageService *> file_locations;
+        for (const auto &task : tasks_to_submit) {
+
+            bool taskHasChildren = (task->getNumberOfChildren() != 0) ? true : false;
+
+            for (const auto &file : task->getInputFiles()) {
+                if (taskHasChildren) {
+                    file_locations.insert(std::make_pair(file, remote_storage_service));
+                }
+            }
+
+            for (const auto &file: task->getOutputFiles()) {
+                if (not taskHasChildren) {
+                    file_locations.insert(std::make_pair(file, remote_storage_service));
+                }
+            }
+        }
+
+        WorkflowJob *job = (WorkflowJob *) this->getJobManager()->createStandardJob(tasks_to_submit, file_locations);
+        this->getJobManager()->submitJob(job, compute_service, service_specific_args);
+    }
+}
