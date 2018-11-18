@@ -13,7 +13,7 @@
  * @description: Creates a workflow where 3 independent tasks join into a single task. The input
  *              file size for this workflow is determined by the user.
  * @param workflow
- * @param input_file_size: file size in bytes for the 3 input files to this Workflow
+ * @param input_file_size: file size in megabytes for the 3 input files to this Workflow
  * @throws std::invalid_argument
  */
 void generateTaskJoinWorkflow(wrench::Workflow *workflow, double input_file_size_in_mb) {
@@ -236,6 +236,9 @@ int main(int argc, char **argv) {
     wms->addWorkflow(&workflow);
 
     simulation.launch();
+
+    // print completion date so I can grab it with run_options.py
+    std::cout << workflow.getCompletionDate() << std::endl;
 
     return 0;
 }

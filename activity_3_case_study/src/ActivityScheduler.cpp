@@ -10,6 +10,11 @@ namespace wrench {
         this->remote_storage_service = remote_storage_service;
     }
 
+    /**
+     * @brief Schedules as many tasks as possible onto the compute service without over subscribing. Intermediate files are read/written from/to scratch
+     * @param compute_services
+     * @param ready_tasks
+     */
     void ActivityScheduler::scheduleTasks(const std::set<wrench::ComputeService *> &compute_services,
                                           const std::vector<WorkflowTask *> &ready_tasks) {
 
