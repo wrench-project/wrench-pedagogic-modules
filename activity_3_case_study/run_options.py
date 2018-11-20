@@ -46,10 +46,10 @@ class Activity3_Simulator:
 
 if __name__ == '__main__':
     simulators = {
-        'base'           : Activity3_Simulator(2, 16, 100, 0,  lambda input_file_size_in_mb : (3 * input_file_size_in_mb / 100) + (3 * 100) + 10 + (0.003 / 100)),
-        '2x_cores_10x_bw': Activity3_Simulator(4, 16, 1000, 0, lambda input_file_size_in_mb : (3 * input_file_size_in_mb / 1000) + (3 * 100) + 10 + (0.003 / 100)),
-        '2x_ram_10x_bw'  : Activity3_Simulator(2, 32, 1000, 0, lambda input_file_size_in_mb : (3 * input_file_size_in_mb / 1000) + (2 * 100) + 10 + (0.003 / 100)),
-        '2x_cores_2x_ram': Activity3_Simulator(4, 32, 100, 0,  lambda input_file_size_in_mb : (3 * input_file_size_in_mb / 100) + 100 + 10 + (0.003 / 100))
+        'base'     : Activity3_Simulator(2, 16, 100, 0,  lambda input_file_size_in_mb : (3 * input_file_size_in_mb / 100) + (3 * 100) + 10 + (0.003 / 100)),
+        'option_1' : Activity3_Simulator(2, 32, 1000, 0, lambda input_file_size_in_mb : (3 * input_file_size_in_mb / 1000) + (2 * 100) + 10 + (0.003 / 100)),
+        'option_2' : Activity3_Simulator(4, 16, 1000, 0, lambda input_file_size_in_mb : (3 * input_file_size_in_mb / 1000) + (3 * 100) + 10 + (0.003 / 100)),
+        'option_3' : Activity3_Simulator(4, 32, 100, 0,  lambda input_file_size_in_mb : (3 * input_file_size_in_mb / 100) + 100 + 10 + (0.003 / 100))
     }
 
     data = dict()
@@ -71,7 +71,17 @@ if __name__ == '__main__':
     # show estimated utilization for each option on the top graph
     plt.subplot(2, 1, 1)
     for name, platform, color in zip(simulators.keys(), [str(simulator) for simulator in simulators.values()], map(lambda x : "-" + x, colors)):
-        plt.plot(input_file_sizes, [result.estimated_utilization for result in data[name]], color, label=platform, linewidth=1, markersize=3)
+        plt.plot(input_file_sizes, [result.estimated_utilization for result in data[name]], color, label=name + ": " + platform, linewidth=1, markersize=3)
+
+    # mark areas of interest
+    plt.axvline(x=2000)
+    plt.text(2000, 0.55, '2GB input files', ha='center', va='center',rotation='vertical', backgroundcolor='white', size=6)
+
+    plt.axvline(x=3500)
+    plt.text(3500, 0.55, '3.5GB input files', ha='center', va='center',rotation='vertical', backgroundcolor='white', size=6)
+
+    plt.axvline(x=7000)
+    plt.text(7000, 0.55, '7GB input files', ha='center', va='center',rotation='vertical', backgroundcolor='white', size=6)
 
     plt.legend()
     plt.ylabel('Utilization')
@@ -83,6 +93,11 @@ if __name__ == '__main__':
     for name, color in zip(simulators.keys(), colors):
         plt.plot(input_file_sizes, [result.simulated_execution_time for result in data[name]], "-" + color + "o", linewidth=1, markersize=3)
         plt.plot(input_file_sizes, [result.estimated_execution_time for result in data[name]], "-" + color + "x", linewidth=1, markersize=3)
+
+    # mark areas of interest
+    plt.axvline(x=2000)
+    plt.axvline(x=3500)
+    plt.axvline(x=7000)
 
     simulation_times = mlines.Line2D([], [], color='#a0a0a0', marker='o', markersize=5, label='simulation times')
     estimated_times = mlines.Line2D([], [], color='#a0a0a0', marker='x', markersize=5, label='estimated times')
