@@ -13,7 +13,7 @@ namespace wrench {
                            const std::vector<WorkflowTask *> &ready_tasks);
 
 
-        ActivityScheduler(std::map<std::string, StorageService *> &storage_services) ;
+        ActivityScheduler(std::map<std::string, StorageService *> storage_services) ;
 
     private:
         std::map<std::string, StorageService *> storage_services;

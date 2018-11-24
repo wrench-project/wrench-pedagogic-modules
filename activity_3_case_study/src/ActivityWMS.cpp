@@ -15,7 +15,7 @@ namespace wrench {
                                                                 storage_services,
                                                                 {}, nullptr,
                                                                 hostname,
-                                                                "activity2"
+                                                                "activity3"
     ) {}
 
 

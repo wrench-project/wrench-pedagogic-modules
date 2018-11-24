@@ -6,8 +6,8 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(simple_wms_scheduler, "Log category for Simple WMS 
 
 namespace wrench {
 
-    ActivityScheduler::ActivityScheduler(std::map<std::string, StorageService *> &storage_services) : StandardJobScheduler() {
-        this->storage_services = storage_services;
+    ActivityScheduler::ActivityScheduler(std::map<std::string, StorageService *> storage_services) : StandardJobScheduler(), storage_services(storage_services) {
+
     }
 
     /**
@@ -54,9 +54,9 @@ namespace wrench {
             // files "in between" should be read from the local storage service
             for (const auto &file : task->getInputFiles()) {
                 if (taskHasChildren) {
-                    file_locations.insert(std::make_pair(file, storage_services.at("remote")));
+                    file_locations.insert(std::make_pair(file, storage_services.at("infrastructure.org/storage")));
                 } else {
-                    file_locations.insert(std::make_pair(file, storage_services.at("local")));
+                    file_locations.insert(std::make_pair(file, storage_services.at("infrastructure.org/compute")));
                 }
             }
 
@@ -64,9 +64,9 @@ namespace wrench {
             // files "in between" should be written to the local storage service
             for (const auto &file: task->getOutputFiles()) {
                 if (not taskHasChildren) {
-                    file_locations.insert(std::make_pair(file, storage_services.at("remote")));
+                    file_locations.insert(std::make_pair(file, storage_services.at("infrastructure.org/storage")));
                 } else {
-                    file_locations.insert(std::make_pair(file, storage_services.at("local")));
+                    file_locations.insert(std::make_pair(file, storage_services.at("infrastructure.org/compute")));
                 }
             }
         }

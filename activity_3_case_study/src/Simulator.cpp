@@ -211,13 +211,13 @@ int main(int argc, char **argv) {
             );
 
     // this storage service is pretending to be scratch for the baremetal compute service
-    wrench::StorageService *local_storage_service = simulation.add(
+    wrench::StorageService *bare_metal_storage_service = simulation.add(
             new wrench::SimpleStorageService(COMPUTE_HOST, STORAGE_CAPACITY)
             );
 
     std::map<std::string, wrench::StorageService *> storage_services = {
-            {"remote", remote_storage_service},
-            {"local", local_storage_service}
+            {STORAGE_HOST, remote_storage_service},
+            {COMPUTE_HOST, bare_metal_storage_service}
     };
 
     // create the compute service
@@ -242,7 +242,7 @@ int main(int argc, char **argv) {
             new wrench::ActivityWMS(
                     std::unique_ptr<wrench::ActivityScheduler>(new wrench::ActivityScheduler(storage_services)),
                     {compute_service},
-                    {remote_storage_service, local_storage_service},
+                    {remote_storage_service},
                     WMS_HOST
                     )
             );
