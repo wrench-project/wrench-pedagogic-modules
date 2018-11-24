@@ -7,12 +7,11 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(simple_wms, "Log category for Simple WMS");
 namespace wrench {
 
     ActivityWMS::ActivityWMS(std::unique_ptr <StandardJobScheduler> standard_job_scheduler,
-                             std::unique_ptr<PilotJobScheduler> pilot_job_scheduler,
                              const std::set<ComputeService *> &compute_services,
                              const std::set<StorageService *> &storage_services,
                              const std::string &hostname) : WMS (
                                      std::move(standard_job_scheduler),
-                                     std::move(pilot_job_scheduler),
+                                     nullptr,
                                      compute_services,
                                      storage_services,
                                      {}, nullptr,
@@ -31,23 +30,21 @@ namespace wrench {
 
         // Create a job manager
         this->job_manager = this->createJobManager();
-        
+
+
         while (true) {
+            // Get the ready tasks and SORT them by taskID
+            std::vector<WorkflowTask *> ready_tasks = this->getWorkflow()->getReadyTasks();
 
-            // Get all the tasks and SORT them by taskID
-            std::vector<WorkflowTask *> tasks = this->getWorkflow()->getTasks();
-
-            std::sort(tasks.begin(), tasks.end(), [ ] (WorkflowTask *lhs, WorkflowTask *rhs) {
+            std::sort(ready_tasks.begin(), ready_tasks.end(), [ ] (WorkflowTask *lhs, WorkflowTask *rhs) {
                 return lhs->getID() < rhs->getID();
             });
 
-            // Get the available compute services, in this case only one for activity1
-            std::set<ComputeService *> compute_services = this->getAvailableComputeServices();
 
             // Run ready tasks with defined scheduler implementation
             this->getStandardJobScheduler()->scheduleTasks(
                     this->getAvailableComputeServices(),
-                    tasks);
+                    ready_tasks);
 
             // Wait for a workflow execution event, and process it
             try {
