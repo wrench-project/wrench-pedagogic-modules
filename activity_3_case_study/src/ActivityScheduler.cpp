@@ -6,12 +6,12 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(simple_wms_scheduler, "Log category for Simple WMS 
 
 namespace wrench {
 
-    ActivityScheduler::ActivityScheduler(StorageService *remote_storage_service) : StandardJobScheduler() {
-        this->remote_storage_service = remote_storage_service;
+    ActivityScheduler::ActivityScheduler(std::map<std::string, StorageService *> &storage_services) : StandardJobScheduler() {
+        this->storage_services = storage_services;
     }
 
     /**
-     * @brief Schedules as many tasks as possible onto the compute service without over subscribing. Intermediate files are read/written from/to scratch
+     * @brief Schedules as many tasks as possible onto the compute service without over subscribing. Intermediate files are read/written from/to local storage (pretending to be scratch)
      * @param compute_services
      * @param ready_tasks
      */
@@ -44,20 +44,29 @@ namespace wrench {
             }
         }
 
+        // specify file locations for tasks that will be submitted
         std::map<WorkflowFile *, StorageService *> file_locations;
         for (const auto &task : tasks_to_submit) {
 
             bool taskHasChildren = (task->getNumberOfChildren() != 0) ? true : false;
 
+            // initial input files should be read from the remote storage service
+            // files "in between" should be read from the local storage service
             for (const auto &file : task->getInputFiles()) {
                 if (taskHasChildren) {
-                    file_locations.insert(std::make_pair(file, remote_storage_service));
+                    file_locations.insert(std::make_pair(file, storage_services.at("remote")));
+                } else {
+                    file_locations.insert(std::make_pair(file, storage_services.at("local")));
                 }
             }
 
+            // the final output file should be written to the remote storage service
+            // files "in between" should be written to the local storage service
             for (const auto &file: task->getOutputFiles()) {
                 if (not taskHasChildren) {
-                    file_locations.insert(std::make_pair(file, remote_storage_service));
+                    file_locations.insert(std::make_pair(file, storage_services.at("remote")));
+                } else {
+                    file_locations.insert(std::make_pair(file, storage_services.at("local")));
                 }
             }
         }
