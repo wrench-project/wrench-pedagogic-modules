@@ -119,42 +119,43 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    // load workflow
+    // generate workflow
     wrench::Workflow workflow;
     generateWorkflow(&workflow);
 
+    // generate platform
     std::string platform_file_path = "/tmp/platform.xml";
     generatePlatform(platform_file_path, LINK_BANDWIDTH);
 
-    // read and instantiate the platform
     simulation.instantiatePlatform(platform_file_path);
 
-    std::string my_lab_computer_edu("my_lab_computer.edu");
-    std::string hpc_edu("hpc.edu");
-    std::string storage_db_edu("storage_db.edu");
+    const std::string WMS_HOST("my_lab_computer.edu");
+    const std::string COMPUTE_HOST("hpc.edu");
+    const std::string STORAGE_HOST("storage_db.edu");
 
     // storage service on storage_db_edu
-    wrench::StorageService *storage_db_edu_storage_service = simulation.add(new wrench::SimpleStorageService(storage_db_edu, 10000000000000.0));
-    wrench::StorageService *hpc_edu_storage_service = simulation.add(new wrench::SimpleStorageService(hpc_edu, 10000000000000.0));
-    std::set<wrench::StorageService *> storage_services = {storage_db_edu_storage_service, hpc_edu_storage_service};
+    wrench::StorageService *storage_db_edu_storage_service = simulation.add(new wrench::SimpleStorageService(STORAGE_HOST, 10000000000000.0));
+    wrench::StorageService *hpc_edu_storage_service = simulation.add(new wrench::SimpleStorageService(COMPUTE_HOST, 10000000000000.0));
+    std::map<std::string, wrench::StorageService *> storage_services = {
+            {"storage_db.edu", storage_db_edu_storage_service},
+            {"hpc.edu", hpc_edu_storage_service}
+    };
 
-    // compute service on hpc_edu
-    std::set<std::tuple<std::string, unsigned long, double>> compute_resources = {std::make_tuple(hpc_edu, wrench::ComputeService::ALL_CORES, wrench::ComputeService::ALL_RAM)};
-
-    wrench::ComputeService *compute_service = simulation.add(new wrench::MultihostMulticoreComputeService(
-                hpc_edu,
-                compute_resources,
-                0, {}, {}
+    wrench::ComputeService *compute_service = simulation.add(new wrench::BareMetalComputeService(
+                COMPUTE_HOST,
+                {COMPUTE_HOST},
+                {},
+                {}
             ));
 
     // WMS on my_lab_computer_edu
     wrench::WMS *wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler> (new wrench::ActivityScheduler(storage_services)),
-            nullptr, {compute_service}, storage_services, my_lab_computer_edu));
+            nullptr, {compute_service}, {storage_db_edu_storage_service}, WMS_HOST));
 
     wms->addWorkflow(&workflow);
 
     // file registry service on storage_db_edu
-    simulation.add(new wrench::FileRegistryService(storage_db_edu));
+    simulation.add(new wrench::FileRegistryService(WMS_HOST));
 
     // stage the input files
     std::map<std::string, wrench::WorkflowFile *> input_files = workflow.getInputFiles();
