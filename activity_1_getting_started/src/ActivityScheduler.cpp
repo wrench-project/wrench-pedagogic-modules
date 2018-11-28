@@ -6,10 +6,25 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(simple_wms_scheduler, "Log category for Simple WMS 
 
 namespace wrench {
 
+
+    /**
+     * @brief Constructor
+     * @param storage_services: a map of hostname key to StorageService pointer
+     */
     ActivityScheduler::ActivityScheduler(std::map<std::string, StorageService *> storage_services) : StandardJobScheduler(), storage_services(storage_services) {
 
     }
 
+    /**
+     * @brief Schedules a single ready task at a time on the compute service.
+     * @description If REMOTE_STORAGE is defined, then all files are written to/read from the storage
+     *              service at storage_db.edu. If LOCAL_STORAGE is defined, then only the initial input files
+     *              and final output files are written to/read from the storage service at storage_db.edu. All
+     *              other files are written to/read from the storage service that resides on the same host as
+     *              the compute service.
+     * @param compute_services
+     * @param ready_tasks
+     */
     void ActivityScheduler::scheduleTasks(const std::set<wrench::ComputeService *> &compute_services,
                                           const std::vector<WorkflowTask *> &ready_tasks) {
 

@@ -5,6 +5,13 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(simple_wms, "Log category for Simple WMS");
 
 namespace wrench {
 
+    /**
+     * @brief WMS constructor
+     * @param standard_job_scheduler
+     * @param compute_services
+     * @param storage_services
+     * @param hostname
+     */
     ActivityWMS::ActivityWMS(std::unique_ptr <StandardJobScheduler> standard_job_scheduler,
                              const std::set<ComputeService *> &compute_services,
                              const std::set<StorageService *> &storage_services,
@@ -19,6 +26,10 @@ namespace wrench {
     ) {}
 
 
+    /**
+     * @brief WMS main method
+     * @return
+     */
     int ActivityWMS::main() {
         TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_MAGENTA);
 
@@ -70,6 +81,10 @@ namespace wrench {
         return 0;
     }
 
+    /**
+     * @brief Any time a standard job is completed, print to WRENCH_INFO in RED, the number of tasks in the job
+     * @param event
+     */
     void ActivityWMS::processEventStandardJobCompletion(std::unique_ptr<wrench::StandardJobCompletedEvent> event) {
         auto standard_job = event->standard_job;
         TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_RED);

@@ -6,6 +6,10 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(simple_wms_scheduler, "Log category for Simple WMS 
 
 namespace wrench {
 
+    /**
+     * @brief Constructor
+     * @param storage_services: a map of hostname key to StorageService pointer
+     */
     ActivityScheduler::ActivityScheduler(std::map<std::string, StorageService *> storage_services) : StandardJobScheduler(), storage_services(storage_services) {
 
     }

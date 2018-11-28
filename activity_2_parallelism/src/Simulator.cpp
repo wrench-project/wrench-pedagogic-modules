@@ -119,6 +119,12 @@ void generatePlatformWithHPCSpecs(std::string platform_file_path, int num_nodes,
     fclose(platform_file);
 }
 
+/**
+ *
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main(int argc, char** argv) {
 
     wrench::Simulation simulation;

@@ -140,6 +140,12 @@ void generatePlatform(std::string platform_file_path, int num_cores, int ram_in_
     }
 }
 
+/**
+ * @brief Activity 3 Simulation
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main(int argc, char **argv) {
     wrench::Simulation simulation;
     simulation.init(&argc, argv);

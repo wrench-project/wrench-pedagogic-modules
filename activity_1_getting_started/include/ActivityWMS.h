@@ -10,7 +10,6 @@ namespace wrench {
     class ActivityWMS : public WMS {
     public:
         ActivityWMS(std::unique_ptr <StandardJobScheduler> standard_job_scheduler,
-                    std::unique_ptr <PilotJobScheduler> pilot_job_scheduler,
                     const std::set<ComputeService *> &compute_services,
                     const std::set<StorageService *> &storage_services,
                     const std::string &hostname);

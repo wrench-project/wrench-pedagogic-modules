@@ -95,6 +95,12 @@ void generatePlatform(std::string platform_file_path, int bandwidth) {
     }
 }
 
+/**
+ * @brief Activity 1 Simulation
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main(int argc, char** argv) {
 
     wrench::Simulation simulation;
@@ -150,7 +156,7 @@ int main(int argc, char** argv) {
 
     // WMS on my_lab_computer_edu
     wrench::WMS *wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler> (new wrench::ActivityScheduler(storage_services)),
-            nullptr, {compute_service}, {storage_db_edu_storage_service}, WMS_HOST));
+            {compute_service}, {storage_db_edu_storage_service}, WMS_HOST));
 
     wms->addWorkflow(&workflow);
 
