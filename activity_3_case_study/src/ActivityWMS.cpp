@@ -1,4 +1,3 @@
-
 #include "ActivityWMS.h"
 #include <algorithm>
 
@@ -17,14 +16,15 @@ namespace wrench {
                              const std::set<ComputeService *> &compute_services,
                              const std::set<StorageService *> &storage_services,
                              const std::string &hostname) : WMS (
-                                     std::move(standard_job_scheduler),
-                                     nullptr,
-                                     compute_services,
-                                     storage_services,
-                                     {}, nullptr,
-                                     hostname,
-                                     "activity1"
-                                     ) {}
+                                                                std::move(standard_job_scheduler),
+                                                                nullptr,
+                                                                compute_services,
+                                                                storage_services,
+                                                                {}, nullptr,
+                                                                hostname,
+                                                                "activity3"
+    ) {}
+
 
     /**
      * @brief WMS main method
@@ -40,18 +40,15 @@ namespace wrench {
 
         // Create a job manager
         this->job_manager = this->createJobManager();
-        
+
         while (true) {
 
-            // Get the ready tasks and SORT them by taskID
+            // Get all the tasks and SORT them by taskID
             std::vector<WorkflowTask *> ready_tasks = this->getWorkflow()->getReadyTasks();
 
             std::sort(ready_tasks.begin(), ready_tasks.end(), [ ] (WorkflowTask *lhs, WorkflowTask *rhs) {
                 return lhs->getID() < rhs->getID();
             });
-
-            // Get the available compute services, in this case only one for activity1
-            std::set<ComputeService *> compute_services = this->getAvailableComputeServices();
 
             // Run ready tasks with defined scheduler implementation
             this->getStandardJobScheduler()->scheduleTasks(
@@ -91,6 +88,6 @@ namespace wrench {
     void ActivityWMS::processEventStandardJobCompletion(std::unique_ptr<wrench::StandardJobCompletedEvent> event) {
         auto standard_job = event->standard_job;
         TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_RED);
-        WRENCH_INFO("Notified that %s has completed", (*standard_job->getTasks().begin())->getID().c_str());
+        WRENCH_INFO("Notified that a standard job with %lu tasks has completed", standard_job->getTasks().size());
     }
 }

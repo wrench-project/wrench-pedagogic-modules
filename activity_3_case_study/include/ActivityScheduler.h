@@ -10,14 +10,14 @@ namespace wrench {
 
     public:
         void scheduleTasks(const std::set<ComputeService *> &compute_services,
-                           const std::vector<WorkflowTask *> &tasks);
+                           const std::vector<WorkflowTask *> &ready_tasks);
 
 
-        ActivityScheduler(std::map<std::string, StorageService *> storage_services);
+        ActivityScheduler(std::map<std::string, StorageService *> storage_services) ;
 
     private:
-       std::map<std::string, StorageService *> storage_services;
+        std::map<std::string, StorageService *> storage_services;
     };
 }
 
-#endif 
+#endif

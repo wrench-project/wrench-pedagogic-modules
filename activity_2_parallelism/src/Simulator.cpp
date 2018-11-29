@@ -119,6 +119,12 @@ void generatePlatformWithHPCSpecs(std::string platform_file_path, int num_nodes,
     fclose(platform_file);
 }
 
+/**
+ *
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main(int argc, char** argv) {
 
     wrench::Simulation simulation;
@@ -263,31 +269,43 @@ int main(int argc, char** argv) {
 
    const std::string REMOTE_STORAGE_HOST("storage_db.edu");
    const std::string WMS_HOST("my_lab_computer.edu");
+   const std::string COMPUTE_HOST("hpc.edu/node_0");
 
-   // storage service
+   // create a remote storage service and a storage service on the same host as the compute service
    const double STORAGE_CAPACITY = 10.0 * 1000.0 * 1000.0 * 1000.0 * 1000.0;
    wrench::StorageService *remote_storage_service = simulation.add(
             new wrench::SimpleStorageService(REMOTE_STORAGE_HOST, STORAGE_CAPACITY));
 
+   // this storage service is pretending to be scratch for the baremetal compute service
+   wrench::StorageService *bare_metal_storage_service = simulation.add(
+           new wrench::SimpleStorageService(COMPUTE_HOST, STORAGE_CAPACITY)
+           );
 
+   std::map<std::string, wrench::StorageService *> storage_services = {
+           {REMOTE_STORAGE_HOST, remote_storage_service},
+           {COMPUTE_HOST, bare_metal_storage_service}
+   };
 
    // compute service
-   std::set<std::tuple<std::string, unsigned long, double>> compute_nodes;
+   std::set<std::string> compute_nodes;
 
    // compute resources will be all the nodes in the cluster except node_0
    for (auto node = hpc_nodes.begin() + 1; node != hpc_nodes.end(); ++node) {
-       compute_nodes.insert(std::make_tuple((*node)->get_name(), wrench::ComputeService::ALL_CORES, wrench::ComputeService::ALL_RAM));
+       compute_nodes.insert((*node)->get_name());
    }
 
    wrench::ComputeService *compute_service = simulation.add(
-           new wrench::MultihostMulticoreComputeService(
-                   (*hpc_nodes.begin())->get_name(), compute_nodes, STORAGE_CAPACITY, {}, {}
+           new wrench::BareMetalComputeService(
+                   COMPUTE_HOST,
+                   compute_nodes,
+                   {},
+                   {}
                    )
            );
 
    // wms
    wrench::WMS *wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler>(
-           new wrench::ActivityScheduler(remote_storage_service)), nullptr, {compute_service}, {remote_storage_service}, WMS_HOST
+           new wrench::ActivityScheduler(storage_services)), {compute_service}, {remote_storage_service}, WMS_HOST
            ));
 
    wms->addWorkflow(&workflow);
@@ -300,7 +318,7 @@ int main(int argc, char** argv) {
 
    simulation.launch();
 
-   simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json");
+   simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json", true);
    //simulation.getOutput().dumpWorkflowGraphJSON(&workflow, "workflow_graph.json");
 
    return 0;

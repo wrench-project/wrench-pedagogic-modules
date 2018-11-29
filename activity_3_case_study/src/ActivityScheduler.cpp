@@ -7,15 +7,6 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(simple_wms_scheduler, "Log category for Simple WMS 
 namespace wrench {
 
     /**
-     * @brief A struct representing a "Compute Node"
-     */
-    typedef struct ComputeResource {
-        std::string hostname;
-        unsigned long num_idle_cores;
-        double available_ram;
-    } ComputeResource;
-
-    /**
      * @brief Constructor
      * @param storage_services: a map of hostname key to StorageService pointer
      */
@@ -23,40 +14,37 @@ namespace wrench {
 
     }
 
+    /**
+     * @brief Schedules as many tasks as possible onto the compute service without over subscribing. Intermediate files are read/written from/to local storage (pretending to be scratch)
+     * @param compute_services
+     * @param ready_tasks
+     */
     void ActivityScheduler::scheduleTasks(const std::set<wrench::ComputeService *> &compute_services,
                                           const std::vector<WorkflowTask *> &ready_tasks) {
 
         TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_BLUE);
-        ComputeService *compute_service = *compute_services.begin();
 
+        // only a single compute service in this activity
+        ComputeService *compute_service = *compute_services.begin();
+        auto compute_host = compute_service->getHostname();
         auto idle_core_counts = compute_service->getNumIdleCores();
         auto ram_capacities = compute_service->getMemoryCapacity();
 
-
-
-        // combining core counts and ram capacities together
-        std::vector<ComputeResource> available_resources;
-        for (const auto &host : idle_core_counts) {
-            if (host.second > 0) {
-                available_resources.push_back({host.first,
-                                               host.second,
-                                               ram_capacities.at(host.first)});
-            }
-        }
+        auto num_idle_cores = idle_core_counts.at(compute_service->getHostname());
+        auto available_ram = ram_capacities.at(compute_service->getHostname());
 
         // add tasks to a "tasks_to_submit" vector until core and or ram requirements cannot be met
         std::vector<WorkflowTask *> tasks_to_submit;
         std::map<std::string, std::string> service_specific_args;
         for (const auto &task : ready_tasks) {
-            for (auto &resource : available_resources) {
-                if (task->getMaxNumCores() <= resource.num_idle_cores && task->getMemoryRequirement() <= resource.available_ram) {
-                    tasks_to_submit.push_back(task);
-                    service_specific_args[task->getID()] = resource.hostname + ":" + std::to_string(task->getMaxNumCores());
+            if (task->getMaxNumCores() <= num_idle_cores && task->getMemoryRequirement() <= available_ram) {
+                tasks_to_submit.push_back(task);
+                service_specific_args[task->getID()] = compute_host + ":1";
 
-                    resource.num_idle_cores -= task->getMaxNumCores();
-                    resource.available_ram -= task->getMemoryRequirement();
-                    break;
-                }
+                num_idle_cores -= task->getMaxNumCores();
+                available_ram -= task->getMemoryRequirement();
+            } else {
+                break;
             }
         }
 
@@ -67,28 +55,27 @@ namespace wrench {
             bool taskHasChildren = (task->getNumberOfChildren() != 0) ? true : false;
 
             // initial input files should be read from the remote storage service
-            // files "in between" should be read from the local storage service (same host as the baremetal CS)
+            // files "in between" should be read from the local storage service
             for (const auto &file : task->getInputFiles()) {
                 if (taskHasChildren) {
-                    file_locations.insert(std::make_pair(file, storage_services.at("storage_db.edu")));
+                    file_locations.insert(std::make_pair(file, storage_services.at("infrastructure.org/storage")));
                 } else {
-                    file_locations.insert(std::make_pair(file, storage_services.at("hpc.edu/node_0")));
+                    file_locations.insert(std::make_pair(file, storage_services.at("infrastructure.org/compute")));
                 }
             }
 
             // the final output file should be written to the remote storage service
-            // files "in between" should be written to the local storage service (same host as teh baremetal CS)
+            // files "in between" should be written to the local storage service
             for (const auto &file: task->getOutputFiles()) {
                 if (not taskHasChildren) {
-                    file_locations.insert(std::make_pair(file, storage_services.at("storage_db.edu")));
+                    file_locations.insert(std::make_pair(file, storage_services.at("infrastructure.org/storage")));
                 } else {
-                    file_locations.insert(std::make_pair(file, storage_services.at("hpc.edu/node_0")));
+                    file_locations.insert(std::make_pair(file, storage_services.at("infrastructure.org/compute")));
                 }
             }
         }
 
         WorkflowJob *job = (WorkflowJob *) this->getJobManager()->createStandardJob(tasks_to_submit, file_locations);
         this->getJobManager()->submitJob(job, compute_service, service_specific_args);
-
     }
 }
