@@ -26,6 +26,23 @@ h6 {
   width: 50px;
 }
 
+#home-card {
+  width: 25rem;
+
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#home-wrench-logo {
+  padding: 10px;
+}
+
+#google-button {
+  max-width: 50%;
+}
+
+
 #title-card {
   background-color: white;
 }

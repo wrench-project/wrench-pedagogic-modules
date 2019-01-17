@@ -1,10 +1,13 @@
-var express        = require("express"),
-    app            = express(),
-    bodyParser     = require("body-parser"),
-    methodOverride = require("method-override"),
-    au             = require("ansi_up"),
-    {spawnSync}    = require("child_process"),
-    fs             = require("fs");
+const express        = require("express"),
+      app            = express(),
+      bodyParser     = require("body-parser"),
+      methodOverride = require("method-override"),
+      au             = require("ansi_up"),
+      {spawnSync}    = require("child_process"),
+      fs             = require("fs"),
+      passport       = require("passport"),
+      passportSetup  = require("./passport-setup")
+      cookieSession  = require("cookie-session");
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -12,16 +15,56 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 
+app.use(cookieSession({
+  maxAge: 24 * 60 * 60 * 1000, // a day in milliseconds
+  keys: ["abc1231312321"] // change this later
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// check if authenticated
+const authCheck = function(req, res, next) {
+  if (!req.user) {
+    // if user not already logged in, redirect them to the
+    // homepage where they can log in
+    res.redirect("/");
+  } else {
+    // the user is logged in so move on to the next middleware
+    next()
+  }
+}
+
 var ansi_up     = new au.default; // WRENCH produces output to the terminal using ansi colors, ansi_up will apply those colors to <span> html elements
 
+// main route that will show login/logout and available activities
+app.get("/", function(req, res) {
+  res.render("index", {user: req.user});
+});
+
+// login through google
+app.get("/google", passport.authenticate("google", {
+  scope: ["email"]
+}));
+
+// callback route for google to redirect to
+app.get("/google/redirect", passport.authenticate("google"), function(req, res) {
+  res.redirect("/");
+});
+
+// logout route
+app.get("/logout", function(req, res) {
+  req.logout();
+  res.redirect("/");
+});
+
 // default route that displays the page with no data and only a form to be filled
-app.get("/activity_1", function(req, res) {
+app.get("/activity_1", authCheck, function(req, res) {
     res.render("activity_1", {workflow_graph_json: JSON.parse(fs.readFileSync(__dirname + "/../activity_1_getting_started/workflow_graph.json")),
                                 cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/activity_1_cyber_infrastructure.svg")});
 });
 
-app.post("/run/activity_1", function(req, res) {
-
+app.post("/run/activity_1", authCheck, function(req, res) {
+    console.log("from activity1, you are " + req.user);
     const PATH_PREFIX = __dirname.replace("visualization", "activity_1_getting_started/");
 
     const EXECUTABLE             = PATH_PREFIX + (req.body.simulator_number == 1 ? "simulator_remote_storage" : "simulator_local_storage");
@@ -69,13 +112,13 @@ app.post("/run/activity_1", function(req, res) {
     }
 });
 
-app.get("/activity_2", function(req, res) {
+app.get("/activity_2", authCheck, function(req, res) {
    res.render("activity_2", {
        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/activity_2_cyber_infrastructure.svg")
    });
 });
 
-app.post("/run/activity_2", function(req, res) {
+app.post("/run/activity_2", authCheck, function(req, res) {
 
     const PATH_PREFIX = __dirname.replace("visualization", "activity_2_parallelism/");
 
