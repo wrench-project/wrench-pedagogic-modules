@@ -106,10 +106,13 @@ app.post("/run/activity_1", authCheck, function(req, res) {
           method: "POST",
           uri: "http://localhost:3001/submit_data",
           json: {
-            "user": req.user,
-            "activity": 1,
-            "simulator": SIMULATOR,
-            "link_bandwidth": LINK_BANDWIDTH
+            "key": keys.dataServer.key,
+            "data": {
+              "user": req.user,
+              "activity": 1,
+              "simulator": SIMULATOR,
+              "link_bandwidth": LINK_BANDWIDTH
+            }
           }
         },
          function(error, response, body) {
@@ -193,13 +196,16 @@ app.post("/run/activity_2", authCheck, function(req, res) {
             method: "POST",
             uri: "http://localhost:3001/submit_data",
             json: {
-              "user": req.user,
-              "activity": 2,
-              "num_nodes": NUM_NODES,
-              "num_cores_per_node": NUM_CORES_PER_NODE,
-              "num_tasks_to_join": NUM_TASKS_TO_JOIN,
-              "file_size": FILE_SIZE,
-              "ram_required": RAM_REQUIRED
+              "key": keys.dataServer.key,
+              "data": {
+                "user": req.user,
+                "activity": 2,
+                "num_nodes": NUM_NODES,
+                "num_cores_per_node": NUM_CORES_PER_NODE,
+                "num_tasks_to_join": NUM_TASKS_TO_JOIN,
+                "file_size": FILE_SIZE,
+                "ram_required": RAM_REQUIRED
+              }
             }
           },
            function(error, response, body) {
