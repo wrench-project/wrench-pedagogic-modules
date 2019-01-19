@@ -7,7 +7,9 @@ const express        = require("express"),
       fs             = require("fs"),
       passport       = require("passport"),
       passportSetup  = require("./passport-setup")
-      cookieSession  = require("cookie-session");
+      cookieSession  = require("cookie-session"),
+      request        = require("request"),
+      keys           = require("./keys.js");
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -17,7 +19,7 @@ app.use(methodOverride("_method"));
 
 app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000, // a day in milliseconds
-  keys: ["abc1231312321"] // change this later
+  keys: [keys.cookieSession.key]
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -34,7 +36,8 @@ const authCheck = function(req, res, next) {
   }
 }
 
-var ansi_up     = new au.default; // WRENCH produces output to the terminal using ansi colors, ansi_up will apply those colors to <span> html elements
+// WRENCH produces output to the terminal using ansi colors, ansi_up will apply those colors to <span> html elements
+var ansi_up = new au.default;
 
 // main route that will show login/logout and available activities
 app.get("/", function(req, res) {
@@ -57,18 +60,19 @@ app.get("/logout", function(req, res) {
   res.redirect("/");
 });
 
-// default route that displays the page with no data and only a form to be filled
+// display activity 1 visualization route
 app.get("/activity_1", authCheck, function(req, res) {
     res.render("activity_1", {workflow_graph_json: JSON.parse(fs.readFileSync(__dirname + "/../activity_1_getting_started/workflow_graph.json")),
                                 cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/activity_1_cyber_infrastructure.svg")});
 });
 
+// execute activity 1 simulation route
 app.post("/run/activity_1", authCheck, function(req, res) {
-    console.log("from activity1, you are " + req.user);
     const PATH_PREFIX = __dirname.replace("visualization", "activity_1_getting_started/");
 
-    const EXECUTABLE             = PATH_PREFIX + (req.body.simulator_number == 1 ? "simulator_remote_storage" : "simulator_local_storage");
-    const LINK_BANDWIDTH         = req.body.link_bandwidth;
+    const SIMULATOR = (req.body.simulator_number == 1 ? "simulator_remote_storage" : "simulator_local_storage");
+    const EXECUTABLE = PATH_PREFIX + SIMULATOR;
+    const LINK_BANDWIDTH = req.body.link_bandwidth;
 
     // additional WRENCH arguments that filter simulation output (We only want simulation output from the WMS in this activity)
     const LOGGING = [
@@ -95,6 +99,29 @@ app.post("/run/activity_1", authCheck, function(req, res) {
       console.log(simulation_output);
 
       /**
+       * Log the user running this simulation along with the
+       * simulation parameters to the data server.
+       */
+      request({
+          method: "POST",
+          uri: "http://localhost:3001/submit_data",
+          json: {
+            "user": req.user,
+            "activity": 1,
+            "simulator": SIMULATOR,
+            "link_bandwidth": LINK_BANDWIDTH
+          }
+        },
+         function(error, response, body) {
+           if (!error && response.statusCode == 201) {
+             console.log("sent POST request to data_server @ localhost:3001");
+           } else {
+             console.log(error);
+           }
+         }
+      );
+
+      /**
        * The simulation output uses ansi colors and we want these colors to show up in the browser as well.
        * Ansi up will take each line, make it into a <span> element, and edit the style so that the text color
        * is whatever the ansi color was. Then the regular expression just adds in <br> elements so that
@@ -109,20 +136,24 @@ app.post("/run/activity_1", authCheck, function(req, res) {
           "simulation_output": ansi_up.ansi_to_html(simulation_output).replace(re, "<br>" + find),
           "task_data": JSON.parse(fs.readFileSync(__dirname + "/workflow_data.json"))
       });
+
+
     }
 });
 
+// display activity 2 visualization route
 app.get("/activity_2", authCheck, function(req, res) {
    res.render("activity_2", {
        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/activity_2_cyber_infrastructure.svg")
    });
 });
 
+// execute activity 2 simulation route
 app.post("/run/activity_2", authCheck, function(req, res) {
-
     const PATH_PREFIX = __dirname.replace("visualization", "activity_2_parallelism/");
 
-    const EXECUTABLE             = PATH_PREFIX + "activity_2_simulator";
+    const SIMULATOR = "activity_2_simulator";
+    const EXECUTABLE = PATH_PREFIX + SIMULATOR;
 
     const NUM_NODES = req.body.num_nodes;
     const NUM_CORES_PER_NODE = req.body.num_cores_per_node;
@@ -155,6 +186,33 @@ app.post("/run/activity_2", authCheck, function(req, res) {
         console.log(simulation_output);
 
         /**
+         * Log the user running this simulation along with the
+         * simulation parameters to the data server.
+         */
+        request({
+            method: "POST",
+            uri: "http://localhost:3001/submit_data",
+            json: {
+              "user": req.user,
+              "activity": 2,
+              "num_nodes": NUM_NODES,
+              "num_cores_per_node": NUM_CORES_PER_NODE,
+              "num_tasks_to_join": NUM_TASKS_TO_JOIN,
+              "file_size": FILE_SIZE,
+              "ram_required": RAM_REQUIRED
+            }
+          },
+           function(error, response, body) {
+             if (response.statusCode == 201) {
+               console.log("made POST request to data_server @ localhost:3001");
+             } else {
+               console.log("error: " + response.statusCode);
+               console.log(body);
+             }
+           }
+        );
+
+        /**
          * The simulation output uses ansi colors and we want these colors to show up in the browser as well.
          * Ansi up will take each line, make it into a <span> element, and edit the style so that the text color
          * is whatever the ansi color was. Then the regular expression just adds in <br> elements so that
@@ -173,5 +231,5 @@ app.post("/run/activity_2", authCheck, function(req, res) {
 });
 
 app.listen(3000, function() {
-    console.log("Visualization server is running!");
+    console.log("Visualization server is running on port 3000");
 });
