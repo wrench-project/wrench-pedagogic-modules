@@ -104,7 +104,7 @@ app.post("/run/activity_1", authCheck, function(req, res) {
        */
       request({
           method: "POST",
-          uri: "http://localhost:3001/submit_data",
+          uri: keys.dataServer.uri,
           json: {
             "key": keys.dataServer.key,
             "data": {
@@ -194,7 +194,7 @@ app.post("/run/activity_2", authCheck, function(req, res) {
          */
         request({
             method: "POST",
-            uri: "http://localhost:3001/submit_data",
+            uri: keys.dataServer.uri,
             json: {
               "key": keys.dataServer.key,
               "data": {
