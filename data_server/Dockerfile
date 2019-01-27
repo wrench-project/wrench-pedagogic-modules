@@ -15,9 +15,14 @@ RUN git clone https://github.com/wrench-project/wrench-pedagogic-modules.git \
 
 WORKDIR /home/data_server/wrench-pedagogic-modules/data_server
 
+# create a directory where json data will be stored
 RUN mkdir data
 
+# keys that are not versioned are placed into this image
 COPY keys.js /home/data_server/wrench-pedagogic-modules/data_server/keys.js
+
+# set this path to be a volume so that data can persist beyond the container
+VOLUME /home/data_server/data
 
 EXPOSE 3001
 
