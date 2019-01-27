@@ -17,7 +17,7 @@ app.post("/submit_data", function(req, res) {
 
     // DATA_FILE will reside on the host machine, and its path will be
     // mounted into the docker container at /home/data_server/wrench-pedagogic-modules/data_server
-    const DATA_FILE = "data_file.json";
+    const DATA_FILE = "./data/data_file.json";
     fs.readFile(DATA_FILE, function(err, data) {
         let current_json_data = [];
         let received_data = req.body.data;
