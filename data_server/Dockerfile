@@ -22,7 +22,7 @@ RUN mkdir data
 COPY keys.js /home/data_server/wrench-pedagogic-modules/data_server/keys.js
 
 # set this path to be a volume so that data can persist beyond the container
-VOLUME /home/data_server/data
+VOLUME /home/data_server/wrench-pedagogic-modules/data_server/data
 
 EXPOSE 3001
 
