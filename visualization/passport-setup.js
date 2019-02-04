@@ -19,7 +19,8 @@ passport.use(
   new GoogleStrategy({
     callbackURL: "/google/redirect",
     clientID: keys.google.clientID,        // load from external file
-    clientSecret: keys.google.clientSecret // load from external file
+    clientSecret: keys.google.clientSecret, // load from external file
+    userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   }, function(accessToken, refreshToken, profile, done) {
     // of the information sent back by google, we only need
     // the email (email scope is specified in the route for the callbackURL)
