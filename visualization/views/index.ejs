@@ -15,10 +15,9 @@
         <img id="home-wrench-logo" class="card-img-top" src="img/wrench_logo.svg" alt="Wrench Logo">
         <div class="card-body">
           <h4 class="text-center text-dark">WRENCH Pedagogic Modules</h4>
-          <p class="card-text text-muted">This is just some filler text. Here we can place something explaining why we need
-          people to log in etc.</p>
 
           <% if (user) { %>
+            <p></p>
             <div class="list-group">
               <a href="" class="list-group-item list-group-item-action list-group-item-info">
                 Visualizations
@@ -29,9 +28,19 @@
 
             <p class="text-right"><a href="/logout">logout</a></p>
           <% } else { %>
+            <p class="card-text text-muted"> Log in with your UH_USERNAME@hawaii.edu email to get
+              started.</p>
             <a href="/google">
               <img id="google-button" src="img/google_signin.png">
             </a>
+
+            <!-- If the user doesn't log in with UH gmail, show alert -->
+            <% if (messages.length == 1) { %>
+            <div class="alert alert-danger" role="alert">
+              <%= messages %>
+            </div>
+            <% } %>
+
           <% } %>
 
         </div>

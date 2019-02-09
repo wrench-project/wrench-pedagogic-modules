@@ -25,6 +25,13 @@ passport.use(
     // of the information sent back by google, we only need
     // the email (email scope is specified in the route for the callbackURL)
     let email = profile['emails'][0]['value'];
-    done(null, email);
+    let domain = profile['_json']['hd'];
+
+    // restrict logins to be from <username>@hawaii.edu
+    if (domain === "hawaii.edu") {
+        done(null, email);
+    } else {
+        done(null, false, { message: "Log in with <username>@hawaii.edu" });
+    }
   })
 );

@@ -9,6 +9,7 @@ const express        = require("express"),
       passportSetup  = require("./passport-setup")
       cookieSession  = require("cookie-session"),
       request        = require("request"),
+      flash          = require("connect-flash"),
       keys           = require("./keys.js");
 
 app.set("view engine", "ejs");
@@ -16,6 +17,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(methodOverride("_method"));
+app.use(flash());
 
 app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000, // a day in milliseconds
@@ -41,7 +43,8 @@ var ansi_up = new au.default;
 
 // main route that will show login/logout and available activities
 app.get("/", function(req, res) {
-  res.render("index", {user: req.user});
+  res.render("index", {user: req.user,
+                        messages: req.flash("error")});
 });
 
 // login through google
@@ -50,9 +53,11 @@ app.get("/google", passport.authenticate("google", {
 }));
 
 // callback route for google to redirect to
-app.get("/google/redirect", passport.authenticate("google"), function(req, res) {
-  res.redirect("/");
-});
+app.get("/google/redirect", passport.authenticate("google", {
+    successRedirect: "/",
+    failureRedirect: "/",
+    failureFlash: true
+}));
 
 // logout route
 app.get("/logout", function(req, res) {
