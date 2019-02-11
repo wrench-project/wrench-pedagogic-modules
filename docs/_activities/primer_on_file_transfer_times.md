@@ -12,7 +12,7 @@ durations of data transfer times,  which is something you may not have
 done previously. Back-of-the-envelope estimates are not difficult to
 compute.
 For instance, sending 100MB of data over a network link with a
-1000MB/s bandwidth and a 0.001s latency would be estimated to take
+10MB/s bandwidth and a 0.001s latency would be estimated to take
 10.001 seconds. Real-world networks exhibit several hardware and software
 effects that are not captured by this estimate.
 In the upcoming pedagogic module we do not use real-world
@@ -21,7 +21,7 @@ networks and instead we simulate them. But simulations are done using
 [SimGrid](http://simgrid.org) simulation framework, which implements
 realistic simulation models that do capture many real-world network
 effects. So, in our simulations, sending 100MB of data over a network link
-with a 1000MB/s bandwidth and a 0.001s latency does not take 10.001
+with a 10MB/s bandwidth and a 0.001s latency does not take 10.001
 seconds (it takes longer, as it would in real-world networks).  When going
 through these pedagogic modules and inspecting execution timelines, you
 will thus note that your back-of-the-envelope calculations of data transfer
