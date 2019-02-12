@@ -99,7 +99,7 @@ areas of interest.
     *task4*'s input data from *storage_db.edu* to *hpc.edu* and to send all of *task4*'s output data
     from *hpc.edu* to *storage_db.edu*, using the direct link between these two hosts and assuming no other
     network traffic?
-  - [p7] Accounting for this I/O *overhead*, does *task4*'s execution time as experienced by the WMS make sense?
+  - [q7] Accounting for this I/O *overhead*, does *task4*'s execution time as experienced by the WMS make sense?
 
 {% comment %}
 
@@ -129,35 +129,35 @@ In the terminal run the following commands:
 2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
 3. open a browser and go to [localhost:3000/](localhost:3000/)
 4. sign in using your `<UH Username>@hawaii.edu` Google Account
-5. select `Activity 1: Running Your Firs Simulated Workflow Execution`
+5. select `Activity 1: Running Your First Simulated Workflow Execution`
 
 **Answer these questions**
-  - [q7] What fraction of *task0*'s execution time is spent doing I/O?
-  - [q8] What fraction of *task4*'s execution time is spent doing I/O?
-  - [q9] If the link bandwidth between *storage_db.edu* and *hpc.edu* were doubled, what should
-    the fraction of *task4*'s execution time is spent doing I/O be?
+  - [q8] What fraction of *task0*'s execution time is spent doing I/O?
+  - [q9] What fraction of *task4*'s execution time is spent doing I/O?
+  - [q10] If the link bandwidth between *storage_db.edu* and *hpc.edu* were doubled, 
+    what fraction of *task4*'s execution time will be spent doing I/O?
    Double the platform link bandwidth (set it to 20MBps) using the visualization and run the simulation.
       Is your expectation confirmed?
-  - [q10] With the link bandwidth doubled, how much faster is the workflow execution now than before?
-  - [q11] What link bandwidth would be necessary for the workflow to run 2x faster
+  - [q11] With the link bandwidth doubled, how much faster is the workflow execution now than before?
+  - [q12] What link bandwidth would be necessary for the workflow to run 2x faster
     than with the original 10MBps bandwidth? Hint: You can do this by solving a simple equation, and
      then check that your answer is correct using the simulation.
 
 {% comment %}
 
-q7. looking at the chart, read input = 75.77, write output = 75.77, entire task = 201.54,
+q8. looking at the chart, read input = 75.77, write output = 75.77, entire task = 201.54,
     so  (75.77 + 75.77) / 201.54 = 0.752 or about 75% of the time spent doing I/O
 
-q8. looking at the chart, read input = 56.29, write output = 10.82, entire task = 77.11
+q9. looking at the chart, read input = 56.29, write output = 10.82, entire task = 77.11
     so (56.29 + 10.82) / 77.11 = 0.87 or about 87% of the time spent doing I/O
 
-q9. read file time should be (120 + 200 + 200 + 100) / 20 = 31 + a little more for latency
+q10. read file time should be (120 + 200 + 200 + 100) / 20 = 31 + a little more for latency
     so 31 / (31 + 10) = 0.76 or about 76% of the time spent doing I/O
 
-q10. with the link bandwidth doubled in the visualization, we have task4 read input = 28.14, write output = 5.4
+q11. with the link bandwidth doubled in the visualization, we have task4 read input = 28.14, write output = 5.4
     and entire task = 43.55 so about (28.14 + 5.4) / 43.55 = 0.77 or about 77% of the time spent doing I/O
 
-q11. with the link bandwidth at 10MBps and a single remote storage service, execution time T = 505.73. we want T/2 or 252.86 seconds
+q12. with the link bandwidth at 10MBps and a single remote storage service, execution time T = 505.73. we want T/2 or 252.86 seconds
     so looking at the chart, i solve for B in 252.86 = (1/B)sum(read inputs) + compute times + (1/B)sum(write outputs)
     B = 3.6 and so the bandwidth should be increased to 36MBps to get a workflow execution twice as fast.. using the
     simulation, I can confirm that this is true
@@ -189,25 +189,21 @@ Using the visualization tool from Step 3, input *10MBps* as the link bandwidth.
 Select the radio button that says: *Storage Service on storage_db.edu and hpc.edu*. Run the simulation.
 
 **Answer these questions**
-  - [q12] What fraction of *task4* is spent doing I/O?
-  - [q13] How much faster is the workflow execution now than compared to what was observed in *Step 2*?
-  - [q14] Using only a single remote storage service, what would you need to increase the bandwidth to in order to have a workflow execution that is
-    faster than what was realized using a 10MBps link bandwidth with a storage service on storage_db.edu and hpc.edu?
-  - [q15] Other than affecting the workflow execution, what is another benefit of utilizing data locality?
+  - [q13] What fraction of *task4* is spent doing I/O?
+  - [q14] Compared to the workflow execution time observed in *Step 2*, how much faster is it now? 
+  - [q15] Using only a single remote storage service, what would you need to increase the bandwidth to in order to have a workflow execution that is
+    faster than what was realized using a 10MBps link bandwidth with a storage service on storage_db.edu and hpc.edu? 
 
 {% comment %}
 
-q12. looking at the chart, read input = 1.07, write output = 10.82, entire task = 21.9 so (1.07 + 10.82) / 21.9 = 0.54 or
+q13. looking at the chart, read input = 1.07, write output = 10.82, entire task = 21.9 so (1.07 + 10.82) / 21.9 = 0.54 or
     about 54% of task4 is spent doing I/O. what we saw in step 3 question 2 was that with the remote storage service,
     87% of task4 was spent doing I/O
 
-q13. (505.73 - 246.66) / 505.73 = 0.5122 or about 51.22% faster
+q14. (505.73 - 246.66) / 505.73 = 0.5122 or about 51.22% faster
 
-q14. using the same formula from step 3 number 5, i solve for B in (T with local storage) < (1/B)sum(read inputs) + compute times + (1/B)sum(write outputs)
+q15. using the same formula from step 3 number 5, i solve for B in (T with local storage) < (1/B)sum(read inputs) + compute times + (1/B)sum(write outputs)
   B = 3.85 so bandwidth should be roughly 39MBps or greater
-
-q15. that link could be freed for use by others. the system could have a higher throughput if more operations using that link were to be performed
-    while our CS jobs are using its local storage service
 
 {% endcomment %}
 
