@@ -20,23 +20,30 @@ function populateWorkflowTaskDataTable(data) {
         return parseInt(lhs.task_id.slice(4)) - parseInt(rhs.task_id.slice(4));
     });
 
+    let total_read_input_time = 0;
+    let total_compute_time = 0;
+    let total_write_output_time = 0;
+
     TASK_DATA.forEach(function(task) {
 
-        var task_id = task['task_id'];
+        let task_id = task['task_id'];
 
-        var read_start       = toFiveDecimalPlaces(task['read'].start);
-        var read_end         = toFiveDecimalPlaces(task['read'].end);
-        var read_duration    = toFiveDecimalPlaces(read_end - read_start);
+        let read_start       = toFiveDecimalPlaces(task['read'].start);
+        let read_end         = toFiveDecimalPlaces(task['read'].end);
+        let read_duration    = toFiveDecimalPlaces(read_end - read_start);
+        total_read_input_time += parseFloat(read_duration);
 
-        var compute_start    = toFiveDecimalPlaces(task['compute'].start);
-        var compute_end      = toFiveDecimalPlaces(task['compute'].end);
-        var compute_duration = toFiveDecimalPlaces(compute_end - compute_start);
+        let compute_start    = toFiveDecimalPlaces(task['compute'].start);
+        let compute_end      = toFiveDecimalPlaces(task['compute'].end);
+        let compute_duration = toFiveDecimalPlaces(compute_end - compute_start);
+        total_compute_time += parseFloat(compute_duration);
 
-        var write_start      = toFiveDecimalPlaces(task['write'].start);
-        var write_end        = toFiveDecimalPlaces(task['write'].end);
-        var write_duration   = toFiveDecimalPlaces(write_end - write_start);
+        let write_start      = toFiveDecimalPlaces(task['write'].start);
+        let write_end        = toFiveDecimalPlaces(task['write'].end);
+        let write_duration   = toFiveDecimalPlaces(write_end - write_start);
+        total_write_output_time += parseFloat(write_duration);
 
-        var task_duration    = toFiveDecimalPlaces(write_end - read_start);
+        let task_duration    = toFiveDecimalPlaces(write_end - read_start);
 
         task_details_table_body.append(
             '<tr id=' + task_id + '>'
@@ -54,4 +61,20 @@ function populateWorkflowTaskDataTable(data) {
             + '</tr>'
         );
     });
+
+    task_details_table_body.append(
+      '<tr>'
+      + '<td>Total Duration</td>'
+      + '<td></td>'
+      + '<td></td>'
+      + '<td>' + toFiveDecimalPlaces(total_read_input_time) +'</td>'
+      + '<td></td>'
+      + '<td></td>'
+      + '<td>' + toFiveDecimalPlaces(total_compute_time) +'</td>'
+      + '<td></td>'
+      + '<td></td>'
+      + '<td>' + toFiveDecimalPlaces(total_write_output_time) +'</td>'
+      + '<td>' + (total_read_input_time + total_compute_time + total_write_output_time) +'</td>'
+      + '</tr>'
+    );
 }
