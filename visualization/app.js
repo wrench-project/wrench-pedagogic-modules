@@ -114,6 +114,7 @@ app.post("/run/activity_1", authCheck, function(req, res) {
             "key": keys.dataServer.key,
             "data": {
               "user": req.user,
+              "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
               "activity": 1,
               "simulator": SIMULATOR,
               "link_bandwidth": LINK_BANDWIDTH
@@ -204,6 +205,7 @@ app.post("/run/activity_2", authCheck, function(req, res) {
               "key": keys.dataServer.key,
               "data": {
                 "user": req.user,
+                "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
                 "activity": 2,
                 "num_nodes": NUM_NODES,
                 "num_cores_per_node": NUM_CORES_PER_NODE,
