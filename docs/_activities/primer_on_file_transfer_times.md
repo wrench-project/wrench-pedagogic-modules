@@ -11,8 +11,8 @@ When going through these pedagogic modules, you will need to estimate
 durations of data transfer times,  which is something you may not have
 done previously. Back-of-the-envelope estimates are not difficult to
 compute.
-For instance, sending 100MB of data over a network link with a
-10MB/s bandwidth and a 0.001s latency would be estimated to take
+For instance, sending 100 MB of data over a network link with an
+effective bandwidth of 10 MB/sec and a 0.001s latency would be estimated to take
 10.001 seconds. Real-world networks exhibit several hardware and software
 effects that are not captured by this estimate.
 In the upcoming pedagogic module we do not use real-world
@@ -20,10 +20,17 @@ networks and instead we simulate them. But simulations are done using
 [WRENCH](http://wrench-project.org/), which is based on the
 [SimGrid](http://simgrid.org) simulation framework, which implements
 realistic simulation models that do capture many real-world network
-effects. So, in our simulations, sending 100MB of data over a network link
-with a 10MB/s bandwidth and a 0.001s latency does not take 10.001
-seconds (it takes longer, as it would in real-world networks).  When going
-through these pedagogic modules and inspecting execution timelines, you
+effects. So, in our simulations, sending 100 MB of data over a network link
+with an effective bandwidth of 10 MB/sec and a 0.001s latency does not take 10.001
+seconds (it takes longer, as it would in real-world networks).
+
+Here we have used the term, *effective bandwidth*, to denote the maximum *possible*
+throughput that a network link is able to achieve. Due to various network overheads,
+a network link can have a throughput of at most 92% its advertised bandwidth. From this
+point forward, when we describe the bandwidth of a network link, we are describing
+its *effective bandwidth*.
+
+When going through these pedagogic modules and inspecting execution timelines, you
 will thus note that your back-of-the-envelope calculations of data transfer
 times, which are sufficient to answer all questions, do not exactly align
 with the simulation. In other words, it is normal to see some discrepancies
@@ -53,8 +60,8 @@ Then we can estimate, naively, the file transfer time with the following:
 $$
 \begin{align}
 
- T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{100MBps} \\
-  & = 3(0.0001s) + \frac{100MB}{100MBps} \\
+ T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{100\;MB/sec} \\
+  & = 3(0.0001s) + \frac{100\;MB}{100\;MB/sec} \\
   & = 1.0003s.
 
 \end{align}
@@ -64,50 +71,24 @@ This is correct because all 3 links have the same bandwidth, i.e., our estimate
 assumes there is a single link with a latency that is the sum of the latencies.
 Using [WRENCH](http://wrench-project.org/) to simulate this scenario, we
 would observe a file transfer time of 1.098119 seconds.
-As previously mentioned, [SimGrid](http://simgrid.org) models several network overheads
-and network protocol (TCP) effects. In fact, due to network data overheads,
-only 92% of the maximum physical bandwidth of a link can be used for the
-data transfer.
-We can account for this phenomenon by modifying
-our equation to be:
-
-$$
-\begin{align}
-
-T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{0.92(100MBps)} \\
-  & = 3(0.0001s) + \frac{100MB}{0.92(100MBps)} \\
-  & = 1.0872s
-
-\end{align}
-$$
-
-This estimate is much closer to what is observed in simulation. However, a
-discrepancy still exists, because our estimate does not capture many
-other network effects, e.g., the famous TCP "slow start" behavior (see a
-networking course). Attempting to estimate the data transfer time more
-precisely would be difficult (which is why ultimately one must rely on
-simulation). But, in all the upcoming pedagogic modules, you can use either
-of the two above equations to obtain useful, but somewhat inaccurate,
-estimates of data transfer times.
-
 
 ### Scenario 2: A bottleneck link
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_file_transfer_times/scenario_2.svg">Scenario 2</object>
 
 *About how long should it take to send a single 100 MB file from "host1" to "host2" given that the middle network link now
-has a bandwidth of only 10MBps?* It is almost always the case in practice that data will be transmitted over a heterogeneous set of
+has a bandwidth of only 10 MB/sec?* It is almost always the case in practice that data will be transmitted over a heterogeneous set of
 network links. Along a route, the data transfer rate is bounded by the link with the
 smallest bandwidth, or the *bottleneck link*. In this scenario, the
-bottleneck link is the middle link, which has a bandwidth of 10MBps. We
+bottleneck link is the middle link, which has a bandwidth of 10 MB/sec. We
 can thus modify the estimate for the previous scenario by using a $min$
 operator:
 
 $$
 \begin{align}
 
-T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{0.92 (\min\limits_{l \in r} Bandwidth(l))} \\
-  & = 3(0.0001s) + \frac{100MB}{0.92(10MBps)} \\
+T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{\min\limits_{l \in r} Bandwidth(l)} \\
+  & = 3(0.0001s) + \frac{100\;MB}{10\;MB/sec} \\
   & = 10.8698
 
 \end{align}
@@ -126,8 +107,8 @@ concurrently. Building off of the previous equation, we have the following:
 $$
 \begin{align}
 
-T_{2files} & = \sum_{l \in r} Latency(l) + \frac{nm}{0.92 (\min\limits_{l \in r} Bandwidth(l))} \\
-  & = 3(0.0001s) + \frac{2 * 75MB}{0.92(100MBps)} \\
+T_{2files} & = \sum_{l \in r} Latency(l) + \frac{nm}{\min\limits_{l \in r} Bandwidth(l)} \\
+  & = 3(0.0001s) + \frac{2 * 75\;MB}{100\;MB/sec} \\
   & = 1.63073s
 
 \end{align}
@@ -149,7 +130,7 @@ terminal, run the following commands.
 2. Run the simulator: `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 <num_files> <file_size> <center_link_bandwidth>`
     - `num_files`: the number of files to transfer, in the range [1, 100]
     - `file_size`: the size of each file (in MB), in the range [1, 1000]
-    - `center_link_bandwidth`: the bandwidth of the middle link (in MBps), in the range [1, 1000]
+    - `center_link_bandwidth`: the bandwidth of the middle link (in MB/sec), in the range [1, 1000]
 
 For example, the command `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 2 75 100` will simulate
 scenario 3 and print the following output to your screen:
@@ -180,7 +161,7 @@ Throughout the upcoming pedagogic modules, you will be asked to estimate
 application execution times given specific hardware constraints. Your
 estimates will be sufficient to answer all questions but will not be 100%
 correct. We will be using simulation to verify that the estimates are close
-to real-world values. Continue to the next section, [Activity 1: Running
-Your First Simulated Workflow Execution]({{ site.baseurl
-}}/activities/activity_1), where we will begin running basic
-[WRENCH](http://wrench-project.org/) simulations.
+to real-world values. Continue to the next section, [A Primer on Workflow
+Executions]({{ site.baseurl
+}}/activities/primer_on_workflow_executions), where we will examine the sequence
+of events that make up a simple workflow execution.
