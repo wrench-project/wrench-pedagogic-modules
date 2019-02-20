@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 'Activity 1: Running Your First Simulated Workflow Execution'
-order: 2
+order: 3
 ---
 
 1. [Learning objectives](#learning-objectives)
@@ -134,13 +134,13 @@ In the terminal run the following commands:
 **Answer these questions**
   - [q8] What fraction of *task0*'s execution time is spent doing I/O?
   - [q9] What fraction of *task4*'s execution time is spent doing I/O?
-  - [q10] If the link bandwidth between *storage_db.edu* and *hpc.edu* were doubled, 
+  - [q10] If the link bandwidth between *storage_db.edu* and *hpc.edu* were doubled,
     what fraction of *task4*'s execution time will be spent doing I/O?
-   Double the platform link bandwidth (set it to 20MBps) using the visualization and run the simulation.
+   Double the platform link bandwidth (set it to 20 MB/sec) using the visualization and run the simulation.
       Is your expectation confirmed?
   - [q11] With the link bandwidth doubled, how much faster is the workflow execution now than before?
   - [q12] What link bandwidth would be necessary for the workflow to run 2x faster
-    than with the original 10MBps bandwidth? Hint: You can do this by solving a simple equation, and
+    than with the original 10 MB/sec bandwidth? Hint: You can do this by solving a simple equation, and
      then check that your answer is correct using the simulation.
 
 {% comment %}
@@ -157,9 +157,9 @@ q10. read file time should be (120 + 200 + 200 + 100) / 20 = 31 + a little more 
 q11. with the link bandwidth doubled in the visualization, we have task4 read input = 28.14, write output = 5.4
     and entire task = 43.55 so about (28.14 + 5.4) / 43.55 = 0.77 or about 77% of the time spent doing I/O
 
-q12. with the link bandwidth at 10MBps and a single remote storage service, execution time T = 505.73. we want T/2 or 252.86 seconds
+q12. with the link bandwidth at 10 MB/sec and a single remote storage service, execution time T = 505.73. we want T/2 or 252.86 seconds
     so looking at the chart, i solve for B in 252.86 = (1/B)sum(read inputs) + compute times + (1/B)sum(write outputs)
-    B = 3.6 and so the bandwidth should be increased to 36MBps to get a workflow execution twice as fast.. using the
+    B = 3.6 and so the bandwidth should be increased to 36 MB/sec to get a workflow execution twice as fast.. using the
     simulation, I can confirm that this is true
 
 {% endcomment %}
@@ -185,14 +185,14 @@ we have enhanced our previous WMS implementation so that it tells the CS to use 
 read and write operations for intermediate files.
 Figure 3 above illustrates our new cyber infrastructure and WMS/Workflow scenario.
 
-Using the visualization tool from Step 3, input *10MBps* as the link bandwidth.
+Using the visualization tool from Step 3, input *10 MB/sec* as the link bandwidth.
 Select the radio button that says: *Storage Service on storage_db.edu and hpc.edu*. Run the simulation.
 
 **Answer these questions**
   - [q13] What fraction of *task4* is spent doing I/O?
-  - [q14] Compared to the workflow execution time observed in *Step 2*, how much faster is it now? 
+  - [q14] Compared to the workflow execution time observed in *Step 2*, how much faster is it now?
   - [q15] Using only a single remote storage service, what would you need to increase the bandwidth to in order to have a workflow execution that is
-    faster than what was realized using a 10MBps link bandwidth with a storage service on storage_db.edu and hpc.edu? 
+    faster than what was realized using a 10 MB/sec link bandwidth with a storage service on storage_db.edu and hpc.edu?
 
 {% comment %}
 
@@ -203,7 +203,7 @@ q13. looking at the chart, read input = 1.07, write output = 10.82, entire task 
 q14. (505.73 - 246.66) / 505.73 = 0.5122 or about 51.22% faster
 
 q15. using the same formula from step 3 number 5, i solve for B in (T with local storage) < (1/B)sum(read inputs) + compute times + (1/B)sum(write outputs)
-  B = 3.85 so bandwidth should be roughly 39MBps or greater
+  B = 3.85 so bandwidth should be roughly 39 MB/sec or greater
 
 {% endcomment %}
 

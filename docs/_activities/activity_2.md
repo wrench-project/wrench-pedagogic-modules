@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 'Activity 2: Parallelism'
-order: 3
+order: 4
 ---
 
 1. [Learning objectives](#learning-objectives)
