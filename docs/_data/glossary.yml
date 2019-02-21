@@ -1,0 +1,53 @@
+# terms are sorted alphabetically when displayed in the glossary
+# each term should be entered in the following format:
+# - term: <word>
+#   description: <word's description>
+
+# section: what is this about?
+- term: workflow
+  description: an application comprised of individual computational tasks that
+               must execute in some particular sequence to produce a final desired
+               output
+
+- term: directed acyclic graph (DAG)
+  description: a directed graph containing no cycles, often the representation of a
+               workflow
+
+- term: cyber infrastructure
+  description: a set of hardware resources (hardware infrastructure) managed by
+               software infrastructures
+
+- term: workflow management system (WMS)
+  description: a program that automatically orchestrates the execution of a workflow
+               on some cyber infrastructure
+
+# section: primer on file transfer times
+- term: bandwidth
+  description: rate of data transfer across a network link, measured in bytes per second
+
+- term: latency
+  description: the time it takes for a packet to travel from one end of the network
+               link to another once it has been pushed out onto the network
+
+# section: primer on workflow executions
+- term: persistant storage
+  description: a storage device such as a hard drive that retains data even after
+               the power has been shut off
+
+- term: storage service
+  description: a service that stores files and handles read and write requests
+
+- term: compute service
+  description: a service that can execute computational tasks
+
+- term: floating point operation (flop)
+  description:
+
+- term: stage (file)
+  description:
+
+# section: activity 1 - running your first simulated workflow execution
+
+# section: activity 2 - parallelism
+
+# section: activity 3 - the right tool for the job
