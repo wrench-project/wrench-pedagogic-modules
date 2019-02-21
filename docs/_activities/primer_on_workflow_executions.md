@@ -8,35 +8,35 @@ usemathjax: true
 ### Overview
 
 Now that you have been introduced to *workflows*, *workflow management systems (WMS)*,
-and *cyber infrastructure*, and *file transfer times*, we
-proceed by taking a closer look into what actually happens when *workflows*
-are executed by a *WMS* on some *cyber infrastructure* (platform). First we must describe a
-scenario, a context from which we can observe the workflow execution. This includes
+*cyber infrastructure*, and *file transfer times*, we
+proceed by taking a closer look into what actually happens when *workflows* (the applications)
+are executed by a *WMS* (the software to manage application executions) on some *cyber infrastructure* (the execution platform). First we describe a
+scenario that provides a specific context for observing the execution of a workflow. This includes
 the composition of the workflow, the platform specifications, and
-finally the WMS implementation. Then we will examine the sequence of events that
-make up the workflow execution and formulate a simple equation to model
-its expected execution time.
+finally the WMS implementation. Then we detail the sequence of workflow execution events and formulate a simple equation to model
+the expected execution time.
 
 ### Scenario
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/
 primer_on_workflow_executions/workflow.svg">Workflow</object>
 
-Figure 1 illustrates the DAG representation of the workflow for this
-scenario. *task0* requires the file, *task0::0.in*, as input and produces the file
-*task0::0.out* as output. *task1* requires the output of *task0*, (*task0::0.out*),
-as its input. Finally, *task1* produces the file, *task1::0.out*, as its output.
-In order to orchestrate the execution of this workflow, a WMS needs access to two types
-of resources: persistent storage to read/write files to/from and a compute resource
-to perform the computation required by each task.
+Figure 1 illustrates the DAG representation of the workflow for our
+scenario. *task0* requires the file *task0::0.in* as its input and produces
+the file *task0::0.out* as output. *task1* requires the output of *task0*
+(file *task0::0.out*) as its input and produces the file *task1::0.out* as
+output.  In order to orchestrate the execution of this workflow, a WMS
+needs access to two types of resources: persistent storage to read/write
+files to/from and a compute resource to perform the computation required by
+each task.
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/
 primer_on_workflow_executions/platform.svg">Workflow</object>
 
-The platform in Figure 2 depicts the cyber infrastructure on which we can execute
-this workflow. In this scenario, the WMS resides on the host, *my_lab_computer.edu*,
-and has access to both the Storage Service on *storage_db.edu* and the Compute Service
-on *hpc.edu*.
+The platform in Figure 2 depicts the cyber infrastructure on which we can
+execute this workflow. In this scenario, the WMS resides on the host
+*my_lab_computer.edu*, and has access to both the Storage Service on host
+*storage_db.edu* and the Compute Service on host *hpc.edu*.
 
 **Storage Service**. A Storage Service (SS) stores files and handles read and write
 requests. For example, if *my_lab_computer.edu* would like to read a file from
@@ -45,35 +45,34 @@ file will be sent over the network from *storage_db.edu* to *my_lab_computer.edu
 (downloaded from *storage_db.edu* to *my_lab_computer.edu*). Say, for example, this
 file is 100 MB, and the link between the two hosts has an effective bandwidth of
 10 MB/sec and a latency of 10 microseconds. The estimated amount of time it will take
-to perform the *file read* operation is as follows:
+to perform the *file read* operation can be estimated as follows:
 
 $$
 \begin{align}
 
   T_{read\:100MB\:file} & = latency + \frac{file\;size}{bandwidth} \\
                         & = 10us + \frac{100\;MB}{10\;MB/sec} \\
-                        & = 10.000010\;seconds
+                        & = 10.000010\;seconds \simeq 10\;seconds
 
 \end{align}
 $$
 
-**Compute Service**. A Compute Service (CS) will execute tasks that the WMS submits
-to it. Typically, a compute service will have access to faster hardware than
-your typical machine and so it can be more efficient to execute tasks via a
-compute service. For example, say we were to perform 100 TFlops of computation
-on *my_lab_computer.edu*. This is expected to take:
+**Compute Service**. A Compute Service (CS) can execute tasks submited to it by the WMS.  Typically, a compute service will have access to faster hardware than
+your typical machine and so it can execute workflow tasks faster.
+For example, say we were to perform 100 TFlops of computation
+on *my_lab_computer.edu* (which computes at speed 35 GFlop/sec, as seen in the figure). This is expected to take:
 
 $$
 \begin{align}
 
  T_{task0\:computation} & = \frac{100 * 10^{12}\;flop}{35 * 10^{9}\;flop/sec} \\
-           & = 2857.14\;seconds
+           & \simeq 2857.14\;seconds
 
 \end{align}
 $$  
 
 If instead we were to perform 100 TFlops of computation via the CS on
-*hpc.edu*, this is expected to take:
+*hpc.edu* (which computes at speed 1000 GFlop/sec) , this computation is expected to take:
 
 $$
 \begin{align}
@@ -84,20 +83,19 @@ $$
 \end{align}
 $$
 
-The CS is able to compute 100 Tflops *28* times faster than *my_lab_computer.edu*,
-and so our WMS in this example is implemented to utilize that resource for
-executing tasks.
+The CS is able to compute 100 Tflops about *28* times faster than *my_lab_computer.edu*. In our scenario, the WMS only uses the CS on *hpc.eduh* to execute
+workflow tasks. 
 
 
 **Workflow Management System**. The WMS in this scenario greedily submits
 tasks to the CS once they become ready. A task is ready to be submitted by the
 WMS when it has been notified that the current task's parent task(s) has
-been completed. For example, the WMS can submit *task1* to the CS, once the
-CS notifies the WMS that *task0* has completed (once the output of *task0* has been
+been completed. For example, the WMS can submit *task1* to the CS only once the
+CS notifies the WMS that *task0* has completed (i.e., the output of *task0* has been
 produced and saved somewhere). When the WMS submits a task to the CS, it
 specifies that all file read and write operations be done through the Remote Storage
 Service located at *storage_db.edu*. Additionally, the initial input file, *task0::0.in*,
-is assumed to already be "staged" in the SS.  
+is assumed to already be "staged" at the SS.  
 
 ### The Workflow Execution
 
@@ -111,7 +109,7 @@ primer_on_workflow_executions/workflow_execution.svg">Workflow Execution</object
 
 Notice that in step 3, the CS writes the output file to the SS, then immediately
 reads that file back from the SS in step 4. This happens because file operations
-are assigned to the SS at *storage_db.edu*, therefore the file, *task0::0.out*
+are assigned to the SS at *storage_db.edu*, therefore file *task0::0.out*
 simply cannot be "cached" by the CS for reuse.
 
 Using figure 3 as a guide and the two formulas stated above, we can estimate the
@@ -124,7 +122,7 @@ $$
   T_{task0} & = T_{step1} + T_{step2} + T_{step3} \\
             & = (10us + \frac{200\;MB}{10\;MB/sec}) + (\frac{100*10^{12}\;flop}{10^{12}flop/sec}) + (10us + \frac{400\;MB}{10\;MB/sec}) \\
             & = 20.000010 + 100 + 40.000010 \\
-            & = 160.000020\;seconds
+            & = 160.000020\;seconds \simeq 160\;seconds
 
 \end{align}
 $$
@@ -137,7 +135,7 @@ $$
   T_{task1} & = T_{step4} + T_{step5} + T_{step6} \\
             & = (10us + \frac{400\;MB}{10\;MB/sec}) + (\frac{35*10^{12}\;flop}{10^{12}flop/sec}) + (10us + \frac{100\;MB}{10\;MB/sec}) \\
             & = 40.000010 + 35 + 10.000010 \\
-            & = 85.000020\;seconds
+            & = 85.000020\;seconds \simeq 85\;seconds
 
 \end{align}
 $$
@@ -149,8 +147,8 @@ $$
 \begin{align}
 
   T_{workflow\;execution\;time} & = T_{task0} + T_{task1} \\
-                                & = 160.000020 + 85.000020 \\
-                                & = 245.000040\;seconds
+                                & \simeq 160 + 85 \\
+                                & = 245\;seconds
 
 \end{align}
 $$
