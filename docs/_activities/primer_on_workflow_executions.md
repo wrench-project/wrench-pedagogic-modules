@@ -14,7 +14,7 @@ are executed by a *WMS* (the software to manage application executions) on some 
 scenario that provides a specific context for observing the execution of a workflow. This includes
 the composition of the workflow, the platform specifications, and
 finally the WMS implementation. Then we detail the sequence of workflow execution events and formulate a simple equation to model
-the expected execution time.
+the expected execution time (or *makespan*).
 
 ### Scenario
 
@@ -141,12 +141,12 @@ $$
 $$
 
 *task0* and *task1* are executed sequentially therefore the total estimated
-execution time of our workflow will be:
+makespan of our workflow will be:
 
 $$
 \begin{align}
 
-  T_{workflow\;execution\;time} & = T_{task0} + T_{task1} \\
+  T_{workflow\;makespan} & = T_{task0} + T_{task1} \\
                                 & \simeq 160 + 85 \\
                                 & = 245\;seconds
 

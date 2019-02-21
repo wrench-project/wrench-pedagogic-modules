@@ -110,7 +110,7 @@ commands:
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_1.svg">Compute Service 1</object>
 
-  - [q1] Assuming the cluster has 1 single-core compute node (Figure 5), what do you expect the makespan of the workflow to be?
+  - [q1] Assuming the cluster has 1 single-core compute node (Figure 5), what do you expect the overall execution time, or *makespan*, of the workflow to be?
   To this end, write a simple formula. In the visualization tool,  
   set the cluster to have 1 single-core node. Run the simulation and check your answer. (Note that you might not be able to see file transfer operations in the displayed Gantt charts because these operations could very short relatively to the overall makespan.)
   - [q2] Based on the dependencies present in the workflow, what tasks could we potentially
