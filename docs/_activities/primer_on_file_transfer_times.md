@@ -61,8 +61,8 @@ $$
 \begin{align}
 
  T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{100\;MB/sec} \\
-  & = 3(0.0001s) + \frac{100\;MB}{100\;MB/sec} \\
-  & = 1.0003s.
+  & = 3(0.0001\;sec) + \frac{100\;MB}{100\;MB/sec} \\
+  & = 1.0003\;seconds.
 
 \end{align}
 $$
@@ -70,7 +70,7 @@ $$
 This is correct because all 3 links have the same bandwidth, i.e., our estimate
 assumes there is a single link with a latency that is the sum of the latencies.
 Using [WRENCH](http://wrench-project.org/) to simulate this scenario, we
-would observe a file transfer time of 1.098119 seconds.
+would observe a file transfer time of 1.0656522 seconds.
 
 ### Scenario 2: A bottleneck link
 
@@ -88,13 +88,13 @@ $$
 \begin{align}
 
 T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{\min\limits_{l \in r} Bandwidth(l)} \\
-  & = 3(0.0001s) + \frac{100\;MB}{10\;MB/sec} \\
-  & = 10.8698
+  & = 3(0.0001\;sec) + \frac{100\;MB}{10\;MB/sec} \\
+  & = 10.0003\;seconds
 
 \end{align}
 $$
 
-Simulation results for this scenario show that the date transfer would in fact take 10.8406 seconds. There is thus, here again, a small discrepancy.
+Simulation results for this scenario show that the date transfer would in fact take 10.5159 seconds. There is thus, here again, a small discrepancy.
 
 ### Scenario 3: Two concurrent file transfers
 
@@ -108,14 +108,14 @@ $$
 \begin{align}
 
 T_{2files} & = \sum_{l \in r} Latency(l) + \frac{nm}{\min\limits_{l \in r} Bandwidth(l)} \\
-  & = 3(0.0001s) + \frac{2 * 75\;MB}{100\;MB/sec} \\
-  & = 1.63073s
+  & = 3(0.0001\;sec) + \frac{2 * 75\;MB}{100\;MB/sec} \\
+  & = 1.5003\;seconds
 
 \end{align}
 $$
 
 Based on the simulation results, the 2 concurrent file transfers should
-take about 1.6335 seconds. Again, the estimate is close, but does not align
+take about 1.5867 seconds. Again, the estimate is close, but does not align
 perfectly with the simulation.
 
 ### Try the file transfer simulation
@@ -141,10 +141,10 @@ scenario 3 and print the following output to your screen:
 ------------------------------------
        files transferred: 2
                file size: 75 MB
-            min duration: 1.6315617
-            max duration: 1.6354868
-           mean duration: 1.6335243
-coefficient of variation: 0.12%
+            min duration: 1.582861
+            max duration: 1.5867855
+           mean duration: 1.5848232
+coefficient of variation: 0.124%
 ```
 
 Notice that some statistics are provided about the file transfers.
