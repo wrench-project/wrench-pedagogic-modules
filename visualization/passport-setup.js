@@ -28,10 +28,12 @@ passport.use(
     let domain = profile['_json']['hd'];
 
     // restrict logins to be from <username>@hawaii.edu
-    if (domain === "hawaii.edu") {
-        done(null, email);
-    } else {
-        done(null, false, { message: "Log in with <username>@hawaii.edu" });
-    }
+    //if (domain === "hawaii.edu") {
+    //    done(null, email);
+    //} else {
+    //    done(null, false, { message: "Log in with <username>@hawaii.edu" });
+    //}
+
+    done(null, email);
   })
 );
