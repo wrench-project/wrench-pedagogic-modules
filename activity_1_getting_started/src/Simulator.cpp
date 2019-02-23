@@ -47,14 +47,14 @@ void generateWorkflow(wrench::Workflow *workflow) {
 /**
  * @brief Generate the platform file for activity 1
  * @param platform_file_path: path to write the file to
- * @param link_bandwidth: desired bandwidth in MBps
+ * @param effective_bandwidth: effective bandwidth in MBps
  */
-void generatePlatform(std::string platform_file_path, int bandwidth) {
+void generatePlatform(std::string platform_file_path, int effective_bandwidth) {
     if (platform_file_path.empty()) {
         throw std::invalid_argument("generatePlatform() platform_file_path cannot be empty");
     }
 
-    if (bandwidth < 1 ) {
+    if (effective_bandwidth < 1 ) {
         throw std::invalid_argument("generatePlatform() bandwidth must be greater than 1");
     }
 
@@ -66,7 +66,8 @@ void generatePlatform(std::string platform_file_path, int bandwidth) {
                       "       <host id=\"hpc.edu\" speed=\"1000Gf\" core=\"1\"/>\n"
                       "       <host id=\"storage_db.edu\" speed=\"1000Gf\" core=\"1\"/>\n"
 
-                      "       <link id=\"1\" bandwidth=\"10MBps\" latency=\"10us\"/>\n"
+                      "       <!-- effective bandwidth = 10 MBps-->"
+                      "       <link id=\"1\" bandwidth=\"10.309MBps\" latency=\"10us\"/>\n"
 
                       "       <route src=\"my_lab_computer.edu\" dst=\"hpc.edu\">\n"
                       "           <link_ctn id=\"1\"/>\n"
@@ -87,6 +88,11 @@ void generatePlatform(std::string platform_file_path, int bandwidth) {
     if (xml_doc.load_string(xml_string.c_str(), pugi::parse_doctype)) {
 
         pugi::xml_node link = xml_doc.child("platform").child("zone").child("link");
+
+        // entering (effective_bandwidth / 0.97) as bandwidth into the simulation
+        // so that the max bandwidth we can achieve is the effective_bandwidth
+        double bandwidth = effective_bandwidth / 0.97;
+
         link.attribute("bandwidth").set_value(std::string(std::to_string(bandwidth) + "MBps").c_str());
         xml_doc.save_file(platform_file_path.c_str());
 

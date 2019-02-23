@@ -43,7 +43,7 @@ Workflows are often comprised of many tasks that are computationally intensive a
 
 ## What is a Workflow Management System?
 
-A Workflow Management System (WMS) is a program that automatically orchestrates the execution of workflows on cyberinfrastructures. To do so, most WMSs implement decision-making algorithms for optimizing workflow execution performance given available hardware resources. WMS and the algorithms they employ are the object of extensive research in the field of distributed computing.
+A Workflow Management System (WMS) is a program that automatically orchestrates the execution of workflows on cyber infrastructures. To do so, most WMSs implement decision-making algorithms for optimizing workflow execution performance given available hardware resources. WMS and the algorithms they employ are the object of extensive research in the field of distributed computing.
 
 ## Simulating a workflow execution
 

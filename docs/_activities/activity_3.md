@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 'Activity 3: The Right Tool for the Job'
-order: 4
+order: 5
 ---
 
 1. [Learning objectives](#learning-objectives)
@@ -78,9 +78,9 @@ Given your budget, you thus have 3 options:
 
 | Option | Cores |  RAM  | Link Bandwidth |  Cost  |
 |:------:|:-----:|:-----:|:--------------:|:------:|
-|    1   |   2   | 32 GB |   1,000 MBps   | $1,500 |
-|    2   |   4   | 16 GB |   1,000 MBps   | $1,400 |
-|    3   |   4   | 32 GB |    100 MBps    |  $700  |
+|    1   |   2   | 32 GB |  1,000 MB/sec  | $1,500 |
+|    2   |   4   | 16 GB |  1,000 MB/sec  | $1,400 |
+|    3   |   4   | 32 GB |   100 MB/sec   |  $700  |
 
 
 **Answer these questions**
@@ -117,7 +117,7 @@ q4. (3 * 2000 / 100) + 100 + 10 + (0.003 / 100) = 170.00003s
       Use your findings from the previous step to strengthen your claim.
 
 {% comment %}
-q5. Option 3: 4 cores, 32 gb ram, 100 mbps bandwidth. This option allows the CS to execute the initial three tasks
+q5. Option 3: 4 cores, 32 gb ram, 100 MB/sec bandwidth. This option allows the CS to execute the initial three tasks
     in parallel. The other options allow the CS to execute either 2 or no tasks in parallel. With the base configuration,
     the majority of the time executing the workflow is spent doing computation (about 310 seconds), therefore
     being able to execute 3 tasks in parallel proves to be most effective in reducing the workflow execution time.

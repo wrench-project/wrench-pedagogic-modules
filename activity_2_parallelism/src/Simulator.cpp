@@ -91,8 +91,9 @@ void generatePlatformWithHPCSpecs(std::string platform_file_path, int num_nodes,
                       "<!DOCTYPE platform SYSTEM \"http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd\">\n"
                       "<platform version=\"4.1\">\n"
                       "   <zone id=\"AS0\" routing=\"Full\">\n"
+                      "     <!-- effective bandwidth = 1250 MBps -->\n"
                       "     <cluster id=\"hpc.edu\" prefix=\"hpc.edu/node_\" suffix=\"\" radical=\"0-";
-            xml += std::to_string(num_nodes)  + "\" core=\"" + std::to_string(num_cores) + "\" speed=\"1000Gf\" bw=\"10Gbps\" lat=\"10us\" router_id=\"hpc_gateway\">\n";
+            xml += std::to_string(num_nodes)  + "\" core=\"" + std::to_string(num_cores) + "\" speed=\"1000Gf\" bw=\"1288.6597MBps\" lat=\"10us\" router_id=\"hpc_gateway\">\n";
             xml += "         <prop id=\"ram\" value=\"32000000000\"/>\n";
             xml += "        </cluster>\n";
             xml += "      <zone id=\"AS2\" routing=\"Full\">\n";
@@ -101,7 +102,8 @@ void generatePlatformWithHPCSpecs(std::string platform_file_path, int num_nodes,
             xml += "      <zone id=\"AS3\" routing=\"Full\">\n";
             xml += "          <host id=\"my_lab_computer.edu\" speed=\"1000Gf\" core=\"1\"/>\n";
             xml += "      </zone>\n";
-            xml += "      <link id=\"link1\" bandwidth=\"1Gbps\" latency=\"100us\"/>\n";
+            xml += "      <!-- effective bandwidth = 125 MBps -->\n";
+            xml += "      <link id=\"link1\" bandwidth=\"128.8659MBps\" latency=\"100us\"/>\n";
             xml += "      <zoneRoute src=\"AS2\" dst=\"hpc.edu\" gw_src=\"storage_db.edu\" gw_dst=\"hpc_gateway\">\n";
             xml += "        <link_ctn id=\"link1\"/>\n";
             xml += "      </zoneRoute>\n";
