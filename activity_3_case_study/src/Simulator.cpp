@@ -77,15 +77,15 @@ void generateTaskJoinWorkflow(wrench::Workflow *workflow, double input_file_size
  * @param platform_file_path: the path where the platform.xml file will be written to
  * @param num_cores: number of cores on host infrastructure.org/compute
  * @param ram: ram on host infrastructure.org/compute
- * @param bandwidth_of_link_to_remote_ss: bandwidth of link2
+ * @param effective_bandwidth_of_link_to_remote_ss: effective bandwidth of link2
  * @throws std::invalid_argument
  */
-void generatePlatform(std::string platform_file_path, int num_cores, int ram_in_GB, int bandwidth_of_link_to_remote_ss) {
+void generatePlatform(std::string platform_file_path, int num_cores, int ram_in_GB, int effective_bandwidth_of_link_to_remote_ss) {
     if (platform_file_path.empty()) {
         throw std::invalid_argument("generatePlatform() platform_file_path cannot be empty");
     }
 
-    if (bandwidth_of_link_to_remote_ss < 1 ) {
+    if (effective_bandwidth_of_link_to_remote_ss < 1 ) {
         throw std::invalid_argument("generatePlatform() bandwidth must be greater than 1");
     }
 
@@ -100,9 +100,9 @@ void generatePlatform(std::string platform_file_path, int num_cores, int ram_in_
                              "       </host>\n"
 
                              "       <host id=\"infrastructure.org/storage\" speed=\"1000Gf\" core=\"1\"/>\n"
-
-                             "       <link id=\"link1\" bandwidth=\"100MBps\" latency=\"100us\"/>\n"
-                             "       <link id=\"link2\" bandwidth=\"100MBps\" latency=\"100us\"/>\n"
+                             "       <!-- effective bandwidth 100 MBps -->"
+                             "       <link id=\"link1\" bandwidth=\"103.092MBps\" latency=\"100us\"/>\n"
+                             "       <link id=\"link2\" bandwidth=\"103.092MBps\" latency=\"100us\"/>\n"
 
                              "       <route src=\"my_work_computer.org\" dst=\"infrastructure.org/compute\">\n"
                              "           <link_ctn id=\"link1\"/>\n"
@@ -129,9 +129,14 @@ void generatePlatform(std::string platform_file_path, int num_cores, int ram_in_
         infrastructure_compute.find_child_by_attribute("prop", "id", "ram").attribute("value").set_value(ram_in_bytes);
 
         // set bandwidth of link between compute service host and storage service host
+
+        // entering (effective_bandwidth / 0.97) as bandwidth into the simulation
+        // so that the max bandwidth we can achieve is the effective_bandwidth
+        double bandwidth = effective_bandwidth_of_link_to_remote_ss / 0.97;
+
         pugi::xml_node link_to_remote_storage = zone.find_child_by_attribute("link", "id", "link2");
         link_to_remote_storage.attribute("bandwidth").set_value(std::string(
-                std::to_string(bandwidth_of_link_to_remote_ss) + "MBps").c_str());
+                std::to_string(bandwidth) + "MBps").c_str());
 
         xml_doc.save_file(platform_file_path.c_str());
 
@@ -196,7 +201,7 @@ int main(int argc, char **argv) {
         std::cerr << "Usage: activity_0_simulator <num_cores> <ram> <bandwidth> <input_file_size" << std::endl;
         std::cerr << "    num_cores: number of cores on compute service host [1, " + std::to_string(MAX_NUM_CORES) + "]" << std::endl;
         std::cerr << "    ram: amount of ram on compute service host [1, " + std::to_string(MAX_RAM_IN_GB) + "] GB" << std::endl;
-        std::cerr << "    bandwidth: the bandwidth of the link between compute and storage hosts, a value in the range of [1, " + std::to_string(MAX_BANDWIDTH) + "] MBps" << std::endl;
+        std::cerr << "    bandwidth: the effective bandwidth of the link between compute and storage hosts, a value in the range of [1, " + std::to_string(MAX_BANDWIDTH) + "] MBps" << std::endl;
         std::cerr << "    input_file_size: the input file size of the workflow, a value in the range of [1, " + std::to_string(MAX_INPUT_FILE_SIZE_IN_MB) + "] MB" << std::endl;
 
         return 1;
