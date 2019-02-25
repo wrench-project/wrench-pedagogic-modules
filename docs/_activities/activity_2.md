@@ -110,11 +110,9 @@ commands:
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_1.svg">Compute Service 1</object>
 
-  - [q1] Assuming the cluster has 1 single-core compute node (Figure 5), what do you expect the overall execution time, or *makespan*, of the workflow to be?
-  To this end, write a simple formula. In the visualization tool,  
-  set the cluster to have 1 single-core node. Run the simulation and check your answer. (Note that you might not be able to see file transfer operations in the displayed Gantt charts because these operations could very short relatively to the overall makespan.)
-  - [q2] Based on the dependencies present in the workflow, what tasks could we potentially
-  execute in parallel assuming we had at least 20 cores instead of 1 core?
+  - **[q1]** Assuming the cluster has 1 single-core compute node (Figure 5), what do you expect the overall execution time, or *makespan*, of the workflow to be?
+  To this end, write a simple formula. In the visualization tool,  set the cluster to have 1 single-core node. Run the simulation and check your answer. (Note that you might not be able to see file transfer operations in the displayed Gantt charts because these operations could very short relatively to the overall makespan.)
+  - **[q2]** Based on the dependencies present in the workflow, what tasks could we potentially execute in parallel assuming we had at least 20 cores instead of 1 core?
 
 {% comment %}
 
@@ -129,10 +127,10 @@ q2. all of the top level tasks
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_2.svg">Compute Service 2</object>
 
-  - [q3] Assuming the cluster has 1 10-core compute node (Figure 6), what do you expect the makespan of the workflow to be?
+  - **[q3]** Assuming the cluster has 1 10-core compute node (Figure 6), what do you expect the makespan of the workflow to be?
   To this end, write a simple formula. In the visualization tool, set the cluster to have 1 10-core node.
    Run the simulation and check your answer.
-  - [q4] By inspecting the Host Utilization Gantt chart in the visualization tool, is the compute node utilization greater than 50%? Explain.
+  - **[q4]** By inspecting the Host Utilization Gantt chart in the visualization tool, is the compute node utilization greater than 50%? Explain.
   - [q5] What percentage of the compute node is being utilized throughout workflow execution?
   Write a formula for the utilization and compute the value as a percentage.
 
@@ -151,7 +149,7 @@ q5. (10 * (2 * 3600) + (9 * 0) + (1 * 300)) / (10 * 7929.6) = .9117
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_3.svg">Compute Service 3</object>
 
-  - [q6] Assuming the cluster has 1 15-core compute node (Figure 7), what do you expect the makespan of the workflow to be?
+  - **[q6]** Assuming the cluster has 1 15-core compute node (Figure 7), what do you expect the makespan of the workflow to be?
   To this end, write a simple formula. In the visualization tool, set the cluster to have 1 15-core node.
   Run the simulation and check your answer.
   - [q7] What percentage of the compute node is being utilized while executing this workflow?
@@ -172,17 +170,15 @@ q8. execution wasn't faster and utilization decreased..
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_4.svg">Compute Service 4</object>
 
 Assuming the cluster has 1 20-core node:
-  - [q9] At what time should task T1 start?
-  - [q10] At what time should task T1 end?
-  - [q11] At what time should task T3 start?
-  - [q12] At what time should task T3 end?
-  - [q13] At what time should task T20 start?
-  - [q14] How long can we expect the makespan of this workflow to be? To this end, write a simple formula.
+  - **[q9]** At what time would task T0 start?
+  - **[q10]** At what time would task T19 start?
+  - **[q11]** At what time would task T20 start?
+  - **[q12]** How long can we expect the makespan of this workflow to be? To this end, write a simple formula.
     In the visualization tool, set the cluster to have 1 20-core node (Figure 8).
     Run the simulation and check your answer against the results.
-  - [q15] How much faster did we execute the workflow on this platform compared to the initial platform that had only a single core?
-  - [q16] Would adding one extra core to our machine further decrease the workflow makespan? Explain.
-  - [q17] What percentage of the compute node is being utilized while executing this workflow?
+  - [q13] How much faster did we execute the workflow on this platform compared to the initial platform that had only a single core?
+  - [q14] Would adding one extra core to our machine further decrease the workflow makespan? Explain.
+  - [q15] What percentage of the compute node is being utilized while executing this workflow?
   Write a formula for the utilization and compute the value as a percentage.
 
 
@@ -228,13 +224,13 @@ performance.
 
 **Answer these questions**
 
-  - [q18] Assuming the cluster has 1 20-core node, and that **Workflow Tasks each require 9 GB of RAM**, what can we expect the makespan of the
+  - [q16] Assuming the cluster has 1 20-core node, and that **Workflow Tasks each require 9 GB of RAM**, what can we expect the makespan of the
   workflow to be? Write a simple formula. In the visualization tool, set the simulator to have a single compute node with 20 cores (Figure 8).
   Check the box that says, "Workflow Tasks use 9 GB of RAM". Run the simulation and check your results against the simulator.
-  - [q19] Set the number of cores to be 64 and check the box that says, "Workflow Tasks use 9 GB of RAM". Run the simulation.
+  - [q17] Set the number of cores to be 64 and check the box that says, "Workflow Tasks use 9 GB of RAM". Run the simulation.
   What is the makespan of the workflow?
-  - [q20] Why doesn't going to 64 cores improve workflow execution performance?
-  - [q21] In fact, what is the minimum number of cores on the host that will give us the same performance?
+  - **[q18]** Why doesn't going to 64 cores improve workflow execution performance?
+  - **[q19]** In fact, what is the minimum number of cores on the host that will give us the same performance?
 
 {% comment %}
 
@@ -251,15 +247,15 @@ q21. 3 cores
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_5.svg">Compute Service 5</object>
 
-  - [q22] Assuming the cluster has 5 4-core compute nodes, what can we expect the makespan of the workflow to be?
+  - **[q20]** Assuming the cluster has 5 4-core compute nodes, what can we expect the makespan of the workflow to be?
     Write a simple formula. Now set the simulator to have 5 compute nodes, each with 4 cores. Check the box that
     says "Workflow Tasks use 9 GB of RAM". Run the simulation and check your results against the simulator.
-  - [q23] How much faster did the workflow execute in this execution when compared to the previous one?
-  - [q24] What about the utilization of the cluster? Compute it as a percentage using a simple formula.
-  - [q25] Assuming we had been able to purchase 5 3-core compute nodes instead of 5 4-core compute nodes, what would the utilization have been?
-  - [q26] Assuming that you can add an arbitrary number of 4-core nodes, with the same per-core compute speed,
+  - [q21] How much faster did the workflow execute in this execution when compared to the previous one?
+  - [q22] What about the utilization of the cluster? Compute it as a percentage using a simple formula.
+  - [q23] Assuming we had been able to purchase 5 3-core compute nodes instead of 5 4-core compute nodes, what would the utilization have been?
+  - [q24] Assuming that you can add an arbitrary number of 4-core nodes, with the same per-core compute speed,
   estimate the fastest possible execution time for this workflow?
-  - [q27] What is the minimum number of 3-core nodes that achieves this fastest possible execution time?
+  - [q25] What is the minimum number of 3-core nodes that achieves this fastest possible execution time?
 
 {% comment %}
 
