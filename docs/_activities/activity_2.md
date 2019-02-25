@@ -60,13 +60,13 @@ activity.
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/wms.svg">WMS</object>
 
-The WMS implementation in this activity submits tasks to CS with the
+The WMS implementation in this activity submits tasks to the CS with the
 following instructions regarding file operations: read the initial input
 files from the remote storage service, write the final output file to the
 remote storage service, read and write all other files using the CS's
 scratch space. Scratch space is another name for temporary, non-volatile
 storage that computing services have access to while jobs are being
-executed. Having scratch space on the CS is key to enabling
+executed. Having a scratch space on the CS is key to enabling
 data locality, which is itself key to better performance, as we learned
 in the previous [Activity 1]({{ site.baseurl }}/activities/activity_1).
 
@@ -83,13 +83,13 @@ identical tasks and a CS with a dual-core compute node, it is possible to
 execute the workflow in the same amount of time it would take to execute
 that workflow if it had only a single task.  Clearly, we can get things
 done faster this way and therefore parallelism should be taken advantage
-of.  More cores, however, does not mean that they cab always be used to the
+of.  More cores, however, does not mean that they can always be used to the
 fullest extent. This is because the amount of possible parallelism can be
 limited by the structure of the application and/or the available compute
 resources. To avoid being wasteful with our resources, it is crucial to
 understand how well or badly we are utilizing them.
 
-**Utilization**. The utilization of a core while executing a given workload is defined as follows: (compute time) / (compute time + idle time). The utilization of a multi-core platform then, is defined as the average core utilization.  For instance, consider a dual-core platform that executes a workflow for 1 hour. The first core computes for 30min, and then is idle for 30 min. The second core is idle for 15 minutes, and then computes for 45 minutes. The first core's utilization is 50%, and the second core's utilization is 75%.  The overall utilization is thus 62.5%.
+**Utilization**. The utilization of a core while executing a given workload is defined as follows: (compute time) / (compute time + idle time). The utilization of a multi-core platform then, is defined as the average core utilization.  For instance, consider a dual-core platform that executes a workflow for 1 hour. The first core computes for 30 min, and then is idle for 30 min. The second core is idle for 15 minutes, and then computes for 45 minutes. The first core's utilization is 50%, and the second core's utilization is 75%.  The overall utilization is thus 62.5%.
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/utilization.svg">Utilization</object>
 
