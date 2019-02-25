@@ -26,7 +26,7 @@ seconds (it takes longer, as it would in real-world networks).
 
 Here we have used the term, *effective bandwidth*, to denote the maximum *possible*
 throughput that a network link is able to achieve. Due to various network overheads,
-a network link can have a throughput of at most 92% its advertised bandwidth. From this
+a network link can have a throughput of at most 97% its advertised bandwidth. From this
 point forward, when we describe the bandwidth of a network link, we are describing
 its *effective bandwidth*.
 
