@@ -2,6 +2,7 @@
 layout: page
 title: 'Activity 2: Parallelism'
 order: 4
+usemathjax: true
 ---
 
 1. [Learning objectives](#learning-objectives)
@@ -47,8 +48,41 @@ compute node it should run, trying to utilize the available compute nodes
 as much as possible.  Connecting the CS's frontend node and compute nodes are
 high-bandwidth, low latency-network links going from each machine to a
 centralized switch, which also serves as the gateway for network traffic
-entering and exiting the cluster's local area network.
+entering and exiting the cluster's local area network. This means that
+a file being transferred from the Remote Storage Service at 
+*storage_db.edu* to the CS at *hpc.edu* must travel through two links:
+first the link between *storage_db.edu* and the switch, then the link
+between the switch and the frontend node at *hpc.edu/node_0*. Say that
+the file is 3000 MB, based on what we learned from the 
+[primer on file transfer times]({{ site.baseurl }}/activities/primer_on_file_transfer_times),
+we expect the duration of this file transfer to be as follows:
 
+$$
+\begin{align}
+
+T_{3000\;MB\;file} & = \sum_{l \in route} Latency(l) + \frac{m}{\min\limits_{l \in route} Bandwidth(l)} \\
+                   & = (100us + 10us) + \frac{3000\;MB}{125\;MB/sec} \\
+                   & = 0.000110\;sec + 24\;sec \\
+                   & = 24.000110\;seconds 
+\end{align}
+$$
+
+Furthermore, when a compute node reads a file from scratch space, the file
+will travel through the two links separating the compute node and the frontend
+node. For example, if the compute node at *hpc.edu/node_1* reads a 3000 MB
+file from the CS's scratch space at *hpc.edu/node_0*, the expected duration
+for that read operation is as follows:
+
+$$
+\begin{align}
+
+T_{3000\;MB\;file} & = \sum_{l \in route} Latency(l) + \frac{m}{\min\limits_{l \in route} Bandwidth(l)} \\
+                   & = (10us + 10us) + \frac{3000\;MB}{1250\;MB/sec} \\
+                   & = 0.000020\;sec + 2.4\;sec \\
+                   & = 2.40002\;seconds
+    
+\end{align}
+$$
 
 You will start this activity by using a CS with only a single compute node.
 We will then augment the CS with more cores and more nodes to see how, and
