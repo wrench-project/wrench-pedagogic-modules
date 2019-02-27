@@ -49,11 +49,11 @@ as much as possible.  Connecting the CS's frontend node and compute nodes are
 high-bandwidth, low latency-network links going from each machine to a
 centralized switch, which also serves as the gateway for network traffic
 entering and exiting the cluster's local area network. This means that
-a file being transferred from the Remote Storage Service at 
+a file being transferred from the Remote Storage Service at
 *storage_db.edu* to the CS at *hpc.edu* must travel through two links:
 first the link between *storage_db.edu* and the switch, then the link
 between the switch and the frontend node at *hpc.edu/node_0*. Say that
-the file is 3000 MB, based on what we learned from the 
+the file is 3000 MB, based on what we learned from the
 [primer on file transfer times]({{ site.baseurl }}/activities/primer_on_file_transfer_times),
 we expect the duration of this file transfer to be as follows:
 
@@ -63,7 +63,7 @@ $$
 T_{3000\;MB\;file} & = \sum_{l \in route} Latency(l) + \frac{m}{\min\limits_{l \in route} Bandwidth(l)} \\
                    & = (100us + 10us) + \frac{3000\;MB}{125\;MB/sec} \\
                    & = 0.000110\;sec + 24\;sec \\
-                   & = 24.000110\;seconds 
+                   & = 24.000110\;seconds
 \end{align}
 $$
 
@@ -80,7 +80,7 @@ T_{3000\;MB\;file} & = \sum_{l \in route} Latency(l) + \frac{m}{\min\limits_{l \
                    & = (10us + 10us) + \frac{3000\;MB}{1250\;MB/sec} \\
                    & = 0.000020\;sec + 2.4\;sec \\
                    & = 2.40002\;seconds
-    
+
 \end{align}
 $$
 
@@ -123,7 +123,20 @@ limited by the structure of the application and/or the available compute
 resources. To avoid being wasteful with our resources, it is crucial to
 understand how well or badly we are utilizing them.
 
-**Utilization**. The utilization of a core while executing a given workload is defined as follows: (compute time) / (compute time + idle time). The utilization of a multi-core platform then, is defined as the average core utilization.  For instance, consider a dual-core platform that executes a workflow for 1 hour. The first core computes for 30 min, and then is idle for 30 min. The second core is idle for 15 minutes, and then computes for 45 minutes. The first core's utilization is 50%, and the second core's utilization is 75%.  The overall utilization is thus 62.5%.
+**Utilization**. The utilization of a core while executing a given workload is defined as follows: (compute time) / (compute time + idle time). The utilization of a multi-core host then, is defined as the average core utilization.  For instance, consider a dual-core host that executes a workflow for 1 hour. The first core computes for 30 min, and then is idle for 30 min. The second core is idle for 15 minutes, and then computes for 45 minutes.
+
+$$
+\begin{align}
+
+average\;core\;utilization_{host} & = \frac{1}{\left| cores \right|} \sum_{c \in cores}\frac{compute\;time(c)}{compute\;time(c) + idle\;time(c)} \\
+                                  & = \frac{1}{2} \left( \frac{30\;min}{30\;min + 30\;min} + \frac{45\;min}{15\;min + 45\;min}  \right) \\
+                                  & = \frac{1}{2} \left( \frac{1}{2} + \frac{3}{4} \right) \\
+                                  & = 0.625
+
+\end{align}
+$$
+
+The first core's utilization is 50%, and the second core's utilization is 75%. The overall utilization is thus 62.5%.
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/utilization.svg">Utilization</object>
 
@@ -144,9 +157,9 @@ commands:
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_1.svg">Compute Service 1</object>
 
-  - **[q1]** Assuming the cluster has 1 single-core compute node (Figure 5), what do you expect the overall execution time, or *makespan*, of the workflow to be?
+  - [q1] Assuming the cluster has 1 single-core compute node (Figure 5), what do you expect the overall execution time, or *makespan*, of the workflow to be?
   To this end, write a simple formula. In the visualization tool,  set the cluster to have 1 single-core node. Run the simulation and check your answer. (Note that you might not be able to see file transfer operations in the displayed Gantt charts because these operations could very short relatively to the overall makespan.)
-  - **[q2]** Based on the dependencies present in the workflow, what tasks could we potentially execute in parallel assuming we had at least 20 cores instead of 1 core?
+  - [q2] Based on the dependencies present in the workflow, what tasks could we potentially execute in parallel assuming we had at least 20 cores instead of 1 core?
 
 {% comment %}
 
@@ -161,10 +174,10 @@ q2. all of the top level tasks
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_2.svg">Compute Service 2</object>
 
-  - **[q3]** Assuming the cluster has 1 10-core compute node (Figure 6), what do you expect the makespan of the workflow to be?
+  - [q3] Assuming the cluster has 1 10-core compute node (Figure 6), what do you expect the makespan of the workflow to be?
   To this end, write a simple formula. In the visualization tool, set the cluster to have 1 10-core node.
    Run the simulation and check your answer.
-  - **[q4]** By inspecting the Host Utilization Gantt chart in the visualization tool, is the compute node utilization greater than 50%? Explain.
+  - [q4] By inspecting the Host Utilization Gantt chart in the visualization tool, is the compute node utilization greater than 50%? Explain.
   - [q5] What percentage of the compute node is being utilized throughout workflow execution?
   Write a formula for the utilization and compute the value as a percentage.
 
@@ -183,7 +196,7 @@ q5. (10 * (2 * 3600) + (9 * 0) + (1 * 300)) / (10 * 7929.6) = .9117
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_3.svg">Compute Service 3</object>
 
-  - **[q6]** Assuming the cluster has 1 15-core compute node (Figure 7), what do you expect the makespan of the workflow to be?
+  - [q6] Assuming the cluster has 1 15-core compute node (Figure 7), what do you expect the makespan of the workflow to be?
   To this end, write a simple formula. In the visualization tool, set the cluster to have 1 15-core node.
   Run the simulation and check your answer.
   - [q7] What percentage of the compute node is being utilized while executing this workflow?
@@ -204,10 +217,10 @@ q8. execution wasn't faster and utilization decreased..
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_4.svg">Compute Service 4</object>
 
 Assuming the cluster has 1 20-core node:
-  - **[q9]** At what time would task T0 start?
-  - **[q10]** At what time would task T19 start?
-  - **[q11]** At what time would task T20 start?
-  - **[q12]** How long can we expect the makespan of this workflow to be? To this end, write a simple formula.
+  - [q9] At what time would task T0 start?
+  - [q10] At what time would task T19 start?
+  - [q11] At what time would task T20 start?
+  - [q12] How long can we expect the makespan of this workflow to be? To this end, write a simple formula.
     In the visualization tool, set the cluster to have 1 20-core node (Figure 8).
     Run the simulation and check your answer against the results.
   - [q13] How much faster did we execute the workflow on this platform compared to the initial platform that had only a single core?
@@ -263,8 +276,8 @@ performance.
   Check the box that says, "Workflow Tasks use 9 GB of RAM". Run the simulation and check your results against the simulator.
   - [q17] Set the number of cores to be 64 and check the box that says, "Workflow Tasks use 9 GB of RAM". Run the simulation.
   What is the makespan of the workflow?
-  - **[q18]** Why doesn't going to 64 cores improve workflow execution performance?
-  - **[q19]** In fact, what is the minimum number of cores on the host that will give us the same performance?
+  - [q18] Why doesn't going to 64 cores improve workflow execution performance?
+  - [q19] In fact, what is the minimum number of cores on the host that will give us the same performance?
 
 {% comment %}
 
@@ -281,7 +294,7 @@ q21. 3 cores
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_5.svg">Compute Service 5</object>
 
-  - **[q20]** Assuming the cluster has 5 4-core compute nodes, what can we expect the makespan of the workflow to be?
+  - [q20] Assuming the cluster has 5 4-core compute nodes, what can we expect the makespan of the workflow to be?
     Write a simple formula. Now set the simulator to have 5 compute nodes, each with 4 cores. Check the box that
     says "Workflow Tasks use 9 GB of RAM". Run the simulation and check your results against the simulator.
   - [q21] How much faster did the workflow execute in this execution when compared to the previous one?
