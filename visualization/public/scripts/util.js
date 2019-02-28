@@ -64,17 +64,17 @@ function populateWorkflowTaskDataTable(data) {
 
     task_details_table_body.append(
       '<tr>'
-      + '<td>Total Duration</td>'
       + '<td></td>'
       + '<td></td>'
+      + '<td>Total Read Input Duration:</td>'
       + '<td>' + toFiveDecimalPlaces(total_read_input_time) +'</td>'
       + '<td></td>'
-      + '<td></td>'
+      + '<td>Total Compute Duration:</td>'
       + '<td>' + toFiveDecimalPlaces(total_compute_time) +'</td>'
       + '<td></td>'
-      + '<td></td>'
+      + '<td>Total Write Output Duration:</td>'
       + '<td>' + toFiveDecimalPlaces(total_write_output_time) +'</td>'
-      + '<td>' + (total_read_input_time + total_compute_time + total_write_output_time) +'</td>'
+      + '<td></td>'
       + '</tr>'
     );
 }
