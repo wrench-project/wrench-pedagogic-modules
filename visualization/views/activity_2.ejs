@@ -13,9 +13,9 @@
 
     <div class="form-group">
         <label for="num_cores">Number of Cores per Compute Node</label>
-        <input class="form-control" type="number" id="num-cores" placeholder="1" value="1" min="1" max="64" step="1" required>
+        <input class="form-control" type="number" id="num-cores" placeholder="1" value="1" min="1" max="32" step="1" required>
         <div class="invalid-feedback">
-            Please provide a number of cores per compute node in the range of [1, 64]
+            Please provide a number of cores per compute node in the range of [1, 32]
         </div>
     </div>
 
@@ -23,7 +23,7 @@
         <div class="form-check">
             <label class="form-check-label">
                 <input class="form-check-input" name="ram-required" type="checkbox" id="ram-required" value="1">
-                Workflow Tasks Use 9 GB of RAM
+                Workflow Tasks Use 12 GB of RAM
             </label>
         </div>
     </div>
