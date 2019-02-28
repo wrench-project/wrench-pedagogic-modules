@@ -63,7 +63,8 @@ $$
 T_{3000\;MB\;file} & = \sum_{l \in route} Latency(l) + \frac{m}{\min\limits_{l \in route} Bandwidth(l)} \\
                    & = (100us + 10us) + \frac{3000\;MB}{125\;MB/sec} \\
                    & = 0.000110\;sec + 24\;sec \\
-                   & = 24.000110\;seconds
+                   & = 24.000110\;seconds\\
+                   & \simeq 24\;seconds
 \end{align}
 $$
 
@@ -79,7 +80,8 @@ $$
 T_{3000\;MB\;file} & = \sum_{l \in route} Latency(l) + \frac{m}{\min\limits_{l \in route} Bandwidth(l)} \\
                    & = (10us + 10us) + \frac{3000\;MB}{1250\;MB/sec} \\
                    & = 0.000020\;sec + 2.4\;sec \\
-                   & = 2.40002\;seconds
+                   & = 2.40002\;seconds\\
+                   & \simeq 2.4\;seconds
 
 \end{align}
 $$
