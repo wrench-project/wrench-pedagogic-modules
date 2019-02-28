@@ -322,7 +322,7 @@ int main(int argc, char** argv) {
    simulation.launch();
 
    simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json", true);
-   simulation.getOutput().dumpWorkflowGraphJSON(&workflow, "workflow_graph.json");
+   //simulation.getOutput().dumpWorkflowGraphJSON(&workflow, "workflow_graph.json");
 
    return 0;
 }
