@@ -60,6 +60,9 @@
                 can be more efficient than sending large amounts of data to where a compute resource is available
 
 # section: activity 2 - parallelism
+- term: join (Workflow structure)
+  description: a workflow structure where multiple tasks "join" into a single task 
+
 - term: cluster compute service
   description: a compute service that manages multiple machines
 
@@ -83,5 +86,5 @@
   description: augmenting a compute service by upgrading it with a faster processor or one with more cores
 
 - term: horizontal scaling
-  description: augmenting a compute service by upgrading it with more machines 
+  description: augmenting a compute service by upgrading it with more machines
 # section: activity 3 - the right tool for the job

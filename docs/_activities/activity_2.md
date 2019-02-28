@@ -23,8 +23,11 @@ usemathjax: true
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/workflow.svg">Workflow</object>
 
 The workflow depicted in Figure 1 will be used in this activity. It consists of 20 computationally
-intensive, independent tasks followed by a less intensive final task that depends on the previous 20 tasks. The term "independent" refers
-to a set of tasks that may all be executed concurrently. The structure of this workflow appears
+intensive, independent tasks followed by a less intensive final task that depends on the previous 20 tasks.
+The term "independent" refers to a set of tasks that may all be executed concurrently. Additionally, each task now has a
+RAM requirement such that the amount of RAM a task uses is equal the sum of its input and output file sizes.
+
+The structure of this workflow appears
 to be "joining" multiple tasks into one, so naturally this structure is typically called a "join"
 (note that this has nothing to do with a database type of "join").   
 
@@ -36,7 +39,7 @@ basic cyber infrastructure that was introduced in the previous activity.
 The Compute Service (CS) now has a configurable number of resources on
 which it can execute tasks. For example, the CS could have access to two
 physical machines, or "compute nodes", both equipped with
-dual-core processors and 32 GB of RAM. When the CS receives a job
+dual-core processors and 80 GB of RAM. When the CS receives a job
 containing multiple tasks, it may execute these tasks concurrently across
 multiple compute nodes. The CS in this activity is what is known as a
 "cluster" and can be decomposed into two parts: a "frontend node" and
