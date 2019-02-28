@@ -51,7 +51,8 @@ $$
 
   T_{read\:100MB\:file} & = latency + \frac{file\;size}{bandwidth} \\
                         & = 10us + \frac{100\;MB}{10\;MB/sec} \\
-                        & = 10.000010\;seconds \simeq 10\;seconds
+                        & = 10.000010\;seconds\\
+                        & \simeq 10\;seconds
 
 \end{align}
 $$
@@ -121,7 +122,8 @@ $$
   T_{task0} & = T_{step1} + T_{step2} + T_{step3} \\
             & = (10us + \frac{200\;MB}{10\;MB/sec}) + (\frac{100*10^{12}\;flop}{10^{12}flop/sec}) + (10us + \frac{400\;MB}{10\;MB/sec}) \\
             & = 20.000010 + 100 + 40.000010 \\
-            & = 160.000020\;seconds \simeq 160\;seconds
+            & = 160.000020\;seconds\\
+            & \simeq 160\;seconds
 
 \end{align}
 $$
@@ -134,7 +136,8 @@ $$
   T_{task1} & = T_{step4} + T_{step5} + T_{step6} \\
             & = (10us + \frac{400\;MB}{10\;MB/sec}) + (\frac{35*10^{12}\;flop}{10^{12}flop/sec}) + (10us + \frac{100\;MB}{10\;MB/sec}) \\
             & = 40.000010 + 35 + 10.000010 \\
-            & = 85.000020\;seconds \simeq 85\;seconds
+            & = 85.000020\;seconds\\
+            & \simeq 85\;seconds
 
 \end{align}
 $$
