@@ -39,7 +39,7 @@
   description: a software service that manages persistent storage and handles requests for creating, deleting, reading, and writing files
 
 - term: compute service
-  description: a software service that manages compute resources and handles reuqests for  executing computational tasks
+  description: a software service that manages compute resources and handles requests for executing computational tasks
 
 - term: floating point operation (flop)
   description: a standard unit of "amount of work to do" used for scientific applications (as many of such applications perform mostly floating point arithmetic); computational hardware resources then have speed measured in flop/sec, i.e., how much "work" they can perform per time unit
