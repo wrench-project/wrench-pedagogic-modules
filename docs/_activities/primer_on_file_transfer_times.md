@@ -67,8 +67,8 @@ $$
 \end{align}
 $$
 
-This is correct because all 3 links have the same bandwidth, i.e., our estimate
-assumes there is a single link with a latency that is the sum of the latencies.
+This is correct because all 3 links have the same bandwidth, i.e., data flows through the end-to-end route at that bandwidth. However, the latency is
+the sum of the three latencies (and is a very small fraction of the total transfer time). 
 Using [WRENCH](http://wrench-project.org/) to simulate this scenario, we
 would observe a file transfer time of 1.0656522 seconds.
 
@@ -94,7 +94,7 @@ T_{1file} & = \sum_{l \in r} Latency(l) + \frac{m}{\min\limits_{l \in r} Bandwid
 \end{align}
 $$
 
-Simulation results for this scenario show that the date transfer would in fact take 10.5159 seconds. There is thus, here again, a small discrepancy.
+Simulation results for this scenario show that the date transfer would in fact take 10.5159 seconds. There is thus, here again, a discrepancy.
 
 ### Scenario 3: Two concurrent file transfers
 
@@ -157,9 +157,9 @@ not model in the estimate equations above.
 
 ### Conclusion
 
-Throughout the upcoming pedagogic modules, you will be asked to estimate
-application execution times given specific hardware constraints. Your
-estimates will be sufficient to answer all questions but will not be 100%
+Throughout the upcoming activities, you will be asked to estimate
+application execution times given specific hardware constraints. 
+Estimates as above will be sufficient to answer all questions but will not be 100%
 correct. We will be using simulation to verify that the estimates are close
 to real-world values. Continue to the next section, [A Primer on Workflow
 Executions]({{ site.baseurl
