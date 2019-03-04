@@ -16,13 +16,13 @@ usemathjax: true
 - Be able to estimate workflow execution times when tasks are executed in parallel;
 - Be able to compute core utilization for multi-core platforms;
 - Understand the tradeoffs between parallelism and utilization;
-- Be able to compare alternative strategies for executing tasks in parallel;
+- Be able to compare alternative strategies for executing tasks in parallel.
 
 # Overview
 ## Workflow and Platform Scenario
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/workflow.svg">Workflow</object>
 
-The workflow depicted in Figure 1 will be used in this activity. It consists of 20 computationally
+In this activity we use the workflow depicted in Figure 1. It consists of 20 computationally
 intensive, independent tasks followed by a less intensive final task that depends on the previous 20 tasks.
 The term "independent" refers to a set of tasks that may all be executed concurrently. Additionally, each task now has a
 RAM requirement such that the amount of RAM a task uses is equal the sum of its input and output file sizes.
@@ -37,18 +37,21 @@ to be "joining" multiple tasks into one, so naturally this structure is typicall
 Figure 2 depicts this activity's cyberinfrastructure. We build upon the
 basic cyberinfrastructure that was introduced in the previous activity.
 The Compute Service (CS) now has a configurable number of resources on
-which it can execute tasks. For example, the CS could have access to two
-physical machines, or "compute nodes", both equipped with
+which it can execute tasks. It has access to several
+physical machines, or "compute nodes", equipped with
 dual-core processors and 80 GB of RAM. When the CS receives a job
 containing multiple tasks, it may execute these tasks concurrently across
 multiple compute nodes. The CS in this activity is what is known as a
 "cluster" and can be decomposed into two parts: a "frontend node" and
 "compute node(s)". The frontend node handles job requests from the Workflow
 Management System (WMS) and dispatches work to the compute node(s)
-according to the WMS's instructions. In this activity, our WMS submits
+according to some decision-making algorithm. 
+In this activity, our WMS submits
 all workflow tasks to the CS at once, specifying for each task on which
 compute node it should run, trying to utilize the available compute nodes
-as much as possible.  Connecting the CS's frontend node and compute nodes are
+as much as possible.  
+
+Connecting the CS's frontend node and compute nodes are
 high-bandwidth, low latency-network links going from each machine to a
 centralized switch, which also serves as the gateway for network traffic
 entering and exiting the cluster's local area network. This means that
@@ -90,39 +93,41 @@ T_{3000\;MB\;file} & = \sum_{l \in route} Latency(l) + \frac{m}{\min\limits_{l \
 $$
 
 You will start this activity by using a CS with only a single compute node.
-We will then augment the CS with more cores and more nodes to see how, and
-why, the execution of our workflow is affected. Processor speed and RAM
-capacity of a compute node are kept constant throughout this entire
+You will then augment the CS with more cores and more nodes to see how
+the execution of our workflow is affected. Individual processor speed and RAM
+capacity of compute nodes are kept constant throughout this entire
 activity.
 
 ## WMS Scenario
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/wms.svg">WMS</object>
 
-The WMS implementation in this activity submits tasks to the CS with the
-following instructions regarding file operations: read the initial input
+The WMS implementation in this activity submits tasks to the CS using the
+following scheme regarding file operations: read the initial input
 files from the remote storage service, write the final output file to the
 remote storage service, read and write all other files using the CS's
 scratch space. Scratch space is another name for temporary, non-volatile
 storage that computing services have access to while jobs are being
 executed. Having a scratch space on the CS is key to enabling
 data locality, which is itself key to better performance, as we learned
-in the previous [Activity 1]({{ site.baseurl }}/activities/activity_1).
+in the previous [Activity 1]({{ site.baseurl }}/activities/activity_1). This
+scheme is depicted in Figure 3. 
 
 # Activity
 
 ## Step 1: Run the Simulation With a Single Compute Host
 
-Here we will explore two fundamental concepts: **parallelism** and **utilization**.
+Now we explore two fundamental concepts: **parallelism** and **utilization**.
 
 **Parallelism**. Multi-core architectures enable computers to execute
 multiple instructions at the same time, and in our case, multiple
 independent tasks. For example, given a workflow of two independent,
-identical tasks and a CS with a dual-core compute node, it is possible to
+identical tasks and a CS with a dual-core compute node, it may be possible to
 execute the workflow in the same amount of time it would take to execute
-that workflow if it had only a single task.  Clearly, we can get things
-done faster this way and therefore parallelism should be taken advantage
-of.  More cores, however, does not mean that they can always be used to the
+that workflow if it had only a single task.  One can take advantage of
+such *parallelism* to get things
+done faster.
+More cores, however, does not mean that they can always be used to the
 fullest extent. This is because the amount of possible parallelism can be
 limited by the structure of the application and/or the available compute
 resources. To avoid being wasteful with our resources, it is crucial to
@@ -171,7 +176,7 @@ commands:
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_1.svg">Compute Service 1</object>
 
   - [q1] Assuming the cluster has 1 single-core compute node (Figure 5), what do you expect the overall execution time, or *makespan*, of the workflow to be?
-  To this end, write a simple formula. In the visualization tool,  set the cluster to have 1 single-core node. Run the simulation and check your answer. (Note that you might not be able to see file transfer operations in the displayed Gantt charts because these operations could very short relatively to the overall makespan.)
+  To this end, write a simple formula. In the visualization tool,  set the cluster to have 1 single-core node. Run the simulation and check your answer. (Note that you might not be able to see file transfer operations in the displayed Gantt charts because these operations could be very short relatively to the overall makespan.)
   - [q2] Based on the dependencies present in the workflow, what tasks could we potentially execute in parallel assuming we had at least 20 cores instead of 1 core?
 
 {% comment %}
@@ -268,8 +273,8 @@ q15. ((20*3600) + (1*300)) / (20 * 4329.72) = .834926
 In Step 1, each workflow task had a RAM requirement such that its RAM
 usage was equal to the sum of its input and output file sizes. What about
 RAM required for the task itself? That is, real-world workflow tasks (and
-programs in general) usually require some amount of RAM for variables,
-temporary data-structures, etc. As such, this step introduces an *additional*
+programs in general) usually require some amount of RAM for storing program instructions,
+possibly large temporary data-structures, the runtime stack, etc. In this step we thus introduce an *additional*
 12 GB RAM requirement for each task (Figure 9). For example, *task0* previously required
 4 GB of RAM, whereas in this step it requires 16 GB of RAM.
 
@@ -344,18 +349,18 @@ When you are finished using the visualization tool, run: `docker kill $(docker p
 # Conclusion
 
 In this activity, you were presented with a workflow containing a set of tasks that could be executed in
-parallel. To achieve better performance, we first attempted to "vertically" scale the compute service by adding
+parallel. To achieve better performance, you first attempted to "vertically" scale the compute service by adding
 more cores to a compute node (in practice, vertically scaling can also mean purchasing a faster processor).
 Your results showed that parallel execution of tasks did in fact increase workflow execution performance to a
-certain degree. Next, we calculated utilization when using a different number of cores. These results should
-have demonstrated to you that we can't always execute workflows as fast as possible while achieving 100% utilization.
+certain degree. Next, you calculated utilization when using a different number of cores. These results should
+have demonstrated to you that one cannot always execute workflows as fast as possible while achieving 100% utilization.
 
-After being introduced to parallelism and utilization, we added
+After introducing parallelism and utilization, you added
 additional RAM requirements to the workflow in order to simulate a situation
 more relevant to actual practice. Under those circumstances, the workflow
 execution performance collapsed when running this workflow on a single node
-CS. Rather than simply adding more cores to the single compute node, we
-grew the cluster "horizontally" by adding more compute nodes. Using this strategy, we were
+CS. Rather than simply adding more cores to the single compute node, you
+grew the cluster "horizontally" by adding more compute nodes. Using this strategy, you were
 able to increase workflow execution performance up to a certain point.
 
 Sometimes adding more cores or extra machines does nothing except decrease utilization.

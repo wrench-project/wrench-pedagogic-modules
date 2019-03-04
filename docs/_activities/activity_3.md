@@ -12,14 +12,14 @@ order: 5
 
 # Learning Objectives
 - Be able to make calculated system design decisions;
-- Be able to apply the concepts explored in the previous activities;
+- Be able to apply the concepts explored in the previous activities.
 
 # Overview
 
 This activity does not introduce any new concepts, but instead incorporates
-all concepts acquired in the previous activities.  It presents you with a
-case study that will require you to analyze a given workload on a given
-cyber-infrastructure. Then you will need to come up with an argument as to
+all concepts acquired in the previous activities.  It is a
+case study in which you analyze a given workload on a given
+cyberinfrastructure. Then you will need to come up with an argument as to
 how this workload can be executed faster, given certain constraints. You
 will be guided through the decision making process so that you can build up
 your argument.
@@ -41,12 +41,12 @@ place on your corporation's compute service (CS).
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_3/cyber_infrastructure.svg">Platform</object>
 
 The Workflow Management System (WMS) that your corporation uses for this
-workflow submits tasks to the CS with the following instructions regarding
+workflow submits tasks to the CS with the following scheme regarding
 file operations (Figure 3): read the initial input files from the remote
 storage service, write the final output file to the remote storage service,
 read and write all other files using the CS's scratch space.
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_3/wms.svg">WMS Secenario</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_3/wms.svg">WMS Scenario</object>
 
 ### The Problem
 
@@ -57,7 +57,7 @@ rate. The workflow execution on the cyberinfrastructure can no longer keep
 up and has become a performance, and revenue, bottleneck!
 
 You immediately get in touch with your boss about this, and come to the
-agreement that **$1500** will budgeted for to you to upgrade the
+agreement that **$1500** will be budgeted for to you to upgrade the
 cyberinfrastructure so that the workflow execution can be accelerated as
 much as possible (which hopefully will be fast enough).
 
@@ -165,18 +165,23 @@ q11. let y = the input file size in MB, then find when Option 1 and Option 3 are
 {% endcomment %}
 # Conclusion
 
-In this activity, we have put to use some of the concepts you have learned thus far. By having
+In this activity, you have put to use some of the concepts learned thus far. By having
 a good understanding of your workload and the platform on which it runs, you were able to make
 a calculated decision as to what hardware upgrades would benefit you the most. First, you identified
 the current workflow execution time as a baseline performance metric. Second, you enumerated the possible
-upgrade options and, using back-of-the-envelope calculations, estimated how they compared with the baseline.
-Finally, you used that data to make a sound decision as to which hardware upgrade would best meet the
+upgrade options and, using back-of-the-envelope calculations, estimated how they compare with the baseline.
+This allowed you to make a sound decision as to which hardware upgrade would best meet the
 requirements laid out by your boss. As a result, the money was put to good use and workflow execution
 performance is improved, for now...
 
-Based on your answers from Step #3, it should be clear that the *best option*   
+Based on your answers from Step #3, it should be clear that the "best option"
 is not always the *best*. When file sizes vary, one option might be better than the other.
 Purchasing a certain hardware upgrade may be the right
 way to approach a performance related issue in some cases but not all.
+
+{% commend %}
+
 In the next activity, "Activity 4: Some Name To Do With Varying File Sizes", we explore
 the effects of varying file sizes on workflow execution performance.  
+
+{% endcomment %}
