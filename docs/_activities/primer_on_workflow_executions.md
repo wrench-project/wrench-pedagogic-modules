@@ -57,7 +57,7 @@ $$
 \end{align}
 $$
 
-**Compute Service**. A Compute Service (CS) can execute tasks submited to it by the WMS.  Typically, a compute service will have access to faster hardware than
+**Compute Service**. A Compute Service (CS) can execute tasks submitted to it by the WMS.  Typically, a compute service will have access to faster hardware than
 your typical machine and so it can execute workflow tasks faster.
 For example, say we were to perform 100 TFlops of computation
 on *my_lab_computer.edu* (which computes at speed 35 GFlop/sec, as seen in the figure). This is expected to take:
@@ -83,14 +83,14 @@ $$
 \end{align}
 $$
 
-The CS is able to compute 100 Tflops about *28* times faster than *my_lab_computer.edu*. In our scenario, the WMS only uses the CS on *hpc.eduh* to execute
+The CS is able to compute 100 Tflops about *28* times faster than *my_lab_computer.edu*. In our scenario, the WMS only uses the CS on *hpc.edu* to execute
 workflow tasks.
 
 
 **Workflow Management System**. The WMS in this scenario greedily submits
 tasks to the CS once they become ready. A task is ready to be submitted by the
 WMS when it has been notified that the current task's parent task(s) has
-been completed. For example, the WMS can submit *task1* to the CS only once the
+been completed (including saving its output). For example, the WMS can submit *task1* to the CS only once the
 CS notifies the WMS that *task0* has completed (i.e., the output of *task0* has been
 produced and saved somewhere). When the WMS submits a task to the CS, it
 specifies that all file read and write operations be done through the Remote Storage
@@ -157,13 +157,13 @@ $$
 
 ### Conclusion
 
-In this section we have demonstrated what a simple workflow execution looks like,
-given a specific scenario. This scenario included a workflow description,
+In this primer we have demonstrated what a simple workflow execution looks like
+for a specific scenario. The scenario includes a workflow description,
 platform specifications, and a WMS implementation. Based on these elements,
 we were able to break down the execution of the workflow into steps,
 estimate the duration of each step, and finally estimate the duration of the
-entire workflow execution. The following sections of these pedagogic modules
-will follow a similar format such that a scenario will be presented, and you
-will be required to evaluate certain aspects of the workflow execution. Continue
+entire workflow execution. The upcoming activities
+will follow a similar format: a scenario will be presented and you
+will evaluate certain aspects of the workflow execution. Continue on
 to the next section,
 [Activity 1: Running Your First Simulated Workflow Execution]({{ site.baseurl }}/activities/activity_1).
