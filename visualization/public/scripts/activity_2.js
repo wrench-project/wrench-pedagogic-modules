@@ -115,10 +115,6 @@ var workflow_dag_no_ram =
             "target": "task20"
         },
         {
-            "source": "task2.out",
-            "target": "task20"
-        },
-        {
             "source": "task3.out",
             "target": "task20"
         },
@@ -140,10 +136,6 @@ var workflow_dag_no_ram =
         },
         {
             "source": "task8.out",
-            "target": "task20"
-        },
-        {
-            "source": "task17.out",
             "target": "task20"
         },
         {
@@ -179,11 +171,19 @@ var workflow_dag_no_ram =
             "target": "task20"
         },
         {
+            "source": "task17.out",
+            "target": "task20"
+        },
+        {
             "source": "task18.out",
             "target": "task20"
         },
         {
             "source": "task19.out",
+            "target": "task20"
+        },
+        {
+            "source": "task2.out",
             "target": "task20"
         },
         {
@@ -252,7 +252,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task0",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -261,7 +261,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task1",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -270,7 +270,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task10",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -279,7 +279,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task11",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -288,7 +288,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task12",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -297,7 +297,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task13",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -306,7 +306,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task14",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -315,7 +315,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task15",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -324,7 +324,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task16",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -333,7 +333,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task17",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -342,7 +342,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task18",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -351,7 +351,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task19",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -360,7 +360,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task2",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -369,7 +369,7 @@ var workflow_dag_no_ram =
             "flops": 300000000000000.0,
             "id": "task20",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 42000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -378,7 +378,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task3",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -387,7 +387,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task4",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -396,7 +396,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task5",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -405,7 +405,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task6",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -414,7 +414,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task7",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -423,7 +423,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task8",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -432,7 +432,7 @@ var workflow_dag_no_ram =
             "flops": 3.6e+15,
             "id": "task9",
             "max_cores": 1,
-            "memory": 0.0,
+            "memory": 4000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -643,8 +643,7 @@ var workflow_dag_no_ram =
             "type": "file"
         }
     ]
-}
-
+};
 //////////
 
 var workflow_dag_uses_ram =
@@ -755,7 +754,7 @@ var workflow_dag_uses_ram =
             "target": "task2.out"
         },
         {
-            "source": "task0.out",
+            "source": "task3.out",
             "target": "task20"
         },
         {
@@ -763,11 +762,11 @@ var workflow_dag_uses_ram =
             "target": "task20"
         },
         {
-            "source": "task2.out",
+            "source": "task0.out",
             "target": "task20"
         },
         {
-            "source": "task3.out",
+            "source": "task2.out",
             "target": "task20"
         },
         {
@@ -900,7 +899,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task0",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -909,7 +908,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task1",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -918,7 +917,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task10",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -927,7 +926,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task11",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -936,7 +935,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task12",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -945,7 +944,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task13",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -954,7 +953,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task14",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -963,7 +962,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task15",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -972,7 +971,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task16",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -981,7 +980,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task17",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -990,7 +989,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task18",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -999,7 +998,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task19",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -1008,7 +1007,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task2",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -1017,7 +1016,7 @@ var workflow_dag_uses_ram =
             "flops": 300000000000000.0,
             "id": "task20",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 54000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -1026,7 +1025,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task3",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -1035,7 +1034,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task4",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -1044,7 +1043,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task5",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -1053,7 +1052,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task6",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -1062,7 +1061,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task7",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -1071,7 +1070,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task8",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -1080,7 +1079,7 @@ var workflow_dag_uses_ram =
             "flops": 3.6e+15,
             "id": "task9",
             "max_cores": 1,
-            "memory": 9000000000.0,
+            "memory": 16000000000.0,
             "min_cores": 1,
             "parallel_efficiency": 1.0,
             "type": "task"
@@ -1291,7 +1290,7 @@ var workflow_dag_uses_ram =
             "type": "file"
         }
     ]
-}
+};
 /////////
 
 $(function() {
@@ -1353,7 +1352,7 @@ $(function() {
         let num_cores_input_value = parseInt(num_cores_input_el.val());
         let num_cores_label_el = $(".num-cores-label");
 
-        if (num_cores_input_value >= 1 && num_cores_input_value <= 64) {
+        if (num_cores_input_value >= 1 && num_cores_input_value <= 32) {
 
             num_cores_label_el.text("Cores: " + num_cores_input_value)
                 .css("background-color", "#d3ffe9");

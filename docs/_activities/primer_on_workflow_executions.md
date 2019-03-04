@@ -41,9 +41,8 @@ execute this workflow. In this scenario, the WMS resides on the host
 **Storage Service**. A Storage Service (SS) stores files and handles read and write
 requests. For example, if *my_lab_computer.edu* would like to read a file from
 *storage_db.edu*, it will make a read request to the SS. Then the
-file will be sent over the network from *storage_db.edu* to *my_lab_computer.edu*
-(downloaded from *storage_db.edu* to *my_lab_computer.edu*). Say, for example, this
-file is 100 MB, and the link between the two hosts has an effective bandwidth of
+file will be sent over the network from *storage_db.edu* to *my_lab_computer.edu*.
+Say, for example, this file is 100 MB, and the link between the two hosts has an effective bandwidth of
 10 MB/sec and a latency of 10 microseconds. The estimated amount of time it will take
 to perform the *file read* operation can be estimated as follows:
 
@@ -85,7 +84,7 @@ $$
 $$
 
 The CS is able to compute 100 Tflops about *28* times faster than *my_lab_computer.edu*. In our scenario, the WMS only uses the CS on *hpc.eduh* to execute
-workflow tasks. 
+workflow tasks.
 
 
 **Workflow Management System**. The WMS in this scenario greedily submits

@@ -26,6 +26,23 @@ h6 {
   width: 50px;
 }
 
+#home-card {
+  width: 25rem;
+
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#home-wrench-logo {
+  padding: 10px;
+}
+
+#google-button {
+  max-width: 50%;
+}
+
+
 #title-card {
   background-color: white;
 }
@@ -133,7 +150,20 @@ h6 {
   background-color: #e2f5ff;
 }
 
-#workflow-execution-chart-tooltip {
+#workflow-execution-chart-task-tooltip {
+    position: absolute;
+    width: auto;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 2px;
+    border: 0px solid #000;
+    display: none;
+    pointer-events: none;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+#workflow-execution-chart-makespan-tooltip {
     position: absolute;
     width: auto;
     padding: 10px;

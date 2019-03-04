@@ -8,7 +8,9 @@ WORKDIR /home/wrench/
 # pull pedagogic-modules, go to desired activity, checkout gh-pages for "published" version, build
 RUN git clone https://github.com/wrench-project/wrench-pedagogic-modules.git \
     && cd wrench-pedagogic-modules \
-    && git checkout master 
+    && git checkout ics332_s19
+
+COPY keys.js /home/wrench/wrench-pedagogic-modules/visualization/keys.js
 
 RUN chown -R wrench ./wrench-pedagogic-modules
 

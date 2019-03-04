@@ -23,8 +23,11 @@ usemathjax: true
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/workflow.svg">Workflow</object>
 
 The workflow depicted in Figure 1 will be used in this activity. It consists of 20 computationally
-intensive, independent tasks followed by a less intensive final task that depends on the previous 20 tasks. The term "independent" refers
-to a set of tasks that may all be executed concurrently. The structure of this workflow appears
+intensive, independent tasks followed by a less intensive final task that depends on the previous 20 tasks.
+The term "independent" refers to a set of tasks that may all be executed concurrently. Additionally, each task now has a
+RAM requirement such that the amount of RAM a task uses is equal the sum of its input and output file sizes.
+
+The structure of this workflow appears
 to be "joining" multiple tasks into one, so naturally this structure is typically called a "join"
 (note that this has nothing to do with a database type of "join").   
 
@@ -36,7 +39,7 @@ basic cyber infrastructure that was introduced in the previous activity.
 The Compute Service (CS) now has a configurable number of resources on
 which it can execute tasks. For example, the CS could have access to two
 physical machines, or "compute nodes", both equipped with
-dual-core processors and 32 GB of RAM. When the CS receives a job
+dual-core processors and 80 GB of RAM. When the CS receives a job
 containing multiple tasks, it may execute these tasks concurrently across
 multiple compute nodes. The CS in this activity is what is known as a
 "cluster" and can be decomposed into two parts: a "frontend node" and
@@ -125,7 +128,12 @@ limited by the structure of the application and/or the available compute
 resources. To avoid being wasteful with our resources, it is crucial to
 understand how well or badly we are utilizing them.
 
-**Utilization**. The utilization of a core while executing a given workload is defined as follows: (compute time) / (compute time + idle time). The utilization of a multi-core host then, is defined as the average core utilization.  For instance, consider a dual-core host that executes a workflow for 1 hour. The first core computes for 30 min, and then is idle for 30 min. The second core is idle for 15 minutes, and then computes for 45 minutes.
+**Utilization**. The utilization of a core while executing a given workload is
+defined as follows: (compute time) / (compute time + idle time). The
+utilization of a multi-core host then, is defined as the average core
+utilization.  For instance, consider a dual-core host that executes a workflow
+for 1 hour. The first core computes for 30 min, and then is idle for 30 min.
+The second core is idle for 15 minutes, and then computes for 45 minutes.
 
 $$
 \begin{align}
@@ -138,14 +146,17 @@ average\;core\;utilization_{host} & = \frac{1}{\left| cores \right|} \sum_{c \in
 \end{align}
 $$
 
-The first core's utilization is 50%, and the second core's utilization is 75%. The overall utilization is thus 62.5%.
+The first core's utilization is 50%, and the second core's utilization is 75%.
+The overall utilization is thus 62.5%.
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/utilization.svg">Utilization</object>
 
-Figure 4 illustrates the concept of utilization. The area of the container rectangle (in this example a 2-by-60 rectangle) represents the total amount of time all
-cores could have computed for. The colored area represents how much time all cores actually computed for. The proportion of
-the colored area to the total area tells us the utilization of this host for a given workload. Optimizing for utilization
-means maximizing the colored area.   
+Figure 4 illustrates the concept of utilization. The area of the container
+rectangle (in this example a 2-by-60 rectangle) represents the total amount of
+time all cores could have computed for. The colored area represents how much
+time all cores actually computed for. The proportion of the colored area to the
+total area tells us the utilization of this host for a given workload.
+Optimizing for utilization means maximizing the colored area.   
 
 For the remainder of this activity, we will be using the visualization tool. In the terminal, run the following
 commands:
@@ -168,7 +179,7 @@ commands:
 q1.  top level of the workflow: 20 * ((2000 / 125) + 3600 + (2000 / 1250)) = 72352
      bottom level of the workflow: 20 * (2000 / 1250) + 300 + (2000 / 125) = 348
      total estimated time: 72700s
-     actual simulated time: 72729.82466s
+     actual simulated time: 72717.116739 seconds
 
 q2. all of the top level tasks   
 
@@ -188,11 +199,11 @@ q2. all of the top level tasks
 q3.  top level of workflow: 2 * (10 * (2000 / 125) + 3600 + 10 * (2000 / 1250)) = 7552
      bottom level of workflow: 20 * (2000 / 1250) + 300 + (2000 / 125) = 348
      total estimated time: 7900s
-     actual simulated time: 7929.6s
+     actual simulated time: 7916.856679 seconds
 
 q4. There is much more yellow than pink in the Gantt chart, so the utilization has to be > 50%.
 
-q5. (10 * (2 * 3600) + (9 * 0) + (1 * 300)) / (10 * 7929.6) = .9117
+q5. (10 * (2 * 3600) + (9 * 0) + (1 * 300)) / (10 * 7916) = .913
 
 {% endcomment %}
 
@@ -208,9 +219,9 @@ q5. (10 * (2 * 3600) + (9 * 0) + (1 * 300)) / (10 * 7929.6) = .9117
 {% comment %}
 
 q6. same as above
-     actual simulated time: 7929.71s
+     actual simulated time: 7916.856679 seconds
 
-q7. ((15 * 3600) + (5 * 3600) + (1 * 300)) / (15 * 7929.71) = .60784
+q7. ((15 * 3600) + (5 * 3600) + (1 * 300)) / (15 * 7916) = .608
 
 q8. execution wasn't faster and utilization decreased..
 
@@ -235,93 +246,96 @@ Assuming the cluster has 1 20-core node:
 
 q9. within the first second
 
-q10. 20 * (2000 / 125) + 3600 + 20 * (2000 / 1250) = 3952
+q10. within the first second
 
-q11. same as 1
+q11. 20 * (2000 / 125) + 3600 + 20 * (2000 / 1250) = 3952, so just after 3952 seconds
 
-q12. same as 2
+q12. 20 * (2000 / 125) + 3600 + 20 * (2000 / 1250) + 20 * (2000 / 1250) + 300 + (2000 / 125) = 4300s
 
-q13. right after the time mentioned in q10
+     actual simulated time: 4316.842 seconds
 
-q14. 20 * (2000 / 125) + 3600 + 20 * (2000 / 1250) + 20 * (2000 / 1250) + 300 + (2000 / 125) = 4300s
+q13. (72717.116 - 4316.842) / 72717.116 = .94063
 
-     actual simulated time: 4329.72s
-
-q15. (72729.82 - 4329.72) / 72729.82 = .94046
-
-q16. no, the most cores we can take advantage of is 20 at the top level. then, due to dependencies, an extra core doesn't
+q14. no, the most cores we can take advantage of is 20 at the top level. then, due to dependencies, an extra core doesn't
      help us execute the bottom level any faster as well
 
-q17. ((20*3600) + (1*300)) / (20 * 4329.72) = .834926
+q15. ((20*3600) + (1*300)) / (20 * 4329.72) = .834926
 
 {% endcomment %}
 
 ## Step 2: Augment the Compute Service to Have Multiple Compute Nodes
 
-In Step 1, we executed the workflow under the assumption that tasks require
-no RAM. Real-world workflow tasks (and programs in general) usually require
-some amount of RAM to be available in the system. This step introduces a
-RAM requirement for our workflow such that each task consumes 9 GB of RAM
-during its execution. If a compute node does not have enough RAM to execute
+In Step 1, each workflow task had a RAM requirement such that its RAM
+usage was equal to the sum of its input and output file sizes. What about
+RAM required for the task itself? That is, real-world workflow tasks (and
+programs in general) usually require some amount of RAM for variables,
+temporary data-structures, etc. As such, this step introduces an *additional*
+12 GB RAM requirement for each task (Figure 9). For example, *task0* previously required
+4 GB of RAM, whereas in this step it requires 16 GB of RAM.
+
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/workflow_using_additional_ram.svg">Workflow With Additional RAM Requirement</object>
+
+If a compute node does not have enough RAM to execute
 the task, its execution is deferred by the CS until the required amount of RAM
 becomes available on that compute node (in other terms, we do not allow swapping - see your OS
-course!). Since our hosts have 32 GB of RAM, this means that at most 3
-tasks can run concurrently on a host (because 4 times 9 is greater than
-32). The following questions reveal how this requirement forces us to find
+course!). Since our hosts have 80 GB of RAM, this means that at most 5
+tasks can run concurrently on a host (because 6 times 16 is greater than
+80). The following questions reveal how this requirement forces us to find
 another means of utilizing parallelism and increasing workflow execution
 performance.
 
 **Answer these questions**
 
-  - [q16] Assuming the cluster has 1 20-core node, and that **Workflow Tasks each require 9 GB of RAM**, what can we expect the makespan of the
-  workflow to be? Write a simple formula. In the visualization tool, set the simulator to have a single compute node with 20 cores (Figure 8).
-  Check the box that says, "Workflow Tasks use 9 GB of RAM". Run the simulation and check your results against the simulator.
-  - [q17] Set the number of cores to be 64 and check the box that says, "Workflow Tasks use 9 GB of RAM". Run the simulation.
+  - [q16] Assuming the cluster has 1 20-core node, and that **Workflow Tasks each require an additional 12 GB of RAM**,
+  what can we expect the makespan of the workflow to be? Write a simple formula. In the visualization tool,
+  set the simulator to have a single compute node with 20 cores (Figure 8).
+  Check the box that says, "Workflow Tasks each require an additional 12 GB of RAM". Run the simulation and check your results against the simulator.
+  - [q17] Set the number of cores to be 32 and check the box that says, "Workflow Tasks each require an additional 12 GB of RAM". Run the simulation.
   What is the makespan of the workflow?
-  - [q18] Why doesn't going to 64 cores improve workflow execution performance?
+  - [q18] Why doesn't going to 32 cores improve workflow execution performance?
   - [q19] In fact, what is the minimum number of cores on the host that will give us the same performance?
 
 {% comment %}
 
-q18. 6 * (3 * (2000 / 125) + 3600 + 3 * (2000 / 1250)) + (2 * (2000 / 125) + 3600 + 2 * (2000 / 1250)) + 20 * (2000 / 1250) + 300 + (2000 / 125) = 25900s
-     actual simulated time: 25928.298330s
+q16. 4*(5*(2000/125) + 3600 + 5*(2000/1250)) + 20*(2000/1250) + 300 + (2000/125) = 15100 seconds
+     actual simulated time: 15116.884782 seconds
 
-q19. stays the same
+q17. stays the same
 
-q20. the ram requirement makes it so that we can execute at most 3 tasks at a time on a host
+q18. the ram requirement makes it so that we can execute at most 5 tasks at a time on a host
 
-q21. 3 cores
+q19. 5 cores
 
 {% endcomment %}
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_5.svg">Compute Service 5</object>
 
-  - [q20] Assuming the cluster has 5 4-core compute nodes, what can we expect the makespan of the workflow to be?
-    Write a simple formula. Now set the simulator to have 5 compute nodes, each with 4 cores. Check the box that
-    says "Workflow Tasks use 9 GB of RAM". Run the simulation and check your results against the simulator.
-  - [q21] How much faster did the workflow execute in this execution when compared to the previous one?
+  - [q20] Assuming the cluster has 4 8-core compute nodes (Figure 10), what can we expect the makespan of the workflow to be?
+    Write a simple formula. Now set the simulator to have 4 compute nodes, each with 8 cores. Check the box that
+    says "Workflow Tasks each require an additional 12 GB of RAM". Run the simulation and check your results against the simulator.
+  - [q21] How much faster did the workflow execute in this execution when compared to the previous one (the answer from q16)?
   - [q22] What about the utilization of the cluster? Compute it as a percentage using a simple formula.
-  - [q23] Assuming we had been able to purchase 5 3-core compute nodes instead of 5 4-core compute nodes, what would the utilization have been?
-  - [q24] Assuming that you can add an arbitrary number of 4-core nodes, with the same per-core compute speed,
-  estimate the fastest possible execution time for this workflow?
+  - [q23] Assuming we had been able to purchase 4 5-core compute nodes instead of 4 8-core compute nodes, what would the utilization have been?
+  - [q24] Assuming that you can add an arbitrary number of 5-core nodes, with the same per-core compute speed, is it possible to
+          decrease the workflow execution time?
   - [q25] What is the minimum number of 3-core nodes that achieves this fastest possible execution time?
 
 {% comment %}
 
-q22. ceil(20 / (3 * 5)) = 2
+q20.
 
-  20 * (2000 / 125) + (2 * 3600) + 20 * (2000 / 1250) + 20 * (2000 / 1250) + 300 + (2000 / 125) = 7900.00
-  actual simulated time = 7929.698949
+  20 * (2000 / 125) + 3600 + 20 * (2000 / 1250) + 20 * (2000 / 1250) + 300 + (2000 / 125) = 4300
+  actual simulated time = 4316.842341 seconds
 
-q23. ((25928.29 - 7929.69) / 25928.29) = .69 so, about 69% faster
+q21. ((15116.88 - 4316.84) / 15116.88) = .71 so, about 71% faster
 
-q24. ((15*3600) + (5*3600) + (1*300)) / (20 * 7929.69) = 0.455
+q22. ((20*3600) + (1*300)) / ((4*8) * 4316.842341) = 0.5233
 
-q25. ((15*3600) + (5*3600) + (1*300)) / (15 * 7929.69) = .607842
+q23. ((20*3600) + (1*300)) / (20 * 4316.842341) = .8374
 
-q26. 20 * (2000 / 125) + 3600 + 20 * (2000 / 1250) + 20 * (2000 / 1250) + 300 + (2000 / 125) = 4300s
+q24. no
 
-q27.  ceil(20 / 3)  = 7 nodes, then the top level can be done completely in parallel
+q25.  ceil(20 / 5)  = 4 nodes, then the top level can be done completely in parallel
 
 {% endcomment %}  
 
@@ -336,8 +350,8 @@ Your results showed that parallel execution of tasks did in fact increase workfl
 certain degree. Next, we calculated utilization when using a different number of cores. These results should
 have demonstrated to you that we can't always execute workflows as fast as possible while achieving 100% utilization.
 
-After being introduced to parallelism and utilization, we added the
-requirement of RAM usage to the workflow in order to simulate a situation
+After being introduced to parallelism and utilization, we added
+additional RAM requirements to the workflow in order to simulate a situation
 more relevant to actual practice. Under those circumstances, the workflow
 execution performance collapsed when running this workflow on a single node
 CS. Rather than simply adding more cores to the single compute node, we

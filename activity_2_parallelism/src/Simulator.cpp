@@ -20,7 +20,7 @@
  * @param workflow
  * @param num_tasks_to_join: number of tasks to join into one final task
  * @param file_size: file size for all files in this workflow
- * @param requires_memory: bool specifying if the tasks have a RAM requirement of 9.0GB or not
+ * @param requires_memory: bool specifying if the tasks have a RAM requirement of 12.0 GB or not
  *
  * @throws std::invalid_argument
  */
@@ -43,15 +43,16 @@ void generateTaskJoinWorkflow(wrench::Workflow *workflow, int num_tasks_to_join,
     const unsigned long    MIN_CORES = 1;
     const unsigned long    MAX_CORES = 1;
     const double PARALLEL_EFFICIENCY = 1.0;
-    const double  MEMORY_REQUIREMENT = requires_memory ? 9.0 * 1000.0 * 1000.0 * 1000.0 : 0.0;
+    const double  MEMORY_REQUIREMENT = requires_memory ? 12.0 * 1000.0 * 1000.0 * 1000.0 : 0.0;
 
     // add final task
-    auto final_task = workflow->addTask("task" + std::to_string(num_tasks_to_join), (FLOPS / 12), MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
+    auto final_task = workflow->addTask("task" + std::to_string(num_tasks_to_join), (FLOPS / 12), MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY,
+      MEMORY_REQUIREMENT + ((double)num_tasks_to_join * file_size) + file_size);
 
     // create number of desired tasks to join into one
     for (int i = 0; i < num_tasks_to_join; ++i) {
         std::string task_id("task" + std::to_string(i));
-        auto current_task = workflow->addTask("task" + std::to_string(i), FLOPS, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
+        auto current_task = workflow->addTask("task" + std::to_string(i), FLOPS, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT + (2.0 * file_size));
         current_task->addInputFile(workflow->addFile(task_id + ".in", file_size));
 
         auto output_file = workflow->addFile(task_id + ".out", file_size);
@@ -94,7 +95,7 @@ void generatePlatformWithHPCSpecs(std::string platform_file_path, int num_nodes,
                       "     <!-- effective bandwidth = 1250 MBps -->\n"
                       "     <cluster id=\"hpc.edu\" prefix=\"hpc.edu/node_\" suffix=\"\" radical=\"0-";
             xml += std::to_string(num_nodes)  + "\" core=\"" + std::to_string(num_cores) + "\" speed=\"1000Gf\" bw=\"1288.6597MBps\" lat=\"10us\" router_id=\"hpc_gateway\">\n";
-            xml += "         <prop id=\"ram\" value=\"32000000000\"/>\n";
+            xml += "         <prop id=\"ram\" value=\"80000000000\"/>\n";
             xml += "        </cluster>\n";
             xml += "      <zone id=\"AS2\" routing=\"Full\">\n";
             xml += "          <host id=\"storage_db.edu\" speed=\"1000Gf\"/>\n";
@@ -133,7 +134,7 @@ int main(int argc, char** argv) {
     simulation.init(&argc, argv);
 
     const int MAX_NODES         = 32;
-    const int MAX_CORES         = 64;
+    const int MAX_CORES         = 32;
     const int MAX_TASKS_TO_JOIN = 50;
     const double MAX_FILE_SIZE  = 1000.0 * 1000.0 * 1000.0 * 1000.0;
 
