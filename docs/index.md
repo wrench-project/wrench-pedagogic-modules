@@ -7,8 +7,8 @@ order: 0
 The goal of these pedagogic modules is for students to achieve learning objectives
 in the area of distributed computing, in the context of scientific workflows, via
 hands-on experiments. This is achieved through a set of “activities” that explore,
-at first introductory and later sophisticated, concepts and techniques. All these
-activities entail simulating workflow executions, which is done with the
+at first elementary and later sophisticated, concepts and techniques. All these
+activities entail simulating workflow executions using the
 [WRENCH](http://wrench-project.org) simulation framework.
 
 Each activity can be viewed by clicking on the menu button located at the top
