@@ -27,14 +27,14 @@ order: 3
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/workflow.svg">Workflow</object>
 
-In this activity, we study the execution of the workflow depicted in Figure 1 on the cyber infrastructure depicted in
+In this activity, we study the execution of the workflow depicted in Figure 1 on the cyberinfrastructure depicted in
 Figure 2. A Compute Service (CS) will execute tasks that the Workflow Management System (WMS)
 submits to it. The CS has at its disposal a single core and will execute only one task at a time.
 The Storage Service (SS) stores files, much like a database, and handles read and write requests. When the WMS submits a job to the CS, information is included in the
 job submission that specifies what storage service to use for I/O operations.
 This is a very simple scenario, and will be used to get our "feet wet" with WRENCH simulations.
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/cyber_infrastructure.svg">Cyber Infrastructure</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/cyber_infrastructure.svg">Cyberinfrastructure</object>
 
 ## WMS Scenario
 
@@ -183,7 +183,7 @@ Furthermore, let us say that another storage service resides on the host hpc.edu
 storage service. Since the WMS user will only access the *remote storage service* to handle  two files, *task0::0.in* and *task4::0.out*,
 we have enhanced our previous WMS implementation so that it tells the CS to use its *local storage service* (the storage service located on hpc.edu) for all
 read and write operations for intermediate files.
-Figure 3 above illustrates our new cyber infrastructure and WMS/Workflow scenario.
+Figure 3 above illustrates our new cyberinfrastructure and WMS/Workflow scenario.
 
 Using the visualization tool from Step 3, input *10 MB/sec* as the link bandwidth.
 Select the radio button that says: *Storage Service on storage_db.edu and hpc.edu*. Run the simulation.

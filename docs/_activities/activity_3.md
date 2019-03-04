@@ -32,7 +32,7 @@ You are a software engineer at a large corporation that routinely executes
 workflows for many customer applications. You have been tasked with
 ensuring that a particularly important workflow (Figure 1), which is
 executed repeatedly on different input files, runs as efficiently as
-possible on your corporation's cyber infrastructure (Figure 2).  Your
+possible on your corporation's cyberinfrastructure (Figure 2).  Your
 customers produce the input files, which are always the same size, at the
 remote storage service.  The workflow's single output file must be stored,
 once it's been created, at that same storage service. All computation takes

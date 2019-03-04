@@ -8,9 +8,9 @@ usemathjax: true
 ### Overview
 
 Now that you have been introduced to *workflows*, *workflow management systems (WMS)*,
-*cyber infrastructure*, and *file transfer times*, we
+*cyberinfrastructure*, and *file transfer times*, we
 proceed by taking a closer look into what actually happens when *workflows* (the applications)
-are executed by a *WMS* (the software to manage application executions) on some *cyber infrastructure* (the execution platform). First we describe a
+are executed by a *WMS* (the software to manage application executions) on some *cyberinfrastructure* (the execution platform). First we describe a
 scenario that provides a specific context for observing the execution of a workflow. This includes
 the composition of the workflow, the platform specifications, and
 finally the WMS implementation. Then we detail the sequence of workflow execution events and formulate a simple equation to model
@@ -33,7 +33,7 @@ each task.
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/
 primer_on_workflow_executions/platform.svg">Workflow</object>
 
-The platform in Figure 2 depicts the cyber infrastructure on which we can
+The platform in Figure 2 depicts the cyberinfrastructure on which we can
 execute this workflow. In this scenario, the WMS resides on the host
 *my_lab_computer.edu*, and has access to both the Storage Service on host
 *storage_db.edu* and the Compute Service on host *hpc.edu*.

@@ -31,11 +31,11 @@ The structure of this workflow appears
 to be "joining" multiple tasks into one, so naturally this structure is typically called a "join"
 (note that this has nothing to do with a database type of "join").   
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/cyber_infrastructure.svg">Cyber Infrastructure</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/cyber_infrastructure.svg">Cyberinfrastructure</object>
 
 
-Figure 2 depicts this activity's cyber infrastructure. We build upon the
-basic cyber infrastructure that was introduced in the previous activity.
+Figure 2 depicts this activity's cyberinfrastructure. We build upon the
+basic cyberinfrastructure that was introduced in the previous activity.
 The Compute Service (CS) now has a configurable number of resources on
 which it can execute tasks. For example, the CS could have access to two
 physical machines, or "compute nodes", both equipped with
