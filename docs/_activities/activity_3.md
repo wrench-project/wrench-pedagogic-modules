@@ -179,7 +179,7 @@ is not always the *best*. When file sizes vary, one option might be better than 
 Purchasing a certain hardware upgrade may be the right
 way to approach a performance related issue in some cases but not all.
 
-{% commend %}
+{% comment %}
 
 In the next activity, "Activity 4: Some Name To Do With Varying File Sizes", we explore
 the effects of varying file sizes on workflow execution performance.  
