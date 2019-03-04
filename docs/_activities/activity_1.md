@@ -38,7 +38,7 @@ This is a very simple scenario, and will be used to get our "feet wet" with WREN
 
 ## WMS Scenario
 
-We execute the workflow with a (already implemented) WMS that executes tasks
+We execute the workflow with a WMS that executes tasks
 on the CS as soon as possible. Each task running on the CS reads and writes data
 from/to the SS (which, from the perspective of the task, is on a remote host).
 Once the WMS is notified by the CS that a task has completed, it will greedily submit the next ready task
@@ -135,7 +135,7 @@ In the terminal run the following commands:
   - [q8] What fraction of *task0*'s execution time is spent doing I/O?
   - [q9] What fraction of *task4*'s execution time is spent doing I/O?
   - [q10] If the link bandwidth between *storage_db.edu* and *hpc.edu* were doubled,
-    what fraction of *task4*'s execution time will be spent doing I/O?
+    what fraction of *task4*'s execution time would be spent doing I/O?
    Double the platform link bandwidth (set it to 20 MB/sec) using the visualization and run the simulation.
       Is your expectation confirmed?
   - [q11] With the link bandwidth doubled, how much faster is the workflow execution now than before?
@@ -191,7 +191,7 @@ Select the radio button that says: *Storage Service on storage_db.edu and hpc.ed
 **Answer these questions**
   - [q13] What fraction of *task4* is spent doing I/O?
   - [q14] Compared to the workflow execution time observed in *Step 2*, how much faster is it now?
-  - [q15] Using only a single remote storage service, what would you need to increase the bandwidth to in order to have a workflow execution that is
+  - [q15] Using only the remote storage service (i.e., no storage service close to the compute service), what would you need to increase the bandwidth to in order to have a workflow execution that is
     faster than what was realized using a 10 MB/sec link bandwidth with a storage service on storage_db.edu and hpc.edu?
 
 {% comment %}
@@ -213,7 +213,7 @@ When you are finished using the visualization tool, run: `docker kill $(docker p
 
 In this activity, we have simulated the execution of a small workflow on two simple distributed computing environments that exposed the
 cost of performing I/O operations.
-Using both textual and visualized simulation output, we have familiarized ourselves with network bandwidth and **data locality**,
+Using both textual and visual simulation output, you have familiarized yourselves with network bandwidth and **data locality**,
 two of the many factors that can affect task **turnaround** times, which consequently affect overall workflow execution performance.
 With these concepts in mind, proceed to the next
  activity, [Activity 2: Parallelism]({{ site.baseurl }}/activities/activity_2), where we construct a more complex distributed computing environment in order to explore the concept of "parallelism".
