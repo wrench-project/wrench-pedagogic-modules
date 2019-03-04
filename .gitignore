@@ -55,3 +55,6 @@ CTestTestfile.cmake
 # Files Created By the WRENCH Activity Simulators
 workflow_graph.json
 workflow_data.json
+
+# VIM backup files
+*.bak
