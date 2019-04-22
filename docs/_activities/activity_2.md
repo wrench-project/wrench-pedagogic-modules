@@ -45,7 +45,7 @@ multiple compute nodes. The CS in this activity is what is known as a
 "cluster" and can be decomposed into two parts: a "frontend node" and
 "compute node(s)". The frontend node handles job requests from the Workflow
 Management System (WMS) and dispatches work to the compute node(s)
-according to some decision-making algorithm. 
+according to some decision-making algorithm.
 In this activity, our WMS submits
 all workflow tasks to the CS at once, specifying for each task on which
 compute node it should run, trying to utilize the available compute nodes
@@ -111,7 +111,7 @@ storage that computing services have access to while jobs are being
 executed. Having a scratch space on the CS is key to enabling
 data locality, which is itself key to better performance, as we learned
 in the previous [Activity 1]({{ site.baseurl }}/activities/activity_1). This
-scheme is depicted in Figure 3. 
+scheme is depicted in Figure 3.
 
 # Activity
 
@@ -179,17 +179,6 @@ commands:
   To this end, write a simple formula. In the visualization tool,  set the cluster to have 1 single-core node. Run the simulation and check your answer. (Note that you might not be able to see file transfer operations in the displayed Gantt charts because these operations could be very short relatively to the overall makespan.)
   - [q2] Based on the dependencies present in the workflow, what tasks could we potentially execute in parallel assuming we had at least 20 cores instead of 1 core?
 
-{% comment %}
-
-q1.  top level of the workflow: 20 * ((2000 / 125) + 3600 + (2000 / 1250)) = 72352
-     bottom level of the workflow: 20 * (2000 / 1250) + 300 + (2000 / 125) = 348
-     total estimated time: 72700s
-     actual simulated time: 72717.116739 seconds
-
-q2. all of the top level tasks   
-
-{% endcomment %}
-
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_2.svg">Compute Service 2</object>
 
   - [q3] Assuming the cluster has 1 10-core compute node (Figure 6), what do you expect the makespan of the workflow to be?
@@ -199,19 +188,6 @@ q2. all of the top level tasks
   - [q5] What percentage of the compute node is being utilized throughout workflow execution?
   Write a formula for the utilization and compute the value as a percentage.
 
-{% comment %}
-
-q3.  top level of workflow: 2 * (10 * (2000 / 125) + 3600 + 10 * (2000 / 1250)) = 7552
-     bottom level of workflow: 20 * (2000 / 1250) + 300 + (2000 / 125) = 348
-     total estimated time: 7900s
-     actual simulated time: 7916.856679 seconds
-
-q4. There is much more yellow than pink in the Gantt chart, so the utilization has to be > 50%.
-
-q5. (10 * (2 * 3600) + (9 * 0) + (1 * 300)) / (10 * 7916) = .913
-
-{% endcomment %}
-
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_3.svg">Compute Service 3</object>
 
   - [q6] Assuming the cluster has 1 15-core compute node (Figure 7), what do you expect the makespan of the workflow to be?
@@ -220,17 +196,6 @@ q5. (10 * (2 * 3600) + (9 * 0) + (1 * 300)) / (10 * 7916) = .913
   - [q7] What percentage of the compute node is being utilized while executing this workflow?
   Write a formula for the utilization and compute the value as a percentage.
   - [q8] What did we gain (or lose) by switching from a 10 core node to a 15 core node?
-
-{% comment %}
-
-q6. same as above
-     actual simulated time: 7916.856679 seconds
-
-q7. ((15 * 3600) + (5 * 3600) + (1 * 300)) / (15 * 7916) = .608
-
-q8. execution wasn't faster and utilization decreased..
-
-{% endcomment %}
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_4.svg">Compute Service 4</object>
 
@@ -246,27 +211,6 @@ Assuming the cluster has 1 20-core node:
   - [q15] What percentage of the compute node is being utilized while executing this workflow?
   Write a formula for the utilization and compute the value as a percentage.
 
-
-{% comment %}
-
-q9. within the first second
-
-q10. within the first second
-
-q11. 20 * (2000 / 125) + 3600 + 20 * (2000 / 1250) = 3952, so just after 3952 seconds
-
-q12. 20 * (2000 / 125) + 3600 + 20 * (2000 / 1250) + 20 * (2000 / 1250) + 300 + (2000 / 125) = 4300s
-
-     actual simulated time: 4316.842 seconds
-
-q13. (72717.116 - 4316.842) / 72717.116 = .94063
-
-q14. no, the most cores we can take advantage of is 20 at the top level. then, due to dependencies, an extra core doesn't
-     help us execute the bottom level any faster as well
-
-q15. ((20*3600) + (1*300)) / (20 * 4329.72) = .834926
-
-{% endcomment %}
 
 ## Step 2: Augment the Compute Service to Have Multiple Compute Nodes
 
@@ -300,19 +244,6 @@ performance.
   - [q18] Why doesn't going to 32 cores improve workflow execution performance?
   - [q19] In fact, what is the minimum number of cores on the host that will give us the same performance?
 
-{% comment %}
-
-q16. 4*(5*(2000/125) + 3600 + 5*(2000/1250)) + 20*(2000/1250) + 300 + (2000/125) = 15100 seconds
-     actual simulated time: 15116.884782 seconds
-
-q17. stays the same
-
-q18. the ram requirement makes it so that we can execute at most 5 tasks at a time on a host
-
-q19. 5 cores
-
-{% endcomment %}
-
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_2/compute_service_5.svg">Compute Service 5</object>
 
   - [q20] Assuming the cluster has 4 8-core compute nodes (Figure 10), what can we expect the makespan of the workflow to be?
@@ -324,25 +255,6 @@ q19. 5 cores
   - [q24] Assuming that you can add an arbitrary number of 5-core nodes, with the same per-core compute speed, is it possible to
           decrease the workflow execution time?
   - [q25] What is the minimum number of 3-core nodes that achieves this fastest possible execution time?
-
-{% comment %}
-
-q20.
-
-  20 * (2000 / 125) + 3600 + 20 * (2000 / 1250) + 20 * (2000 / 1250) + 300 + (2000 / 125) = 4300
-  actual simulated time = 4316.842341 seconds
-
-q21. ((15116.88 - 4316.84) / 15116.88) = .71 so, about 71% faster
-
-q22. ((20*3600) + (1*300)) / ((4*8) * 4316.842341) = 0.5233
-
-q23. ((20*3600) + (1*300)) / (20 * 4316.842341) = .8374
-
-q24. no
-
-q25.  ceil(20 / 5)  = 4 nodes, then the top level can be done completely in parallel
-
-{% endcomment %}  
 
 When you are finished using the visualization tool, run: `docker kill $(docker ps -a -q  --filter ancestor=wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization)`
 
