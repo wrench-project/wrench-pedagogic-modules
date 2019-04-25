@@ -235,8 +235,8 @@ performance.
 
 **Answer these questions**
 
-  - [q16] Assuming the cluster has 1 20-core node, and that **Workflow Tasks each require an additional 12 GB of RAM**,
-  what can we expect the makespan of the workflow to be? Write a simple formula. In the visualization tool,
+  - [q16] Assume that the cluster has 1 20-core node and that **Workflow Tasks each require an additional 12 GB of RAM, meaning that they require 16 GB**.
+  What can we expect the makespan of the workflow to be? Write a simple formula. In the visualization tool,
   set the simulator to have a single compute node with 20 cores (Figure 8).
   Check the box that says, "Workflow Tasks each require an additional 12 GB of RAM". Run the simulation and check your results against the simulator.
   - [q17] Set the number of cores to be 32 and check the box that says, "Workflow Tasks each require an additional 12 GB of RAM". Run the simulation.
