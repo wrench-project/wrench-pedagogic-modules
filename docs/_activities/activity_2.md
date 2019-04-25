@@ -144,7 +144,7 @@ $$
 \begin{align}
 
 average\;core\;utilization_{host} & = \frac{1}{\left| cores \right|} \sum_{c \in cores}\frac{compute\;time(c)}{compute\;time(c) + idle\;time(c)} \\
-                                  & = \frac{1}{2} \left( \frac{30\;min}{30\;min + 30\;min} + \frac{45\;min}{15\;min + 45\;min}  \right) \\
+                                  & = \frac{1}{2} \left( \frac{30\;min}{30\;min + 30\;min} + \frac{45\;min}{45\;min + 15\;min}  \right) \\
                                   & = \frac{1}{2} \left( \frac{1}{2} + \frac{3}{4} \right) \\
                                   & = 0.625
 
