@@ -126,23 +126,23 @@ int main(int argc, char **argv) {
 
     // two storage services, one on each host
     const double STORAGE_CAPACITY = MAX_FILE_SIZE * MAX_NUM_FILES * 1000.0 * 1000.0;
-    wrench::StorageService *storage_service_1 = simulation.add(
+    auto storage_service_1 = simulation.add(
             new wrench::SimpleStorageService("host1", STORAGE_CAPACITY)
             );
 
-    wrench::StorageService *storage_service_2 = simulation.add(
+    auto storage_service_2 = simulation.add(
             new wrench::SimpleStorageService("host2", STORAGE_CAPACITY)
     );
 
     // wms
-    wrench::WMS *wms = simulation.add(new wrench::ActivityWMS({storage_service_1, storage_service_2}, "host1"));
+    auto wms = simulation.add(new wrench::ActivityWMS({storage_service_1, storage_service_2}, "host1"));
 
     wrench::Workflow workflow;
     generateWorkflow(&workflow, NUM_FILES, FILE_SIZE);
     wms->addWorkflow(&workflow);
 
     // file registry service
-    simulation.add(new wrench::FileRegistryService("host1"));
+    auto file_registry_service = simulation.add(new wrench::FileRegistryService("host1"));
 
     // stage all the files in the workflow at ss on host1
     for (const auto &file : workflow.getFiles()) {

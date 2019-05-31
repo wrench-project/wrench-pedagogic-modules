@@ -10,7 +10,7 @@ namespace wrench {
 
     class ActivityWMS : public WMS {
     public:
-        ActivityWMS(const std::set<StorageService *> &storage_services,
+        ActivityWMS(const std::set<std::shared_ptr<wrench::StorageService>> &storage_services,
                     const std::string &hostname);
 
     private:

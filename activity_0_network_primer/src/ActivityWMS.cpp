@@ -5,7 +5,7 @@
 XBT_LOG_NEW_DEFAULT_CATEGORY(FileCopyWMS, "Log category for FileCopyWMS");
 
 namespace wrench {
-    ActivityWMS::ActivityWMS(const std::set<wrench::StorageService *> &storage_services, const std::string &hostname)
+    ActivityWMS::ActivityWMS(const std::set<std::shared_ptr<StorageService>> &storage_services, const std::string &hostname)
             : WMS(nullptr, nullptr, {}, storage_services, {}, nullptr, hostname, "activity0") {
 
     }
@@ -16,11 +16,11 @@ namespace wrench {
 
         auto storage_services = this->getAvailableStorageServices();
 
-        std::set<StorageService *>::iterator storage_service_1 = std::find_if(storage_services.begin(), storage_services.end(), [ ](StorageService *ss) {
+        std::set<std::shared_ptr<StorageService>>::iterator storage_service_1 = std::find_if(storage_services.begin(), storage_services.end(), [ ](std::shared_ptr<StorageService> ss) {
             return ss->getHostname() == "host1";
         });
 
-       std::set<StorageService *>::iterator storage_service_2 = std::find_if(storage_services.begin(), storage_services.end(), [ ](StorageService *ss) {
+       std::set<std::shared_ptr<StorageService>>::iterator storage_service_2 = std::find_if(storage_services.begin(), storage_services.end(), [ ](std::shared_ptr<StorageService> ss) {
            return ss->getHostname() == "host2";
        });
 
