@@ -1,4 +1,4 @@
-FROM wrenchproject/wrench-build:ubuntu-xenial-gcc5
+FROM wrenchproject/wrench-build:ubuntu-bionic-gcc7
 
 #################################################
 # INSTALL WRENCH
@@ -7,10 +7,10 @@ FROM wrenchproject/wrench-build:ubuntu-xenial-gcc5
 USER root
 WORKDIR /tmp
 
-# clone WRENCH, checkout version 1.3dev, build, and install
+# clone WRENCH, checkout version 1.5dev, build, and install
 RUN git clone https://github.com/wrench-project/wrench \
     && cd wrench \
-    && git checkout 4dc6f5ca\
+    && git checkout f3f10f7a\
     && cmake . \
     && make \
     && sudo make install
