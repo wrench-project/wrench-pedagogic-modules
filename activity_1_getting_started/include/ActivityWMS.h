@@ -10,11 +10,11 @@ namespace wrench {
     class ActivityWMS : public WMS {
     public:
         ActivityWMS(std::unique_ptr <StandardJobScheduler> standard_job_scheduler,
-                    const std::set<ComputeService *> &compute_services,
-                    const std::set<StorageService *> &storage_services,
+                    const std::set<std::shared_ptr<ComputeService>> &compute_services,
+                    const std::set<std::shared_ptr<StorageService>> &storage_services,
                     const std::string &hostname);
 
-        void processEventStandardJobCompletion(std::unique_ptr<wrench::StandardJobCompletedEvent>) override;
+        void processEventStandardJobCompletion(std::shared_ptr<wrench::StandardJobCompletedEvent>) override;
 
     private:
         int main() override;

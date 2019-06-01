@@ -11,7 +11,7 @@ namespace wrench {
      * @brief Constructor
      * @param storage_services: a map of hostname key to StorageService pointer
      */
-    ActivityScheduler::ActivityScheduler(std::map<std::string, StorageService *> storage_services) : StandardJobScheduler(), storage_services(storage_services) {
+    ActivityScheduler::ActivityScheduler(std::map<std::string, std::shared_ptr<StorageService>> storage_services) : StandardJobScheduler(), storage_services(storage_services) {
 
     }
 
@@ -25,15 +25,15 @@ namespace wrench {
      * @param compute_services
      * @param ready_tasks
      */
-    void ActivityScheduler::scheduleTasks(const std::set<wrench::ComputeService *> &compute_services,
+    void ActivityScheduler::scheduleTasks(const std::set<std::shared_ptr<ComputeService>> &compute_services,
                                           const std::vector<WorkflowTask *> &ready_tasks) {
 
         TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_BLUE);
 
         // only a single compute service in this activity
-        ComputeService *compute_service = *compute_services.begin();
+        auto compute_service = *compute_services.begin();
         auto compute_host = compute_service->getHostname();
-        auto idle_core_counts = compute_service->getNumIdleCores();
+        auto idle_core_counts = compute_service->getPerHostNumIdleCores();
         auto num_idle_cores = idle_core_counts.at(compute_service->getHostname());
 
         // add tasks to a "tasks_to_submit" vector until core and or ram requirements cannot be met
@@ -46,7 +46,7 @@ namespace wrench {
                     {task_to_submit->getID(), compute_host + ":1"}
             };
 
-            std::map<WorkflowFile *, StorageService *> file_locations;
+            std::map<WorkflowFile *, std::shared_ptr<StorageService>> file_locations;
 
             #ifdef REMOTE_STORAGE
             for (auto f : task_to_submit->getInputFiles()) {

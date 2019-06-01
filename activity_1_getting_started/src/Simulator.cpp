@@ -146,14 +146,14 @@ int main(int argc, char** argv) {
     const std::string STORAGE_HOST("storage_db.edu");
 
     // storage service on storage_db_edu
-    wrench::StorageService *storage_db_edu_storage_service = simulation.add(new wrench::SimpleStorageService(STORAGE_HOST, 10000000000000.0));
-    wrench::StorageService *hpc_edu_storage_service = simulation.add(new wrench::SimpleStorageService(COMPUTE_HOST, 10000000000000.0));
-    std::map<std::string, wrench::StorageService *> storage_services = {
+    auto storage_db_edu_storage_service = simulation.add(new wrench::SimpleStorageService(STORAGE_HOST, 10000000000000.0));
+    auto hpc_edu_storage_service = simulation.add(new wrench::SimpleStorageService(COMPUTE_HOST, 10000000000000.0));
+    std::map<std::string, std::shared_ptr<wrench::StorageService>> storage_services = {
             {"storage_db.edu", storage_db_edu_storage_service},
             {"hpc.edu", hpc_edu_storage_service}
     };
 
-    wrench::ComputeService *compute_service = simulation.add(new wrench::BareMetalComputeService(
+    auto compute_service = simulation.add(new wrench::BareMetalComputeService(
                 COMPUTE_HOST,
                 {COMPUTE_HOST},
                 {},
@@ -161,7 +161,7 @@ int main(int argc, char** argv) {
             ));
 
     // WMS on my_lab_computer_edu
-    wrench::WMS *wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler> (new wrench::ActivityScheduler(storage_services)),
+    auto wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler> (new wrench::ActivityScheduler(storage_services)),
             {compute_service}, {storage_db_edu_storage_service}, WMS_HOST));
 
     wms->addWorkflow(&workflow);

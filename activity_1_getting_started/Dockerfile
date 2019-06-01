@@ -1,5 +1,5 @@
 # wrench is the name of the 'wrench' docker image which was created with the base dockerfile in the root directory
-FROM wrenchproject/wrench-pedagogic-modules:wrench-1.3
+FROM wrenchproject/wrench-pedagogic-modules:wrench-1.5dev
 
 USER wrench 
 

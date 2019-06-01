@@ -9,14 +9,14 @@ namespace wrench {
     class ActivityScheduler : public StandardJobScheduler {
 
     public:
-        void scheduleTasks(const std::set<ComputeService *> &compute_services,
+        void scheduleTasks(const std::set<std::shared_ptr<ComputeService>> &compute_services,
                            const std::vector<WorkflowTask *> &tasks);
 
 
-        ActivityScheduler(std::map<std::string, StorageService *> storage_services);
+        ActivityScheduler(std::map<std::string, std::shared_ptr<StorageService>> storage_services);
 
     private:
-       std::map<std::string, StorageService *> storage_services;
+       std::map<std::string, std::shared_ptr<StorageService>> storage_services;
     };
 }
 
