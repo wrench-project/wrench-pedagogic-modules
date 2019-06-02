@@ -276,15 +276,15 @@ int main(int argc, char** argv) {
 
    // create a remote storage service and a storage service on the same host as the compute service
    const double STORAGE_CAPACITY = 10.0 * 1000.0 * 1000.0 * 1000.0 * 1000.0;
-   wrench::StorageService *remote_storage_service = simulation.add(
+   auto remote_storage_service = simulation.add(
             new wrench::SimpleStorageService(REMOTE_STORAGE_HOST, STORAGE_CAPACITY));
 
    // this storage service is pretending to be scratch for the baremetal compute service
-   wrench::StorageService *bare_metal_storage_service = simulation.add(
+   auto bare_metal_storage_service = simulation.add(
            new wrench::SimpleStorageService(COMPUTE_HOST, STORAGE_CAPACITY)
            );
 
-   std::map<std::string, wrench::StorageService *> storage_services = {
+   std::map<std::string, std::shared_ptr<wrench::StorageService>> storage_services = {
            {REMOTE_STORAGE_HOST, remote_storage_service},
            {COMPUTE_HOST, bare_metal_storage_service}
    };
@@ -297,7 +297,7 @@ int main(int argc, char** argv) {
        compute_nodes.insert((*node)->get_name());
    }
 
-   wrench::ComputeService *compute_service = simulation.add(
+   auto compute_service = simulation.add(
            new wrench::BareMetalComputeService(
                    COMPUTE_HOST,
                    compute_nodes,
@@ -307,7 +307,7 @@ int main(int argc, char** argv) {
            );
 
    // wms
-   wrench::WMS *wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler>(
+   auto wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler>(
            new wrench::ActivityScheduler(storage_services)), {compute_service}, {remote_storage_service}, WMS_HOST
            ));
 

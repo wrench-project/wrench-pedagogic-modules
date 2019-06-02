@@ -19,17 +19,17 @@ namespace wrench {
      * @brief Constructor
      * @param storage_services: a map of hostname key to StorageService pointer
      */
-    ActivityScheduler::ActivityScheduler(std::map<std::string, StorageService *> storage_services) : StandardJobScheduler(), storage_services(storage_services) {
+    ActivityScheduler::ActivityScheduler(std::map<std::string, std::shared_ptr<StorageService>> storage_services) : StandardJobScheduler(), storage_services(storage_services) {
 
     }
 
-    void ActivityScheduler::scheduleTasks(const std::set<wrench::ComputeService *> &compute_services,
+    void ActivityScheduler::scheduleTasks(const std::set<std::shared_ptr<ComputeService>> &compute_services,
                                           const std::vector<WorkflowTask *> &ready_tasks) {
 
         TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_BLUE);
-        ComputeService *compute_service = *compute_services.begin();
+        auto compute_service = *compute_services.begin();
 
-        auto idle_core_counts = compute_service->getNumIdleCores();
+        auto idle_core_counts = compute_service->getPerHostNumIdleCores();
         auto ram_capacities = compute_service->getMemoryCapacity();
 
 
@@ -61,7 +61,7 @@ namespace wrench {
         }
 
         // specify file locations for tasks that will be submitted
-        std::map<WorkflowFile *, StorageService *> file_locations;
+        std::map<WorkflowFile *, std::shared_ptr<StorageService>> file_locations;
         for (const auto &task : tasks_to_submit) {
 
             bool taskHasChildren = (task->getNumberOfChildren() != 0) ? true : false;
