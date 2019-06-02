@@ -13,8 +13,8 @@ namespace wrench {
      * @param hostname
      */
     ActivityWMS::ActivityWMS(std::unique_ptr <StandardJobScheduler> standard_job_scheduler,
-                             const std::set<ComputeService *> &compute_services,
-                             const std::set<StorageService *> &storage_services,
+                             const std::set<std::shared_ptr<ComputeService>> &compute_services,
+                             const std::set<std::shared_ptr<StorageService>> &storage_services,
                              const std::string &hostname) : WMS (
                                                                 std::move(standard_job_scheduler),
                                                                 nullptr,
@@ -50,9 +50,12 @@ namespace wrench {
                 return lhs->getID() < rhs->getID();
             });
 
+            // Get the available compute service
+            const std::set<std::shared_ptr<ComputeService>> compute_services = this->getAvailableComputeServices<ComputeService>();
+
             // Run ready tasks with defined scheduler implementation
             this->getStandardJobScheduler()->scheduleTasks(
-                    this->getAvailableComputeServices(),
+                    compute_services,
                     ready_tasks);
 
             // Wait for a workflow execution event, and process it
@@ -85,7 +88,7 @@ namespace wrench {
      * @brief Any time a standard job is completed, print to WRENCH_INFO in RED, the number of tasks in the job
      * @param event
      */
-    void ActivityWMS::processEventStandardJobCompletion(std::unique_ptr<wrench::StandardJobCompletedEvent> event) {
+    void ActivityWMS::processEventStandardJobCompletion(std::shared_ptr<StandardJobCompletedEvent> event) {
         auto standard_job = event->standard_job;
         TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_RED);
         WRENCH_INFO("Notified that a standard job with %lu tasks has completed", standard_job->getTasks().size());
