@@ -436,19 +436,19 @@ function generate_workflow_dag(data) {
         .Graph()
         .setGraph({});
 
-    data.nodes.forEach(function(node) {
-        graph.setNode(node.id,
+    data.vertices.forEach(function(vertex) {
+        graph.setNode(vertex.id,
             {
-                label: node.id,
-                shape: node.type === "file" ? "rect" : "circle",
+                label: vertex.id,
+                shape: vertex.type === "file" ? "rect" : "circle",
                 style: "stroke: #6c757d; fill: #fff;",
                 labelStyle: "font-weight: 200; stroke: #6c757d",
-                data: node
+                data: vertex
             });
     });
 
-    data.links.forEach(function(link) {
-        graph.setEdge(link.source, link.target,
+    data.edges.forEach(function(edge) {
+        graph.setEdge(edge.source, edge.target,
             {
                 label: "",
                 style: " stroke: #6c757d; fill: none; stroke-width: 1px;",
@@ -496,6 +496,9 @@ function generate_workflow_dag(data) {
     var file_tooltip_id = d3.select("#workflow-dag-chart-file-tooltip-id");
     var file_tooltip_size = d3.select("#workflow-dag-chart-file-tooltip-size");
 
+    // In the workflow_graph_json, nodes are labled "vertices", however
+    // when dagreD3 creates the DAG graph, vertices are given class names
+    // "nodes" and "node", so they must be selected using those names.
     d3.select(".nodes")
         .selectAll(".node")
         .on('mouseover', function() {

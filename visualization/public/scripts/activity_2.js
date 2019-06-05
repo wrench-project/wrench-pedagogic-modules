@@ -1,7 +1,7 @@
 // Workflow as a DAG
 var workflow_dag_no_ram =
 {
-    "links": [
+    "edges": [
         {
             "source": "task0.in",
             "target": "task0"
@@ -247,7 +247,7 @@ var workflow_dag_no_ram =
             "target": "task9.out"
         }
     ],
-    "nodes": [
+    "vertices": [
         {
             "flops": 3.6e+15,
             "id": "task0",
@@ -648,7 +648,7 @@ var workflow_dag_no_ram =
 
 var workflow_dag_uses_ram =
 {
-    "links": [
+    "edges": [
         {
             "source": "task0.in",
             "target": "task0"
@@ -894,7 +894,7 @@ var workflow_dag_uses_ram =
             "target": "task9.out"
         }
     ],
-    "nodes": [
+    "vertices": [
         {
             "flops": 3.6e+15,
             "id": "task0",
