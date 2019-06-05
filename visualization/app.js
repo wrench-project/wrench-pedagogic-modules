@@ -123,7 +123,7 @@ app.post("/run/activity_1", authCheck, function(req, res) {
         },
          function(error, response, body) {
            if (!error && response.statusCode == 201) {
-             console.log("sent POST request to data_server @ localhost:3001");
+             console.log("sent POST request to data_server");
            } else {
              console.log(error);
            }
@@ -217,7 +217,7 @@ app.post("/run/activity_2", authCheck, function(req, res) {
           },
            function(error, response, body) {
              if (response.statusCode == 201) {
-               console.log("made POST request to data_server @ localhost:3001");
+               console.log("made POST request to data_server");
              } else {
                console.log("error: " + response.statusCode);
                console.log(body);
