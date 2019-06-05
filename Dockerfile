@@ -10,7 +10,7 @@ WORKDIR /tmp
 # clone WRENCH, checkout version 1.5dev, build, and install
 RUN git clone https://github.com/wrench-project/wrench \
     && cd wrench \
-    && git checkout f3f10f7a\
+    && git checkout eb17d9fd\
     && cmake . \
     && make \
     && sudo make install
@@ -26,5 +26,5 @@ USER wrench
 WORKDIR /home/wrench
 
 # set user's environment variable
-ENV CXX="g++-5" CC="gcc-5"
+ENV CXX="g++-7" CC="gcc-7"
 ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/lib

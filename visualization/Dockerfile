@@ -1,5 +1,5 @@
 # wrench is the name of the 'wrench' docker image which was created with the base dockerfile in the root directory
-FROM wrenchproject/wrench-pedagogic-modules:wrench-1.3
+FROM wrenchproject/wrench-pedagogic-modules:wrench-1.5dev
 
 USER root
 
@@ -7,8 +7,7 @@ WORKDIR /home/wrench/
 
 # pull pedagogic-modules, go to desired activity, checkout gh-pages for "published" version, build
 RUN git clone https://github.com/wrench-project/wrench-pedagogic-modules.git \
-    && cd wrench-pedagogic-modules \
-    && git checkout ics332_s19
+    && cd wrench-pedagogic-modules 
 
 COPY keys.js /home/wrench/wrench-pedagogic-modules/visualization/keys.js
 
