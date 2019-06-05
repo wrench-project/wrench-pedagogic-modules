@@ -1,5 +1,5 @@
 {
-    "links": [
+    "edges": [
         {
             "source": "task0::0.in",
             "target": "task0"
@@ -57,7 +57,7 @@
             "target": "task4::0.out"
         }
     ],
-    "nodes": [
+    "vertices": [
         {
             "flops": 50000000000000.0,
             "id": "task0",
