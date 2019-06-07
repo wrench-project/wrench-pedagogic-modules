@@ -77,8 +77,8 @@ if __name__ == '__main__':
     plt.axvline(x=2000)
     plt.text(2000, 0.55, '2GB input files', ha='center', va='center',rotation='vertical', backgroundcolor='white', size=6)
 
-    plt.axvline(x=3500)
-    plt.text(3500, 0.55, '3.5GB input files', ha='center', va='center',rotation='vertical', backgroundcolor='white', size=6)
+    plt.axvline(x=3700)
+    plt.text(3700, 0.55, '3.7GB input files', ha='center', va='center',rotation='vertical', backgroundcolor='white', size=6)
 
     plt.axvline(x=7000)
     plt.text(7000, 0.55, '7GB input files', ha='center', va='center',rotation='vertical', backgroundcolor='white', size=6)
@@ -96,7 +96,7 @@ if __name__ == '__main__':
 
     # mark areas of interest
     plt.axvline(x=2000)
-    plt.axvline(x=3500)
+    plt.axvline(x=3700)
     plt.axvline(x=7000)
 
     simulation_times = mlines.Line2D([], [], color='#a0a0a0', marker='o', markersize=5, label='simulation times')
