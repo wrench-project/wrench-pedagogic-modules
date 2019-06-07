@@ -94,16 +94,6 @@ Given your budget, you thus have 3 options:
 - [q4] Going with *Option 3*, about how long do you estimate the workflow execution to take?
         Write simple formula that shows your work.
 
-{% comment %}
-q1. (3 * 2000 / 100) + (3 * 100) + 10 + (0.003 / 100) = 370.00003s
-
-q2. (3 * 2000 / 1000) + (2 * 100) + 10 + (0.003 / 100) = 216.00003s
-
-q3. (3 * 2000 / 1000) + (3 * 100) + 10 + (0.003 / 100) = 316.00003s
-
-q4. (3 * 2000 / 100) + 100 + 10 + (0.003 / 100) = 170.00003s
-{% endcomment %}
-
 ## Step 2: Select the Best Upgrade
 
 **Answer these questions**
@@ -115,22 +105,6 @@ q4. (3 * 2000 / 100) + 100 + 10 + (0.003 / 100) = 170.00003s
 - [q7] How does it compare with the estimated utilization of the current non-upgraded cyberinfrastructure?
 - [q8] Write several sentences (not more than 5) to convince your boss that you have found the best hardware upgrade.
       Use your findings from the previous step to strengthen your claim.
-
-{% comment %}
-q5. Option 3: 4 cores, 32 gb ram, 100 MB/sec bandwidth. This option allows the CS to execute the initial three tasks
-    in parallel. The other options allow the CS to execute either 2 or no tasks in parallel. With the base configuration,
-    the majority of the time executing the workflow is spent doing computation (about 310 seconds), therefore
-    being able to execute 3 tasks in parallel proves to be most effective in reducing the workflow execution time.
-
-q6. (310 / (170 * 4)) = 0.4558
-
-q7. The CS's utilization with the non-upgraded cyberinfrastructure is (310 / (370 * 2)) = .41891
-    So, the best option gives us a faster workflow execution time and slightly better utilization.
-
-q8. Option 3, gives us the fastest workflow execution time. With Option 3 we can expect the workflow
-    to be executed 200 seconds faster (roughly a 54% decrease in workflow execution time). Furthermore,
-    utilization is expected to increase from 0.41891 to 0.4558.  
-{% endcomment %}
 
 ## Step 3: Considering Other Scenarios
 
@@ -144,25 +118,6 @@ yet, your boss asks you for some information about how different file sizes may 
 - [q10] Assuming the input file size is now 7 GB (all three files), which option would be the *best option*?
 - [q11] At what input file size would the *best option*  (i.e., your answer for q5) no longer be the best option?
 
-{% comment %}
-
-q9. With 7 GB input files, the estimated execution time is (3 * 7000 / 100) + 100 + 10 + (0.003 / 100) = 320.00003
-    So, estimated utilization becomes (310 / (320 * 4)) = .2421
-    The workflow execution takes longer because file transfer times are longer. Compute times are the same. So,
-    utilization is worse.
-
-q10. Option 1: (3 * 7000 / 1000) + (2 * 100) + 10 + (0.003 / 100) = 231.00003s
-     Option 2: (3 * 7000 / 1000) + (3 * 100) + 10 + (0.003 / 100) = 331.00003
-     Option 3: (3 * 7000 / 100) + 100 + 10 + (0.003 / 100) = 320.00003s
-
-     The best option with 7GB input files (all three) is Option 1.
-
-q11. let y = the input file size in MB, then find when Option 1 and Option 3 are equal
-
-    (3 * y / 1000) + (2 * 100) + 10 + (0.003 / 100) = (3 * y / 100) + 100 + 10 + (0.003 / 100)
-                                                  y = 3703.7 MB
-
-{% endcomment %}
 # Conclusion
 
 In this activity, you have put to use some of the concepts learned thus far. By having

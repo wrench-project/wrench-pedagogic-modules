@@ -101,23 +101,6 @@ areas of interest.
     network traffic?
   - [q7] Accounting for this I/O *overhead*, does *task4*'s execution time as experienced by the WMS make sense?
 
-{% comment %}
-
-q1. task1 was submitted at 201.550215
-
-q2. about 10s (10TF/1TF)
-
-q3. task4 submit at 428.61, task4 said to be complete at 505.73, so 505.73 - 428.61 = 77.12s
-
-q4. task4 task longer because first, 3 files totaling 520MB must be read in from SS, then 10s of compute, then 1 100MB file must be written to SS
-
-q5. (120 + 200 + 200 + 100) / 10 = 62 plus a little more for latency..
-
-q6. yes, expected read input time + compute time + expected write output time comes out to a little less than the execution time
-    as experienced by the WMS
-
-{% endcomment %}
-
 ## Step #3: Visualize the Workflow Execution
 
 Analyzing the textual simulation output can be tedious, especially when the workflow comprises
@@ -142,27 +125,6 @@ In the terminal run the following commands:
   - [q12] What link bandwidth would be necessary for the workflow to run 2x faster
     than with the original 10 MB/sec bandwidth? Hint: You can do this by solving a simple equation, and
      then check that your answer is correct using the simulation.
-
-{% comment %}
-
-q8. looking at the chart, read input = 75.77, write output = 75.77, entire task = 201.54,
-    so  (75.77 + 75.77) / 201.54 = 0.752 or about 75% of the time spent doing I/O
-
-q9. looking at the chart, read input = 56.29, write output = 10.82, entire task = 77.11
-    so (56.29 + 10.82) / 77.11 = 0.87 or about 87% of the time spent doing I/O
-
-q10. read file time should be (120 + 200 + 200 + 100) / 20 = 31 + a little more for latency
-    so 31 / (31 + 10) = 0.76 or about 76% of the time spent doing I/O
-
-q11. with the link bandwidth doubled in the visualization, we have task4 read input = 28.14, write output = 5.4
-    and entire task = 43.55 so about (28.14 + 5.4) / 43.55 = 0.77 or about 77% of the time spent doing I/O
-
-q12. with the link bandwidth at 10 MB/sec and a single remote storage service, execution time T = 505.73. we want T/2 or 252.86 seconds
-    so looking at the chart, i solve for B in 252.86 = (1/B)sum(read inputs) + compute times + (1/B)sum(write outputs)
-    B = 3.6 and so the bandwidth should be increased to 36 MB/sec to get a workflow execution twice as fast.. using the
-    simulation, I can confirm that this is true
-
-{% endcomment %}
 
 ## Step #4: Better Data locality with another storage service on the compute host
 
@@ -193,19 +155,6 @@ Select the radio button that says: *Storage Service on storage_db.edu and hpc.ed
   - [q14] Compared to the workflow execution time observed in *Step 2*, how much faster is it now?
   - [q15] Using only the remote storage service (i.e., no storage service close to the compute service), what would you need to increase the bandwidth to in order to have a workflow execution that is
     faster than what was realized using a 10 MB/sec link bandwidth with a storage service on storage_db.edu and hpc.edu?
-
-{% comment %}
-
-q13. looking at the chart, read input = 1.07, write output = 10.82, entire task = 21.9 so (1.07 + 10.82) / 21.9 = 0.54 or
-    about 54% of task4 is spent doing I/O. what we saw in step 3 question 2 was that with the remote storage service,
-    87% of task4 was spent doing I/O
-
-q14. (505.73 - 246.66) / 505.73 = 0.5122 or about 51.22% faster
-
-q15. using the same formula from step 3 number 5, i solve for B in (T with local storage) < (1/B)sum(read inputs) + compute times + (1/B)sum(write outputs)
-  B = 3.85 so bandwidth should be roughly 39 MB/sec or greater
-
-{% endcomment %}
 
 When you are finished using the visualization tool, run: `docker kill $(docker ps -a -q  --filter ancestor=wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization)`
 

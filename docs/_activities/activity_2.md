@@ -165,8 +165,8 @@ Optimizing for utilization means maximizing the colored area.
 
 For the remainder of this activity, we will be using the visualization tool. In the terminal, run the following
 commands:
-1. run `docker pull wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
-2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
+1. run `docker pull wrenchproject/wrench-pedagogic-modules:activity-visualization`
+2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:activity-visualization`
 3. open a browser and go to [localhost:3000/](localhost:3000/)
 4. sign in using your `<UH Username>@hawaii.edu` Google Account
 5. select `Activity 2: Parallelism`
@@ -256,7 +256,7 @@ performance.
           decrease the workflow execution time?
   - [q25] What is the minimum number of 3-core nodes that achieves this fastest possible execution time?
 
-When you are finished using the visualization tool, run: `docker kill $(docker ps -a -q  --filter ancestor=wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization)`
+When you are finished using the visualization tool, run: `docker kill $(docker ps -a -q  --filter ancestor=wrenchproject/wrench-pedagogic-modules:activity-visualization)`
 
 # Conclusion
 
