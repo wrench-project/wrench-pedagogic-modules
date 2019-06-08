@@ -14,12 +14,15 @@ $(function() {
         $('.local-storage-service-label').css('display', 'block');
     });
 
-    // Update link bandwidths labels on SVG as user types
+    // Update link bandwidths labels on SVG live as user types into
+    // the form
     $('#link-bandwidth').on('keyup', function() {
         let link_bandwidth_input_el = $(this)
         let link_bandwidth_input_value = parseInt(link_bandwidth_input_el.val());
         let link_bandwidth_label_el = $(".bandwidth-label");
 
+        // highlight the bandwidth label using green on the SVG for half a second
+        //to indicate to the user that a valid number has been entered
         if (link_bandwidth_input_value >= 1 && link_bandwidth_input_value <= 999) {
            link_bandwidth_label_el.text("Bandwidth: " + link_bandwidth_input_value + " MBps")
                 .css("background-color", "#d3ffe9");
@@ -33,6 +36,8 @@ $(function() {
                 }
             }, 500);
 
+        // highlight the bandwidth label using red on the SVG to indicate to the user
+        // that an invalid number has been entered
         } else {
             link_bandwidth_label_el.css("background-color", "#ffb7b5");
 
@@ -52,6 +57,10 @@ $(function() {
         // After each submission, remove the "old" chart, because we will generate a new one
         $('#workflow-execution-chart > svg').remove();
 
+        // Upon submission of the form, a POST request containing the user's desired parameters
+        // is sent to the node server, where the simulation will be executed with those parameters.
+        // Then a response with simulation data is received. The data is parsed, and rendered on the
+        // screen. 
         $.ajax({
             url: '/run/activity_1',
             method: 'POST',
@@ -75,4 +84,3 @@ $(function() {
         });
     });
 });
-

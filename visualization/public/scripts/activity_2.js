@@ -1295,7 +1295,7 @@ var workflow_dag_uses_ram =
 
 $(function() {
 
-    // Set only 1 compute node visible in the beginning
+    // Set only 1 compute node on the SVG to be visible in the beginning
     for (let i = 2; i <= 5; i++) {
         $("#compute-node-" + i).css("display", "none");
     }
@@ -1312,6 +1312,8 @@ $(function() {
        }
     });
 
+    // As the user enters some number of desired compute nodes, update the
+    // platform SVG to illustrate the change.
     $("#num-nodes").on("keyup", function() {
         let num_nodes_input_el = $(this);
         let num_nodes_input_value = parseInt(num_nodes_input_el.val());
@@ -1321,6 +1323,7 @@ $(function() {
             num_nodes_input_el.removeClass("is-invalid")
                 .addClass("is-valid");
 
+            // Update the number of compute nodes that are visible on the SVG
             for (var i = 1; i <= 5; i++) {
                 if (i <= num_nodes_input_value) {
                     $("#compute-node-" + i).css("display", "block");
@@ -1329,6 +1332,7 @@ $(function() {
                 }
             }
 
+            // Update the label that says how many compute nodes are to be used
             num_nodes_label_el.text(num_nodes_input_value + " x Compute Nodes")
                 .css("background-color", "#d3ffe9");
 
@@ -1346,7 +1350,7 @@ $(function() {
         }
     });
 
-
+    // Update the label that says how many cores each compute node has
     $("#num-cores").on("keyup", function() {
         let num_cores_input_el = $(this);
         let num_cores_input_value = parseInt(num_cores_input_el.val());
@@ -1382,6 +1386,10 @@ $(function() {
         // remove the graphs, since we will append a new ones to the chart
         $('.chart > svg').remove();
 
+        // Upon submission of the form, a POST request containing the user's desired parameters
+        // is sent to the node server, where the simulation will be executed with those parameters.
+        // Then a response with simulation data is received. The data is parsed, and rendered on the
+        // screen. 
         $.ajax({
             url: '/run/activity_2',
             method: 'POST',

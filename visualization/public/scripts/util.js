@@ -8,7 +8,21 @@ function disableRunSimulationButton() {
     }, 5000);
 }
 
-// Fill Workflow Task Data table with data obtained from the simulation run
+/**
+ * Format a number to Five decimal places. At the moment, 5 seems like a good number.
+ * Anything less will make some start times look like 0.00 when it's something
+ * like 0.00004
+ */
+var toFiveDecimalPlaces = d3.format('.5f');
+
+/**
+ * Populates the div with id #task-details-table with data obtained from
+ * the simulation run. Data used in this function has been generated from
+ * "void wrench::SimulationOutput::dumpWorkflowExecutionJSON(wrench::Workflow *workflow,
+ *                                                           std::string file_path,
+ *                                                           bool generate_host_utilization_layout)".
+ *
+ */
 function populateWorkflowTaskDataTable(data) {
 
     // Reveal the Workflow Data table

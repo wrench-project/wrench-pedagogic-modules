@@ -19,6 +19,14 @@ function getOffset(el) {
     };
 }
 
+/**
+ * Takes in data generated from
+ * "void wrench::SimulationOutput::dumpWorkflowExecutionJSON(wrench::Workflow *workflow,
+ *                                                           std::string file_path,
+ *                                                           bool generate_host_utilization_layout)"
+ * and generates a workflow execution Gantt chart, and appends it to the div with id
+ * "#worfklow-execution-chart".
+ */
 function generate_workflow_execution_graph(workflow_execution_data) {
     let data = JSON.parse(JSON.stringify(workflow_execution_data));
     // prepare data for d3 stacked layout
@@ -270,6 +278,15 @@ function generate_workflow_execution_graph(workflow_execution_data) {
 
 }
 
+/**
+ * Takes in data generated from
+ * "void wrench::SimulationOutput::dumpWorkflowExecutionJSON(wrench::Workflow *workflow,
+ *                                                           std::string file_path,
+ *                                                           bool generate_host_utilization_layout)"
+ * and generates a host utilization chart, and appends it to the div with id
+ * "#host-utilization-chart". Note that for this to work, "generate_host_utilization_layout" must
+ * be set to true in the simulation so that the JSON contains the right data.
+ */
 function generate_host_utilization_graph(data) {
     var container = d3.select("#host-utilization-chart");
     var chart = document.getElementById('host-utilization-chart');
@@ -430,6 +447,12 @@ function generate_host_utilization_graph(data) {
         .text("Host");
 }
 
+/**
+ * Takes in data generated from
+ * "void wrench::SimulationOutput::dumpWorkflowGraphJSON(wrench::Workflow *workflow, std::string file_path);"
+ * and generates an SVG which shows the workflow as a DAG. This SVG is appended to the div with
+ * id #worfklow-dag-chart.
+ */
 function generate_workflow_dag(data) {
 
     var graph = new dagreD3.graphlib
