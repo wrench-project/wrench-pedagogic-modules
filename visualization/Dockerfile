@@ -14,7 +14,7 @@ COPY keys.js /home/wrench/wrench-pedagogic-modules/visualization/keys.js
 RUN chown -R wrench ./wrench-pedagogic-modules
 
 # build binaries for each activity
-WORKDIR /home/wrench/wrench-pedagogic-modules
+WORKDIR /home/wrench/wrench-pedagogic-modules/simulations
 
 RUN cd activity_1_getting_started \
     && ./build.sh
