@@ -67,13 +67,13 @@ app.get("/logout", function(req, res) {
 
 // display activity 1 visualization route
 app.get("/activity_1", authCheck, function(req, res) {
-    res.render("activity_1", {workflow_graph_json: JSON.parse(fs.readFileSync(__dirname + "/../activity_1_getting_started/workflow_graph.json")),
+    res.render("activity_1", {workflow_graph_json: JSON.parse(fs.readFileSync(__dirname + "/../simulations/activity_1_getting_started/workflow_graph.json")),
                                 cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/activity_1_cyber_infrastructure.svg")});
 });
 
 // execute activity 1 simulation route
 app.post("/run/activity_1", authCheck, function(req, res) {
-    const PATH_PREFIX = __dirname.replace("visualization", "activity_1_getting_started/");
+    const PATH_PREFIX = __dirname.replace("visualization", "simulations/activity_1_getting_started/");
 
     const SIMULATOR = (req.body.simulator_number == 1 ? "simulator_remote_storage" : "simulator_local_storage");
     const EXECUTABLE = PATH_PREFIX + SIMULATOR;
@@ -143,7 +143,7 @@ app.post("/run/activity_1", authCheck, function(req, res) {
 
       res.json({
           "simulation_output": ansi_up.ansi_to_html(simulation_output).replace(re, "<br>" + find),
-          "task_data": JSON.parse(fs.readFileSync(__dirname + "/workflow_data.json"))
+          "task_data": JSON.parse(fs.readFileSync(PATH_PREFIX + "workflow_data.json"))
       });
 
 
@@ -159,7 +159,7 @@ app.get("/activity_2", authCheck, function(req, res) {
 
 // execute activity 2 simulation route
 app.post("/run/activity_2", authCheck, function(req, res) {
-    const PATH_PREFIX = __dirname.replace("visualization", "activity_2_parallelism/");
+    const PATH_PREFIX = __dirname.replace("visualization", "simulations/activity_2_parallelism/");
 
     const SIMULATOR = "activity_2_simulator";
     const EXECUTABLE = PATH_PREFIX + SIMULATOR;
@@ -238,7 +238,7 @@ app.post("/run/activity_2", authCheck, function(req, res) {
 
         res.json({
             "simulation_output": ansi_up.ansi_to_html(simulation_output).replace(re, "<br>" + find),
-            "task_data": JSON.parse(fs.readFileSync(__dirname + "/workflow_data.json")),
+            "task_data": JSON.parse(fs.readFileSync(PATH_PREFIX + "workflow_data.json")),
         });
     }
 });
