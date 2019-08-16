@@ -63,4 +63,33 @@
 
   <script type="text/javascript" src="{{ site.baseurl }}/public/scripts/figure_scaling.js"></script>
 
+  <!-- SEMANTIC -->
+  <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/public/scripts/semantic/semantic.min.css">
+
+  <script src="{{ site.baseurl }}/public/scripts/jquery/jquery.min.js"></script>
+  <script src="{{ site.baseurl }}/public/scripts/semantic/components/accordion.js"></script>
+  <script src="{{ site.baseurl }}/public/scripts/semantic/components/popup.js"></script>
+  <script src="{{ site.baseurl }}/public/scripts/semantic/components/transition.js"></script>
+  <script src="{{ site.baseurl }}/public/scripts/semantic/components/tab.js"></script>
+
+  <script language='javascript'>
+               $(document).ready(function(){
+               $('.ui.accordion').accordion();
+               $('.popable')
+                   .popup({
+                     position: 'right center'
+                   })
+               ;
+                 $('.menu .item').tab();
+
+                 $('.paths.example .menu .item')
+                     .tab({
+                       context: '.paths.example'
+                     })
+                 ;
+
+               });
+  </script>
+
+
 </head>
