@@ -28,102 +28,168 @@ each were started at exactly the same time and transfer 100 MB of data
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_networking/topology_contention.svg">topology with contention</object>
 <b>Figure 1:</b> A simple example in which two data transfers contend for bandwidth.
 
-If the green data transfer was by itself, its bandwidth would be 20 MB/sec.
-If the red data transfer was by itself, its bandwidth would also be 20
-MB/sec. For both transfers the link into host C is the *bottleneck* link.
-Therefore, when both transfer happen at the same time, they experience
-contention for that bottleneck link. This means that they *share the
-bandwidth* of that link. This splitting is fair, meaning that they both
-receive half of the link's bandwidth. (It turns out that bandwidth sharing
+If the green data transfer was by itself, its bandwidth would be 30 MB/sec.
+If the red data transfer was by itself, its bandwidth would be 40
+MB/sec. But when both transfer happen at the same time, they experience
+contention on the link into host C. This means that they *share the
+bandwidth* of that link. This sharing is fair, meaning that they both
+receive half of the link's bandwidth, 20 MB/sec. (It turns out that bandwidth sharing
 is a bit complicated in practice as it also depends on latencies, but in
 this case both transfers have the same end-to-end latencies, which leads to
 fair sharing - see a networking course for more details).
 
-Given the above, both transfers proceed at 10MB/sec, half the bandwidth they would
-receive if alone in the network, and thus both complete in time:
+Given the above, both transfers proceed at 10MB/sec, i.e., half the bandwidth of the link into
+host C, which is their bottleneck link. 
+Thus both transfers complete in time:
 
 $$
-T = 200\;us + \frac{100 MB}{10 MB/sec} = 10.0002\;sec
+T = 200\;us + \frac{100 MB}{20 MB/sec} = 5.0002\;sec
 $$
 
 
-#### An slightly more complex example
+#### A slightly more complex example
 
-Consider now the same scenario as above, with the only difference that now the "red" transfer only transfers 50MB:
+Consider now another scenario, with the only difference that now the "red" transfer only transfers 50MB:
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_networking/topology_contention_different_sizes.svg">topology with contention and different transfer sizes</object>
 <b>Figure 2:</b> A slightly more complex example in which one transfer transfers less data than the other.
 
 In this scenario there are two phases:
 
-  1. In the first phase both transfers proceed with a bandwidth of 10 MB/sec due to contention;
-  2. In the second phase, after the "red" transfer has completed, the "green" transfer proceeds alone with a bandwidth of 20 MB/sec.
+  1. In the first phase both transfers proceed with a bandwidth of 20 MB/sec due to contention;
+  2. In the second phase, after the "red" transfer has completed, the "green" transfer proceeds alone with a bandwidth of 30 MB/sec (it's bottleneck link is now the link out of host B!).
 
 Therefore, the "red" transfer completes in:
 
 $$
-T_{red} = 200\;us + \frac{50\;MB}{10\;MB/sec} = 5.0002\;sec
+T_{red} = 200\;us + \frac{50\;MB}{20\;MB/sec} = 2.5002\;sec
 $$
 
-The "green" transfer transfers its first 50 MB of data with a bandwidth of 10 MB/sec and its last 50 MB of data with
-a bandwidth of 20 MB/sec. Therefore, it completes in time:
+The "green" transfer transfers its first 50 MB of data with a bandwidth of 20 MB/sec and its last 50 MB of data with
+a bandwidth of 30 MB/sec. Therefore, it completes in time:
 
 $$
-T_{green} = 200\;us + \frac{50\;MB}{10\;MB/sec} + \frac{50\;MB}{20\;MB/sec} = 7.5002\;sec
+T_{green} = 200\;us + \frac{50\;MB}{20\;MB/sec} + \frac{50\;MB}{30\;MB/sec} = 4.1668\;sec
 $$
 
+#### Testing your understanding using simulation
 
-### Try the file transfer simulation
+In many of the upcoming pedagogic activities on this site you have to
+run experiments using simulation. We provide you here with a simple simulator
+for the following scenario in which an number of transfers occur concurrently on the
+same three-link route:
 
-We provide you with the simulator used to obtain the above simulation
-results, in case you want to experiment yourselves with different
-latencies, bandwidths, and numbers of concurrent file transfers, and check whether
-your computed estimates are roughly accurate. In a
-terminal, run the following commands.
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_networking/topology_contention_simulation.svg">simulation scenario</object>
+<b>Figure 3:</b> Simulation scenario.
+
+With the simulator you can experiment with any scenario, so as to experimentally test your
+understanding of contention.  In a terminal, do the following:
 
 1. Install the simulator: `docker pull wrenchproject/wrench-pedagogic-modules:activity-0`
-2. Run the simulator: `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 <num_files> <file_size> <center_link_bandwidth>`
-    - `num_files`: the number of files to transfer, in the range [1, 100]
-    - `file_size`: the size of each file (in MB), in the range [1, 1000]
-    - `center_link_bandwidth`: the bandwidth of the middle link (in MB/sec), in the range [1, 1000]
+2. Run the simulator: `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 <file size> <file size> ...`
+    - Each `file size` argument is the data size (in MB) transferred by one of the concurrent data transfers
 
-For example, the command `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 2 75 100` will simulate
-scenario 3 and print the following output to your screen:
+For example, the command `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 100` will simulate a single 10MB data transfer and produce this output:
 
 ```
-------------------------------------
-         Simulation Results
-------------------------------------
-       files transferred: 2
-               file size: 75 MB
-            min duration: 1.582861
-            max duration: 1.5867855
-           mean duration: 1.5848232
-coefficient of variation: 0.124%
+----------------------------------------
+           Simulation Results
+----------------------------------------
+100 MB transfer completed at time 10.5
+----------------------------------------
 ```
 
-Notice that some statistics are provided about the file transfers.
-This is because when transferring more than one file concurrently, the
-file transfer times
-may differ slightly. Additionally, these file transfers
-do not start at the exact same moment, nor do they end at the exact same
-moment. These are minute details captured by the simulation, which we do
-not model in the estimate equations above.
+Note that the transfer's completion time is a bit higher than what the computations
+we've done so far. We would expect the transfer time to be:
 
-### Conclusion
+$$
+T = 30\;us + \frac{100 MB}{10 MB} = 10.00003\;sec.
+$$
 
-Throughout the upcoming activities, you will be asked to estimate
-application execution times given specific hardware constraints. 
-Estimates as above will be sufficient to answer all questions but will not be 100%
-correct. We will be using simulation to verify that the estimates are close
-to real-world values. Continue to the next section, [A Primer on Workflow
-Executions]({{ site.baseurl
-}}/activities/primer_on_workflow_executions), where we will examine the sequence
-of events that make up a simple workflow execution.
+This discrepancy is due to the simulator capturing some details of
+real-world networks (e.g., the TCP slow-start behavior that you may have
+heard of in a Networking course). These details are not captured by the
+above mathematical expression. This said, such mathematical expressions are
+still useful approximation that we can use to reason about data transfer
+times. However, we should not be surprised to find that our calculations
+are a bit "off" when compared to simulation results.
 
+Another execution of the simulator as `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 100 50 100` will simulate two 100MB transfers and one 50MB transfer, producing this output:
+
+```
+----------------------------------------
+           Simulation Results
+----------------------------------------
+100 MB transfer completed at time 26.25
+50 MB transfer completed at time 15.75
+100 MB transfer completed at time 26.25
+----------------------------------------
+```
+
+As expected, the 50 MB transfer completes first, and the two 100MB transfers
+complete at the same time.
+
+Feel free to run simulations to explore different scenarios and test your 
+data transfer times for various combinations of concurrent transfers.
 
 --- 
 
 #### Practice questions
 
-TB
+The following practice questions pertain to this topology:
+
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_networking/topology_contention_practice.svg">simulation scenario for practice questions</object>
+<b>Figure 4:</b> Topology for practice questions.
+
+
+**[q1]** TBD
+<div class="ui accordion fluid">
+  <div class="title">
+    <i class="dropdown icon"></i>
+    (click to see answer)
+  </div>
+  <div markdown="1" class="ui segment content">
+   TBD
+  </div>
+</div>
+
+<p> </p>
+
+
+**[q2]** TBD
+<div class="ui accordion fluid">
+  <div class="title">
+    <i class="dropdown icon"></i>
+    (click to see answer)
+  </div>
+  <div markdown="1" class="ui segment content">
+   TBD
+  </div>
+</div>
+
+<p> </p>
+
+
+**[q3]** TBD
+<div class="ui accordion fluid">
+  <div class="title">
+    <i class="dropdown icon"></i>
+    (click to see answer)
+  </div>
+  <div markdown="1" class="ui segment content">
+   TBD
+  </div>
+</div>
+
+<p> </p>
+
+
+
+--- 
+
+Continue on to the next section, [A Primer on Workflow
+Executions]({{ site.baseurl
+}}/activities/primer_on_workflow_executions), where we will examine the sequence
+of events that make up a simple workflow execution.
+
+

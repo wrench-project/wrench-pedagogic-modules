@@ -43,9 +43,9 @@ void generatePlatform(std::string platform_file_path, unsigned long effective_ba
                              "       <host id=\"host2\" speed=\"1000Gf\" core=\"1\"/>\n"
 
                              "       <!-- effective bandwidth = 100 MBps -->\n"
-                             "       <link id=\"link1\" bandwidth=\"103.092MBps\" latency=\"10us\"/>\n"
+                             "       <link id=\"link1\" bandwidth=\"206.185MBps\" latency=\"10us\"/>\n"
                              "       <link id=\"link2\" bandwidth=\"103.092MBps\" latency=\"10us\"/>\n"
-                             "       <link id=\"link3\" bandwidth=\"103.092MBps\" latency=\"10us\"/>\n"
+                             "       <link id=\"link3\" bandwidth=\"206.185MBps\" latency=\"10us\"/>\n"
 
                              "       <route src=\"host1\" dst=\"host2\">\n"
                              "           <link_ctn id=\"link1\"/>\n"
@@ -105,8 +105,8 @@ int main(int argc, char **argv) {
         }
 
     } catch (std::invalid_argument &e) {
-        std::cerr << "Usage: activity_0_simulator <file size> <file size> ... <file size>" << std::endl;
-        std::cerr << "    file_size: the size of each file, a value in the range of [1, " + std::to_string(MAX_FILE_SIZE) + "] MB" << std::endl;
+        std::cerr << "Usage: " << std::string(argv[0]) << " <file size> [file size]*" << std::endl;
+        std::cerr << "    file size: the size of each file, a value in the range of [1, " + std::to_string(MAX_FILE_SIZE) + "] MB" << std::endl;
         std::cerr << "    (at most " + std::to_string(MAX_FILE_SIZE) + " file sizes can be specified)" << std::endl;
         return 1;
     }
