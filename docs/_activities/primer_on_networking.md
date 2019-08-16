@@ -9,8 +9,7 @@ usemathjax: true
   <a class="item active" data-tab="first">Networking</a>
   <a class="item " data-tab="second">Latency & Bandwidth</a>
   <a class="item " data-tab="third">Topologies</a>
-  <a class="item " data-tab="fourth">File Transfers</a>
-  <a class="item " data-tab="fifth">Concurrent Transfers</a>
+  <a class="item " data-tab="fifth">Contention</a>
 </div>
 
 <div markdown="1" class="ui tab segment active" data-tab="first">
