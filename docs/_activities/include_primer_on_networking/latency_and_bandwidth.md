@@ -75,7 +75,7 @@ describe the bandwidth of a network link, we are always describing its
 
 ---
 
-#### Sample Questions
+#### Practice Questions
 
 To make sure the above is crystal clear, answer the following two practice questions:
 

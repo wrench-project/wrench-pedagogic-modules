@@ -9,7 +9,7 @@
 ---
 
 
-#### Shared Networks
+#### Networks are shared
 
 Typically, several data transfers are occurring concurrently (at the same
 time) on a network topologies, and these transfers may be using the same
@@ -19,7 +19,7 @@ can be impacted by other data transfers. When a data transfer goes slower
 than it would go if alone in the network, it is because of *contention*
 (i.e., competition) for the bandwidth of one or more network link.
 
-#### A Simple Example of Contention
+#### A Simple example
 
 Consider the following topology with the two depicted data transfers, that
 each were started at exactly the same time and transfer 100 MB of data
@@ -47,7 +47,7 @@ T = 200\;us + \frac{100 MB}{10 MB/sec} = 10.0002\;sec
 $$
 
 
-#### An example that's a bit more complicated
+#### An slightly more complex example
 
 Consider now the same scenario as above, with the only difference that now the "red" transfer only transfers 50MB:
 
@@ -120,3 +120,10 @@ to real-world values. Continue to the next section, [A Primer on Workflow
 Executions]({{ site.baseurl
 }}/activities/primer_on_workflow_executions), where we will examine the sequence
 of events that make up a simple workflow execution.
+
+
+--- 
+
+#### Practice questions
+
+TB

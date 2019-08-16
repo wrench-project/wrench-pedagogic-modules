@@ -106,7 +106,7 @@ is the *minimum of the bandwidths*.
 
 ---
 
-#### Sample questions
+#### Practice questions
 
 To make sure you have understood the above, answer the following practice
 questions, which all pertain to this topology:
