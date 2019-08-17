@@ -1,4 +1,4 @@
-# wrench is the name of the 'wrench' docker image which was created with the base dockerfile in the root directory
+# wrench is the name of the 'wrench' docker image which was created with the base dockerfile in wrench-pedagogic-modules/simulations/Dockerfile
 FROM wrenchproject/wrench-pedagogic-modules:wrench-1.5dev
 
 USER root

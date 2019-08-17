@@ -143,7 +143,7 @@ app.post("/run/activity_1", authCheck, function(req, res) {
 
       res.json({
           "simulation_output": ansi_up.ansi_to_html(simulation_output).replace(re, "<br>" + find),
-          "task_data": JSON.parse(fs.readFileSync(PATH_PREFIX + "workflow_data.json"))
+          "task_data": JSON.parse(fs.readFileSync(__dirname + "/workflow_data.json"))
       });
 
 
@@ -238,7 +238,7 @@ app.post("/run/activity_2", authCheck, function(req, res) {
 
         res.json({
             "simulation_output": ansi_up.ansi_to_html(simulation_output).replace(re, "<br>" + find),
-            "task_data": JSON.parse(fs.readFileSync(PATH_PREFIX + "workflow_data.json")),
+            "task_data": JSON.parse(fs.readFileSync(__dirname + "/workflow_data.json")),
         });
     }
 });
