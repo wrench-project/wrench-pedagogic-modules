@@ -89,7 +89,7 @@ understanding of contention.  In a terminal, do the following:
 2. Run the simulator: `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 <file size> <file size> ...`
     - Each `file size` argument is the data size (in MB) transferred by one of the concurrent data transfers
 
-For example, the command `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 100` will simulate a single 10MB data transfer and produce this output:
+For example, the command `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 100` will simulate a single 100MB data transfer and produce this output:
 
 ```
 ----------------------------------------
@@ -103,7 +103,7 @@ Note that the transfer's completion time is a bit higher than what the computati
 we've done so far. We would expect the transfer time to be:
 
 $$
-T = 30\;us + \frac{100 MB}{10 MB} = 10.00003\;sec.
+T = 30\;us + \frac{100 MB}{10 MB/sec} = 10.00003\;sec.
 $$
 
 This discrepancy is due to the simulator capturing some details of
@@ -130,7 +130,8 @@ As expected, the 50 MB transfer completes first, and the two 100MB transfers
 complete at the same time.
 
 Feel free to run simulations to explore different scenarios and test your 
-data transfer times for various combinations of concurrent transfers.
+compute data transfer time estimates for various combinations of concurrent
+transfers.
 
 --- 
 
@@ -142,42 +143,72 @@ The following practice questions pertain to this topology:
 <b>Figure 4:</b> Topology for practice questions.
 
 
-**[q1]** TBD
+**[q1]** A 100MB transfer from host A to host C, and a 100MB transfer
+	 from host B to host C start at the same time. Do they finish at
+	 the same time?
+
+
 <div class="ui accordion fluid">
   <div class="title">
     <i class="dropdown icon"></i>
     (click to see answer)
   </div>
   <div markdown="1" class="ui segment content">
-   TBD
+   Yes! Both transfers are bottlenecked on the link into host C, sharing its
+   bandwidth, so that both transfers proceed at bandwidth 20 MB/sec.
   </div>
 </div>
 
 <p> </p>
 
 
-**[q2]** TBD
+**[q2]** A 100MB transfer from host D to host B, and a 100MB transfer
+         from host A to host C start at time 0. At what time
+         does each of them complete? 
 <div class="ui accordion fluid">
   <div class="title">
     <i class="dropdown icon"></i>
     (click to see answer)
   </div>
   <div markdown="1" class="ui segment content">
-   TBD
+   The transfer from D to B proceeds at 30 MB/sec as it is bottlenecked
+   on the link into host B. The transfer from A to C proceeds at 40 MB/sec
+   as it is bottlenecked on the link into host C. These two transfers share
+   one network link, but that network link has bandwidth 100 MB/sec, and so
+   there is no contention on that link.  Consequently, the transfer times
+   as as follows:
+
+$$
+\begin{align}
+  T_{D \rightarrow B} & = 250\;us + \frac{100\;MB}{30\;MB/sec} = 3.3335\;sec\\
+  T_{A \rightarrow C} & = 250\;us + \frac{100\;MB}{40\;MB/sec} = 2.5002\;sec
+\end{align}
+$$
   </div>
 </div>
 
 <p> </p>
 
 
-**[q3]** TBD
+**[q3]** A 100MB transfer from host B to host C and a 60MB transfer 
+from host A to host C start at time 0. At white time do they complete?
 <div class="ui accordion fluid">
   <div class="title">
     <i class="dropdown icon"></i>
     (click to see answer)
   </div>
   <div markdown="1" class="ui segment content">
-   TBD
+   Both transfers are bottlenecked on the link into host C, sharing its
+   bandwidth so that both transfers proceed at 20 MB/sec. When the 60MB
+transfer completes, then the 100MB transfer still has 40MB to transfer and
+proceeds at 30 MB/sec (it is now bottlenecked on the link from host B. Therefore:
+
+$$
+\begin{align}
+  T_{A \rightarrow C} & = 250\;us + \frac{60\;MB}{20\;MB/sec} = 3.0002\;sec\\
+  T_{B \rightarrow C} & = 250\;us + \frac{60\;MB}{20\;MB/sec} + \frac{40\;MB}{30\;MB/sec} = 4.3335\;sec
+\end{align}
+$$
   </div>
 </div>
 

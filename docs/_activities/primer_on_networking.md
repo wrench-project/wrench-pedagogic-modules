@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 'A Networking Primer'
+title: 'A Primer on Networking'
 order: 1
 usemathjax: true
 ---
