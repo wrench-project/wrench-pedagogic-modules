@@ -58,3 +58,6 @@ workflow_data.json
 
 # VIM backup files
 *.bak
+
+# Private keys
+visualization/key.js
