@@ -60,4 +60,4 @@ workflow_data.json
 *.bak
 
 # Private keys
-visualization/key.js
+visualization/keys.js
