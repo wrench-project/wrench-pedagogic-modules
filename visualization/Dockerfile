@@ -22,6 +22,9 @@ RUN cd activity_1_getting_started \
 RUN cd activity_2_parallelism \
     && ./build.sh
 
+RUN cd activity_multi_core \
+    && ./build.sh
+
 # install Node 10.x for the visualization
 RUN sudo apt update \
     && sudo apt install -y curl \
