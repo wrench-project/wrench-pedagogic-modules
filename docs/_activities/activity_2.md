@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 'Activity 2: Parallelism'
-order: 4
+order: 40
 usemathjax: true
 ---
 

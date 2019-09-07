@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 'Activity 1: Running Your First Simulated Workflow Execution'
-order: 3
+order: 30
 ---
 
 1. [Learning objectives](#learning-objectives)

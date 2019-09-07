@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 'Activity 3: The Right Tool for the Job'
-order: 5
+order: 50
 ---
 
 1. [Learning objectives](#learning-objectives)
