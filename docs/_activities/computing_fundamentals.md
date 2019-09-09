@@ -79,27 +79,29 @@ $$
 
 To make sure the above is crystal clear, answer the following questions:
 
-**[q1]** TBD?
+**[q1]** You have to run a program that will perform 4000 GFlop, and your
+computer computes at speed 30 TFlop/sec. How long will the program run for?
+
 <div class="ui accordion fluid">
   <div class="title">
     <i class="dropdown icon"></i>
     (click to see answer)
   </div>
   <div markdown="1" class="ui segment content">
-   $$ ANSWER $$
+   $$ \frac{4 TFlop}{30\; TFlop/sec} \simeq 0.13\; sec   $$
   </div>
 </div>
 
 <p> </p>
 
-**[q2]** TBD?
+**[q2]** A program just ran in 1640 sec on a computer with speed 2 TFlop/sec, how many MFlop does the program perform?
 <div class="ui accordion fluid">
   <div class=" title">
     <i class="dropdown icon"></i>
     (click to see answer)
   </div>
   <div markdown="1" class="ui segment content">
-   $$ ANSWER $$
+   $$ \frac{2000000\; MFlop/sec}{1640\; sec} \simeq 1219.5 MFlop $$
   </div>
 </div>
 
