@@ -5,6 +5,19 @@ order: 500
 usemathjax: true
 ---
 
+#### Learning objectives:
+
+  - Understand the concept of *work* and of *compute speed*
+
+  - Be familiar with Flop as a measure of work and with Flop/sec
+    as a measure of compute speed
+
+  - Understand the simple relation between program execution time,
+    work, and compute speed
+
+---
+
+
 ### Overview
 
 Now that you have been introduced to *workflows*, *workflow management systems (WMS)*,
@@ -15,6 +28,12 @@ scenario that provides a specific context for observing the execution of a workf
 the composition of the workflow, the platform specifications, and
 finally the WMS implementation. Then we detail the sequence of workflow execution events and formulate a simple equation to model
 the expected execution time (or *makespan*).
+
+
+### Workflow Execution Simulation
+
+WMS research and development is rife with challenges, many of which come from the difficulty to perform experiments (experiments are costly, time-consuming, not always repeatable, and/or limited to available hardware and software infrastructures). To address this difficult, the WRENCH project provides ways to simulate the execution of a WMS that runs a workflow on an arbitrary cyberinfrastructure configuration, in a way that is accurate, fast, and only requires a single standard laptop computer. In these pedagogic modules we use WRENCH for educational purposes.
+
 
 ### Scenario
 

@@ -5,10 +5,26 @@ order: 10
 usemathjax: true
 ---
 
-To complete these pedagogic modules you need first a basic, but fundamental, understanding of
-the performance of a computer that executes a program. We consider here the execution of
-a sequential (i.e., non multi-threaded) program that runs on a single core of some
-microprocessor in a computer. 
+#### Learning objectives:
+
+  - Understand the concept of *work* and of *compute speed*
+
+  - Be familiar with Flop as a measure of work and with Flop/sec
+    as a measure of compute speed
+
+  - Understand the simple relation between program execution time, 
+    work, and compute speed
+
+---
+
+
+To complete these pedagogic modules you need first a basic, but
+fundamental, understanding of the performance of a computer that executes a
+program. We consider here the execution of a sequential (i.e., non
+multi-threaded) program that runs on a single core of some microprocessor
+in a computer.
+
+### Measures of Work and Compute Speed
 
 A program has a some amount of *work* to do, and after that amount of work
 is done we say the program's execution is finished. The simplest model of
@@ -44,6 +60,9 @@ program will run on a particular computer is very challenge (The only way
 to be sure if to actually run the program on all computers of interest and
 compare.
 
+
+### Flop and Flop/sec
+
 In these pedagogic modules, unless specified otherwise, we use a simple
 measure of work: the number of floating-point operations, or **Flop**, that
 the program performs.  We thus measure the speed of a computer in Flop/sec.
@@ -51,7 +70,6 @@ This measure is typical for scientific computing, and like any generic
 measure it is imperfect (e.g., programs do non-floating-point computations,
 floating-point operations are not all the same).  But it provide us with a
 simple basis for presenting fundamental concepts.
-
 
 
 For example, say a program that performs 100 TFlop ("100 TeraFlop") on a computer whose speed is 35 GFlop/sec ("35 GigaFlop per second"). The

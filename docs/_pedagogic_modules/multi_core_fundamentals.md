@@ -7,3 +7,12 @@ usemathjax: true
 
 UNDER CONSTRUCTION
 
+#### Learning objectives:
+
+  - TBD
+
+  - TBD
+
+---
+
+

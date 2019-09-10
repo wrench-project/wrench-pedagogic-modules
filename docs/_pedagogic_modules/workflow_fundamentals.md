@@ -4,6 +4,20 @@ title: 'D. Workflow Fundamentals'
 order: 400
 usemathjax: true
 ---
+
+#### Learning objectives:
+
+  - Understand the concept of a *workflow*
+
+  - Understand the structure of cyberinfrastructures on which one can execute
+    workflows.
+
+  - Understand the concept of a workflow management system (WMS)
+
+
+---
+
+
 1. [What is a workflow?](#what-is-a-workflow)
 2. [What kind of resources and infrastructures are necessary to execute a workflow?](#what-kind-of-resources-and-infrastructures-are-necessary-to-execute-a-workflow)
 3. [What is a workflow management system?](#what-is-a-workflow-management-system)
@@ -39,20 +53,3 @@ Workflows are often comprised of many tasks that are computationally intensive a
 Due to the complexity and diversity of these infrastructures, users are not left to their own devices for executing workflows. Instead, they rely 
 on a *Workflow Management System (WMS)*, i.e., a software system that automatically orchestrates the execution of workflows on cyberinfrastructures. To do so, most WMSs implement decision-making algorithms for optimizing workflow execution performance given available hardware resources. WMSs and the algorithms they employ are the object of extensive research in the field of distributed computing.
 
-## Simulating a workflow execution
-
-WMS research and development is rife with challenges, many of which come
-from the difficulty to perform experiments (experiments are costly,
-time-consuming, not always repeatable, and/or limited to available hardware
-and software infrastructures). To address this difficult, the
-[WRENCH](http://wrench-project.org/) project provides ways to simulate the
-execution of a WMS that runs a workflow on an arbitrary cyberinfrastructure
-configuration, in a way that is accurate, fast, and only requires a single
-standard laptop computer.  In these pedagogic modules we use
-[WRENCH](http://wrench-project.org/) for educational purposes.
-
-When going through these pedagogic modules, you will need to do back-of-the-envelope calculations
-of durations of computation and of file transfer times.  While estimating computation times
-is straightforward, estimating data transfer times is a bit more involved and may be something
-to which you have not been exposed previously.  To make sure you are well-prepared for the upcoming
-pedagogic activities, continue on to [a brief primer on file transfer times]({{ site.baseurl }}/activities/primer_on_file_transfer_times)
