@@ -1,7 +1,7 @@
 ---
 layout: page
-title: 'Activity 1: Running Your First Simulated Workflow Execution'
-order: 30
+title: 'F. Workflows and Data Locality'
+order: 600
 ---
 
 1. [Learning objectives](#learning-objectives)

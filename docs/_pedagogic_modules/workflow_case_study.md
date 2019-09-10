@@ -1,7 +1,7 @@
 ---
 layout: page
-title: 'Activity 3: The Right Tool for the Job'
-order: 50
+title: 'H. Workflows and Resource Provisioning'
+order: 800
 ---
 
 1. [Learning objectives](#learning-objectives)

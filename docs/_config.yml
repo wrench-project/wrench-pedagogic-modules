@@ -11,7 +11,7 @@ baseurl: '/wrench-pedagogic-modules'
 # Setup
 title:            'WRENCH PEDAGOGIC MODULES'
 tagline:          'Distributed Computing Courseware'
-description:      'A guided set of educational activities aimed at teaching distributed computing concepts through WRENCH, a workflow management simulation framework.'
+description:      'WRENCH Pedagogic Modules.'
 
 author:
   name:           'WRENCH Team'
@@ -29,7 +29,7 @@ github:
 #include: ['_pages']
 
 collections:
-    activities:
+    pedagogic_modules:
         output: true
-        permalink: /activities/:path/
+        permalink: /pedagogic_modules/:path/
 

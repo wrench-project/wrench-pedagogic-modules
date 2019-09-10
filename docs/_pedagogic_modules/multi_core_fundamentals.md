@@ -1,10 +1,21 @@
 ---
 layout: page
-title: 'Multi-Core Execution'
-order: 5
+title: 'B. Multicore Computing Fundamentals'
+order: 200
+usemathjax: true
 ---
 
 under construction
+
+#### Learning Objectives:
+
+    - TBD
+
+    - TBD
+
+----
+
+
 
 # Multi-Core Execution
 

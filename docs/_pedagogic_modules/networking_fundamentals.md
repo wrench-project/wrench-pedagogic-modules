@@ -1,7 +1,7 @@
 ---
 layout: page
-title: 'A Primer on Networking'
-order: 20
+title: 'C. Networking Fundamentals'
+order: 300
 usemathjax: true
 ---
 
@@ -13,16 +13,16 @@ usemathjax: true
 </div>
 
 <div markdown="1" class="ui tab segment active" data-tab="first">
-  {% include_relative include_primer_on_networking/networking.md %}
+  {% include_relative include_networking_fundamentals/networking.md %}
 </div>
 <div markdown="1" class="ui tab segment" data-tab="second">
-  {% include_relative include_primer_on_networking/latency_and_bandwidth.md %}
+  {% include_relative include_networking_fundamentals/latency_and_bandwidth.md %}
 </div>
 <div markdown="1" class="ui tab segment" data-tab="third">
-  {% include_relative include_primer_on_networking/topologies.md %}
+  {% include_relative include_networking_fundamentals/topologies.md %}
 </div>
 <div markdown="1" class="ui tab segment " data-tab="fifth">
-  {% include_relative include_primer_on_networking/contention.md %}
+  {% include_relative include_networking_fundamentals/contention.md %}
 </div>
 
 

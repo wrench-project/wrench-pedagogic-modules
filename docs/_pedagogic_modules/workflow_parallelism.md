@@ -1,7 +1,7 @@
 ---
 layout: page
-title: 'Activity 2: Parallelism'
-order: 40
+title: 'G. Workflows on Clusters'
+order: 700     
 usemathjax: true
 ---
 
