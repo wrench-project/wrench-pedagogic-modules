@@ -23,7 +23,7 @@ namespace wrench {
                                      storage_services,
                                      {}, nullptr,
                                      hostname,
-                                     "activity2"
+                                     "multicore"
                                      ) {}
 
     /**
