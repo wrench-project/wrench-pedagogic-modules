@@ -29,7 +29,7 @@ github:
 #include: ['_pages']
 
 collections:
-    activities:
+    pedagogic_modules:
         output: true
-        permalink: /activities/:path/
+        permalink: /pedagogic_modules/:path/
 
