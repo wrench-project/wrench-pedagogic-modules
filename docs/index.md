@@ -4,21 +4,21 @@ order: 0
 ---
 ## Welcome to the [WRENCH](http://wrench-project.org)-Pedagogic-Modules,
 
-The goal of these pedagogic modules is for students to achieve learning objectives
-in the area of distributed computing, in the context of scientific workflows, via
-hands-on experiments. This is achieved through a set of “activities” that explore,
-at first elementary and later sophisticated, concepts and techniques. All these
-activities entail simulating workflow executions using the
-[WRENCH](http://wrench-project.org) simulation framework.
+On this site students can learn important concepts
+ and techniques in the areas of parallel, distributed, and high-performance computing.
+This is achieved through *modules* that can provide hands-on leaning experiences via
+*simulators* developed with the [WRENCH](http://wrench-project.org/)
+framework. Proceed by going through the module sequence in the navigation bar on the
+left-hand side. 
 
-Each activity can be viewed by clicking on the menu button located at the top
-left hand corner of the screen. Before proceeding to the first section,
-[What is this about?]({{ site.baseurl }}/activities/what_is_this_about), ensure
-that you are using one of the web browsers specified below and have [Docker](https://docker.com)
-OR [Vagrant](https://www.vagrantup.com/) installed on your machine.
+
+----
 
 ### Software Requirements
-----
+
+Make sure you are using a supported Web browser, and have [Docker](https://docker.com)
+OR [Vagrant](https://www.vagrantup.com/) installed on your machine:
+
 - latest version of either of the following web browsers:
     - [Google Chrome](https://www.google.com/chrome/)
     - [Firefox](https://www.mozilla.org/en-US/firefox/new/)
