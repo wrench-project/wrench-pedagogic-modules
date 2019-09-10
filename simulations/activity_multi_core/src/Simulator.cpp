@@ -133,7 +133,7 @@ int main(int argc, char** argv) {
     wrench::Simulation simulation;
     simulation.init(&argc, argv);
 
-    const int MAX_NODES         = 32;
+    const int MAX_NODES         = 1;
     const int MAX_CORES         = 32;
     const int MAX_TASKS_TO_JOIN = 50;
     const double MAX_FILE_SIZE  = 1000.0 * 1000.0 * 1000.0 * 1000.0;
