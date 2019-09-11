@@ -1301,7 +1301,7 @@ $(function() {
     }
 
     // Show the workflow, and update if the user wants to use the Workflow where tasks use RAM
-    generate_workflow_dag(workflow_dag_no_ram);
+    //generate_workflow_dag(workflow_dag_no_ram);
 
     $("#ram-required").on("click", function() {
         $("#workflow-dag-chart > svg").remove();
