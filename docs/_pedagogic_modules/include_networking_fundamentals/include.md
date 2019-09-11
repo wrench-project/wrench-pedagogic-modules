@@ -37,7 +37,7 @@ estimated.
 
 ### Scenario 1: A Single file transfer
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_networking/scenario_1.svg">Scenario 1</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/networking_fundamentals/scenario_1.svg">Scenario 1</object>
 
 *About how long should it take to send a single 100 MB file from "host1" to "host2"?*
  The time $T$ it takes to send a file of size $m$ over a single link with a bandwidth $\beta$ and latency $\alpha$,
@@ -67,7 +67,7 @@ would observe a file transfer time of 1.0656522 seconds.
 
 ### Scenario 2: A bottleneck link
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_networking/scenario_2.svg">Scenario 2</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/networking_fundamentals/scenario_2.svg">Scenario 2</object>
 
 *About how long should it take to send a single 100 MB file from "host1" to "host2" given that the middle network link now
 has a bandwidth of only 10 MB/sec?* It is almost always the case in practice that data will be transmitted over a heterogeneous set of
@@ -91,7 +91,7 @@ Simulation results for this scenario show that the date transfer would in fact t
 
 ### Scenario 3: Two concurrent file transfers
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_networking/scenario_3.svg">Scenario 3</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/networking_fundamentals/scenario_3.svg">Scenario 3</object>
 
 *About how long should it take to send two 75 MB files concurrently from "host1" to "host2"?* In this situation,
 the bandwidth will be shared amongst the two concurrent file transfers, which are assumed to start at the same time (and will thus terminate at about the same time). Let $n$ be the number of files to send
@@ -150,11 +150,9 @@ not model in the estimate equations above.
 
 ### Conclusion
 
-Throughout the upcoming activities, you will be asked to estimate
+Throughout these pedagogic modules activities, you will be asked to estimate
 application execution times given specific hardware constraints. 
-Estimates as above will be sufficient to answer all questions but will not be 100%
-correct. We will be using simulation to verify that the estimates are close
-to real-world values. Continue to the next section, [A Primer on Workflow
-Executions]({{ site.baseurl
-}}/activities/primer_on_workflow_executions), where we will examine the sequence
-of events that make up a simple workflow execution.
+Estimates as above will be sufficient to answer all questions but you have
+to remain aware that they are not 100%
+correct. We will be using simulation to see how close the estimates are 
+to real network behaviors!

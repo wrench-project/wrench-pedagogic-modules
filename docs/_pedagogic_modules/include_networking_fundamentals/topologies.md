@@ -20,11 +20,9 @@ the graph represent either end-point, i.e., computers connected to the
 network, or routers, i.e., devices that are used to connect network links
 together.  We are abstracting away here many interesting details of how
 network technology makes it possible to implement network topologies. For
-instance, we will not discuss how routers work, and simply assume that they
-"magically" make it possible to connect links together in arbitrary
-fashion. (See a Networking course for all interesting details.)
+instance, we will not discuss how routers work (see a network textbook for all interesting details).
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_networking/topology.svg">topology</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/networking_fundamentals/topology.svg">topology</object>
 <b>Figure 2:</b> An example network topology that interconnects 5 hosts.
 
 The figure above shows an example topology with 5 hosts (the end-points vertices) 4
@@ -33,12 +31,12 @@ network flows through links and routers. The **route** between
 two hosts is the sequence of network links (and routers) that the data traverses when 
 being communicated from one of the hosts to another. 
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_networking/topology_routes.svg">topology with routes</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/networking_fundamentals/topology_routes.svg">topology with routes</object>
 <b>Figure 1:</b> Two possible routes between host A and host C.
 
 As an example, the figure above shows two possible routes between host A
-and host C. The network configuration, the details of which our outside the
-scope here, defines which route is to be taken, for instance the blue
+and host C. The network configuration, the details of which are outside our
+scope, defines which route is to be taken, for instance the blue
 route.  We will always assume that the routes are static, i.e., data
 flowing from one host to another always traverses the same set of links.
 
@@ -46,7 +44,7 @@ flowing from one host to another always traverses the same set of links.
 
 Consider two hosts connected via a 3-link route, as depicted in Figure 3 below. 
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_networking/scenario_1.svg">A three-link route</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/networking_fundamentals/scenario_1.svg">A three-link route</object>
 <b>Figure 3:</b> An example 3-link route between two hosts.
 
 In this example, all network links have the same bandwidth, 100 MB/sec.
@@ -62,13 +60,13 @@ host A to host B will take time:
 
 $$
 \begin{align}
-T_{100 MB} & = 200\;us + \frac{100\;MB}{100\;MB/sec} = 1.0002\; sec
+T_{100 \text{MB}} & = 200\;\text{us} + \frac{100\;\text{MB}}{100\;\text{MB/sec}} = 1.0002\; \text{sec}
 \end{align}
 $$
 
 
 Consider now a similar three-link route, but with different link bandwidths:
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_networking/scenario_2.svg">A different three-link route</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/networking_fundamentals/scenario_2.svg">A different three-link route</object>
 <b>Figure 4:</b> Another example 3-link route between two hosts.
 
 In Figure 4, the middle link has a bandwidth of 10 MB/sec (shown in red).
@@ -85,24 +83,24 @@ host A to host B will take time:
 
 $$
 \begin{align}
-T_{100MB} & = 200\;us + \frac{100\;MB}{10\;MB/sec} = 10.0002\; sec
+T_{100MB} & = 200\;\text{us} + \frac{100\;\text{MB}}{10\;\text{MB/sec}} = 10.0002\; \text{sec}
 \end{align}
 $$
 
 
 #### Putting it all together
 
-Given a route _r_, i.e., a set of network links, and a data transfer of _size_ bytes,
+Given a route *r*, i.e., a set of network links, and a data transfer of *size* bytes,
 the data transfer time through the route is:
 
 $$
 \begin{align}
-T_{size} & = \sum_{l \in r} Latency(l) + \frac{size}{\min\limits_{l \in r} Bandwidth(l)} \\
+T_{size} & = \sum_{link \in r} latency(link) + \frac{size}{\min\limits_{link \in r} bandwidth(link)} \\
 \end{align}
 $$
 
-The latency of the route is the *sum of the latencies* and the bandwidth of the route
-is the *minimum of the bandwidths*. 
+**The latency of the route is the sum of the latencies and the bandwidth of the route
+is the minimum of the bandwidths.** 
 
 ---
 
@@ -111,7 +109,7 @@ is the *minimum of the bandwidths*.
 To make sure you have understood the above, answer the following practice
 questions, which all pertain to this topology:
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/primer_on_networking/topology_practice.svg">Network topology for practice questions</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/networking_fundamentals/topology_practice.svg">Network topology for practice questions</object>
 <b>Figure 5:</b> Network topology for practice questions.
 
 
@@ -126,7 +124,7 @@ The latency is the sum of the link latencies along the route:
 
 $$
 \begin{align}
-100\;us + 50\;us + 10\;us = 160\;us.
+100\;\text{us} + 50\;\text{us} + 120\;\text{us} = 270\;\text{us}.
 \end{align}
 $$
   </div>
@@ -145,7 +143,7 @@ The bandwidth is the minimum of the link bandwidths along the route:
 
 $$
 \begin{align}
-\min(20\;MB/sec, 30\;MB/sec, 100\;MB/sec) = 20\;MB/sec.
+\min(20\;\text{MB/sec}, 30\;\text{MB/sec}, 100\;\text{MB/sec}) = 20\;\text{MB/sec}.
 \end{align}
 $$
   </div>
@@ -177,13 +175,15 @@ $$
     (click to see answer)
   </div>
   <div markdown="1" class="ui segment content">
-The data transfer time is: 
+The data transfer time is:
 
-$$
+$$ 
 \begin{align}
-T = 100\;us + 50\;us + 10\;us + \frac{1\;MB}{20\;MB/sec} = .05016\;sec
+T = 100\;\text{us} + 50\;\text{us} + 120\;\text{us} + \frac{1\;\text{MB}}{20\;\text{MB/sec}} \simeq .05\;\text{sec}\\
 \end{align}
 $$
   </div>
 </div>
 
+<p> </p>
+---
