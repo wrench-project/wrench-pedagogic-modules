@@ -246,7 +246,7 @@ app.post("/run/activity_2", authCheck, function(req, res) {
 // display activity multi core visualization route
 app.get("/multi_core", authCheck, function(req, res) {
     res.render("multi_core", {
-        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/activity_2_cyber_infrastructure.svg")
+        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/multi_core_cyber_infrastructure.svg")
     });
 });
 
