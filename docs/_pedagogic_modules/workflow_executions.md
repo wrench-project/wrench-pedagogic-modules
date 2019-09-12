@@ -38,7 +38,7 @@ WMS research and development is rife with challenges, many of which come from th
 ### Scenario
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/
-primer_on_workflow_executions/workflow.svg">Workflow</object>
+workflow_execution/workflow.svg">Workflow</object>
 
 Figure 1 illustrates the DAG representation of the workflow for our
 scenario. *task0* requires the file *task0::0.in* as its input and produces
@@ -50,7 +50,7 @@ files to/from and a compute resource to perform the computation required by
 each task.
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/
-primer_on_workflow_executions/platform.svg">Workflow</object>
+workflow_execution/platform.svg">Workflow</object>
 
 The platform in Figure 2 depicts the cyberinfrastructure on which we can
 execute this workflow. In this scenario, the WMS resides on the host
@@ -124,7 +124,7 @@ input files for that task, perform the computation required by that task, and
 finally write the output files for that task.  
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/
-primer_on_workflow_executions/workflow_execution.svg">Workflow Execution</object>
+workflow_execution/workflow_execution.svg">Workflow Execution</object>
 
 Notice that in step 3, the CS writes the output file to the SS, then immediately
 reads that file back from the SS in step 4. This happens because file operations

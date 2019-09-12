@@ -31,14 +31,16 @@ void generateWorkflow(wrench::Workflow *workflow) {
 /**
  * @brief Generate the platform file for activity 1
  * @param platform_file_path: path to write the file to
- * @param effective_bandwidth: effective bandwidth in MBps
+ * @param compute_speed: compute speed in TFlop/sec
  */
-void generatePlatform(std::string platform_file_path, int effective_bandwidth) {
+void generatePlatform(std::string platform_file_path, int compute_speed) {
     if (platform_file_path.empty()) {
         throw std::invalid_argument("generatePlatform() platform_file_path cannot be empty");
     }
 
-    if (effective_bandwidth < 1 ) {
+    int effective_bandwidth = 10 * 1000 * 1000; // 10 MBps
+
+    if (compute_speed < 1 ) {
         throw std::invalid_argument("generatePlatform() bandwidth must be greater than 1");
     }
 
@@ -69,15 +71,12 @@ void generatePlatform(std::string platform_file_path, int effective_bandwidth) {
 
     pugi::xml_document xml_doc;
 
+    // Fix the compute speed
     if (xml_doc.load_string(xml_string.c_str(), pugi::parse_doctype)) {
 
-        pugi::xml_node link = xml_doc.child("platform").child("zone").child("link");
-
-        // entering (effective_bandwidth / 0.97) as bandwidth into the simulation
-        // so that the max bandwidth we can achieve is the effective_bandwidth
-        double bandwidth = effective_bandwidth / 0.97;
-
-        link.attribute("bandwidth").set_value(std::string(std::to_string(bandwidth) + "MBps").c_str());
+        auto parents = xml_doc.child("platform").child("zone");
+        auto host = parents.find_child_by_attribute("id", "hpc.edu");
+        host.attribute("speed").set_value(std::string(std::to_string(compute_speed) + "Tf").c_str());
         xml_doc.save_file(platform_file_path.c_str());
 
     } else {
@@ -96,22 +95,22 @@ int main(int argc, char** argv) {
     wrench::Simulation simulation;
     simulation.init(&argc, argv);
 
-    int LINK_BANDWIDTH;
+    int COMPUTE_SPEED;
 
     try {
         if (argc != 2) {
             throw std::invalid_argument("bad args");
         }
 
-        LINK_BANDWIDTH = std::stoi(std::string(argv[1]));
+        COMPUTE_SPEED = std::stoi(std::string(argv[1]));
 
-        if (LINK_BANDWIDTH < 1) {
-            std::cerr << "Bandwidth must be greater than 0 MBps";
-            throw std::invalid_argument("invalid bandwidth");
+        if (COMPUTE_SPEED < 1) {
+            std::cerr << "Compute Speed must be greater than 0 TFlop/sec";
+            throw std::invalid_argument("invalid compute speed");
         }
     } catch(std::invalid_argument &e) {
-        std::cerr << "Usage: activity_1_simulator <link_bandwidth>" << std::endl;
-        std::cerr << "    link_bandwidth: measured as MBps" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <compute speed>" << std::endl;
+        std::cerr << "    compute speed: measured in TFlop/sec" << std::endl;
         return 1;
     }
 
@@ -121,7 +120,7 @@ int main(int argc, char** argv) {
 
     // generate platform
     std::string platform_file_path = "/tmp/platform.xml";
-    generatePlatform(platform_file_path, LINK_BANDWIDTH);
+    generatePlatform(platform_file_path, COMPUTE_SPEED);
 
     simulation.instantiatePlatform(platform_file_path);
 
