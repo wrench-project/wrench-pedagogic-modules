@@ -36,6 +36,11 @@ h6 {
 
 #home-wrench-logo {
   padding: 10px;
+  height: 40%;
+  width: 40%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #google-button {
