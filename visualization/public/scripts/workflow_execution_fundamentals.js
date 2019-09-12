@@ -16,33 +16,33 @@ $(function() {
 
     // Update link bandwidths labels on SVG live as user types into
     // the form
-    $('#link-bandwidth').on('keyup', function() {
+    $('#compute-speed').on('keyup', function() {
 
-        let link_bandwidth_input_el = $(this)
-        let link_bandwidth_input_value = parseInt(link_bandwidth_input_el.val());
-        let link_bandwidth_label_el = $(".bandwidth-label");
+        let compute_speed_input_el = $(this)
+        let compute_speed_input_value = parseInt(compute_speed_input_el.val());
+        let compute_speed_label_el = $(".computespeed-label");
 
-        // highlight the bandwidth label using green on the SVG for half a second
+        // highlight the compute speed label using green on the SVG for half a second
         //to indicate to the user that a valid number has been entered
-        if (link_bandwidth_input_value >= 1 && link_bandwidth_input_value <= 999) {
-           link_bandwidth_label_el.text("Bandwidth: " + link_bandwidth_input_value + " MBps")
+        if (compute_speed_input_value >= 1 && compute_speed_input_value <= 999) {
+            compute_speed_label_el.text("Speed: " + (compute_speed_input_value) + " TFlop/sec")
                 .css("background-color", "#d3ffe9");
 
-            link_bandwidth_input_el.removeClass("is-invalid")
+            compute_speed_input_el.removeClass("is-invalid")
                 .addClass("is-valid");
 
             setTimeout(function() {
-                if (link_bandwidth_label_el.css("background-color") == "rgb(211, 255, 233)") {
-                    link_bandwidth_label_el.css("background-color", "");
+                if (compute_speed_label_el.css("background-color") == "rgb(211, 255, 233)") {
+                    compute_speed_label_el.css("background-color", "");
                 }
             }, 500);
 
         // highlight the bandwidth label using red on the SVG to indicate to the user
         // that an invalid number has been entered
         } else {
-            link_bandwidth_label_el.css("background-color", "#ffb7b5");
+            compute_speed_label_el.css("background-color", "#ffb7b5");
 
-            link_bandwidth_input_el.removeClass("is-valid")
+            compute_speed_input_el.removeClass("is-valid")
                 .addClass("is-invalid");
         }
     });
@@ -63,13 +63,13 @@ $(function() {
         // Then a response with simulation data is received. The data is parsed, and rendered on the
         // screen. 
         $.ajax({
-            url: '/run/activity_1',
+            url: '/run/workflow_execution_fundamentals',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(
                 {
-                    simulator_number: $('#simulator-form input:radio:checked').val(),
-                    link_bandwidth: $('#link-bandwidth').val()
+                    // simulator_number: $('#simulator-form input:radio:checked').val(),
+                    compute_speed: $('#compute-speed').val()
                 }),
 
                 success: function(response) {

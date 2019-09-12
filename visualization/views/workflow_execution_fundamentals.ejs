@@ -1,14 +1,14 @@
-<%- include("partials/header", {activity: 'Networking Fundamentals'}); %>
+<%- include("partials/header", {activity: 'Workflow Execution Fundamentals'}); %>
 
-<%- include("partials/input_non_workflow"); %>
+<%- include("partials/inputs"); %>
 
 <%- include("partials/simulation_parameters_form_start"); %>
 
     <div class="form-group">
-      <label for="file_sizes">List of file sizes (MB)</label>
-      <input type="text" class="form-control" id="file-sizes" placeholder="10, 20" value="10, 20" required>
+      <label for="compute_speed">Compute speed of hpc.edu in TFlop/sec</label>
+      <input type="number" class="form-control" id="compute-speed" placeholder="10" value="" min="1" max="99" step="1" required>
       <div class="invalid-feedback">
-        Please provide a comma- or space-separated list of integral file sizes
+        Please provide a compute speed in the range [1, 99]
       </div>
     </div>
 
@@ -16,7 +16,11 @@
 
 <%- include("partials/simulation_output"); %>
 
-<script src="scripts/networking_fundamentals.js" type="text/javascript"></script>
+<%- include("partials/workflow_execution_graph"); %>
+
+<%- include("partials/workflow_execution_data"); %>
+
+<script src="scripts/workflow_execution_fundamentals.js" type="text/javascript"></script>
 
 <script>
     // Setup zoom for the platform svg and center it
@@ -36,8 +40,12 @@
     svg.call(zoom.transform,
         d3.zoomIdentity.translate(20, 40).scale(initialScale));
 
+
     svg.attr('height', height);
 
+    // Display the workflow DAG
+    var workflow_graph_json = JSON.parse('<%- JSON.stringify(workflow_graph_json) %>');
+    generate_workflow_dag(workflow_graph_json);
 </script>
 
 <%- include("partials/footer"); %>

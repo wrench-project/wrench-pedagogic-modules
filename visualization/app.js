@@ -65,18 +65,21 @@ app.get("/logout", function(req, res) {
   res.redirect("/");
 });
 
-// display networking_fundamentals visualization route
+
+
+// display networking fundamentals visualization route
 app.get("/networking_fundamentals", authCheck, function(req, res) {
     res.render("networking_fundamentals", 
         {cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/networking_fundamentals_cyber_infrastructure.svg")});
 });
 
-// execute networking_fundamentals simulation route
+// execute networking fundamentals simulation route
 app.post("/run/networking_fundamentals", authCheck, function(req, res) {
     const PATH_PREFIX = __dirname.replace("visualization", "simulations/networking_fundamentals/");
 
     const SIMULATOR = "networking_fundamentals_simulator";
     const EXECUTABLE = PATH_PREFIX + SIMULATOR;
+    console.log("REQ_BODY=" + req.body);
     const FILE_SIZES = req.body.file_sizes.replace(/,/g," ").replace(/ +/g," ").split(" ");
 
     // additional WRENCH arguments that filter simulation output (We only want simulation output from the WMS in this activity)
@@ -136,7 +139,7 @@ app.post("/run/networking_fundamentals", authCheck, function(req, res) {
        * is whatever the ansi color was. Then the regular expression just adds in <br> elements so that
        * each line of output renders on a separate line in the browser.
        *
-       * The simulation output is sent back to the client (see public/networking_fundamental.js)
+       * The simulation output is sent back to the client (see public/scripts/networking_fundamental.js)
        */
       var find = "</span>";
       var re = new RegExp(find, "g");
@@ -149,6 +152,92 @@ app.post("/run/networking_fundamentals", authCheck, function(req, res) {
     }
 });
 
+
+
+// display workflow execution fundamentals visualization route
+app.get("/workflow_execution_fundamentals", authCheck, function(req, res) {
+    res.render("workflow_execution_fundamentals", {workflow_graph_json: JSON.parse(fs.readFileSync(__dirname + "/../simulations/workflow_execution_fundamentals/workflow_graph.json")),
+        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/workflow_execution_fundamentals_cyber_infrastructure.svg")});
+});
+
+// execute workflow execution fundamentals simulation route
+app.post("/run/workflow_execution_fundamentals", authCheck, function(req, res) {
+    const PATH_PREFIX = __dirname.replace("visualization", "simulations/workflow_execution_fundamentals/");
+
+    const SIMULATOR = "activity_simulator";
+    const EXECUTABLE = PATH_PREFIX + SIMULATOR;
+    const COMPUTE_SPEED = req.body.compute_speed;
+
+    // additional WRENCH arguments that filter simulation output (We only want simulation output from the WMS in this activity)
+    const LOGGING = [
+        "--log=root.thresh:critical",
+        "--log=wms.thresh:debug",
+        "--log=simple_wms.thresh:debug",
+        "--log=simple_wms_scheduler.thresh:debug",
+        "--log='root.fmt:[%d][%h:%t]%e%m%n'"
+    ];
+
+    const SIMULATION_ARGS = [COMPUTE_SPEED].concat(LOGGING);
+    const RUN_SIMULATION_COMMAND = [EXECUTABLE].concat(SIMULATION_ARGS).join(" ");
+
+    console.log("\nRunning Simulation");
+    console.log("===================");
+    console.log("Executing command: " + RUN_SIMULATION_COMMAND);
+    var simulation_process = spawnSync(EXECUTABLE, SIMULATION_ARGS);
+
+    if (simulation_process.status != 0) {
+        console.log("Something went wrong with the simulation. Possibly check arguments.");
+        console.log(simulation_process.stderr.toString());
+    } else {
+        var simulation_output = simulation_process.stderr.toString();
+        console.log(simulation_output);
+
+        /**
+         * Log the user running this simulation along with the
+         * simulation parameters to the data server.
+         */
+        request({
+                method: "POST",
+                uri: keys.dataServer.uri,
+                json: {
+                    "key": keys.dataServer.key,
+                    "data": {
+                        "user": req.user,
+                        "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
+                        "activity": 1,
+                        "simulator": SIMULATOR,
+                        "compute_speed": COMPUTE_SPEED
+                    }
+                }
+            },
+            function(error, response, body) {
+                if (!error && response.statusCode == 201) {
+                    console.log("sent POST request to data_server");
+                } else {
+                    console.log(error);
+                }
+            }
+        );
+
+        /**
+         * The simulation output uses ansi colors and we want these colors to show up in the browser as well.
+         * Ansi up will take each line, make it into a <span> element, and edit the style so that the text color
+         * is whatever the ansi color was. Then the regular expression just adds in <br> elements so that
+         * each line of output renders on a separate line in the browser.
+         *
+         * The simulation output and the workflowtask data are sent back to the client (see public/scripts/workflow_execution_fundamentals.js)
+         */
+        var find = "</span>";
+        var re = new RegExp(find, "g");
+
+        res.json({
+            "simulation_output": ansi_up.ansi_to_html(simulation_output).replace(re, "<br>" + find),
+            "task_data": JSON.parse(fs.readFileSync(__dirname + "/workflow_data.json"))
+        });
+
+
+    }
+});
 
 
 
@@ -223,7 +312,7 @@ app.post("/run/activity_1", authCheck, function(req, res) {
        * is whatever the ansi color was. Then the regular expression just adds in <br> elements so that
        * each line of output renders on a separate line in the browser.
        *
-       * The simulation output and the workflowtask data are sent back to the client (see public/activity_1.js)
+       * The simulation output and the workflowtask data are sent back to the client (see public/scripts/activity_1.js)
        */
       var find = "</span>";
       var re = new RegExp(find, "g");
@@ -318,7 +407,7 @@ app.post("/run/activity_2", authCheck, function(req, res) {
          * is whatever the ansi color was. Then the regular expression just adds in <br> elements so that
          * each line of output renders on a separate line in the browser.
          *
-         * The simulation output and the workflowtask data are sent back to the client (see public/activity_1.js)
+         * The simulation output and the workflowtask data are sent back to the client (see public/scripts/activity_1.js)
          */
         var find = "</span>";
         var re = new RegExp(find, "g");
@@ -411,7 +500,7 @@ app.post("/run/multi_core", authCheck, function(req, res) {
          * is whatever the ansi color was. Then the regular expression just adds in <br> elements so that
          * each line of output renders on a separate line in the browser.
          *
-         * The simulation output and the workflowtask data are sent back to the client (see public/activity_1.js)
+         * The simulation output and the workflowtask data are sent back to the client (see public/scripts/activity_1.js)
          */
         var find = "</span>";
         var re = new RegExp(find, "g");
