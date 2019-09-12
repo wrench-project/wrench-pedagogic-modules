@@ -86,15 +86,20 @@ three-link route:
 With the simulator you can experiment with any scenario, so as to experimentally test your
 understanding of contention.  In a terminal, do the following:
 
-1. Install the simulator: `docker pull wrenchproject/wrench-pedagogic-modules:activity-0`
-2. Run the simulator: `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 <file size> <file size> ...`
-    - Each `file size` argument is the data size (in MB) transferred by one of the concurrent data transfers
+1. run `docker pull wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
+2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
+3. open a browser and go to [localhost:3000/](localhost:3000/)
+4. sign in using your `<UH Username>@hawaii.edu` Google Account
+5. select `Networking Fundamentals`
 
-For example, the command `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 100` will simulate a single 100 MB data transfer and produce this output:
+This will take to to a simple interactive Web page that diplays the platform in Figure 3,
+and asks you to enter a number a list of file sizes (in MB). Each file size corresponds to
+one data transfer on a three-link route.
+
+For example, if you enter just number "100" in the text box, the simulation will be for
+a single 100 MB data transfer and produce this output:
 
 ```
-----------------------------------------
-           Simulation Results
 ----------------------------------------
 100 MB transfer completed at time 10.5
 ----------------------------------------
@@ -104,27 +109,24 @@ Note that the transfer's completion time is a bit higher than what the computati
 we've done so far. We would expect the transfer time to be:
 
 $$
-T = 30\;\text{us} + \frac{100 MB}{10 MB/sec} = 10.00003\;\text{sec}.
+T = 30\;\text{us} + \frac{100 \text{MB}}{10 \text{MB/sec}} = 10.00003\;\text{sec}.
 $$
 
-This discrepancy is due to the simulator capturing some details of
+This discrepancy is because the simulator captures some details of
 real-world networks (e.g., the TCP slow-start behavior that you may have read about
-in a Networking textbook).
-These details are not captured by the
+in a Networking textbook) that are 
+not captured by the
 above mathematical expression. Such expressions are
 still useful approximations that we can use to reason about data transfer
-times. However, we should not be surprised to find that our calculations
-are a bit "off" when compared to simulation results.
+times. However, we should not be surprised that they are a bit "off".
 
-Another execution of the simulator as `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 100 50 100` will simulate two 100 MB transfers and one 50 MB transfer, producing this output:
+Entering "100, 100, 50" in the text box will simulate two 100 MB transfers and one 50 MB transfer, producing this output:
 
 ```
 ----------------------------------------
-           Simulation Results
-----------------------------------------
+100 MB transfer completed at time 26.25
 100 MB transfer completed at time 26.25
 50 MB transfer completed at time 15.75
-100 MB transfer completed at time 26.25
 ----------------------------------------
 ```
 
