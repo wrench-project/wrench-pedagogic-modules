@@ -46,8 +46,8 @@ void generateTaskJoinWorkflow(wrench::Workflow *workflow, int num_tasks_to_join,
     const double  MEMORY_REQUIREMENT = requires_memory ? 12.0 * 1000.0 * 1000.0 * 1000.0 : 0.0;
 
     // add final task
-    auto final_task = workflow->addTask("task" + std::to_string(num_tasks_to_join), (FLOPS / 12), MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY,
-      MEMORY_REQUIREMENT + ((double)num_tasks_to_join * file_size) + file_size);
+    //auto final_task = workflow->addTask("task" + std::to_string(num_tasks_to_join), (FLOPS / 12), MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY,
+    //  MEMORY_REQUIREMENT + ((double)num_tasks_to_join * file_size) + file_size);
 
     // create number of desired tasks to join into one
     for (int i = 0; i < num_tasks_to_join; ++i) {
@@ -57,11 +57,10 @@ void generateTaskJoinWorkflow(wrench::Workflow *workflow, int num_tasks_to_join,
 
         auto output_file = workflow->addFile(task_id + ".out", file_size);
         current_task->addOutputFile(output_file);
-        final_task->addInputFile(output_file);
-        workflow->addControlDependency(current_task, final_task);
+        //final_task->addInputFile(output_file);
+        //workflow->addControlDependency(current_task, final_task);
     }
-
-    final_task->addOutputFile(workflow->addFile("task" + std::to_string(num_tasks_to_join) + ".out", file_size));
+    //final_task->addOutputFile(workflow->addFile("task" + std::to_string(num_tasks_to_join) + ".out", file_size));
 }
 
 /**

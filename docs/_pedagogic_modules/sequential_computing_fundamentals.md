@@ -11,7 +11,7 @@ In this first module you acquire a basic, but
 fundamental, understanding of the performance of a computer that executes a
 program. We consider here the execution of a sequential (i.e., non
 multi-threaded) program that runs on a single core of some microprocessor
-in a computer. Tge learning objectives are:
+in a computer. The learning objectives are:
 
   - Understand the concepts of *work* and of *compute speed*;
 
