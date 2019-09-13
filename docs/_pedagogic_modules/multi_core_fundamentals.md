@@ -5,13 +5,16 @@ order: 200
 usemathjax: true
 ---
 
-under construction
+This section is designed to introduce you to the basics of using a machine with a multi-core processor.
+
 
 #### Learning Objectives:
 
   - Understand the advantages of using a multi-core machine
 
   - Encounter concepts of speedup and efficiency
+  
+  - Understand the impact of RAM constraints for utilizing multiple cores.
 
 ----
 
@@ -91,13 +94,16 @@ This means that because using three cores is not three times as fast, we have im
 
 ## Exercises
 
-These exercises accompany the simulator "Multi-core Machines". 
+These exercises accompany the simulator "Multi-core Machines". You will need to do calculations similar to those done in
+the sequential computing section, but now it will be the number of cores and tasks that vary, rather than the flops. 
 
-**[q1]**
+**[q1]** What is the speedup that you will observe for running ten tasks on one core versus ten tasks on two cores? What
+is the efficiency?
 
-**[q2]**
+**[q2]** What is the speedup that you will observe for running ten tasks on one core versus ten tasks on three cores? 
+What is the efficiency?
 
-**[q3]**
+**[q3]** RAM QUESTION 1
 
-**[q4]**
+**[q4]** RAM QUESTION 2
 
