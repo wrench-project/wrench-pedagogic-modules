@@ -21,7 +21,7 @@
  *
  * @throws std::invalid_argument
  */
-void generateWorkflow(wrench::Workflow *workflow, int num_tasks, int task_gflop) {
+void generateWorkflow(wrench::Workflow *workflow, int num_tasks, int task_gflop, bool requires_memory) {
 
     if (workflow == nullptr) {
         throw std::invalid_argument("generateWorkflow(): invalid workflow");
@@ -40,7 +40,7 @@ void generateWorkflow(wrench::Workflow *workflow, int num_tasks, int task_gflop)
     const unsigned long    MIN_CORES = 1;
     const unsigned long    MAX_CORES = 1;
     const double PARALLEL_EFFICIENCY = 1.0;
-    const double  MEMORY_REQUIREMENT = 0.0;
+    const double  MEMORY_REQUIREMENT = requires_memory ? 12.0 * 1000.0 * 1000.0 * 1000.0 : 0.0;
 
     // create the tasks
     for (int i = 0; i < num_tasks; ++i) {
@@ -90,10 +90,11 @@ int main(int argc, char** argv) {
     int NUM_CORES;
     int NUM_TASKS;
     int TASK_GFLOP;
+    bool REQUIRES_MEMORY;
 
     try {
 
-        if (argc != 4) {
+        if (argc != 5) {
             throw std::invalid_argument("bad args");
         }
 
@@ -118,17 +119,21 @@ int main(int argc, char** argv) {
             throw std::invalid_argument("invalid task gflop");
         }
 
+        REQUIRES_MEMORY = std::stoi(std::string(argv[4]));
+
+
     } catch(std::invalid_argument &e) {
         std::cerr << "Usage: " << argv[0] << " <num cores> <num tasks> <task gflop>" << std::endl;
         std::cerr << "   num_cores: number of cores [1, " + std::to_string(MAX_CORES) + "]" << std::endl;
         std::cerr << "   num_tasks: number of tasks (> 0)" << std::endl;
         std::cerr << "   task_gflop: task gflop (> 0)" << std::endl;
+        std::cerr << "   requires_memory: boolean" << std::endl;
         return 1;
     }
 
     // create workflow
     wrench::Workflow workflow;
-    generateWorkflow(&workflow, NUM_TASKS, TASK_GFLOP);
+    generateWorkflow(&workflow, NUM_TASKS, TASK_GFLOP, REQUIRES_MEMORY);
 
     // read and instantiate the platform with the desired HPC specifications
     std::string platform_file_path = "/tmp/platform.xml";
