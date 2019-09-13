@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 'B. Multicore Computing Fundamentals'
+title: 'B. Multi-Core Machines'
 order: 200
 usemathjax: true
 ---
@@ -17,7 +17,7 @@ under construction
 
 
 
-# Multi-Core Execution
+# Multi-Core Machines
 
 1. [Basics](#basics)
 2. [Benefits](#benefits)
@@ -48,7 +48,8 @@ until completion on that same core.
 The benefits of using multiple cores become most apparent when each core is equivalent in power to a processor that has 
 a single core. For example, if you have tasks that the single-core processor can complete in one hour, it will take four
 hours to complete four tasks. If you have a dual-core processor where each core is capable of completing a task in an 
-hour, now you can complete the same four tasks in two hours. 
+hour, now you can complete the same four tasks in two hours. Most real world applications do not work in this fashion, 
+so we have *Speedup* and *Efficiency* to evaluate any changes made to processing.
 
 ### Speedup
 
@@ -67,13 +68,30 @@ $$
 
 When looking at sequential computing efficiency is a simple concept, the processor is either working a task or the 
 program has completed. When looking at multi-core computing however, the notion of efficiency becomes important as part 
-of the processor (some cores) may be working while others sit idle. 
+of the processor (some cores) may be working while others sit idle, and doubling the number of cores usually will not 
+double the speed.  
 
 The formula for efficiency is below: 
 
-TODO: formula for efficiency
+$$
+\begin{align}
+\text{Efficiency} & = \frac{\text{Speedup}}{\text{Number of Cores}}
+\end{align}     
+$$
+
+If the Speedup going from a single core to three cores is two, then the efficiency can be found by:
+
+$$
+\begin{align}
+\text{Efficiency} & = \frac{\text{2}}{\text{3}} & = \text{0.667}
+\end{align}     
+$$
+
+This means that because using three cores is not three times as fast, we have imperfect efficiency. 
 
 ## Exercises
+
+These exercises accompany the simulator "Multi-core Machines". 
 
 **[q1]**
 

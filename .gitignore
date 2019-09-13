@@ -61,3 +61,6 @@ workflow_data.json
 
 # Private keys
 visualization/keys.js
+
+#IDE
+.idea/*
