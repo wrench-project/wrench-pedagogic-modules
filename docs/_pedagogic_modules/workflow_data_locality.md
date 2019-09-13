@@ -10,123 +10,46 @@ order: 600
 4. [Conclusion](#conclusion)
 
 
-# Learning Objectives
+### Learning Objectives
 
-  - Understand a simple distributed workflow execution scenario;
-  - Be able to analyze a (simulated) workflow execution timeline based on textual
-    and graphical simulation output;
-  - Be able to estimate the time it should take to complete a workflow task on a
-    given compute host, accounting for I/O overhead;
   - Understand I/O overhead effects on workflow executions;
   - Gain exposure to the concept of data locality and its effect on workflow execution.
 
 
-# Overview
+#### Workflow and Platform Scenario
 
-## Workflow and Platform Scenario
+In this activity, we study the execution of the workflow depicted in Figure 1 below. 
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/workflow.svg">Workflow</object>
 
-In this activity, we study the execution of the workflow depicted in Figure 1 on the cyberinfrastructure depicted in
-Figure 2. A Compute Service (CS) will execute tasks that the Workflow Management System (WMS)
-submits to it. The CS has at its disposal a single core and will execute only one task at a time.
-The Storage Service (SS) stores files, much like a database, and handles read and write requests. When the WMS submits a job to the CS, information is included in the
-job submission that specifies what storage service to use for I/O operations.
-This is a very simple scenario, and will be used to get our "feet wet" with WRENCH simulations.
+We wish to execute this workflow on the cyberinfrastructure depicted in
+Figure 2 below (which is the same as that used in the previous module). To
+summarize, a Compute Service (CS) at host `hpc.edu` has a single core that
+can execute workflow tasks (but only one at a time). Workflow files are
+stored on the Storage Service (SS) at host `storade_bd.edu` that handles
+read and write requests.
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/cyber_infrastructure.svg">Cyberinfrastructure</object>
 
-## WMS Scenario
+Like in the previous scenario, the WMS executes tasks as soon as they are
+ready, so that each task runs on the CS and reads/writes all files on the
+SS. Whenever multiple tasks are ready at the same time, 
+as will be the case after *task0* has completed, 
+the WMS arbitrarily runs them in lexicographical order (i.e., 
+*task1*, then *task2*, and then *task3*). 
 
-We execute the workflow with a WMS that executes tasks
-on the CS as soon as possible. Each task running on the CS reads and writes data
-from/to the SS (which, from the perspective of the task, is on a remote host).
-Once the WMS is notified by the CS that a task has completed, it will greedily submit the next ready task
-going from left-to-right in the depicted workflow whenever multiple tasks are ready.
-For example, when *task0* has completed and its output has been written to the SS,
-*task1*, *task2*, and *task3* become ready. At this point, the WMS will submit *task1* for
-execution to the CS.
-This process is repeated until workflow execution is complete.
-
-# Activity
-
-## Step #1: Run the Simulation
-
-In a terminal, run the following commands.
-
-1. Install the simulator: `docker pull wrenchproject/wrench-pedagogic-modules:activity-1`
-2. Run the simulator: `docker container run wrenchproject/wrench-pedagogic-modules:activity-1`
-
-Step 2 will display textual simulation output to your terminal window. This output indicates
-(simulated) actions and events throughout the execution of the workflow.
-
-## Step #2: Interpret the Workflow Execution
-
-<div class="wrench-output">
-<span style="font-weight:bold;color:rgb(187,0,187)">[0.000000][my_lab_computer.edu:wms_activity1_3] Starting on host my_lab_computer.edu listening on mailbox_name wms_activity1_3<br></span>
-<span style="font-weight:bold;color:rgb(187,0,187)">[0.000000][my_lab_computer.edu:wms_activity1_3] About to execute a workflow with 5 tasks<br></span>
-<span style="font-weight:bold;color:rgb(0,0,187)">[0.000000][my_lab_computer.edu:wms_activity1_3] Submitting task0 as a job to compute service on hpc.edu<br></span>
-<span style="font-weight:bold;color:rgb(187,0,0)">[33814.005184][my_lab_computer.edu:wms_activity1_3] Notified that task0 has completed<br></span>
-<span style="font-weight:bold;color:rgb(0,0,187)">[33814.005184][my_lab_computer.edu:wms_activity1_3] Submitting task1 as a job to compute service on hpc.edu<br></span>
-<span>.<br></span>
-<span>.<br></span>
-<span>.<br></span>
-</div>
-
-The simulation will produce output similar to the above snippet of text. The first column denotes the simulation time at which some process is performing some action.
-The second column is split into two sections: hostname, and process name. Last is a message describing what the process is doing. For example, the second line from the output
-above, `[0.000000][my_lab_computer.edu:wms_activity1_3] About to execute a workflow with 5 tasks` tells us
-that at *simulation time 0.00000*, the WMS named *wms_activity1*, located on the physical host, *my_lab_computer.edu*, is *"About to execute a workflow with 5 tasks"*.
-Note that the process name is actually *wms_activity1_3*. The "3" there is added to distinguish different instances of the WMS in case
-the simulation executes multiple of them (which we don't do in this activity).
-Simulation output for this activity has been constrained such that only messages from the WMS are visible. Furthermore, the color scheme of the
-output has been set up such that general messages are <span style="font-weight:bold;color:rgb(187,0,187)">pink</span>, task submissions to the CS are
-<span style="font-weight:bold;color:rgb(0,0,187)">blue</span>, and notifications received from the CS are
-<span style="font-weight:bold;color:rgb(187,0,0)">red</span>.  You'll note that, for instance, we do not see any simulation output
-corresponding to what the SS is doing. In the following activities, we will expose more simulation output to highlight
-areas of interest.
-
-**Answer these questions**
-  - [q1] At what time did the WMS submit *task1* as a job to the compute service?
-  - [q2] From the WMS's perspective, how long did *task1* run for?
-    (this duration is called the task's **turnaround-time**)
-  - [q3] The compute service runs on a host with a speed of *1000 GFlop/sec*, and *task4*
-    must perform *10 TFlop*. About how long should we expect *task4* to compute for?
-  - [q4] Based on the simulation output, from the WMS's perspective how long does it take
-    for *task4* to complete?
-  - [q5] Why does *task4* take longer than what you computed in *question 3*?
-  - [q6] Assuming there is no traffic on the network, about how long would it take to send all of
-    *task4*'s input data from *storage_db.edu* to *hpc.edu* and to send all of *task4*'s output data
-    from *hpc.edu* to *storage_db.edu*, using the direct link between these two hosts and assuming no other
-    network traffic?
-  - [q7] Accounting for this I/O *overhead*, does *task4*'s execution time as experienced by the WMS make sense?
-
-## Step #3: Visualize the Workflow Execution
-
-Analyzing the textual simulation output can be tedious, especially when the workflow comprises
-many tasks and/or when there are many simulated software services. Fortunately, the simulator can produce a visualization of the workflow execution
-as a Gantt chart.
 
 In the terminal run the following commands:
 1. run `docker pull wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
 2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
 3. open a browser and go to [localhost:3000/](localhost:3000/)
 4. sign in using your `<UH Username>@hawaii.edu` Google Account
-5. select `Activity 1: Running Your First Simulated Workflow Execution`
+5. select `Workflow Execution: Data Locality`
 
-**Answer these questions**
-  - [q8] What fraction of *task0*'s execution time is spent doing I/O?
-  - [q9] What fraction of *task4*'s execution time is spent doing I/O?
-  - [q10] If the link bandwidth between *storage_db.edu* and *hpc.edu* were doubled,
-    what fraction of *task4*'s execution time would be spent doing I/O?
-   Double the platform link bandwidth (set it to 20 MB/sec) using the visualization and run the simulation.
-      Is your expectation confirmed?
-  - [q11] With the link bandwidth doubled, how much faster is the workflow execution now than before?
-  - [q12] What link bandwidth would be necessary for the workflow to run 2x faster
-    than with the original 10 MB/sec bandwidth? Hint: You can do this by solving a simple equation, and
-     then check that your answer is correct using the simulation.
 
-## Step #4: Better Data locality with another storage service on the compute host
+### Data Locality
+
+h another storage service on the compute host
 
 The CS is reading and writing files from and to a remote storage service, thus contributing
 to I/O overhead. This overhead can be reduced if the storage service were located on the same host as

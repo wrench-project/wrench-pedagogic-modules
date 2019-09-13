@@ -63,7 +63,7 @@ $(function() {
         // Then a response with simulation data is received. The data is parsed, and rendered on the
         // screen. 
         $.ajax({
-            url: '/run/activity_1',
+            url: '/run/workflow_execution_data_locality',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(

@@ -1,16 +1,16 @@
 const express        = require("express"),
-      app            = express(),
-      bodyParser     = require("body-parser"),
-      methodOverride = require("method-override"),
-      au             = require("ansi_up"),
-      {spawnSync}    = require("child_process"),
-      fs             = require("fs"),
-      passport       = require("passport"),
-      passportSetup  = require("./passport-setup")
-      cookieSession  = require("cookie-session"),
-      request        = require("request"),
-      flash          = require("connect-flash"),
-      keys           = require("./keys.js");
+    app            = express(),
+    bodyParser     = require("body-parser"),
+    methodOverride = require("method-override"),
+    au             = require("ansi_up"),
+    {spawnSync}    = require("child_process"),
+    fs             = require("fs"),
+    passport       = require("passport"),
+    passportSetup  = require("./passport-setup")
+cookieSession  = require("cookie-session"),
+    request        = require("request"),
+    flash          = require("connect-flash"),
+    keys           = require("./keys.js");
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -20,22 +20,22 @@ app.use(methodOverride("_method"));
 app.use(flash());
 
 app.use(cookieSession({
-  maxAge: 24 * 60 * 60 * 1000, // a day in milliseconds
-  keys: [keys.cookieSession.key]
+    maxAge: 24 * 60 * 60 * 1000, // a day in milliseconds
+    keys: [keys.cookieSession.key]
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
 // check if authenticated
 const authCheck = function(req, res, next) {
-  if (!req.user) {
-    // if user not already logged in, redirect them to the
-    // homepage where they can log in
-    res.redirect("/");
-  } else {
-    // the user is logged in so move on to the next middleware
-    next()
-  }
+    if (!req.user) {
+        // if user not already logged in, redirect them to the
+        // homepage where they can log in
+        res.redirect("/");
+    } else {
+        // the user is logged in so move on to the next middleware
+        next()
+    }
 }
 
 // WRENCH produces output to the terminal using ansi colors, ansi_up will apply those colors to <span> html elements
@@ -43,13 +43,13 @@ var ansi_up = new au.default;
 
 // main route that will show login/logout and available activities
 app.get("/", function(req, res) {
-  res.render("index", {user: req.user,
-                        messages: req.flash("error")});
+    res.render("index", {user: req.user,
+        messages: req.flash("error")});
 });
 
 // login through google
 app.get("/google", passport.authenticate("google", {
-  scope: ["email"]
+    scope: ["email"]
 }));
 
 // callback route for google to redirect to
@@ -61,15 +61,15 @@ app.get("/google/redirect", passport.authenticate("google", {
 
 // logout route
 app.get("/logout", function(req, res) {
-  req.logout();
-  res.redirect("/");
+    req.logout();
+    res.redirect("/");
 });
 
 
 
 // display networking fundamentals visualization route
 app.get("/networking_fundamentals", authCheck, function(req, res) {
-    res.render("networking_fundamentals", 
+    res.render("networking_fundamentals",
         {cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/networking_fundamentals_cyber_infrastructure.svg")});
 });
 
@@ -100,53 +100,53 @@ app.post("/run/networking_fundamentals", authCheck, function(req, res) {
     var simulation_process = spawnSync(EXECUTABLE, SIMULATION_ARGS);
 
     if (simulation_process.status != 0) {
-      console.log("Something went wrong with the simulation. Possibly check arguments.");
-      console.log(simulation_process.stderr.toString());
+        console.log("Something went wrong with the simulation. Possibly check arguments.");
+        console.log(simulation_process.stderr.toString());
     } else {
-      var simulation_output = simulation_process.stdout.toString();
-      console.log(simulation_output);
+        var simulation_output = simulation_process.stdout.toString();
+        console.log(simulation_output);
 
-      /**
-       * Log the user running this simulation along with the
-       * simulation parameters to the data server.
-       */
-      request({
-          method: "POST",
-          uri: keys.dataServer.uri,
-          json: {
-            "key": keys.dataServer.key,
-            "data": {
-              "user": req.user,
-              "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
-              "activity": 0,
-              "simulator": SIMULATOR,
-              "file_sizes": FILE_SIZES
+        /**
+         * Log the user running this simulation along with the
+         * simulation parameters to the data server.
+         */
+        request({
+                method: "POST",
+                uri: keys.dataServer.uri,
+                json: {
+                    "key": keys.dataServer.key,
+                    "data": {
+                        "user": req.user,
+                        "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
+                        "activity": 0,
+                        "simulator": SIMULATOR,
+                        "file_sizes": FILE_SIZES
+                    }
+                }
+            },
+            function(error, response, body) {
+                if (!error && response.statusCode == 201) {
+                    console.log("sent POST request to data_server");
+                } else {
+                    console.log(error);
+                }
             }
-          }
-        },
-         function(error, response, body) {
-           if (!error && response.statusCode == 201) {
-             console.log("sent POST request to data_server");
-           } else {
-             console.log(error);
-           }
-         }
-      );
+        );
 
-      /**
-       * The simulation output uses ansi colors and we want these colors to show up in the browser as well.
-       * Ansi up will take each line, make it into a <span> element, and edit the style so that the text color
-       * is whatever the ansi color was. Then the regular expression just adds in <br> elements so that
-       * each line of output renders on a separate line in the browser.
-       *
-       * The simulation output is sent back to the client (see public/scripts/networking_fundamental.js)
-       */
-      var find = "</span>";
-      var re = new RegExp(find, "g");
+        /**
+         * The simulation output uses ansi colors and we want these colors to show up in the browser as well.
+         * Ansi up will take each line, make it into a <span> element, and edit the style so that the text color
+         * is whatever the ansi color was. Then the regular expression just adds in <br> elements so that
+         * each line of output renders on a separate line in the browser.
+         *
+         * The simulation output is sent back to the client (see public/scripts/networking_fundamental.js)
+         */
+        var find = "</span>";
+        var re = new RegExp(find, "g");
 
-      res.json({
-          "simulation_output": "<h5>" + simulation_output.replace(/[\n\r]/g,"<br>\n") + "</h5>"
-      });
+        res.json({
+            "simulation_output": "<h5>" + simulation_output.replace(/[\n\r]/g,"<br>\n") + "</h5>"
+        });
 
 
     }
@@ -241,15 +241,16 @@ app.post("/run/workflow_execution_fundamentals", authCheck, function(req, res) {
 
 
 
-// display activity 1 visualization route
-app.get("/activity_1", authCheck, function(req, res) {
-    res.render("activity_1", {workflow_graph_json: JSON.parse(fs.readFileSync(__dirname + "/../simulations/activity_1_getting_started/workflow_graph.json")),
-                                cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/activity_1_cyber_infrastructure.svg")});
+// display workflow execution data locality visualization route
+app.get("/workflow_execution_data_locality", authCheck, function(req, res) {
+    res.render("workflow_execution_data_locality",
+        {workflow_graph_json: JSON.parse(fs.readFileSync(__dirname + "/../simulations/workflow_execution_data_locality/workflow_graph.json")),
+            cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/workflow_execution_data_locality_cyber_infrastructure.svg")});
 });
 
 // execute activity 1 simulation route
-app.post("/run/activity_1", authCheck, function(req, res) {
-    const PATH_PREFIX = __dirname.replace("visualization", "simulations/activity_1_getting_started/");
+app.post("/run/workflow_execution_data_locality", authCheck, function(req, res) {
+    const PATH_PREFIX = __dirname.replace("visualization", "simulations/workflow_execution_data_locality/");
 
     const SIMULATOR = (req.body.simulator_number == 1 ? "simulator_remote_storage" : "simulator_local_storage");
     const EXECUTABLE = PATH_PREFIX + SIMULATOR;
@@ -273,54 +274,54 @@ app.post("/run/activity_1", authCheck, function(req, res) {
     var simulation_process = spawnSync(EXECUTABLE, SIMULATION_ARGS);
 
     if (simulation_process.status != 0) {
-      console.log("Something went wrong with the simulation. Possibly check arguments.");
-      console.log(simulation_process.stderr.toString());
+        console.log("Something went wrong with the simulation. Possibly check arguments.");
+        console.log(simulation_process.stderr.toString());
     } else {
-      var simulation_output = simulation_process.stderr.toString();
-      console.log(simulation_output);
+        var simulation_output = simulation_process.stderr.toString();
+        console.log(simulation_output);
 
-      /**
-       * Log the user running this simulation along with the
-       * simulation parameters to the data server.
-       */
-      request({
-          method: "POST",
-          uri: keys.dataServer.uri,
-          json: {
-            "key": keys.dataServer.key,
-            "data": {
-              "user": req.user,
-              "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
-              "activity": 1,
-              "simulator": SIMULATOR,
-              "link_bandwidth": LINK_BANDWIDTH
+        /**
+         * Log the user running this simulation along with the
+         * simulation parameters to the data server.
+         */
+        request({
+                method: "POST",
+                uri: keys.dataServer.uri,
+                json: {
+                    "key": keys.dataServer.key,
+                    "data": {
+                        "user": req.user,
+                        "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
+                        "activity": 1,
+                        "simulator": SIMULATOR,
+                        "link_bandwidth": LINK_BANDWIDTH
+                    }
+                }
+            },
+            function(error, response, body) {
+                if (!error && response.statusCode == 201) {
+                    console.log("sent POST request to data_server");
+                } else {
+                    console.log(error);
+                }
             }
-          }
-        },
-         function(error, response, body) {
-           if (!error && response.statusCode == 201) {
-             console.log("sent POST request to data_server");
-           } else {
-             console.log(error);
-           }
-         }
-      );
+        );
 
-      /**
-       * The simulation output uses ansi colors and we want these colors to show up in the browser as well.
-       * Ansi up will take each line, make it into a <span> element, and edit the style so that the text color
-       * is whatever the ansi color was. Then the regular expression just adds in <br> elements so that
-       * each line of output renders on a separate line in the browser.
-       *
-       * The simulation output and the workflowtask data are sent back to the client (see public/scripts/activity_1.js)
-       */
-      var find = "</span>";
-      var re = new RegExp(find, "g");
+        /**
+         * The simulation output uses ansi colors and we want these colors to show up in the browser as well.
+         * Ansi up will take each line, make it into a <span> element, and edit the style so that the text color
+         * is whatever the ansi color was. Then the regular expression just adds in <br> elements so that
+         * each line of output renders on a separate line in the browser.
+         *
+         * The simulation output and the workflowtask data are sent back to the client (see public/scripts/activity_1.js)
+         */
+        var find = "</span>";
+        var re = new RegExp(find, "g");
 
-      res.json({
-          "simulation_output": ansi_up.ansi_to_html(simulation_output).replace(re, "<br>" + find),
-          "task_data": JSON.parse(fs.readFileSync(__dirname + "/workflow_data.json"))
-      });
+        res.json({
+            "simulation_output": ansi_up.ansi_to_html(simulation_output).replace(re, "<br>" + find),
+            "task_data": JSON.parse(fs.readFileSync(__dirname + "/workflow_data.json"))
+        });
 
 
     }
@@ -328,9 +329,9 @@ app.post("/run/activity_1", authCheck, function(req, res) {
 
 // display activity 2 visualization route
 app.get("/activity_2", authCheck, function(req, res) {
-   res.render("activity_2", {
-       cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/activity_2_cyber_infrastructure.svg")
-   });
+    res.render("activity_2", {
+        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/activity_2_cyber_infrastructure.svg")
+    });
 });
 
 // execute activity 2 simulation route
@@ -375,30 +376,30 @@ app.post("/run/activity_2", authCheck, function(req, res) {
          * simulation parameters to the data server.
          */
         request({
-            method: "POST",
-            uri: keys.dataServer.uri,
-            json: {
-              "key": keys.dataServer.key,
-              "data": {
-                "user": req.user,
-                "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
-                "activity": 2,
-                "num_nodes": NUM_NODES,
-                "num_cores_per_node": NUM_CORES_PER_NODE,
-                "num_tasks_to_join": NUM_TASKS_TO_JOIN,
-                "file_size": FILE_SIZE,
-                "ram_required": RAM_REQUIRED
-              }
+                method: "POST",
+                uri: keys.dataServer.uri,
+                json: {
+                    "key": keys.dataServer.key,
+                    "data": {
+                        "user": req.user,
+                        "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
+                        "activity": 2,
+                        "num_nodes": NUM_NODES,
+                        "num_cores_per_node": NUM_CORES_PER_NODE,
+                        "num_tasks_to_join": NUM_TASKS_TO_JOIN,
+                        "file_size": FILE_SIZE,
+                        "ram_required": RAM_REQUIRED
+                    }
+                }
+            },
+            function(error, response, body) {
+                if (response.statusCode == 201) {
+                    console.log("made POST request to data_server");
+                } else {
+                    console.log("error: " + response.statusCode);
+                    console.log(body);
+                }
             }
-          },
-           function(error, response, body) {
-             if (response.statusCode == 201) {
-               console.log("made POST request to data_server");
-             } else {
-               console.log("error: " + response.statusCode);
-               console.log(body);
-             }
-           }
         );
 
         /**
