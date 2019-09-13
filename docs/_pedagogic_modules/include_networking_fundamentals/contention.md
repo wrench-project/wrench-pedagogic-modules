@@ -92,7 +92,7 @@ understanding of contention.  In a terminal, do the following:
 4. sign in using your `<UH Username>@hawaii.edu` Google Account
 5. select `Networking Fundamentals`
 
-This will take to to a simple interactive Web page that diplays the platform in Figure 3,
+This will take to to a simple Web app that diplays the platform in Figure 3,
 and asks you to enter a number a list of file sizes (in MB). Each file size corresponds to
 one data transfer on a three-link route.
 
@@ -136,6 +136,9 @@ complete at the same time.
 Feel free to run simulations to explore different scenarios and test your 
 computed data transfer time estimates for various combinations of concurrent
 transfers.
+
+When you are finished using the Web app, run: `docker kill $(docker ps -a -q  --filter ancestor=wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization)`
+
 
 --- 
 
