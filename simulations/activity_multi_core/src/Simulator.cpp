@@ -67,6 +67,10 @@ void generatePlatform(std::string platform_file_path) {
                       "<platform version=\"4.1\">\n"
                       "   <zone id=\"AS0\" routing=\"Full\">\n"
                       "       <host id=\"the_host\" speed=\"100Gf\" core=\"1000\"/>\n"
+                      "       <link id=\"link\" bandwidth=\"100000TBps\" latency=\"0us\"/>\n"
+                      "       <route src=\"the_host\" dst=\"the_host\">"
+                      "           <link_ctn id=\"link\"/>"
+                      "       </route>"
                       "   </zone>\n"
                       "</platform>\n";
 
@@ -148,12 +152,7 @@ int main(int argc, char** argv) {
                     {{THE_HOST, std::make_tuple(NUM_CORES, wrench::ComputeService::ALL_RAM)}},
                     0, 
                     {},
-                    {
-                      {wrench::BareMetalComputeServiceMessagePayload::RESOURCE_DESCRIPTION_ANSWER_MESSAGE_PAYLOAD, 0},
-                      {wrench::BareMetalComputeServiceMessagePayload::RESOURCE_DESCRIPTION_REQUEST_MESSAGE_PAYLOAD, 0},
-                      {wrench::BareMetalComputeServiceMessagePayload::SUBMIT_STANDARD_JOB_REQUEST_MESSAGE_PAYLOAD, 0},
-                      {wrench::BareMetalComputeServiceMessagePayload::SUBMIT_STANDARD_JOB_ANSWER_MESSAGE_PAYLOAD, 0},
-                    }
+                    {}
             )
     );
 
