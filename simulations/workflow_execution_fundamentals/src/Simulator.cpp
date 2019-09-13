@@ -31,7 +31,7 @@ void generateWorkflow(wrench::Workflow *workflow) {
 /**
  * @brief Generate the platform file for activity 1
  * @param platform_file_path: path to write the file to
- * @param compute_speed: compute speed in TFlop/sec
+ * @param compute_speed: compute speed in GFlop/sec
  */
 void generatePlatform(std::string platform_file_path, int compute_speed) {
     if (platform_file_path.empty()) {
@@ -76,7 +76,7 @@ void generatePlatform(std::string platform_file_path, int compute_speed) {
 
         auto parents = xml_doc.child("platform").child("zone");
         auto host = parents.find_child_by_attribute("id", "hpc.edu");
-        host.attribute("speed").set_value(std::string(std::to_string(compute_speed) + "Tf").c_str());
+        host.attribute("speed").set_value(std::string(std::to_string(compute_speed) + "Gf").c_str());
         xml_doc.save_file(platform_file_path.c_str());
 
     } else {
@@ -105,12 +105,12 @@ int main(int argc, char** argv) {
         COMPUTE_SPEED = std::stoi(std::string(argv[1]));
 
         if (COMPUTE_SPEED < 1) {
-            std::cerr << "Compute Speed must be greater than 0 TFlop/sec";
+            std::cerr << "Compute Speed must be greater than 0 GFlop/sec";
             throw std::invalid_argument("invalid compute speed");
         }
     } catch(std::invalid_argument &e) {
         std::cerr << "Usage: " << argv[0] << " <compute speed>" << std::endl;
-        std::cerr << "    compute speed: measured in TFlop/sec" << std::endl;
+        std::cerr << "    compute speed: measured in GFlop/sec" << std::endl;
         return 1;
     }
 

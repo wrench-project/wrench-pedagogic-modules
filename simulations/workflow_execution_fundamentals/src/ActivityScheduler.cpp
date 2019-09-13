@@ -56,7 +56,7 @@ namespace wrench {
                file_locations.insert(std::make_pair(f, storage_service));
             }
 
-            WRENCH_INFO("Submitting %s as a job to compute service on %s", task_to_submit->getID().c_str(), compute_service->getHostname().c_str());
+            WRENCH_INFO("Submitting %s to compute service on %s", task_to_submit->getID().c_str(), compute_service->getHostname().c_str());
             WorkflowJob *job = (WorkflowJob *) this->getJobManager()->createStandardJob(task_to_submit, file_locations);
             this->getJobManager()->submitJob(job, compute_service, service_specific_args);
         }

@@ -24,8 +24,8 @@ $(function() {
 
         // highlight the compute speed label using green on the SVG for half a second
         //to indicate to the user that a valid number has been entered
-        if (compute_speed_input_value >= 1 && compute_speed_input_value <= 999) {
-            compute_speed_label_el.text("Speed: " + (compute_speed_input_value) + " TFlop/sec")
+        if (compute_speed_input_value >= 1 && compute_speed_input_value <= 9999) {
+            compute_speed_label_el.text("Speed: " + (compute_speed_input_value) + " GFlop/sec")
                 .css("background-color", "#d3ffe9");
 
             compute_speed_input_el.removeClass("is-invalid")

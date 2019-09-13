@@ -5,32 +5,24 @@ order: 500
 usemathjax: true
 ---
 
-#### Learning objectives:
+### Learning objectives
 
-  - Understand the fundamental steps involved when executing a workflow on a cyberinfrastructure that comprises storage and compute services
+
+  - Understand the fundamental steps involved when executing a workflow on a cyberinfrastructure that comprises storage and compute services;
 
   - Be able to estimate the time it should take to complete a chain workflow on a simple cyberinfrastructure; 
 
   - Be able to analyze a (simulated) workflow execution timeline based on textual and graphical simulation output;
       
-  - Understand the concept of data-intensive vs. compute-intensive workflows.
+  - Understand the concept of I/O-intensive vs. compute-intensive workflows.
 
 ---
 
-
-### Overview
+### Scenario
 
 Now that you have been introduced to *workflows*, *cyberinfrastructure*,
 and *workflow management systems (WMS)*, you can start looking at actual
-workflow executions.  Below, we first describe an example  scenario, which
-includes a workflow, a platform, and a (trivial) WMS implementation. We
-then detail the sequence of workflow execution events and formulate a
-simple equation to model the expected execution time (or *makespan*).
-Finally, we provide you with a simulator of workflow executions for this
-scenario. You must run this simulator and answer a number of questions
-based on simulation output!
-
-### Scenario
+workflow executions.  Let's do this for a particular scenario. 
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/
 workflow_execution_fundamentals/workflow.svg">Workflow</object>
@@ -47,88 +39,42 @@ compute resource to perform the computation required by each task.
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/
 workflow_execution_fundamentals/platform.svg">Workflow</object>
 
-The platform in Figure 2 depicts the cyberinfrastructure on which we can
-execute this workflow. In this scenario, the WMS resides on the host
+The platform in Figure 2 depicts the cyberinfrastructure on which we wish
+to execute this workflow. The WMS runs on the host
 *my_lab_computer.edu*, and has access to both the Storage Service on host
 *storage_db.edu* and the Compute Service on host *hpc.edu*.
 
 **Storage Service**. A Storage Service (SS) stores files and handles read and write
-requests. For example, if *my_lab_computer.edu* would like to read a file from
-*storage_db.edu*, it will make a read request to the SS. Then the
-file will be sent over the network from *storage_db.edu* to *my_lab_computer.edu*.
-Say, for example, this file is 100 MB, and the link between the two hosts has a bandwidth of
-10 MB/sec and a latency of 10 microseconds. The estimated amount of time it will take
-to perform the *file read* operation can be estimated as follows:
+requests. For example, if *my_lab_computer.edu* wants to read a file from
+*storage_db.edu*, it will make a read request to the SS, which will then
+send the file content over the network.
 
-$$
-\begin{align}
-
-  T_{read\:100MB\:file} & = \text{latency} + \frac{\text{file size}}{\text{bandwidth}} \\
-                        & = 10\;\text{us} + \frac{100\;\text{MB}}{10\;\text{MB/sec}} \\
-                        & = 10.000010\;\text{sec}\\
-                        & \simeq 10\;\text{sec}
-
-\end{align}
-$$
-
-**Compute Service**. A Compute Service (CS) can execute tasks submitted to it by the WMS.  Typically, a compute service will have access to faster hardware than
-your typical machine and so it can execute workflow tasks faster.
-For example, say we were to perform 100 TFlops of computation
-on *my_lab_computer.edu* (which computes at speed 35 GFlop/sec, as seen in the figure). This is expected to take:
-
-$$
-\begin{align}
-
- T_{task0\:computation} & = \frac{100 * 10^{12}\;\text{flop}}{35 * 10^{9}\;\text{flop/sec}} \\
-           & \simeq 2857.14\;\text{sec}
-
-\end{align}
-$$  
-
-If instead we were to perform 100 TFlops of computation via the CS on
-*hpc.edu* (which computes at speed 1000 GFlop/sec) , this computation is expected to take:
-
-$$
-\begin{align}
-
-  T_{task0\:computation} & = \frac{100 \times 10^{12}\;\text{flop}}{10^{12}\;\text{flop/sec}} \\
-                        & = 100\;\text{sec}
-
-\end{align}
-$$
-
-The CS is able to compute 100 Tflops about *28* times faster than *my_lab_computer.edu*. In our scenario, the WMS only uses the CS on *hpc.edu* to execute
-workflow tasks.
-
+**Compute Service**. A Compute Service (CS) can execute workflow tasks submitted to it by the WMS.  Typically, a compute service will have access to powerful computers.
 
 **Workflow Management System**. The WMS in this scenario greedily submits
-tasks to the CS once they become ready. A task is ready to be submitted by the
-WMS when it has been notified that the current task's parent task(s) has
-completed. For example, the WMS can submit *task1* to the CS only once the CS notifies the WMS that *task0* has completed (i.e., the output of *task0* has been
-produced and saved somewhere). In this example scenario, When the WMS submits a task to the CS, it
-specifies that all file read and write operations be done through the Remote Storage
-Service located at *storage_db.edu*. Additionally, the initial input file, *task0::0.in*,
-is assumed to already be "staged" at the SS.  
+tasks to the CS for execution once they become ready. A task is ready to be
+submitted by the WMS when its parent task(s) has completed.  In this
+scenario, tasks are only submitted for execution to the CS, and all file
+read and write operations are to the SS.  The initial input file,
+*task0::0.in*, is assumed to already be "staged" at the SS.
 
 ### The Workflow Execution
 
-Figure 3 below illustrates what happens during the execution of our workflow.
+Figure 3 below illustrates the workflow's execution.
 In order for the CS to complete each task in its entirety, it must read in the
-input files for that task, perform the computation required by that task, and
-finally write the output files for that task.  
+input file for that task, perform the computation required by that task, and
+finally write the output file for that task.  
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/
 workflow_execution_fundamentals/workflow_execution.svg">Workflow Execution</object>
 
 Notice that in step 3, the CS writes the output file to the SS, then immediately
-reads that file back from the SS in step 4. This happens because file operations
-are assigned to the SS at *storage_db.edu*, therefore file *task0::0.out*
-simply cannot be "cached" by the CS for reuse (obviously this is not the best approach,
-but that's what we are stuck with for now).
+reads that file back from the SS in step 4. This happens because the only place in which we can store data (in this scenario) is on the 
+SS at *storage_db.edu*. Obviously, this is not great for performance, but 
+that's what we are stuck with for now.
 
-Using figure 3 as a guide and the two formulas stated above, we can estimate the
-amount of time it would take to execute our workflow. The estimated execution time
-of *task0* is as follows:
+Using figure 3 as a guide, and things we've learned in previous modules, we can estimate the workflow execution time, or *makespan*! 
+The estimated execution time of *task0* is as follows:
 
 $$
 \begin{align}
@@ -156,13 +102,13 @@ $$
 \end{align}
 $$
 
-*task0* and *task1* are executed sequentially therefore the total estimated
+*task0* and *task1* are executed sequentially, i.e., one after the other, therefore the total estimated
 makespan of our workflow will be:
 
 $$
 \begin{align}
 
-  T_{workflow\;makespan} & = T_{task0} + T_{task1} \\
+  T_{\text{workflow\;makespan}} & = T_{task0} + T_{task1} \\
                                 & \simeq 160 + 85\;text{sec} \\
                                 & = 245\;\text{sec}
 
@@ -170,9 +116,103 @@ $$
 $$
 
 
+### Running a Workflow Execution Simulation
 
-### Workflow Execution Simulation
+So that you can gain hands-on experience with workflow executions, we
+provide you with a simulator for the above scenario.
+In a terminal, run the following commands:
 
-So that you can gain hands-on experience with workflow executions, we provide ou with a
-simulator for a scneario that ressembles the above example scenario. 
+1. run `docker pull wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
+2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
+3. open a browser and go to [localhost:3000/](localhost:3000/)
+4. sign in using your `<UH Username>@hawaii.edu` Google Account
+5. select `Workflow Execution Fundamentals`
 
+This will take you to a Web app. 
+
+
+#### Interpreting Text Output from Simulated Workflow Execution
+
+For now, just hit the "Run Simulation" button (without modifying the value in the text box and leaving it at 1000).  Running the simulation updates the Web page with content below the button. The first such section shows *text output*, and should look like this:
+
+<div class="wrench-output">
+<span style="font-weight:bold;color:rgb(187,0,187)">[0.000000][my_lab_computer.edu:wms__3] Starting on host my_lab_computer.edu listening on mailbox_name wms__3<br></span>
+<span style="font-weight:bold;color:rgb(187,0,187)">[0.000000][my_lab_computer.edu:wms__3] About to execute a workflow with 2 tasks<br></span>
+<span style="font-weight:bold;color:rgb(0,0,187)">[0.000475][my_lab_computer.edu:wms__3] Submitting task0 to compute service on hpc.edu<br></span>
+<span style="font-weight:bold;color:rgb(187,0,0)">[163.004555][my_lab_computer.edu:wms__3] Notified that task0 has completed<br></span>
+<span style="font-weight:bold;color:rgb(0,0,187)">[163.005030][my_lab_computer.edu:wms__3] Submitting task1 to compute service on hpc.edu<br></span>
+<span style="font-weight:bold;color:rgb(187,0,0)">[250.508827][my_lab_computer.edu:wms__3] Notified that task0 has completed<br></span>
+<span style="font-weight:bold;color:rgb(187,0,187)">[250.250.508827][my_lab_computer.edu:wms__3] -------------------------------------------------<br></span>
+<span style="font-weight:bold;color:rgb(187,0,187)">[250.250.508827][my_lab_computer.edu:wms__3] Workflow execution completed in 250.508199 seconds!<br></span>
+</div>
+
+The first part of each line of output is a (simulated) time stamp. The second part is 
+split into two sections: hostname, and process name. Last, and most importantly, is a message describing what the process is doing. 
+For example, the second line from the output
+above: 
+
+`[0.000000][my_lab_computer.edu:wms__3] About to execute a workflow with 2 tasks` 
+
+tells us
+that at *simulation time 0.00000*, the WMS named *wms__3*, located on the physical host, *my_lab_computer.edu*, is *"About to execute a workflow with 2 tasks"*.
+(The "__3" in the process name is added by the simulator as a unique integer identifier.)
+The output only shows a few messages printed by the WMS. The color scheme is 
+that general messages are <span style="font-weight:bold;color:rgb(187,0,187)">pink</span>, submissions to the CS are 
+<span style="font-weight:bold;color:rgb(0,0,187)">blue</span>, and notifications received from the CS are
+<span style="font-weight:bold;color:rgb(187,0,0)">red</span>.  
+
+The last line of output states that the workflow has completed in a bit more than 250 seconds, which is close to
+the approximation we computed above on this page (which was 245 seconds). 
+
+
+**Answer these questions based on the textual output above:**
+  - [q1] At what time did the WMS submit *task1* to the compute service?
+  - [q2] From the WMS's perspective, how long did *task1* run for?
+    (this duration is called the task's **turnaround-time**)
+  - [q3] The compute service runs on a host with a speed of *1000 GFlop/sec*, and *task1*
+    must perform *35 TFlop*. About how long should we expect *task1* to compute for?
+  - [q4] Why does *task1* take longer than what you computed in *question 3*?
+  - [q5] About how long would it take to send all of
+    *task1*'s input data from *storage_db.edu* to *hpc.edu* and to send all of *task1*'s output data
+    from *hpc.edu* to *storage_db.edu*, using the direct link between these two hosts and assuming no other
+    network traffic?
+  - [q6] Accounting for this I/O *overhead*, does *task1*'s execution time as experienced by the WMS make sense?
+
+##### Interpreting Visual Output from Simulated Workflow Execution
+
+Analyzing the textual simulation output can be tedious, especially when the
+workflow comprises many tasks and/or when there are many simulated
+services. Fortunately, the simulator can produce a visualization of the
+workflow execution as a Gantt chart and show various relevant durations in a table. 
+These are shown on the Web app page below the text output. 
+
+
+**Answer these questions based on the visual output:**
+
+  - [q7] What fraction of *task0*'s execution time is spent doing I/O?
+
+  - [q8] What fraction of *task1*'s execution time is spent doing I/O?
+
+  - [q9] Overall, what fraction of the workflow execution is spent doing I/O?
+
+### Data- vs. Compute-intensive Workflow
+
+
+If you answered question [q9] correctly, you found that the workflow
+execution spends more time computing than doing I/O, overall.  Very broadly
+speaking, we call such a workflow *compute-intensive*. The reverse situation would be an *I/O-intensive*.  However,
+these notions depend on the hardware on which the workflow is executed. The
+faster the network and/or slower to cores, the more compute-intensive the
+workflow, and vice-versa.
+
+**Answer these questions:**
+
+  - [q10] Using analysis (i.e., equations), for what compute speed (in
+          GFlop/sec) of the core at site *hpc.edu* would our workflow
+          execution being perfectly balanced between computation and I/O.
+
+  - [q11] Verify your answer to q10 using the simulation. How far off were you?
+
+  - [q12] Your boss is absolutely intent of making the workflow execution as fast as possible by upgrading the machine at *hpc.edu*. The idea is to make the workflow execution three times as fast (compared to the execution with a 1000 GFlop/sec core) with this upgrade. Is this possible? If not, why not?
+
+---
