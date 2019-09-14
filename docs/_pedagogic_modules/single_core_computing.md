@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 'A. Sequential Computing Fundamentals'
+title: 'A. Single Core Computing'
 order: 10
 usemathjax: true
 ---
@@ -19,9 +19,9 @@ Go through the two tabs below in sequence...
 </div>
 
 <div markdown="1" class="ui tab segment active" data-tab="first" >
-  {% include_relative include_sequential_computing_fundamentals/work_and_speed.md %}
+  {% include_relative include_single_core_computing/work_and_speed.md %}
 </div>
 <div markdown="1" class="ui tab segment" data-tab="second">
-  {% include_relative include_sequential_computing_fundamentals/memory.md %}
+  {% include_relative include_single_core_computing/memory.md %}
 </div>
 
