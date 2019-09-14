@@ -326,18 +326,18 @@ app.post("/run/workflow_execution_data_locality", authCheck, function(req, res) 
     }
 });
 
-// display activity 2 visualization route
-app.get("/activity_2", authCheck, function(req, res) {
-    res.render("activity_2", {
-        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/activity_2_cyber_infrastructure.svg")
+// display Workflow Execution and Parallelism visualization route
+app.get("/workflow_execution_parallelism", authCheck, function(req, res) {
+    res.render("workflow_execution_parallelism", {
+        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/workflow_execution_parallelism_cyber_infrastructure.svg")
     });
 });
 
-// execute activity 2 simulation route
-app.post("/run/activity_2", authCheck, function(req, res) {
-    const PATH_PREFIX = __dirname.replace("visualization", "simulations/activity_2_parallelism/");
+// execute Workflow Execution and Parallelism simulation route
+app.post("/run/workflow_execution_parallelism", authCheck, function(req, res) {
+    const PATH_PREFIX = __dirname.replace("visualization", "simulations/workflow_execution_parallelism/");
 
-    const SIMULATOR = "activity_2_simulator";
+    const SIMULATOR = "workflow_execution_parallelism_simulator";
     const EXECUTABLE = PATH_PREFIX + SIMULATOR;
 
     const NUM_NODES = req.body.num_nodes;
@@ -382,7 +382,7 @@ app.post("/run/activity_2", authCheck, function(req, res) {
                     "data": {
                         "user": req.user,
                         "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
-                        "activity": 2,
+                        "activity": "workflow_execution_parallelism",
                         "num_nodes": NUM_NODES,
                         "num_cores_per_node": NUM_CORES_PER_NODE,
                         "num_tasks_to_join": NUM_TASKS_TO_JOIN,
@@ -418,6 +418,8 @@ app.post("/run/activity_2", authCheck, function(req, res) {
         });
     }
 });
+
+
 
 // display activity multi core visualization route
 app.get("/multi_core", authCheck, function(req, res) {

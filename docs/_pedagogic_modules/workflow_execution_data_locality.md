@@ -20,7 +20,7 @@ order: 600
 
 In this activity, we study the execution of the workflow depicted in Figure 1 below. 
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/workflow.svg">Workflow</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_execution_data_locality/workflow.svg">Workflow</object>
 
 We wish to execute this workflow on the cyberinfrastructure depicted in
 Figure 2 below (which is the same as that used in the previous module). To
@@ -29,7 +29,7 @@ can execute workflow tasks (but only one at a time). Workflow files are
 stored on the Storage Service (SS) at host `storage_db.edu` that handles
 read and write requests.
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/cyber_infrastructure.svg">Cyberinfrastructure</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_execution_data_locality/cyber_infrastructure.svg">Cyberinfrastructure</object>
 
 Like in the previous scenario, the WMS executes tasks as soon as they are
 ready, so that each task runs on the CS and reads/writes all files on the
@@ -73,7 +73,7 @@ computation is taking place, or improving **data locality**.
 Figure 3 below shows on the left-hand side a depiction of the new
 cyberinfrastructure, on which a second SS is started at host `hpc.edu`.
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/activity_1/scenario_2.svg">Scenario 2</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_execution_data_locality/scenario_2.svg">Scenario 2</object>
 
 We have enhanced the WMS implementation so that it  can take advantage of
 the new SS for storing all the "intermediate" workflow files, i.e., those
