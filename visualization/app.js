@@ -79,7 +79,6 @@ app.post("/run/networking_fundamentals", authCheck, function(req, res) {
 
     const SIMULATOR = "networking_fundamentals_simulator";
     const EXECUTABLE = PATH_PREFIX + SIMULATOR;
-    console.log("REQ_BODY=" + req.body);
     const FILE_SIZES = req.body.file_sizes.replace(/,/g," ").replace(/ +/g," ").split(" ");
 
     // additional WRENCH arguments that filter simulation output (We only want simulation output from the WMS in this activity)
