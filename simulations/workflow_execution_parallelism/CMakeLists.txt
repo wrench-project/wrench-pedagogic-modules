@@ -25,8 +25,8 @@ find_library(SIMGRID_LIBRARY NAMES simgrid)
 find_library(PUGIXML_LIBRARY NAMES pugixml)
 find_library(LEMON_LIBRARY NAMES emon)
 
-add_executable(workflow_execution_parallelism ${SOURCE_FILES})
-target_link_libraries(workflow_execution_parallelism
+add_executable(workflow_execution_parallelism_simulator ${SOURCE_FILES})
+target_link_libraries(workflow_execution_parallelism_simulator
         ${WRENCH_LIBRARY}
         ${SIMGRID_LIBRARY}
         ${PUGIXML_LIBRARY}
