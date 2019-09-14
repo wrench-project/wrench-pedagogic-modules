@@ -117,7 +117,7 @@ app.post("/run/networking_fundamentals", authCheck, function(req, res) {
                     "data": {
                         "user": req.user,
                         "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
-                        "activity": 0,
+                        "activity": "networking_fundamentals",
                         "simulator": SIMULATOR,
                         "file_sizes": FILE_SIZES
                     }
@@ -163,7 +163,7 @@ app.get("/workflow_execution_fundamentals", authCheck, function(req, res) {
 app.post("/run/workflow_execution_fundamentals", authCheck, function(req, res) {
     const PATH_PREFIX = __dirname.replace("visualization", "simulations/workflow_execution_fundamentals/");
 
-    const SIMULATOR = "activity_simulator";
+    const SIMULATOR = "workflow_execution_fundamentals_simulator";
     const EXECUTABLE = PATH_PREFIX + SIMULATOR;
     const COMPUTE_SPEED = req.body.compute_speed;
 
@@ -203,7 +203,7 @@ app.post("/run/workflow_execution_fundamentals", authCheck, function(req, res) {
                     "data": {
                         "user": req.user,
                         "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
-                        "activity": 1,
+                        "activity": "workflow_execution_fundamentals",
                         "simulator": SIMULATOR,
                         "compute_speed": COMPUTE_SPEED
                     }
@@ -251,7 +251,7 @@ app.get("/workflow_execution_data_locality", authCheck, function(req, res) {
 app.post("/run/workflow_execution_data_locality", authCheck, function(req, res) {
     const PATH_PREFIX = __dirname.replace("visualization", "simulations/workflow_execution_data_locality/");
 
-    const SIMULATOR = (req.body.simulator_number == 1 ? "simulator_remote_storage" : "simulator_local_storage");
+    const SIMULATOR = (req.body.simulator_number == 1 ? "workflow_execution_data_locality_simulator_remote_storage" : "workflow_execution_data_locality_simulator_local_storage");
     const EXECUTABLE = PATH_PREFIX + SIMULATOR;
     const LINK_BANDWIDTH = req.body.link_bandwidth;
 
@@ -291,7 +291,7 @@ app.post("/run/workflow_execution_data_locality", authCheck, function(req, res) 
                     "data": {
                         "user": req.user,
                         "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
-                        "activity": 1,
+                        "activity": "workflow_execution_data_locality",
                         "simulator": SIMULATOR,
                         "link_bandwidth": LINK_BANDWIDTH
                     }
@@ -475,7 +475,7 @@ app.post("/run/multi_core", authCheck, function(req, res) {
                     "data": {
                         "user": req.user,
                         "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
-                        "activity": 66,
+                        "activity": "multi_core_machines",
                         "num_nodes": NUM_NODES,
                         "num_cores_per_node": NUM_CORES_PER_NODE,
                         "num_tasks_to_join": NUM_TASKS_TO_JOIN,
