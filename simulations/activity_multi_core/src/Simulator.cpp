@@ -78,7 +78,7 @@ void generatePlatform(std::string platform_file_path) {
 /**
  *
  * @param argc
- * @param argv
+ * @param argvx
  * @return
  */
 int main(int argc, char** argv) {
@@ -140,13 +140,16 @@ int main(int argc, char** argv) {
     generatePlatform(platform_file_path);
     simulation.instantiatePlatform(platform_file_path);
 
+
     const std::string THE_HOST("the_host");
+    const double STORAGE_CAPACITY = 50.0 * 1000.0 * 1000.0 * 1000.0;
+
 
     auto compute_service = simulation.add(
             new wrench::BareMetalComputeService(
                     THE_HOST,
                     {{THE_HOST, std::make_tuple(NUM_CORES, wrench::ComputeService::ALL_RAM)}},
-                    {},
+                    STORAGE_CAPACITY,
                     {}
             )
     );

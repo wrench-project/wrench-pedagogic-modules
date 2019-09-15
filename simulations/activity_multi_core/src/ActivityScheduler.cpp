@@ -7,14 +7,6 @@ XBT_LOG_NEW_DEFAULT_CATEGORY(simple_wms_scheduler, "Log category for Simple WMS 
 namespace wrench {
 
     /**
-     * @brief A struct representing a "Compute Node"
-     */
-    typedef struct ComputeResource {
-        std::string hostname;
-        unsigned long num_idle_cores;
-    } ComputeResource;
-
-    /**
      * @brief Constructor
      * @param storage_services: a map of hostname key to StorageService pointer
      */
@@ -28,15 +20,22 @@ namespace wrench {
         TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_BLUE);
         auto compute_service = *compute_services.begin();
 
+
         auto idle_core_counts = compute_service->getPerHostNumIdleCores()["the_host"];
+        auto ram_capacities = compute_service->getFreeScratchSpaceSize();
 
         for (auto const &ready_task : ready_tasks) {
+            auto task_memory = ready_task->getMemoryRequirement();
             if (idle_core_counts == 0) {
+                break;
+            }
+            if (ram_capacities < task_memory) {
                 break;
             }
             auto job = this->getJobManager()->createStandardJob(ready_task, {});
             this->getJobManager()->submitJob(job, compute_service, {});
             idle_core_counts--;
+            ram_capacities = ram_capacities - task_memory;
         }
 
     }
