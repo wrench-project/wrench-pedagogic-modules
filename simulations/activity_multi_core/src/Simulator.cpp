@@ -153,12 +153,7 @@ int main(int argc, char** argv) {
             new wrench::BareMetalComputeService(
                     THE_HOST,
                     {{THE_HOST, std::make_tuple(NUM_CORES, wrench::ComputeService::ALL_RAM)}},
-<<<<<<< HEAD
                     STORAGE_CAPACITY,
-=======
-                    0, 
-                    {},
->>>>>>> b29847aaa8ec4ba07db1988c593a2736596df446
                     {}
             )
     );
