@@ -215,4 +215,8 @@ workflow, and vice-versa.
 
   - [q12] Your boss is absolutely intent of making the workflow execution as fast as possible by upgrading the machine at *hpc.edu*. The idea is to make the workflow execution three times as fast (compared to the execution with a 1000 GFlop/sec core) with this upgrade. Is this possible? If not, why not?
 
+
+When you are finished using the Web app, run: `docker kill $(docker ps -a -q  --filter ancestor=wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization)`
+
+
 ---

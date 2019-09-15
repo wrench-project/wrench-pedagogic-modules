@@ -67,6 +67,10 @@ void generatePlatform(std::string platform_file_path) {
                       "<platform version=\"4.1\">\n"
                       "   <zone id=\"AS0\" routing=\"Full\">\n"
                       "       <host id=\"the_host\" speed=\"100Gf\" core=\"1000\"/>\n"
+                      "       <link id=\"link\" bandwidth=\"100000TBps\" latency=\"0us\"/>\n"
+                      "       <route src=\"the_host\" dst=\"the_host\">"
+                      "           <link_ctn id=\"link\"/>"
+                      "       </route>"
                       "   </zone>\n"
                       "</platform>\n";
 
@@ -149,7 +153,12 @@ int main(int argc, char** argv) {
             new wrench::BareMetalComputeService(
                     THE_HOST,
                     {{THE_HOST, std::make_tuple(NUM_CORES, wrench::ComputeService::ALL_RAM)}},
+<<<<<<< HEAD
                     STORAGE_CAPACITY,
+=======
+                    0, 
+                    {},
+>>>>>>> b29847aaa8ec4ba07db1988c593a2736596df446
                     {}
             )
     );

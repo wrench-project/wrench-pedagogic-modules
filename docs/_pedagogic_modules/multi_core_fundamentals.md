@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 'B. Multi-Core Machines'
+title: 'B. Multicore Computing'
 order: 200
 usemathjax: true
 ---
