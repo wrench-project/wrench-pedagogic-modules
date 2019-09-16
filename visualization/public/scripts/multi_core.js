@@ -1,4 +1,6 @@
 // Workflow as a DAG
+
+//not updated for Multi core, may not show workflow since it technically is not a workflow.
 var workflow_dag_no_ram =
 {
     "edges": [
@@ -1397,7 +1399,7 @@ $(function() {
             data: JSON.stringify(
                 {
                     num_nodes: $("#num-nodes").val(),
-                    num_cores_per_node: $("#num-cores").val(),
+                    num_cores: $("#num-cores").val(),
                     ram_required: $('#ram-required').is(':checked') ? 1 : 0
                 }),
 

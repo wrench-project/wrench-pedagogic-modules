@@ -424,7 +424,7 @@ app.post("/run/workflow_execution_parallelism", authCheck, function(req, res) {
 // display activity multi core visualization route
 app.get("/multi_core", authCheck, function(req, res) {
     res.render("multi_core", {
-        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/multi_core_cyber_infrastructure.svg")
+        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/workflow_execution_parallelism_cyber_infrastructure.svg")
     });
 });
 
@@ -435,10 +435,9 @@ app.post("/run/multi_core", authCheck, function(req, res) {
     const SIMULATOR = "activity_multi_core_simulator";
     const EXECUTABLE = PATH_PREFIX + SIMULATOR;
 
-    const NUM_NODES = req.body.num_nodes;
-    const NUM_CORES_PER_NODE = req.body.num_cores_per_node;
-    const NUM_TASKS_TO_JOIN = 20;
-    const FILE_SIZE = 2000000000;
+    const NUM_CORES = req.body.num_cores;
+    const NUM_TASKS = req.body.num_tasks;
+    const TASK_GFLOP = 100.0 * 1000.0 * 1000.0 * 1000.0; 
     const RAM_REQUIRED = (req.body.ram_required == 1) ? "RAM_REQUIRED" : "RAM_NOT_REQUIRED";
 
     // additional WRENCH arguments that filter simulation output (We only want simulation output from the WMS in this activity)
@@ -450,7 +449,7 @@ app.post("/run/multi_core", authCheck, function(req, res) {
         "--log='root.fmt:[%d][%h:%t]%e%m%n'"
     ];
 
-    const SIMULATION_ARGS = [NUM_NODES, NUM_CORES_PER_NODE, NUM_TASKS_TO_JOIN, FILE_SIZE, RAM_REQUIRED].concat(LOGGING);
+    const SIMULATION_ARGS = [NUM_CORES, NUM_TASKS, TASK_GFLOP, RAM_REQUIRED].concat(LOGGING);
     const RUN_SIMULATION_COMMAND = [EXECUTABLE].concat(SIMULATION_ARGS).join(" ");
 
     console.log("\nRunning Simulation");
@@ -478,10 +477,9 @@ app.post("/run/multi_core", authCheck, function(req, res) {
                         "user": req.user,
                         "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
                         "activity": "multi_core_machines",
-                        "num_nodes": NUM_NODES,
-                        "num_cores_per_node": NUM_CORES_PER_NODE,
-                        "num_tasks_to_join": NUM_TASKS_TO_JOIN,
-                        "file_size": FILE_SIZE,
+                        "num_cores_per_node": NUM_CORES,
+                        "num_tasks_to_join": NUM_TASKS,
+                        "task_gflop": TASK_GFLOP,
                         "ram_required": RAM_REQUIRED
                     }
                 }

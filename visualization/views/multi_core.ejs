@@ -12,6 +12,13 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <label for="num_tasks">Number of Tasks</label>
+        <input class="form-control" id="num-tasks" placeholder="1" value="1" min="1" step="1" required>
+        <div class="invalid-feedback">
+            Please provide the number of tasks, with at least one task.
+        </div>
+    </div>
 
     <div class="form-group">
         <label for="num_cores">Number of Cores in Compute Node</label>
@@ -21,13 +28,19 @@
         </div>
     </div>
 
-<!-- keeping the number of nodes and extra ram hidden, not needed for this exercise. -->
 
     <div class="form-group">
         <div class="form-check">
-                <input class="form-check-input" type="hidden" name="ram-required" type="checkbox" id="ram-required" value="0">
+            <label class="form-check-label">
+                <input class="form-check-input" name="ram-required" type="checkbox" id="ram-required" value="1">
+                Workflow Tasks each require 12 GB of RAM
+            </label>
         </div>
     </div>
+
+
+
+
 <%- include("partials/simulation_parameters_form_end"); %>
 
 <%- include("partials/simulation_output"); %>
