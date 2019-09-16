@@ -17,14 +17,14 @@
 Consider a non-interactive program that has some amount of *work* to do and
 then terminates (e.g., a program that encrypts a file, a program that
 applies some cool filter to a set of images). The simplest model of
-performance when executing the program on a computer is to assume that the
+performance when executing the program on a core of a computer is to assume that the
 computer delivers constant *compute speed*, which is measured in the quantity of
 work performed per time unit. For instance, a program with 50 units of work would
-run on a computer with speed 2 units of work per second in 100 seconds.
+run on a core with a speed of 2 units of work per second in 100 seconds.
  This last number is called the program's
 *execution time*. Generalizing this example, for a given amount of work to
 perform, there is a linear relationship between the program's execution
-time and the speed of the computer on which it is executed:
+time and the speed of the core on which it is executed:
 
 $$
 \begin{align}
@@ -36,13 +36,13 @@ There are many options for choosing an appropriate ways to quantify work.
 One possibility is to use a measure that is specific to what the program
 does. For instance, if the program renders movie frames, a good measure of
 work would be the number of frames to render.  One would then want to measure a
-computer's speed in terms of the number of frames that can be rendered per second. 
+core's speed in terms of the number of frames that can be rendered per second. 
 Another possibility is to use a more generic measure, for instance, the
 number of instructions.  The work of a program would then be measured by
 its number of instructions (e.g., the number of assembly instructions the
-program performs) and the speed of a computer would be in number of
+program performs) and the speed of a core would be in number of
 instructions per second. This approach is known to have problems, as
-instructions are different and especially across different kinds of
+instructions are different and especially across different families
 computers. Therefore, a processor that delivers fewer instructions per
 seconds than another could actually be preferable for running some program.
 
@@ -56,7 +56,7 @@ compare).
 
 In these pedagogic modules, unless specified otherwise, we use a simple
 measure of work: the number of floating-point operations, or **Flop**, that
-the program performs.  We thus measure the speed of a computer in Flop/sec.
+the program performs.  We thus measure the speed of a core in Flop/sec.
 This measure is typical in the fields of high-performance scientific computing.
 But like any generic
 measure it is imperfect (e.g., programs do non-floating-point computations,
@@ -66,7 +66,7 @@ so we just pick Flop to be consistent throughout.
 
 
 For example, say a program that performs 100 TFlop ("100 TeraFlop") is executed 
-on a computer with speed 35 GFlop/sec ("35 GigaFlop per second"). The
+on a core with speed 35 GFlop/sec ("35 GigaFlop per second"). The
 program's execution time would then be:
 
 $$
@@ -76,7 +76,7 @@ $$
 \end{align}
 $$  
 
-If a program that performs 12 GFlop runs in 5 seconds on a computer, then the speed of this computer in MFlop/sec ("MegaFlop per second") is:
+If a program that performs 12 GFlop runs in 5 seconds on a core, then the speed of this core in MFlop/sec ("MegaFlop per second") is:
 
 $$
 \begin{align}
@@ -93,7 +93,7 @@ $$
 To make sure the above is crystal clear, try to answer the following questions:
 
 **[q1]** You have to run a program that will perform 4000 GFlop, and your
-computer computes at speed 30 TFlop/sec. How long will the program run for?
+core computes at speed 30 TFlop/sec. How long will the program run for?
 
 <div class="ui accordion fluid">
   <div class="title">
@@ -107,7 +107,7 @@ computer computes at speed 30 TFlop/sec. How long will the program run for?
 
 <p> </p>
 
-**[q2]** A program just ran in 1640 sec on a computer with speed 2 TFlop/sec, 
+**[q2]** A program just ran in 1640 sec on a core with speed 2 TFlop/sec, 
 how many MFlop does the program perform?
 <div class="ui accordion fluid">
   <div class=" title">

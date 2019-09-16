@@ -15,13 +15,17 @@ Go through the two tabs below in sequence...
 
 <div class="ui pointing secondary menu">
   <a class="item " data-tab="first">Work and Speed</a>
-  <a class="item " data-tab="second">Memory</a>
+  <a class="item " data-tab="second">Time Sharing</a>
+  <a class="item " data-tab="third">Memory</a>
 </div>
 
 <div markdown="1" class="ui tab segment active" data-tab="first" >
   {% include_relative include_single_core_computing/work_and_speed.md %}
 </div>
 <div markdown="1" class="ui tab segment" data-tab="second">
+  {% include_relative include_single_core_computing/timesharing.md %}
+</div>
+<div markdown="1" class="ui tab segment" data-tab="third">
   {% include_relative include_single_core_computing/memory.md %}
 </div>
 
