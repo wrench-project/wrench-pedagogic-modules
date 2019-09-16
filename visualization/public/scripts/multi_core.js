@@ -1398,8 +1398,9 @@ $(function() {
             contentType: 'application/json',
             data: JSON.stringify(
                 {
-                    num_nodes: $("#num-nodes").val(),
                     num_cores: $("#num-cores").val(),
+                    num_tasks: $("#num-tasks").val(),
+                    task_gflop: 100,
                     ram_required: $('#ram-required').is(':checked') ? 1 : 0
                 }),
 

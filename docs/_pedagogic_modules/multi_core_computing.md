@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 'B. Multicore Computing'
+title: 'B. Multi-core Computing'
 order: 200
 usemathjax: true
 ---
@@ -20,7 +20,7 @@ This section is designed to introduce you to the basics of using a machine with 
 
 
 
-# Multi-Core Machines
+# Multi-Core Computing
 
 1. [Basics](#basics)
 2. [Benefits](#benefits)

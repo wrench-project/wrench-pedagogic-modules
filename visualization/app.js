@@ -437,8 +437,8 @@ app.post("/run/multi_core", authCheck, function(req, res) {
 
     const NUM_CORES = req.body.num_cores;
     const NUM_TASKS = req.body.num_tasks;
-    const TASK_GFLOP = 100.0 * 1000.0 * 1000.0 * 1000.0; 
-    const RAM_REQUIRED = (req.body.ram_required == 1) ? "RAM_REQUIRED" : "RAM_NOT_REQUIRED";
+    const TASK_GFLOP = 100;
+    const RAM_REQUIRED = req.body.ram_required;
 
     // additional WRENCH arguments that filter simulation output (We only want simulation output from the WMS in this activity)
     const LOGGING = [
@@ -477,8 +477,8 @@ app.post("/run/multi_core", authCheck, function(req, res) {
                         "user": req.user,
                         "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
                         "activity": "multi_core_machines",
-                        "num_cores_per_node": NUM_CORES,
-                        "num_tasks_to_join": NUM_TASKS,
+                        "num_cores": NUM_CORES,
+                        "num_tasks": NUM_TASKS,
                         "task_gflop": TASK_GFLOP,
                         "ram_required": RAM_REQUIRED
                     }
