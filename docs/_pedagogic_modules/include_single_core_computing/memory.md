@@ -1,8 +1,9 @@
+
 #### Learning objectives:
 
   - Understand the concept of Memory (RAM)
 
-  - Understand the amount of available Memory impacts program executions
+  - Understand how the amount of available Memory limits program executions
 
 ---
 
@@ -10,7 +11,7 @@
 ### Memory
 
 When a program executes on a computer, it uses some of the computer's
-memory (Random Access Memory or RAM) to store its "address space". The
+memory (a.k.a., Random Access Memory or RAM) to store its "address space". The
 address space consists of all the bytes of content that the program needs
 to execute (the "code", "data", "stack", "heap", "page table", etc.). You
 can learn about details of the structure of address spaces 
@@ -25,24 +26,16 @@ this comes with a significant performance hit. Our main focus in these
 pedagogic modules is performance, and *we will only consider executing
 a program if its entire address space fits in RAM*.  
 
-For instance, consider a computer with 4 GB of RAM. We have three programs
-*A*, *B*, and *C*, with address spaces of 1 GB, 2 GB, and 3 GB,
-respectively.
+For instance, consider a single-core computer with 4 GB of RAM. We have
+three programs *A*, *B*, and *C*, with address spaces of 1 GB, 2 GB, and 3
+GB, respectively.  In this case, we cannot run all three programs at the
+same time, because 6 GB is larger than the available RAM. But we can run
+program *A* and *C* together as they only require 3 GB of RAM. 
 
-
-
- If not enough RAM is available, then 
-part of the
-
-TBD
-RAM
-
-Address space
-
-Multi-programming OS make it work
-
-But when going for performance, on does not oversuscribe RAM
-
-In all that follows, we assume that we never oversubscribeit
+If you've been paying attention you may wonder why we're even talking about
+running programs at the same time since in the previous tab ("Time
+Sharing") we said we would almost never do it!  To find out, proceed to the
+[Multicore Computing]({{ site.baseurl
+}}/pedagogic_modules/multi_core_computing) module!
 
 
