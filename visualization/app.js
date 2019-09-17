@@ -424,21 +424,21 @@ app.post("/run/workflow_execution_parallelism", authCheck, function(req, res) {
 // display activity multi core visualization route
 app.get("/multi_core", authCheck, function(req, res) {
     res.render("multi_core", {
-        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/workflow_execution_parallelism_cyber_infrastructure.svg")
+        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/multi_core.svg")
     });
 });
 
 // execute activity multi core simulation route
 app.post("/run/multi_core", authCheck, function(req, res) {
-    const PATH_PREFIX = __dirname.replace("visualization", "simulations/activity_multi_core/");
+    const PATH_PREFIX = __dirname.replace("visualization", "simulations/multi_core_computing/");
 
-    const SIMULATOR = "activity_multi_core_simulator";
+    const SIMULATOR = "multi_core_simulator";
     const EXECUTABLE = PATH_PREFIX + SIMULATOR;
 
     const NUM_CORES = req.body.num_cores;
     const NUM_TASKS = req.body.num_tasks;
     const TASK_GFLOP = 100;
-    const RAM_REQUIRED = req.body.ram_required;
+    const TASK_RAM = req.body.task_ram;
 
     // additional WRENCH arguments that filter simulation output (We only want simulation output from the WMS in this activity)
     const LOGGING = [
@@ -449,7 +449,7 @@ app.post("/run/multi_core", authCheck, function(req, res) {
         "--log='root.fmt:[%d][%h:%t]%e%m%n'"
     ];
 
-    const SIMULATION_ARGS = [NUM_CORES, NUM_TASKS, TASK_GFLOP, RAM_REQUIRED].concat(LOGGING);
+    const SIMULATION_ARGS = [NUM_CORES, NUM_TASKS, TASK_GFLOP, TASK_RAM].concat(LOGGING);
     const RUN_SIMULATION_COMMAND = [EXECUTABLE].concat(SIMULATION_ARGS).join(" ");
 
     console.log("\nRunning Simulation");
@@ -480,7 +480,7 @@ app.post("/run/multi_core", authCheck, function(req, res) {
                         "num_cores": NUM_CORES,
                         "num_tasks": NUM_TASKS,
                         "task_gflop": TASK_GFLOP,
-                        "ram_required": RAM_REQUIRED
+                        "task_ram": TASK_RAM
                     }
                 }
             },
