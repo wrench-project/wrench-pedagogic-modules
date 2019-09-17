@@ -132,7 +132,7 @@ int main(int argc, char** argv) {
         TASK_MEMORY = std::stoi(std::string(argv[4]));
 
         if (TASK_MEMORY < 0) {
-            std::cerr << "Invalid task gflop. Enter a value greater than 1" << std::endl;
+            std::cerr << "Invalid task gflop. Enter a value greater than 0" << std::endl;
             throw std::invalid_argument("invalid task gflop");
         }
 
