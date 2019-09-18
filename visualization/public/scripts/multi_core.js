@@ -1,17 +1,8 @@
 
 
-//not updated for Multi core, may not show workflow since it technically is not a workflow.
-
-
 $(function() {
 
 
-
-    // Show the workflow, and update if the user wants to use the Workflow where tasks use RAM
-    //generate_workflow_dag(workflow_dag_no_ram);
-
-    // As the user enters some number of desired compute nodes, update the
-    // platform SVG to illustrate the change.
 
     // Update the label that says how many cores each compute node has
     $("#num-cores").on("keyup", function() {
@@ -35,6 +26,58 @@ $(function() {
         } else {
             num_cores_label_el.css("background-color", "#ffb7b5");
             num_cores_input_el.removeClass("is-valid")
+                .addClass("is-invalid");
+        }
+    });
+
+    // Update the label that says how many tasks will be run
+    $("#num-tasks").on("keyup", function() {
+        let num_tasks_input_el = $(this);
+        let num_tasks_input_value = parseInt(num_tasks_input_el.val());
+        let num_tasks_label_el = $(".num-tasks-label");
+
+        if (num_tasks_input_value >= 1 && num_tasks_input_value <1000) {
+
+            num_tasks_label_el.text(num_tasks_input_value + " Task(s)")
+                .css("background-color", "#d3ffe9");
+
+            num_tasks_input_el.removeClass("is-invalid")
+                .addClass("is-valid");
+
+            setTimeout(function() {
+                if (num_tasks_label_el.css("background-color") == "rgb(211, 255, 233)") {
+                    num_tasks_label_el.css("background-color", "");
+                }
+            }, 500);
+        } else {
+            num_tasks_label_el.css("background-color", "#ffb7b5");
+            num_tasks_input_el.removeClass("is-valid")
+                .addClass("is-invalid");
+        }
+    });
+
+    // Update the label that says how much RAM is used by each task
+    $("#task-ram").on("keyup", function() {
+        let task_ram_input_el = $(this);
+        let task_ram_input_value = parseInt(task_ram_input_el.val());
+        let task_ram_label_el = $(".ram-label");
+
+        if (task_ram_input_value >= 0 && task_ram_input_value<=32) {
+
+            task_ram_label_el.text(task_ram_input_value + "GB")
+                .css("background-color", "#d3ffe9");
+
+            task_ram_input_el.removeClass("is-invalid")
+                .addClass("is-valid");
+
+            setTimeout(function() {
+                if (task_ram_label_el.css("background-color") == "rgb(211, 255, 233)") {
+                    task_ram_label_el.css("background-color", "");
+                }
+            }, 500);
+        } else {
+            task_ram_label_el.css("background-color", "#ffb7b5");
+            task_ram_input_el.removeClass("is-valid")
                 .addClass("is-invalid");
         }
     });
@@ -71,7 +114,7 @@ $(function() {
                     $("#simulation-output").empty()
                         .append(response.simulation_output);
 
-                    generate_host_utilization_graph(response.task_data);
+                    generate_host_utilization_graph_given_cores(response.task_data, $("#num-cores").val());
 
                     generate_workflow_execution_graph(response.task_data);
 
