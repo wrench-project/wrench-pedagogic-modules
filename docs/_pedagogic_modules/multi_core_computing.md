@@ -5,21 +5,23 @@ order: 200
 usemathjax: true
 ---
 
-This section is designed to introduce you to the basics of using a machine with a multi-core processor.
+The goal of this module is to introduce you to the basic concepts of running 
+multiple instances of single-threaded programs on a multi-core computer.
 
 
 #### Learning Objectives:
 
-  - Understand the advantages of using a multi-core machine
+  - Understand the need for using multi-core machines;
 
-  - Encounter concepts of speedup and efficiency
+  - Understand the concepts of parallel speedup and efficiency;
+
+  - Understand the relationship between idle time, speedup and efficiency;
   
-  - Understand the impact of RAM constraints for utilizing multiple cores.
+  - Understand the impact of RAM constraints on idle time.
 
 ----
 
-
-
+<!--
 # Multi-Core Computing
 
 1. [Basics](#basics)
@@ -27,70 +29,125 @@ This section is designed to introduce you to the basics of using a machine with 
     * [Speedup](#speedup)
     * [Efficiency](#efficiency)
 3. [Exercises](#exercises)
-
+-->
 
 ## Basics
 
-Multi-core processors have become ubiquitous in modern computing due to well-documented issues with further increasing
- single core performance. When executing multiple programs or tasks it will be necessary to take into account the number
- of cores available to you and the capability of your tasks to make use of those cores. Each core is a processor capable
- of running its own tasks concurrently with those run by the other cores. 
- 
-For our purposes in this lesson, we will be simplifying some aspects of using multiple cores. Throughout the lesson, 
-terms such as *tasks* and *programs* will be used interchangeably to refer to discrete processes with their own unshared
- memory allocation. We will not be exploring multithreading just yet, where shared memory can come into play.
- 
-One other simplification that will be found is the use of application scheduling to run tasks, rather than scheduling 
-done via the operating system. Within this lesson it will be assumed that a task that begins running on a core will run 
-until completion on that same core. 
+Multi-core processors have become ubiquitous due to well-documented issues
+with further increasing the performance of a single core.  Each core is
+capable of executing code independently of other cores. 
+In this module, we take a simplified view of multi-core machines.  We
+consider only programs that can use a single core, a.k.a.  single-threaded
+programs, and will take a look at  multi-threaded programs later.
+
+We use the term *tasks* to refer to independent executions of one program
+but for different input. For instance, we could have 5 tasks where each
+task renders a different frame of a movie. Of course, we could also have
+each task correspond to a different program, which will be the topic of an
+upcoming module. We call the set of tasks we want to execute an **application**.
+
+As mentioned in the [Single Core Computing]({{ site.baseurl
+}}/pedagogic_modules/single_core_computing) module, we do not consider time
+sharing. That is, we will only consider application executions in which at most one
+task runs on a core at a given time. Although the Operating System allows
+time-sharing, we will simply never start more tasks than cores on the
+machine.  Therefore, a task that begins running on a core will run
+uninterrupted until completion on that same core.
 
 
+## Parallelism
 
-## Benefits
+The motivation for running the tasks of an application on multiple cores is speed.  For
+example, if you have tasks that a single core can complete in one hour, it
+will take four hours to complete four tasks. If you have a two of these
+cores in a dual-core processor, now you can complete the same four tasks in
+two hours only. This concept is called **parallelism**: running multiple 
+tasks at the same time, or *concurrently*, to complete a set of tasks faster.
 
-The benefits of using multiple cores become most apparent when each core is equivalent in power to a processor that has 
-a single core. For example, if you have tasks that the single-core processor can complete in one hour, it will take four
-hours to complete four tasks. If you have a dual-core processor where each core is capable of completing a task in an 
-hour, now you can complete the same four tasks in two hours. Most real world applications do not work in this fashion, 
-so we have *Speedup* and *Efficiency* to evaluate any changes made to processing.
+Unfortunately, most real-world applications do not have the ideal behavior
+above, that is, execute *n* times faster with *n* cores. Instead, they execute
+less than *n* times faster. This may seem surprising, but comes about due to 
+many reasons. In this module, we'll see one of these reasons. 
 
-### Speedup
+To explore parallelism, we first have to define two interesting metrics:
+*Parallel Speedup* (or *Speedup*) and *Parallel Efficiency* (or
+*Efficiency*).
 
-Speedup is a metric used to quantify how much improvement has taken place. It is calculated by dividing the previous 
-metric by the new metric. This can be the time taken for processing, or cycles per instruction (CPI). Take a look at the
-formula below:
+### Parallel Speedup
+
+The speedup is a metric used to quantify the acceleration in speed due to
+using multiple cores.  It is calculated by dividing the execution time of
+the application on a single core by the execution time of the application on
+multiple cores, say *p*. The speedup on *p* cores is thus expressed as
+follows:
 
 $$
 \begin{align}
-\text{Speedup} & = \frac{\text{Compute Time}_{old}}{\text{Compute Time}_{new}}
+\text{Speedup_{p}} & = \frac{\text{Execution Time}_{1}}{\text{Execution Time}_{p}}
 \end{align}     
 $$
 
+For instance, if an application runs in 3 hours on 1 core but runs in 2 hours on 2 cores, then its speedup is:
+$$
+\begin{align}
+\text{Speedup_{2}} & = \frac{3}{2} = 1.5\;.
+\end{align}     
+$$
 
-### Efficiency
+In this example, we would be somewhat "unhappy" because although we have 2 cores, but *only* go 1.5 times faster. This leads us to our next metric!
+
+
+### Parallel Efficiency
+
+The concept of efficiency is essentially about how much useful work the
+cores can do for an application, or how much "bang" do you get for your
+"buck". The "bang" is the speedup, and the "buck" is the number of cores.
+More formally, the efficiency of an application execution on $p$ cores is: 
+
+$$
+\begin{align}
+\text{Efficiency_p} & = \frac{\text{Speedup_p}}{\text{p}}\;.
+\end{align}     
+$$
+
+If the speedup going from 1 core to 2 cores is 1.5, then the
+efficiency is:
+
+$$
+\begin{align}
+\text{Efficiency_2} & = \frac{1.5}{\text{2}} & = 0.75 = 75%\;.
+\end{align}     
+$$
+
+In the best case, the efficiency would be 100\% (which corresponds to going
+*p* times faster with *p* cores). In the above example, it is only 75%, meaning
+that we are "wasting" some of the overall compute capacity during the application's 
+execution. 
+
+At this point, you may be wondering, how is this (less than 100% efficiency) possible?
+
+## Load Imbalance and Idle Time
+
+        - p does not divide n (p is greater than n)
+        - "the load is not balanced"
+
+        - RUN Simulation
+        - Questions
+        - Practice Questions
+
+## Adding RAM constraints
+
+        - RUN Simulation
+        - Questions
+        - Practice Questions
+
+-- BARF ---
 
 When looking at sequential computing efficiency is a simple concept, the processor is either working a task or the 
 program has completed. When looking at multi-core computing however, the notion of efficiency becomes important as part 
 of the processor (some cores) may be working while others sit idle, and doubling the number of cores usually will not 
 double the speed.  
 
-The formula for efficiency is below: 
-
-$$
-\begin{align}
-\text{Efficiency} & = \frac{\text{Speedup}}{\text{Number of Cores}}
-\end{align}     
-$$
-
-If the Speedup going from a single core to three cores is two, then the efficiency can be found by:
-
-$$
-\begin{align}
-\text{Efficiency} & = \frac{\text{2}}{\text{3}} & = \text{0.667}
-\end{align}     
-$$
-
-This means that because using three cores is not three times as fast, we have imperfect efficiency. 
 
 ## Exercises
 
