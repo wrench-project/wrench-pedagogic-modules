@@ -114,7 +114,7 @@ $(function() {
                     $("#simulation-output").empty()
                         .append(response.simulation_output);
 
-                    generate_host_utilization_graph_given_cores(response.task_data, $("#num-cores").val());
+                    generate_host_utilization_graph(response.task_data, $("#num-cores").val());
 
                     generate_workflow_execution_graph(response.task_data);
 
