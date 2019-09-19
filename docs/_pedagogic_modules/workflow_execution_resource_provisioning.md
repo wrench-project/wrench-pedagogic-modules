@@ -11,13 +11,15 @@ order: 800
 3. [Conclusion](#conclusion)
 
 # Learning Objectives
-- Be able to make calculated system design decisions;
-- Be able to apply the concepts explored in the previous activities.
+
+- Be able to make calculated platform design decisions for optimizing workflow executions;
+- Be able to apply the knowledge acquired in all previous modules in a holistic manner.
 
 # Overview
 
-This activity does not introduce any new concepts, but instead incorporates
-all concepts acquired in the previous activities.  It is a
+This module does not introduce any new concepts, 
+but instead incorporates
+all concepts acquired in the previous modules.  It is a
 case study in which you analyze a given workload on a given
 cyberinfrastructure. Then you will need to come up with an argument as to
 how this workload can be executed faster, given certain constraints. You
@@ -30,7 +32,7 @@ your argument.
 
 You are a software engineer at a large corporation that routinely executes
 workflows for many customer applications. You have been tasked with
-ensuring that a particularly important workflow (Figure 1), which is
+ensuring that a particular workflow (Figure 1), which is
 executed repeatedly on different input files, runs as efficiently as
 possible on your corporation's cyberinfrastructure (Figure 2).  Your
 customers produce the input files, which are always the same size, at the
@@ -42,9 +44,9 @@ place on your corporation's compute service (CS).
 
 The Workflow Management System (WMS) that your corporation uses for this
 workflow submits tasks to the CS with the following scheme regarding
-file operations (Figure 3): read the initial input files from the remote
+file operations: read the initial input files from the remote
 storage service, write the final output file to the remote storage service,
-read and write all other files using the CS's scratch space.
+read and write all other files using the CS's scratch space. This scheme is depicted in Figure 3.
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_execution_resource_provisioning/wms.svg">WMS Scenario</object>
 
@@ -58,15 +60,16 @@ up and has become a performance, and revenue, bottleneck!
 
 You immediately get in touch with your boss about this, and come to the
 agreement that **$1500** will be budgeted for to you to upgrade the
-cyberinfrastructure so that the workflow execution can be accelerated as
-much as possible (which hopefully will be fast enough).
+cyberinfrastructure. The goal is to  accelerate the
+workflow execution as
+much as possible.
 
 Your boss does not care if the total amount spent is less than the allotted
 $1500, but before making the purchase you must make a valid case as to why
 the upgrade(s) you choose is/are warranted.
 
 
-# Activity
+# Upgrading the Cyberinfrastructure
 
 ## Step 1: Evaluate All the Options
 
