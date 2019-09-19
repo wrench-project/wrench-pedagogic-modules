@@ -1,4 +1,3 @@
-
 #### Learning objectives:
 
   - Understand the concept of time sharing

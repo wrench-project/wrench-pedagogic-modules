@@ -424,7 +424,7 @@ app.post("/run/workflow_execution_parallelism", authCheck, function(req, res) {
 // display activity multi core visualization route
 app.get("/multi_core", authCheck, function(req, res) {
     res.render("multi_core", {
-        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/multi_core.svg")
+        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/multi_core_task.svg")
     });
 });
 

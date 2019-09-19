@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg id="single-host" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="249px"
+     height="232px" viewBox="-0.5 -0.5 249 232"
+     content="&lt;mxfile modified=&quot;2019-09-18T00:47:41.347Z&quot; host=&quot;www.draw.io&quot; agent=&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36&quot; etag=&quot;X0lYjv0_kX4_jA7HCQ_l&quot; pages=&quot;1&quot; version=&quot;11.2.8&quot; type=&quot;device&quot;&gt;&lt;diagram id=&quot;0&quot; name=&quot;Page-1&quot;&gt;tVZNc9owEP01zLSHMNgGhxz5znSSTiY00zaXjLAXW43sdWUZTH99JUsCG5OkTBMuSG+1Wnnf25U63iQpF5xk8S2GwDpuLyw73rTjuo4z6Mk/hew04ruOBiJOQ7PoACzpHzCg8YsKGkLeWCgQmaBZEwwwTSEQDYxwjtvmsjWyZtSMRNAClgFhbfQ7DUWs0aH9LIVfA41iG9npGcuKBM8RxyI18Tqut65+2pwQu5dZn8ckxG0N8mYdb8IRhR4l5QSYyq1Nm/abv2Ddn5tDKv7F4dtjEn4d4cPjxWzu4/xhPts4F/ZwG8IKsN/hM7nhOKQbOYzU0EJ5RlKLXWMuUpJIp5GiLIZYAt04C7oQFtZBnqbuU4NP7P5GwGUGEOpoFQe9xZxhpiJA8BHxJsiVLqt4H7H//ehW7+65i/GZASo9iZ3VcKVClZypI83bmApYZiRQ1q2sWonFImHGvKaMTZAhr3ylZsEPAnU2wfEZrCXFVLqPI05CKgV2BO+17OyPUxei0eYGuICyBhlhLgATEHwnlxire2V0aJqIOxjo+fZQko7nayyulePQrCOmC0T7rQ+VIAemGM4pDOf1wqil3/9dqBoey28VF4TRKNW8MliLg/WY0hU/k2SVTSr71g1ZAbvDnAqKMtJ0hUJgIj1InukGuaalEkOddOs80sebCsxeotx8wTSQdILEx1gIRlO5zDbgnlZApg6WlJG6F7oBFZyWXYFb4E858E3l+t468bx+d9BUSs9rKcUbtIXS9z9KKG5LKBNMskKABJcyEVTW4TGXb5TocXJXJKdBl8vsTwhjkg+lQpUST62ubl53qDSl+8DNqraRzr+iLMCEBpa+U8xr0N6CbrtXhASG6+CdqOz3G0Q6TpvIodsm0naK/yHyscgGV/PF/TpMhndP02jT/yKJbLEEoXwpmClyEWOEKWGzAzo+NF6V1MOaG1T1VVHwC4TYmWcPKQQ2mYaSih+18c/aeFqafavJzkz0KdXRXnwHGCjHggfwyhfb5xbhEYg3e2GbSQ6MCLppHuTdeWk3Yon0vpH8+VP+ud1Nq5fBiSsyxmRV5Gdfj+CEA7hsVYy0XPmXHvH3jLSUf4KTF4vBGTbvP6ffa99/9uFZr4Y9eEba5fTw6qxstae9N/sL&lt;/diagram&gt;&lt;/mxfile&gt;"
+     style="background-color: rgb(255, 255, 255);">
+    <defs/>
+    <g>
+        <rect x="110" y="143" width="136" height="85" rx="12.75" ry="12.75" fill="#000000" stroke="none"
+              transform="translate(2,3)" opacity="0.25"/>
+        <rect x="110" y="143" width="136" height="85" rx="12.75" ry="12.75" fill="#ffe6cc" stroke="none"
+              pointer-events="none"/>
+        <g transform="translate(110.5,151.5)">
+            <switch>
+                <foreignObject style="overflow:visible;" pointer-events="all" width="134" height="68"
+                               requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                         style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 134px; white-space: nowrap; overflow-wrap: normal; text-align: center;">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                             style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                            <div>
+                                <span>Hostname: thehost.hpc.edu</span>
+                            </div>
+                            <div>
+                                <span>Speed: 100 GFlop/sec</span>
+                            </div>
+                            <div>
+                                <span class="num-cores-label">
+                                    Cores: 1
+                                </span>
+                            </div>
+                            <div>
+                                <span>RAM: 32GB</span>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="67" y="40" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">[Not
+                    supported by viewer]
+                </text>
+            </switch>
+        </g>
+        <path d="M 154.5 131.99 L 154.5 95.74 L 173.54 91 L 189.5 95.87 L 189.5 132.54 L 170.73 137 Z" fill="#000000"
+              stroke="none" transform="translate(2,3)" opacity="0.25"/>
+        <path d="M 154.5 131.99 L 154.5 95.74 L 173.54 91 L 189.5 95.87 L 189.5 132.54 L 170.73 137 Z" fill="#abb4c5"
+              stroke="none" pointer-events="none"/>
+        <path d="M 154.5 95.74 L 173.54 91 L 189.5 95.87 L 170.73 100.47 Z" fill="#b8bfd1" stroke="none"
+              pointer-events="none"/>
+        <path d="M 170.73 100.47 L 189.5 95.87 L 189.5 132.54 L 170.73 137 Z" fill="#5b6369" stroke="none"
+              pointer-events="none"/>
+        <path d="M 170.91 120.41 C 167.42 119.06 164.08 117.33 160.94 115.27 C 159.43 114.22 158.15 112.87 157.18 111.29 C 156.51 110.07 156.17 108.69 156.19 107.29 C 156.13 105.78 156.16 104.27 156.27 102.77 C 156.35 101.43 156.49 100.09 156.7 98.77 C 156.9 98.03 157.19 97.33 157.58 96.68 C 158.4 96.13 159.32 95.67 160.32 95.33 C 162.02 94.75 163.75 94.25 165.5 93.84 C 167.32 93.35 169.17 92.99 171.05 92.76 C 172.32 92.6 173.6 92.55 174.88 92.62 C 176.97 92.77 179.02 93.23 180.97 93.98 L 187.33 96.33 C 187.89 97.27 188.25 98.31 188.4 99.39 C 188.58 100.84 188.68 102.31 188.7 103.77 C 188.8 107 188.71 110.24 188.43 113.46 C 188.39 114.88 187.91 116.25 187.06 117.38 C 185.82 118.76 184.14 119.67 182.31 119.95 C 180.85 120.18 179.37 120.29 177.89 120.28 Z"
+              fill-opacity="0.4" fill="#ffffff" stroke="none" pointer-events="none"/>
+        <rect x="154.5" y="91" width="0" height="0" fill="none" stroke="none" transform="translate(2,3)"
+              opacity="0.25"/>
+        <path d="M 156.38 101.28 L 156.38 100.34 L 168.58 104.12 L 168.58 105.07 Z M 158.39 129.96 L 158.39 129.02 L 165.9 131.18 L 165.9 132.13 Z"
+              fill="#52595e" stroke="none" pointer-events="none"/>
+        <path d="M 154.5 131.99 L 154.5 95.74 L 173.54 91 L 189.5 95.87 L 189.5 132.54 L 170.73 137 Z" fill="none"
+              stroke="#000000" stroke-miterlimit="10" pointer-events="none"/>
+        <g transform="translate(171.5,143.5)">
+            <switch>
+                <foreignObject style="overflow:visible;" pointer-events="all" width="1" height="12"
+                               requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                         style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; white-space: nowrap; text-align: center;">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                             style="display:inline-block;text-align:inherit;text-decoration:inherit;">
+                            <div style="text-align: left">
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="0" y="12" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">&lt;div
+                    style="text-align: left"&gt;&lt;br&gt;&lt;/div&gt;
+                </text>
+            </switch>
+        </g>
+        <path d="M 181 63 L 164 63 L 164 1 L 246 1 L 246 63 L 209 63 L 167 91 Z" fill="#dae8fc" stroke="none"
+              pointer-events="none"/>
+        <g transform="translate(164.5,18.5)">
+            <switch>
+                <foreignObject style="overflow:visible;" pointer-events="all" width="80" height="26"
+                               requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                         style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 80px; white-space: nowrap; overflow-wrap: normal; text-align: center;">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                             style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:normal;">
+                            Compute Service
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="40" y="19" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">Compute
+                    Service
+                </text>
+            </switch>
+        </g>
+        <path d="M 75 103 L 127 103 L 127 114 L 148.13 114" fill="none" stroke="#000000" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <path d="M 153.38 114 L 146.38 117.5 L 148.13 114 L 146.38 110.5 Z" fill="#000000" stroke="#000000"
+              stroke-miterlimit="10" pointer-events="none"/>
+        <path d="M 50 28 L 100 78 L 50 128 L 0 78 Z" fill="#e1d5e7" stroke="#9673a6" stroke-miterlimit="10"
+              pointer-events="none"/>
+        <g transform="translate(25.5,64.5)">
+            <switch>
+                <foreignObject style="overflow:visible;" pointer-events="all" width="48" height="26"
+                               requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+                    <div xmlns="http://www.w3.org/1999/xhtml"
+                         style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; vertical-align: top; width: 50px; white-space: nowrap; overflow-wrap: normal; text-align: center;">
+                        <div xmlns="http://www.w3.org/1999/xhtml"
+                             style="display:inline-block;text-align:inherit;text-decoration:inherit;white-space:nowrap;">
+                            <span class="num-tasks-label">
+                                1 Task(s)
+                            </span>
+                            <br/>
+                        </div>
+                        <div>
+                            <span class="ram-label">
+                                0 GB
+                            </span>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="24" y="19" fill="#000000" text-anchor="middle" font-size="12px" font-family="Helvetica">1
+                    Task(s)&lt;br&gt;0 GB
+                </text>
+            </switch>
+        </g>
+    </g>
+</svg>

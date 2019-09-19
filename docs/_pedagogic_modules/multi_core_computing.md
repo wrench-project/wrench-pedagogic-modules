@@ -97,13 +97,19 @@ This means that because using three cores is not three times as fast, we have im
 These exercises accompany the simulator "Multi-core Machines". You will need to do calculations similar to those done in
 the sequential computing section, but now it will be the number of cores and tasks that vary, rather than the flops. 
 
+##### For These Questions, We Will Assume The Tasks Do Not Require RAM, It Can Remain At 0. 
+
 **[q1]** What is the speedup that you will observe for running ten tasks on one core versus ten tasks on two cores? What
 is the efficiency?
 
 **[q2]** What is the speedup that you will observe for running ten tasks on one core versus ten tasks on three cores? 
 What is the efficiency?
 
-**[q3]** RAM QUESTION 1
+##### For These Questions, RAM Will Vary
 
-**[q4]** RAM QUESTION 2
+**[q3]** The host we are using has 32GB of ram, how long does it take to run two tasks on two cores if they each require
+16GB of RAM? What if they require 20GB of RAM each?
+
+**[q4]** Figure out what happens for the scenario described in Question 1, but this time the tasks are 
+using 16GB of RAM. What are the speedup and efficiency now?
 
