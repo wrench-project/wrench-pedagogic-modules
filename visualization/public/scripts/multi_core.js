@@ -60,7 +60,7 @@ $(function() {
     $("#task-ram").on("keyup", function() {
         let task_ram_input_el = $(this);
         let task_ram_input_value = parseInt(task_ram_input_el.val());
-        let task_ram_label_el = $(".ram-label");
+        let task_ram_label_el = $(".task-ram-label");
 
         if (task_ram_input_value >= 0 && task_ram_input_value<=32) {
 
@@ -78,6 +78,44 @@ $(function() {
         } else {
             task_ram_label_el.css("background-color", "#ffb7b5");
             task_ram_input_el.removeClass("is-valid")
+                .addClass("is-invalid");
+        }
+    });
+
+    // Update the label that says how much GFlop each task is. Converts to TFlop to save space if it gets too large.
+    $("#task-gflop").on("keyup", function() {
+        let task_gflop_input_el = $(this);
+        let task_gflop_input_value = parseInt(task_gflop_input_el.val());
+        let task_gflop_label_el = $(".task-gflop-label");
+
+        if (task_gflop_input_value >= 1 && task_gflop_input_value<1000) {
+
+            task_gflop_label_el.text(task_gflop_input_value + " GFlop")
+                .css("background-color", "#d3ffe9");
+
+            task_gflop_input_el.removeClass("is-invalid")
+                .addClass("is-valid");
+
+            setTimeout(function() {
+                if (task_gflop_label_el.css("background-color") == "rgb(211, 255, 233)") {
+                    task_gflop_label_el.css("background-color", "");
+                }
+            }, 500);
+        } else if(task_gflop_input_value>=1000 && task_gflop_input_value<1000000){
+            task_gflop_label_el.text(task_gflop_input_value/1000 + " TFlop")
+                .css("background-color", "#d3ffe9");
+
+            task_gflop_input_el.removeClass("is-invalid")
+                .addClass("is-valid");
+
+            setTimeout(function() {
+                if (task_gflop_label_el.css("background-color") == "rgb(211, 255, 233)") {
+                    task_gflop_label_el.css("background-color", "");
+                }
+            }, 500);
+        } else {
+            task_gflop_label_el.css("background-color", "#ffb7b5");
+            task_gflop_input_el.removeClass("is-valid")
                 .addClass("is-invalid");
         }
     });
@@ -104,7 +142,7 @@ $(function() {
                 {
                     num_cores: $("#num-cores").val(),
                     num_tasks: $("#num-tasks").val(),
-                    task_gflop: 100,
+                    task_gflop: $("#task-gflop").val(),
                     task_ram: $("#task-ram").val()
                 }),
 

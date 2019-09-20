@@ -437,7 +437,7 @@ app.post("/run/multi_core", authCheck, function(req, res) {
 
     const NUM_CORES = req.body.num_cores;
     const NUM_TASKS = req.body.num_tasks;
-    const TASK_GFLOP = 100;
+    const TASK_GFLOP = req.body.task_gflop;
     const TASK_RAM = req.body.task_ram;
 
     // additional WRENCH arguments that filter simulation output (We only want simulation output from the WMS in this activity)
