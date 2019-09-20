@@ -101,8 +101,8 @@ $$
 
 To make sure the above is crystal clear (and that you know your units!), try to answer the following questions:
 
-**[q1]** You have to run a program that will perform 4000 GFlop, and your
-core computes at speed 30 TFlop/sec. How long will the program run for?
+**[p1.1]** You have to run a program that performs 4000 GFlop, and your
+core computes at speed 30 TFlop/sec. How long will the program run for in seconds?
 
 <div class="ui accordion fluid">
   <div class="title">
@@ -116,7 +116,7 @@ core computes at speed 30 TFlop/sec. How long will the program run for?
 
 <p> </p>
 
-**[q2]** A program just ran in 1640 sec on a core with speed 2 TFlop/sec, 
+**[p1.2]** A program just ran in 1640 sec on a core with speed 2 TFlop/sec, 
 how many MFlop does the program perform?
 <div class="ui accordion fluid">
   <div class=" title">
@@ -127,5 +127,26 @@ how many MFlop does the program perform?
    $$ \frac{2000000\; \text{MFlop/sec}}{1640\; \text{sec}} \simeq 1219.5 \;\text{MFlop} $$
   </div>
 </div>
+
+---
+
+#### Questions
+
+
+**[q1.1]** You have to run a program that performs 2000 TFlop, and your
+core computes at speed 450 GFlop/sec. How long will the program run for in minutes?
+
+**[q1.2]** A program that performs 3000 GFlop just ran in 1.5 minutes on a core. What is the
+core speed in TFlop/sec? 
+
+**[q1.3]** On a given core, a program just ran in 14 seconds. By what factor should the core speed
+increased if I want the program to run in 10 seconds?
+
+
+
+
+
+
+
 
 
