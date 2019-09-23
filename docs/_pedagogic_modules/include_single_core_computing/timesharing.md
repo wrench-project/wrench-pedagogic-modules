@@ -52,7 +52,7 @@ computing how time sharing would impact program execution times is
 important and applicable to other learning objectives (e.g., networking).
 So here are a couple of practice questions:
 
-**[p2.1]** At time 0 on a core with speed 2 TFlop/sec you start two programs. Program *A*'s work is
+**[A.p2.1]** At time 0 on a core with speed 2 TFlop/sec you start two programs. Program *A*'s work is
 200 GFlop, and program *B*'s work is 220 GFlop. At what times do the programs complete?
 
 <div class="ui accordion fluid">
@@ -73,7 +73,7 @@ So here are a couple of practice questions:
 
 <p> </p>
 
-**[p2.2]** Two programs, each with work 800 TFlop, were started at the same time on a core and both
+**[A.p2.2]** Two programs, each with work 800 TFlop, were started at the same time on a core and both
          completed simultaneously after one hour. What is the core's speed in GFlop/sec?
 <div class="ui accordion fluid">
   <div class=" title">
@@ -90,14 +90,14 @@ So here are a couple of practice questions:
 
 #### Questions
 
-**[q2.1]** Two programs are started at the same time on a core. These programs both have work
+**[A.q2.1]** Two programs are started at the same time on a core. These programs both have work
 1 TFlop, and both complete after 220 seconds. What was the core speed in GFlop/sec?
 
 
-**[q2.2]** Three programs, A, B, and C, were started at the same time on a core
+**[A.q2.2]** Three programs, A, B, and C, were started at the same time on a core
  with speed 600 GFLop/sec. After 10 seconds A and C complete. Then, 2 seconds later, program B
 completes. What is the work (in GFlop) of each of the three program?
 
 
-**[q2.3]** A program, A, with work 4 TFlop is started on a core of speed 500 GFlop/sec. 5 seconds later
+**[A.q2.3]** A program, A, with work 4 TFlop is started on a core of speed 500 GFlop/sec. 5 seconds later
 another program B, is started. Both programs finish at the same time. What is the work of B in TFlop?

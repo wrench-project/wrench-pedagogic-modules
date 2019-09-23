@@ -113,7 +113,7 @@ questions, which all pertain to this topology:
 <b>Figure 5:</b> Network topology for practice questions.
 
 
-**[q1]** What is the latency of the route from host E to host D?
+**[C.p2.1]** What is the latency of the route from host E to host D?
 <div class="ui accordion fluid">
   <div class="title">
     <i class="dropdown icon"></i>
@@ -132,7 +132,7 @@ $$
 
 <p> </p>
 
-**[q2]** What is the bandwidth of the route from host A to host D?
+**[C.p2.2]** What is the bandwidth of the route from host A to host D?
 <div class="ui accordion fluid">
   <div class=" title">
     <i class="dropdown icon"></i>
@@ -151,7 +151,7 @@ $$
 
 <p> </p>
 
-**[q3]** I am a user sitting at host E and have to download a large file. That file is on a Web site at host A but also on a mirror Web site at host D.  Which mirror should I select?
+**[C.p2.3]** I am a user sitting at host E and have to download a large file. That file is on a Web site at host A but also on a mirror Web site at host D.  Which mirror should I select?
 <div class="ui accordion fluid">
   <div class=" title">
     <i class="dropdown icon"></i>
@@ -168,7 +168,7 @@ $$
 
 <p> </p>
 
-**[q4]** What is the transfer time for sending 1 MB of data from host E to host D?
+**[C.p2.4]** What is the transfer time for sending 1 MB of data from host E to host D?
 <div class="ui accordion fluid">
   <div class=" title">
     <i class="dropdown icon"></i>
@@ -186,4 +186,45 @@ $$
 </div>
 
 <p> </p>
+
+---
+
+#### Questions
+
+Answer the following questions, which all pertain to this topology:
+
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/networking_fundamentals/topology_questions.svg">Network topology for questions</object>
+<b>Figure 6:</b> Network topology for questions (lat = "latency"; bw = "bandwidth").
+
+
+**[C.q2.1]** What is the latency of the route from host A to host B?
+
+<p></p>
+**[C.q2.2]** What is the bandwidth of the route from host C to host D?
+
+<p></p>
+**[C.q2.3]** How long, in seconds, does it take to transfer 100 MB of
+  data from host A to host D?
+
+<p></p>
+**[C.q2.4]** A lot of users are transferring data from host B to host D,
+thus: competing for the bandwidth on that route. Would it help to 
+purchase an upgrade to the link that connects host B to the network?
+
+<p></p>
+**[C.q2.5]** I am am sitting at host D and want to download a tiny file that's mirrored at all other hosts. 
+Does it matter which mirror I pick, and if yes which one should I pick?
+
+<p></p>
+**[C.q2.6]** I am am sitting at host D and want to download a huge file
+that's mirrored at all other hosts.  Does it matter which mirror I pick,
+and if yes which one should I pick?
+
+<p></p>
+**[C.q2.7]** Of all the possible routes above, which route has the highest bandwidth?
+
+
+
+
+
 ---

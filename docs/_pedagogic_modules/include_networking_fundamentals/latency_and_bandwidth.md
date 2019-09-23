@@ -79,9 +79,9 @@ we will always mean its *effective bandwidth*.
 
 #### Practice Questions
 
-To make sure the above is crystal clear, answer the following two practice questions:
+To make sure the above is crystal clear, answer the following practice questions:
 
-**[q1]** How long, in milliseconds, does it take to transfer 250 MB on a network link with latency 500 microseconds and 20 GB/sec bandwidth?
+**[C.p1.1]** How long, in milliseconds, does it take to transfer 250 MB on a network link with latency 500 microseconds and 20 GB/sec bandwidth?
 <div class="ui accordion fluid">
   <div class="title">
     <i class="dropdown icon"></i>
@@ -94,7 +94,7 @@ To make sure the above is crystal clear, answer the following two practice quest
 
 <p> </p>
 
-**[q2]** How long, in minutes, does it take to transfer 1 GB on a network link with latency 100 microseconds and 520 MB/sec bandwidth?
+**[C.p1.2]** How long, in minutes, does it take to transfer 1 GB on a network link with latency 100 microseconds and 520 MB/sec bandwidth?
 <div class="ui accordion fluid">
   <div class=" title">
     <i class="dropdown icon"></i>
@@ -107,7 +107,7 @@ To make sure the above is crystal clear, answer the following two practice quest
 
 <p> </p>
 
-**[q3]** You need to transfer 148 MB of data through a network link with latency 1 ms, what bandwidth, in GB/sec, should be link have so that the data transfer takes 2.5 sec?
+**[C.p1.3]** You need to transfer 148 MB of data through a network link with latency 1 ms, what bandwidth, in GB/sec, should be link have so that the data transfer takes 2.5 sec?
 <div class="ui accordion fluid">
   <div class=" title">
     <i class="dropdown icon"></i>
@@ -122,6 +122,37 @@ To make sure the above is crystal clear, answer the following two practice quest
   </div>
 </div>
 
+---
+
+#### Questions
+
+Answer the following questions:
+
+**[C.q1.1]** How long, in seconds, does it take to transfer 12 GB of data
+over a link with latency 10 ms and bandwidth 500 MB/sec?
+
+<p> </p>
+
+**[C.q1.2]** 3 MB of data was transferred over a link with 18 MB/sec
+bandwidth in 3.03 sec. What is the link's latency in second?
+
+<p> </p>
+
+
+**[C.q1.3]** A data transfer took 14 minutes on a link with 
+latency 100 ms and bandwidth 120 KB/sec. How much data, in MB, was transferred?
+
+
+<p> </p>
+
+**[C.q1.4]** Say you are sitting at your computer and need to download a 10
+GB movie file. The file is available at two mirror sites, both of them one
+network link away from your computer.  Mirror *A* is connected to your
+computer by a link with latency 100 ms and bandwidth 400 MB/sec.  Mirror
+*B* is connected to your computer by a link with latency 300 ms and
+bandwidth 700 MB/sec.  Which mirror should you use and why?
+
+<p> </p>
 
 ---
 
