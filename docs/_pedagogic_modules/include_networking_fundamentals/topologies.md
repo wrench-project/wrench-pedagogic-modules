@@ -208,7 +208,7 @@ Answer the following questions, which all pertain to this topology:
 
 <p></p>
 **[C.q2.4]** A lot of users are transferring data from host B to host D,
-thus: competing for the bandwidth on that route. Would it help to 
+thus competing for the bandwidth on that route. Would it help to 
 purchase an upgrade to the link that connects host B to the network?
 
 <p></p>
