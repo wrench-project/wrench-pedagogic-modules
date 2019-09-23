@@ -92,7 +92,7 @@ understanding of contention.  In a terminal, do the following:
 4. sign in using your `<UH Username>@hawaii.edu` Google Account
 5. select `Networking Fundamentals`
 
-This will take to to a simple Web app that diplays the platform in Figure 3,
+This will take to to a simple Web app that displays the platform in Figure 3,
 and asks you to enter a number a list of file sizes (in MB). Each file size corresponds to
 one data transfer on a three-link route.
 
@@ -150,7 +150,7 @@ The following practice questions pertain to this topology:
 <b>Figure 4:</b> Topology for practice questions.
 
 
-**[q1]** A 100 MB transfer from host A to host C, and a 100 MB transfer
+**[C.p3.1]** A 100 MB transfer from host A to host C, and a 100 MB transfer
 	 from host B to host C start at the same time. Do they finish at
 	 the same time?
 
@@ -169,7 +169,7 @@ The following practice questions pertain to this topology:
 <p> </p>
 
 
-**[q2]** A 100 MB transfer from host D to host B, and a 100 MB transfer
+**[C.p3.2]** A 100 MB transfer from host D to host B, and a 100 MB transfer
          from host A to host C start at time 0. At what time
          does each of them complete? 
 <div class="ui accordion fluid">
@@ -197,7 +197,7 @@ $$
 <p> </p>
 
 
-**[q3]** A 100 MB transfer from host B to host C and a 60 MB transfer 
+**[C.p3.3]** A 100 MB transfer from host B to host C and a 60 MB transfer 
 from host A to host C start at time 0. At white time do they complete?
 <div class="ui accordion fluid">
   <div class="title">
@@ -220,6 +220,26 @@ $$
 </div>
 
 <p> </p>
+
+
+--- 
+
+#### Questions
+
+Answer the following questions, which pertain to this topology:
+
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/networking_fundamentals/topology_contention_questions.svg">simulation scenario for questions</object>
+<b>Figure 5:</b> Topology for questions (lat = "latency"; bw = "bandwidth").
+
+
+**[C.q3.1]** At time 0, A 10 MB transfer starts from host B to host C, and another 10MB transfer starts from host A to host D. Do they finish at the same time?
+
+<p></p>
+
+**[C.q3.2]** At time 0, a 100MB transfer starts from host B to host C
+and a 200MB transfer starts from host A to host D. At what time do these transfers finish?
+
+<p></p>
 
 
 
