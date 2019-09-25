@@ -61,6 +61,8 @@ on a *Workflow Management System (WMS)*, i.e., a software system that automatica
 
 ---
 
+#### Practice Questions
+
 Here are a few practice questions about the above material:
 
 
@@ -136,6 +138,71 @@ two cores are left idle.
  
   </div>
 </div>
+
+**[D.p1.4]** Given the workflow in Figure 2, let's assume that each task
+has work 10 GFlop, and that each file is 2 GB. We execute this workflow on
+a single-core computer that reads/writes files to/from some storage server.
+The core has speed 1 GFlop/sec, and the bandwidth to the storage server is
+500 MB/sec. If I have a choice of two upgrades, either double the core
+speed or double the bandwidth to the storage server, which one should I
+pick to get the best improvement in overall execution time?
+
+
+<div class="ui accordion fluid">
+  <div class=" title">
+    <i class="dropdown icon"></i>
+    (click to see answer)
+  </div>
+  <div markdown="1" class="ui segment content">
+
+In total, there are 9 tasks so the original computer will spend 90 seconds
+computing. The input file to the first task is read once, which takes 5 seconds. 
+Each of the other 12 files is written once and read once, which takes
+12 * (5 + 5) = 120 seconds. 
+
+Overall, the execution spends 90 seconds computing and 125 seconds doing 
+file I/O. I should double the disk bandwidth!
+
+This is not a good parallel efficiency (50%). The fact that
+some levels of the workflow has a single task really 
+hurts the speedup because while that task executes 
+two cores are left idle. 
+ 
+  </div>
+</div>
+
+
+---
+
+#### Questions
+
+Answer the following questions, all of which pertain to the workflow
+disk below:
+
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_fundamentals/dag_questions.svg">Dag</object>
+
+<p></p>
+
+**[D.q1.1]** Given the workflow above, assuming that all files are of
+size zero and all tasks have work 10 GFlop, what is the best possible
+execution time on a dual-core computer where cores have speed 2 GFlop/sec?
+
+<p></p>
+
+**[D.q1.2]** With the same assumption as the question above, what is the
+best parallel speedup one can achieve?  What is the parallel efficiency?
+
+<p></p>
+
+**[D.q1.3]** If each file if 1GB, how many GB in total are read from
+the storage server where all files must be stored?
+
+<p></p>
+
+
+
+
+
 
 
 
