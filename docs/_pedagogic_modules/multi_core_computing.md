@@ -142,18 +142,25 @@ In this situation we says that **the load is not well-balanced across
 cores**, but with discrete tasks such as these the balance cannot be
 improved.
 
+### Simulating Load Imbalance
+
+We can try this out first hand using the visualization tool. In the terminal, run the following
+commands:
+1. run `docker pull wrenchproject/wrench-pedagogic-modules:activity-visualization`
+2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:activity-visualization`
+3. open a browser and go to [localhost:3000/](localhost:3000/)
+4. sign in using your `<UH Username>@hawaii.edu` Google Account
+5. select `Multi-core Machines`
+
+The simulation will allow you to pick the number of cores and tasks to run. Try first with a single core running 5 
+tasks. Take particular notice of the "Host Utilization" graph. Now try running a number of tasks and cores where 
+tasks % cores does not equal 0 (tasks not evenly divisible by cores). Looking at the host utilization graph again, now 
+you will be able to see idle time for some of the cores represented by pink. Whenever we can see that pink on the graph,
+we know that parallel efficiency is below 100%. 
 
 
 #### Practice Questions
 
-<!--    
-        - p does not divide n (p is greater than n)
-        - "the load is not balanced"
-
-        - RUN Simulation
-        - Questions
-        - Practice Questions
--->
 
  
 **[B.p1.1]** Assume you have 24 tasks to execute on a multi-core computer,
@@ -226,7 +233,7 @@ efficiency?
 </div>
 
 
-## Adding RAM constraints
+## Adding RAM Constraints
 
 As we talked about previously in [Single Core
 Computing]({{site.baseurl}}/pedagogic_modules/single_core_computing), when
@@ -238,6 +245,26 @@ tasks that need to run, but there is not sufficient RAM. Unfortunately, in
 this case, we cannot execute these tasks, and the idle cores must remain
 idle until more RAM becomes available (i.e., when currently tasks
 complete).  As a result, parallel efficiency falls is below 100%.
+
+
+### Simulating RAM Constraints
+
+We can also represent this problem in the visualization tool. If you do not still have it running, go through the following
+commands again:
+1. run `docker pull wrenchproject/wrench-pedagogic-modules:activity-visualization`
+2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:activity-visualization`
+3. open a browser and go to [localhost:3000/](localhost:3000/)
+4. sign in using your `<UH Username>@hawaii.edu` Google Account
+5. select `Multi-core Machines`
+
+Previously when using the simulator, there was no specified RAM needed by the tasks. This time around, we recognize
+ that tasks may require RAM. The host we are using has 32 GB of RAM available. First try using 4 Cores for 8 tasks while
+ you have 8 GB of RAM per task. 
+ 
+As you will see, there is no idle time with the above situation. The number of tasks we can run at a time is 4, both by 
+the amount of cores we have and the amount of ram we have. Now try again, but this time the Task RAM should be set to 
+16 GB. There will now be idle time, as only 2 cores can be utilized simultaneously in this situation. 
+
 
 
 #### Practice Questions 
@@ -339,17 +366,6 @@ double the speed.
 ---
 
 ## Questions
-
-For the remainder of this module, we will be using the visualization tool. In the terminal, run the following
-commands:
-1. run `docker pull wrenchproject/wrench-pedagogic-modules:activity-visualization`
-2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:activity-visualization`
-3. open a browser and go to [localhost:3000/](localhost:3000/)
-4. sign in using your `<UH Username>@hawaii.edu` Google Account
-5. select `Multi-core Machines`
-
-The questions below accompany the simulator "Multi-core Machines". You will need to do calculations similar to those done in
-the sequential computing section, but now it will be the number of cores and tasks that vary, rather than the flops. 
 
 Answer the following questions:
 
