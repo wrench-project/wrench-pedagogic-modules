@@ -16,10 +16,7 @@ RUN chown -R wrench ./wrench-pedagogic-modules
 # build binaries for each activity
 WORKDIR /home/wrench/wrench-pedagogic-modules/simulations
 
-RUN cd activity_multi_core \
-    && ./build.sh
-
-RUN cd networking_fundamentals \
+RUN cd multi_core_computing \
     && ./build.sh
 
 RUN cd workflow_execution_fundamentals \
@@ -29,9 +26,6 @@ RUN cd workflow_execution_data_locality \
     && ./build.sh
 
 RUN cd workflow_execution_parallelism \
-    && ./build.sh
-
-RUN cd activity_3_case_study \
     && ./build.sh
 
 

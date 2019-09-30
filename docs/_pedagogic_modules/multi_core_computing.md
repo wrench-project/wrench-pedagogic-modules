@@ -377,21 +377,15 @@ Answer the following questions:
 **[B.q1.2]** What is the speedup that you will observe for running 10
 identical tasks on 1 core versus these same 10 tasks on 3 cores?  What is the efficiency?
 
-##### For These Questions, Task RAM requirements are non-zero.
+##### For These Questions, Task RAM requirements are non-zero. Each task will take 1 second to complete. 
 
 **[B.q1.3]** We are using a computer with 32 GB of RAM. How long does it take
-to run 2 tasks on two 2 if they each requires 16 GB of RAM? What if
+to run 2 tasks on 2 cores if they each require 16 GB of RAM? What if
 each task requires 20 GB of RAM?
 
 **[B.q1.4]** You are given a 2-core computer with 15 GB of RAM. On this computer 
-you need to execute 6 tasks. Each task runs on one core in 10 second, but they
-have different RAM requirements (in GB): 4, 5, 8, 10, 11, 14. Can you achieve
-100% parallel efficiency? 
+you need to execute 6 tasks. The tasks have different RAM requirements (in GB): 
+4, 5, 8, 10, 11, 14. Can you achieve 100% parallel efficiency? 
 
-
-
-Figure out what happens for the scenario described in Question
-B.q1.1, but this time each task requires 16 GB of RAM (and the computer has . What are the speedup and
-efficiency now?
 
 ---
