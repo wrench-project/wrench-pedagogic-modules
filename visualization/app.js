@@ -155,8 +155,8 @@ app.post("/run/networking_fundamentals", authCheck, function(req, res) {
 
 // display workflow execution fundamentals visualization route
 app.get("/workflow_execution_fundamentals", authCheck, function(req, res) {
-    res.render("workflow_execution_fundamentals", {workflow_graph_json: JSON.parse(fs.readFileSync(__dirname + "/../simulations/workflow_execution_fundamentals/workflow_graph.json")),
-        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/workflow_execution_fundamentals_cyber_infrastructure.svg")});
+    res.render("workflow_execution_fundamentals",
+        {cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/workflow_execution_fundamentals_cyber_infrastructure.svg")});
 });
 
 // execute workflow execution fundamentals simulation route
@@ -243,8 +243,7 @@ app.post("/run/workflow_execution_fundamentals", authCheck, function(req, res) {
 // display workflow execution data locality visualization route
 app.get("/workflow_execution_data_locality", authCheck, function(req, res) {
     res.render("workflow_execution_data_locality",
-        {workflow_graph_json: JSON.parse(fs.readFileSync(__dirname + "/../simulations/workflow_execution_data_locality/workflow_graph.json")),
-            cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/workflow_execution_data_locality_cyber_infrastructure.svg")});
+        {cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/workflow_execution_data_locality_cyber_infrastructure.svg")});
 });
 
 // execute activity 1 simulation route

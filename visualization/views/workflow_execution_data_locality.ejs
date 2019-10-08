@@ -1,6 +1,6 @@
 <%- include("partials/header", {activity: 'Workflow Execution: Data Locality'}); %>
 
-<%- include("partials/inputs"); %>
+<%- include("partials/input_non_workflow"); %>
 
 <%- include("partials/simulation_parameters_form_start"); %>
 
@@ -53,16 +53,12 @@
     svg.call(zoom);
 
     // Center the graph
-    let initialScale = 0.6;
+    let initialScale = 1;
     svg.call(zoom.transform,
-        d3.zoomIdentity.translate(20, 40).scale(initialScale));
+        d3.zoomIdentity.scale(initialScale));
 
 
     svg.attr('height', height);
-
-    // Display the workflow DAG
-    var workflow_graph_json = JSON.parse('<%- JSON.stringify(workflow_graph_json) %>');
-    generate_workflow_dag(workflow_graph_json);
 </script>
 
 <%- include("partials/footer"); %>

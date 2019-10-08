@@ -53,7 +53,7 @@ $(function() {
         disableRunSimulationButton();
 
         // Display the chart element, which will enlarge the workflow execution block
-        $('.chart').css('display', 'block');
+        $('.chart').css("display", "block");
 
         // After each submission, remove the "old" chart, because we will generate a new one
         $('#workflow-execution-chart > svg').remove();
