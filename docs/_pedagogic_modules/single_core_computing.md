@@ -7,7 +7,7 @@ usemathjax: true
 
 The goal of this module is to provide you with basic knowledge about
 sequential computing (i.e., running a program on a single core).  There
-is a lot of complexity there, which belongs in Computer Architecture 
+is a lot of complexity under the cover, which belongs in Computer Architecture 
 and Operating Systems textbooks. We take a very high-level approach,
 with a main focus on performance.
 

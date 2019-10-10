@@ -20,12 +20,14 @@ In this case, the Operating System makes it so that the programs alternate
 on the core: a program runs for a while, then another, then another, and so
 on until we cycle back and repeat. This is called *time sharing*. The
 process of going from one running program to another is called *context
-switching*.  The above is one of the core topics of all Operating System
+switching*.  Hwo this is done is one of the core topics of all Operating System
 textbooks.
 
-In these pedagogic modules we will take a very high-level, ideal view: When
+In these pedagogic modules we take a very high-level, ideal view: When
 running *n* programs at the same time on one core, each of them 
-proceeds at *1/n*-th of the core's compute speed.  For instance, if at time
+proceeds at *1/n*-th of the core's compute speed.  
+
+For instance, if at time
 0 I start two programs, each with work 5 GFlop on a single core with speed
 1 GFlop/sec, both programs would complete at time 10.  Say now that the
 second program has work of 10 GFlop. Then the first program will complete
@@ -38,8 +40,8 @@ completes at time 15.
 
 In practice, the programs in the above examples would complete later! This
 is because in real systems the context switching overhead is non-zero and
-because the programs would most likely compete for cache memory (see Computer Architecture
-and Operating Systems textbooks for all details). But this ideal model will
+because the programs would most likely compete for memory and caches (see Computer Architecture
+and Operating Systems textbooks for all details). But the above ideal model will
 be sufficient for our purposes.  In fact, we will almost always avoid time 
 sharing altogether by never running two programs on a single core. 
 

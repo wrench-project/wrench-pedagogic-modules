@@ -23,7 +23,7 @@ that mines a bitcoin.
 
 The simplest model of performance when executing a non-interactive program
 on a core of a computer is to assume that the computer delivers constant
-*compute speed*, which is measured in the quantity of work performed per
+*compute speed*, which is measured by the quantity of work performed per
 time unit. For instance, a program with 50 units of work would run in 100
 seconds on a core with a speed of 2 units of work per second.
  This last number is called the program's
@@ -35,7 +35,7 @@ time and the speed of the core on which it is executed:
 
 $$
 \begin{align}
-\text{execution time} & = \frac{\text{work}}{\text{compute speed}}
+\text{execution time} & = \frac{\text{work}}{\text{compute speed}}\;.
 \end{align}     
 $$
 
@@ -51,17 +51,19 @@ number of instructions.  The work of a program would then be measured by
 its number of instructions (e.g., the number of assembly instructions the
 program performs) and the speed of a core would be in number of
 instructions per second. This approach is known to have problems, as
-instructions are different and especially across different families
-computers. Therefore, a processor that delivers fewer instructions per
-seconds than another could actually be preferable for running some program.
+instructions are not all equal, and especially across different families of
+processors. Therefore, a processor that delivers fewer instructions per
+seconds than another could actually be prefered for running some program.
 
 
 ### Flop and Flop/sec
 
-It turns out that he question of modeling/predicting how fast a particular
+It turns out that the question of modeling/predicting how fast a particular
 program will run on a particular core based on a single measure of work and
 speed is fraught with peril (the only way to be sure if to actually run the
-program!). Nevertheless, in these pedagogic modules, unless specified
+program!). 
+
+Nevertheless, in these pedagogic modules, unless specified
 otherwise, we use a simple measure of work: the number of floating-point
 operations, or **Flop**, that the program performs.  We thus measure the
 speed of a core in Flop/sec, which is commonly used in the field of
