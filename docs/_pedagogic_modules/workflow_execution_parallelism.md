@@ -163,35 +163,32 @@ time all cores actually computed for. The proportion of the colored area to the
 total area tells us the utilization of this host for a given workload.
 Optimizing for utilization means maximizing the colored area.   
 
-For the remainder of this activity, we will be using the visualization tool. In the terminal, run the following
-commands:
-1. run `docker pull wrenchproject/wrench-pedagogic-modules:activity-visualization`
-2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:activity-visualization`
-3. open a browser and go to [localhost:3000/](localhost:3000/)
-4. sign in using your `<UH Username>@hawaii.edu` Google Account
-5. select `Activity 2: Parallelism`
+So that you can gain hands-on experience, use 
+the simulation Web application
+(see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>),
+selecting `Workflow Execution: Parallelism` from its menu.  The questions below ask you to  run some simulation.
 
 **Answer these questions**
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_execution_parallelism/compute_service_1.svg">Compute Service 1</object>
 
   - [q1] Assuming the cluster has 1 single-core compute node (Figure 5), what do you expect the overall execution time, or *makespan*, of the workflow to be?
-  To this end, write a simple formula. In the visualization tool,  set the cluster to have 1 single-core node. Run the simulation and check your answer. (Note that you might not be able to see file transfer operations in the displayed Gantt charts because these operations could be very short relatively to the overall makespan.)
+  To this end, write a simple formula. In the simulation app,  set the cluster to have 1 single-core node. Run the simulation and check your answer. (Note that you might not be able to see file transfer operations in the displayed Gantt charts because these operations could be very short relatively to the overall makespan.)
   - [q2] Based on the dependencies present in the workflow, what tasks could we potentially execute in parallel assuming we had at least 20 cores instead of 1 core?
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_execution_parallelism/compute_service_2.svg">Compute Service 2</object>
 
   - [q3] Assuming the cluster has 1 10-core compute node (Figure 6), what do you expect the makespan of the workflow to be?
-  To this end, write a simple formula. In the visualization tool, set the cluster to have 1 10-core node.
+  To this end, write a simple formula. In the simulation app, set the cluster to have 1 10-core node.
    Run the simulation and check your answer.
-  - [q4] By inspecting the Host Utilization Gantt chart in the visualization tool, is the compute node utilization greater than 50%? Explain.
+  - [q4] By inspecting the Host Utilization Gantt chart in the simulation app, is the compute node utilization greater than 50%? Explain.
   - [q5] What percentage of the compute node is being utilized throughout workflow execution?
   Write a formula for the utilization and compute the value as a percentage.
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_execution_parallelism/compute_service_3.svg">Compute Service 3</object>
 
   - [q6] Assuming the cluster has 1 15-core compute node (Figure 7), what do you expect the makespan of the workflow to be?
-  To this end, write a simple formula. In the visualization tool, set the cluster to have 1 15-core node.
+  To this end, write a simple formula. In the simulation app, set the cluster to have 1 15-core node.
   Run the simulation and check your answer.
   - [q7] What percentage of the compute node is being utilized while executing this workflow?
   Write a formula for the utilization and compute the value as a percentage.
@@ -204,7 +201,7 @@ Assuming the cluster has 1 20-core node:
   - [q10] At what time would task T19 start?
   - [q11] At what time would task T20 start?
   - [q12] How long can we expect the makespan of this workflow to be? To this end, write a simple formula.
-    In the visualization tool, set the cluster to have 1 20-core node (Figure 8).
+    In the simulation app, set the cluster to have 1 20-core node (Figure 8).
     Run the simulation and check your answer against the results.
   - [q13] How much faster did we execute the workflow on this platform compared to the initial platform that had only a single core?
   - [q14] Would adding one extra core to our machine further decrease the workflow makespan? Explain.
@@ -236,7 +233,7 @@ performance.
 **Answer these questions**
 
   - [q16] Assume that the cluster has 1 20-core node and that **Workflow Tasks each require an additional 12 GB of RAM, meaning that they require 16 GB**.
-  What can we expect the makespan of the workflow to be? Write a simple formula. In the visualization tool,
+  What can we expect the makespan of the workflow to be? Write a simple formula. In the simulation app,
   set the simulator to have a single compute node with 20 cores (Figure 8).
   Check the box that says, "Workflow Tasks each require an additional 12 GB of RAM". Run the simulation and check your results against the simulator.
   - [q17] Set the number of cores to be 32 and check the box that says, "Workflow Tasks each require an additional 12 GB of RAM". Run the simulation.
@@ -256,7 +253,6 @@ performance.
           decrease the workflow execution time?
   - [q25] What is the minimum number of 3-core nodes that achieves this fastest possible execution time?
 
-When you are finished using the visualization tool, run: `docker kill $(docker ps -a -q  --filter ancestor=wrenchproject/wrench-pedagogic-modules:activity-visualization)`
 
 # Conclusion
 

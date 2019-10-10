@@ -144,17 +144,14 @@ improved.
 
 ### Simulating Load Imbalance
 
-We can try this out first hand using the visualization tool. In the terminal, run the following
-commands:
-1. run `docker pull wrenchproject/wrench-pedagogic-modules:activity-visualization`
-2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:activity-visualization`
-3. open a browser and go to [localhost:3000/](localhost:3000/)
-4. sign in using your `<UH Username>@hawaii.edu` Google Account
-5. select `Multi-core Machines`
+So that you can gain hands-on experience, use 
+the simulation Web application
+(see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>),
+selecting `Multi-core Machines` from its menu. 
 
-The simulation will allow you to pick the number of cores and tasks to run. Try first with a single core running 5 
+This tool will allow you to pick the number of cores and tasks to run. Try first with a single core running 5 
 tasks. Take particular notice of the "Host Utilization" graph. Now try running a number of tasks and cores where 
-tasks % cores does not equal 0 (tasks not evenly divisible by cores). Looking at the host utilization graph again, now 
+the number of tasks does not evenly divide the number of cores. Looking at the host utilization graph again, now 
 you will be able to see idle time for some of the cores represented by pink. Whenever we can see that pink on the graph,
 we know that parallel efficiency is below 100%. 
 
@@ -249,16 +246,13 @@ complete).  As a result, parallel efficiency falls is below 100%.
 
 ### Simulating RAM Constraints
 
-We can also represent this problem in the visualization tool. If you do not still have it running, go through the following
-commands again:
-1. run `docker pull wrenchproject/wrench-pedagogic-modules:activity-visualization`
-2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:activity-visualization`
-3. open a browser and go to [localhost:3000/](localhost:3000/)
-4. sign in using your `<UH Username>@hawaii.edu` Google Account
-5. select `Multi-core Machines`
+So that you can gain hands-on experience, use 
+the simulation Web application
+(see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>),
+selecting `Multi-core Machines` from its menu. 
 
-Previously when using the simulator, there was no specified RAM needed by the tasks. This time around, we recognize
- that tasks may require RAM. The host we are using has 32 GB of RAM available. First try using 4 Cores for 8 tasks while
+Previously when using the simulator, there was no specified RAM needed by the tasks (we left it to zero). This time around, we recognize
+that tasks may require RAM. The host we are using has 32 GB of RAM available. First try using 4 Cores for 8 tasks while
  you have 8 GB of RAM per task. 
  
 As you will see, there is no idle time with the above situation. The number of tasks we can run at a time is 4, both by 

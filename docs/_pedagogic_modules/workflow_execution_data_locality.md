@@ -38,15 +38,12 @@ as will be the case after *task0* has completed,
 the WMS arbitrarily runs them in lexicographical order (i.e., 
 *task1*, then *task2*, and then *task3*). 
 
+So that you can gain hands-on experience, use 
+the simulation Web application
+(see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>),
+selecting `Workflow Execution: Data Locality` from its menu. 
 
-In the terminal run the following commands:
-1. run `docker pull wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
-2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
-3. open a browser and go to [localhost:3000/](localhost:3000/)
-4. sign in using your `<UH Username>@hawaii.edu` Google Account
-5. select `Workflow Execution: Data Locality`
-
-This will take you to a Web app.  For now, just click on the "Run
+In the simulation app, for now, just click on the "Run
 Simulation" button, without changing the content of the text box or clicking
 any radio button. As in the previous module, the Web app displays textual and
 visual simulation output.  
@@ -56,7 +53,7 @@ visual simulation output.
   - [q1] Is the workflow execution I/O-intensive or compute-intensive?
   - [q2] If the link bandwidth between `storage_db.edu` and `hpc.edu` were
          doubled, what fraction of *task4*'s execution time would be spent doing I/O?
-  - [q3] Double the platform link bandwidth (set it to 20 MB/sec) using the visualization and run the simulation. Is your expectation in q2 confirmed?
+  - [q3] Double the platform link bandwidth (set it to 20 MB/sec) using the simulation app and run the simulation. Is your expectation in q2 confirmed?
   - [q4] Using analysis (i.e., a simple equation), determine the link bandwidth that would be necessary for the workflow to run 2x faster than with the original 10 MB/sec bandwidth? 
   - [q5] Using the simulator report on the accuracy of the result from your analysis in q4.
 
@@ -94,6 +91,5 @@ button.
 
   - [q8] Assuming a single SS (the one on `storage_db.edu`), what would you need to increase the bandwidth of the link between `storage_db.edu` and `hpc.edu` in order to have a workflow execution that is faster than what was realized using a 10 MB/sec link bandwidth when there are two SS. 
 
-When you are finished using the Web app, run: `docker kill $(docker ps -a -q  --filter ancestor=wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization)`
 
 ---

@@ -113,40 +113,30 @@ perfectly with the simulation.
 
 ### Try the file transfer simulation
 
-We provide you with the simulator used to obtain the above simulation
-results, in case you want to experiment yourselves with different
+So that you can gain hands-on experience, use 
+the simulation Web application
+(see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>),
+selecting `Networking Fundamentals` from its menu. 
+
+In simulation you can experiment with different
 latencies, bandwidths, and numbers of concurrent file transfers, and check whether
-your computed estimates are roughly accurate. In a
-terminal, run the following commands.
+your computed estimates are roughly accurate.  
 
-1. Install the simulator: `docker pull wrenchproject/wrench-pedagogic-modules:activity-0`
-2. Run the simulator: `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 <num_files> <file_size> <center_link_bandwidth>`
-    - `num_files`: the number of files to transfer, in the range [1, 100]
-    - `file_size`: the size of each file (in MB), in the range [1, 1000]
-    - `center_link_bandwidth`: the bandwidth of the middle link (in MB/sec), in the range [1, 1000]
+The only input you need to provide to the simulation is a comma-separated list of file sizes. Clicking
+on "Run Simulation" will display (textual) results that show file transfer durations, assuming all
+transfers start at the same time and go from host A to host B. 
 
-For example, the command `docker container run wrenchproject/wrench-pedagogic-modules:activity-0 2 75 100` will simulate
-scenario 3 and print the following output to your screen:
+For example, entering "10, 20" will produce the following output: 
 
 ```
 ------------------------------------
-         Simulation Results
+10 MB transfer completed at time 2.102
+20 MB transfer completed at time 3.152
 ------------------------------------
-       files transferred: 2
-               file size: 75 MB
-            min duration: 1.582861
-            max duration: 1.5867855
-           mean duration: 1.5848232
-coefficient of variation: 0.124%
 ```
 
-Notice that some statistics are provided about the file transfers.
-This is because when transferring more than one file concurrently, the
-file transfer times
-may differ slightly. Additionally, these file transfers
-do not start at the exact same moment, nor do they end at the exact same
-moment. These are minute details captured by the simulation, which we do
-not model in the estimate equations above.
+As expected, the longer transfer completes last, but it doesn't take twice as long as the first
+transfer because once the first transfer has completed the second transfer can use all the bandwidth. 
 
 ### Conclusion
 

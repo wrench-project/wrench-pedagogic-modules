@@ -16,29 +16,12 @@ left-hand side.
 
 ### Software Requirements
 
-Make sure you are using a supported Web browser, and have [Docker](https://docker.com)
-OR [Vagrant](https://www.vagrantup.com/) installed on your machine:
+You need the latest version of either of the following web browsers: 
 
-- latest version of either of the following web browsers:
-    - [Google Chrome](https://www.google.com/chrome/)
-    - [Firefox](https://www.mozilla.org/en-US/firefox/new/)
-    - [Safari](https://www.apple.com/safari/)
+- [Google Chrome](https://www.google.com/chrome/)
+- [Firefox](https://www.mozilla.org/en-US/firefox/new/)
+- [Safari](https://www.apple.com/safari/)
 
-- [Docker](https://docker.com)
-    - installation instructions:
-      - [Linux](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
-      - [macOS](https://docs.docker.com/docker-for-mac/install/)
-      - [Windows 10 Pro](https://docs.docker.com/docker-for-windows/install/)
+Additional software may be required for running simulations in a Web application. 
+See the <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">Instructions for running simulations</a>.
 
-- [Vagrant](https://www.vagrantup.com/)
-    - installation instructions:
-      1. Install [VirtualBox](https://www.virtualbox.org/).
-      2. Install [Vagrant binary](https://www.vagrantup.com/downloads.html).
-      3. Download this [Vagrantfile]({{ site.baseurl }}/public/Vagrantfile).
-      4. In a terminal, navigate to the same directory where the `Vagrantfile`
-        from step 3 is located and run the command `vagrant up`. This may take
-        a few minutes.
-      5. Whenever an activity instructs you to run a `docker` command, you will
-      need run the command from within the Vagrant virtual machine. To enter
-      the Vagrant virtual machine, navigate to the same directory where the
-      `Vagrantfile` is located and run the command `vagrant ssh`.

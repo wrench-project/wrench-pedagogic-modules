@@ -75,25 +75,19 @@ $$
 
 #### Testing your understanding using simulation
 
-In many of the upcoming modules you have to run experiments using
-simulation. We provide you here with a simple simulator for the following
+So that you can gain hands-on experience, use 
+the simulation Web application
+(see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>),
+selecting `Networking Fundamentals` from its menu. 
+
+This simulation is for the following
 scenario in which an number of transfers occur concurrently on the same
 three-link route:
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/networking_fundamentals/topology_contention_simulation.svg">simulation scenario</object>
 <b>Figure 3:</b> Simulation scenario.
 
-With the simulator you can experiment with any scenario, so as to experimentally test your
-understanding of contention.  In a terminal, do the following:
-
-1. run `docker pull wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
-2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
-3. open a browser and go to [localhost:3000/](localhost:3000/)
-4. sign in using your `<UH Username>@hawaii.edu` Google Account
-5. select `Networking Fundamentals`
-
-This will take to to a simple Web app that displays the platform in Figure 3,
-and asks you to enter a number a list of file sizes (in MB). Each file size corresponds to
+On the simulation Web application tool  you can enter a number a list of file sizes (in MB). Each file size corresponds to
 one data transfer on a three-link route.
 
 For example, if you enter just number "100" in the text box, the simulation will be for
@@ -136,9 +130,6 @@ complete at the same time.
 Feel free to run simulations to explore different scenarios and test your 
 computed data transfer time estimates for various combinations of concurrent
 transfers.
-
-When you are finished using the Web app, run: `docker kill $(docker ps -a -q  --filter ancestor=wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization)`
-
 
 --- 
 

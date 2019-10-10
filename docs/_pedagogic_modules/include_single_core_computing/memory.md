@@ -35,7 +35,6 @@ program *A* and *C* together as they only require 3 GB of RAM.
 If you've been paying attention you may wonder why we're even talking about
 running programs at the same time since in the previous tab ("Time
 Sharing") we said we would almost never do it!  To find out, proceed to the
-[Multicore Computing]({{ site.baseurl
-}}/pedagogic_modules/multi_core_computing) module!
+[Multicore Computing]({{ site.baseurl}}/pedagogic_modules/multi_core_computing) module!
 
 

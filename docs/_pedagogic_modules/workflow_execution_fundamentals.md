@@ -118,18 +118,10 @@ $$
 
 ### Running a Workflow Execution Simulation
 
-So that you can gain hands-on experience with workflow executions, we
-provide you with a simulator for the above scenario.
-In a terminal, run the following commands:
-
-1. run `docker pull wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
-2. then run `docker container run -p 3000:3000 -d  wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization`
-3. open a browser and go to [localhost:3000/](localhost:3000/)
-4. sign in using your `<UH Username>@hawaii.edu` Google Account
-5. select `Workflow Execution Fundamentals`
-
-This will take you to a Web app. 
-
+So that you can gain hands-on experience, use 
+the simulation Web application
+(see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>),
+selecting `Workflow Execution Fundamentals` from its menu. 
 
 #### Interpreting Text Output from Simulated Workflow Execution
 
@@ -214,9 +206,6 @@ workflow, and vice-versa.
   - [q11] Verify your answer to q10 using the simulation. How far off were you?
 
   - [q12] Your boss is absolutely intent of making the workflow execution as fast as possible by upgrading the machine at *hpc.edu*. The idea is to make the workflow execution three times as fast (compared to the execution with a 1000 GFlop/sec core) with this upgrade. Is this possible? If not, why not?
-
-
-When you are finished using the Web app, run: `docker kill $(docker ps -a -q  --filter ancestor=wrenchproject/wrench-pedagogic-modules:ics332-activity-visualization)`
 
 
 ---
