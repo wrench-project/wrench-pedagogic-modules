@@ -23,7 +23,7 @@ var workflow_dag =
         ],
         "vertices": [
             {
-                "flops": 3.6e+15,
+                "flops": 100.0e+12,
                 "id": "task0",
                 "max_cores": 1,
                 "memory": 0,
@@ -32,7 +32,7 @@ var workflow_dag =
                 "type": "task"
             },
             {
-                "flops": 3.6e+15,
+                "flops": 35.0e+12,
                 "id": "task1",
                 "max_cores": 1,
                 "memory": 0,
