@@ -1,6 +1,69 @@
 "use strict";
 
+// Workflow as a DAG
+var workflow_dag =
+    {
+        "edges": [
+            {
+                "source": "task0::0.in",
+                "target": "task0"
+            },
+            {
+                "source": "task0",
+                "target": "task0::0.out"
+            },
+            {
+                "source": "task0::0.out",
+                "target": "task1"
+            },
+            {
+                "source": "task1",
+                "target": "task1::0.out"
+            }
+        ],
+        "vertices": [
+            {
+                "flops": 3.6e+15,
+                "id": "task0",
+                "max_cores": 1,
+                "memory": 0,
+                "min_cores": 1,
+                "parallel_efficiency": 1.0,
+                "type": "task"
+            },
+            {
+                "flops": 3.6e+15,
+                "id": "task1",
+                "max_cores": 1,
+                "memory": 0,
+                "min_cores": 1,
+                "parallel_efficiency": 1.0,
+                "type": "task"
+            },
+
+            {
+                "id": "task0::0.in",
+                "size": 200000000.0,
+                "type": "file"
+            },
+            {
+                "id": "task0::0.out",
+                "size": 400000000.0,
+                "type": "file"
+            },
+            {
+                "id": "task1::0.out",
+                "size": 100000000.0,
+                "type": "file"
+            }
+        ]
+    };
+
+
 $(function() {
+
+    // Show the workflow, and update if the user wants to use the Workflow where tasks use RAM
+    generate_workflow_dag(workflow_dag);
 
     // Initially hide the label that says "Local Storage Service"
     $('.local-storage-service-label').css('display', 'none');

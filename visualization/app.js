@@ -325,6 +325,7 @@ app.post("/run/workflow_execution_data_locality", authCheck, function(req, res) 
     }
 });
 
+
 // display Workflow Execution and Parallelism visualization route
 app.get("/workflow_execution_parallelism", authCheck, function(req, res) {
     res.render("workflow_execution_parallelism", {
