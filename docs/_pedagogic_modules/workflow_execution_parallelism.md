@@ -184,8 +184,7 @@ Assuming the cluster has 1 20-core node:
   
   **[F.q1.14]** Would adding one extra core to our machine further decrease the workflow execution time? Explain.
   
-  **[F.q1.15]** Write a formula for the parallel efficiency and compute the value as a percentage. 
-
+  **[F.q1.15]** What is the parallel efficiency as a percentage?
 
 ## Step 2: Augment the Cluster to Have Multiple Compute Nodes
 
@@ -230,7 +229,7 @@ performance.
 
   **[F.q1.22]** What about the parallel efficiency? Compute it as a percentage using a simple formula.
 
-  **[F.q1.23]** Assuming we had been able to purchase 4 5-core compute nodes instead of 4 8-core compute nodes, what would the efficiency have been?
+  **[F.q1.23]** Assuming we had been able to purchase 4 5-core compute nodes instead of 4 8-core compute nodes, what would the parallel efficiency have been?
 
   **[F.q1.24]** Assuming that you can add an arbitrary number of 5-core nodes, with the same per-core compute speed, is it possible to
           decrease the workflow execution time?
