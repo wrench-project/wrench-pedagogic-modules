@@ -156,19 +156,26 @@ that general messages are <span style="font-weight:bold;color:rgb(187,0,187)">pi
 The last line of output states that the workflow has completed in a bit more than 250 seconds, which is close to
 the approximation we computed above on this page (which was 245 seconds). 
 
+---
 
 **Answer these questions based on the textual output above:**
-  - [q1] At what time did the WMS submit *task1* to the compute service?
-  - [q2] From the WMS's perspective, how long did *task1* run for?
+  
+  **[E.q1.1]** At what time did the WMS submit *task1* to the compute service?
+  
+  **[E.q1.2]** From the WMS's perspective, how long did *task1* run for?
     (this duration is called the task's **turnaround-time**)
-  - [q3] The compute service runs on a host with a speed of *1000 GFlop/sec*, and *task1*
+  
+  **[E.q1.3]** The compute service runs on a host with a speed of *1000 GFlop/sec*, and *task1*
     must perform *35 TFlop*. About how long should we expect *task1* to compute for?
-  - [q4] Why does *task1* take longer than what you computed in *question 3*?
-  - [q5] About how long would it take to send all of
+  
+  **[E.q1.4]** Why does *task1* take longer than what you computed in *question 3*?
+  
+  **[E.q1.5]** About how long would it take to send all of
     *task1*'s input data from *storage_db.edu* to *hpc.edu* and to send all of *task1*'s output data
     from *hpc.edu* to *storage_db.edu*, using the direct link between these two hosts and assuming no other
     network traffic?
-  - [q6] Accounting for this I/O *overhead*, does *task1*'s execution time as experienced by the WMS make sense?
+  
+  **[E.q.6]** Accounting for this I/O *overhead*, does *task1*'s execution time as experienced by the WMS make sense?
 
 ##### Interpreting Visual Output from Simulated Workflow Execution
 
@@ -178,34 +185,37 @@ services. Fortunately, the simulator can produce a visualization of the
 workflow execution as a Gantt chart and show various relevant durations in a table. 
 These are shown on the Web app page below the text output. 
 
+---
 
 **Answer these questions based on the visual output:**
 
-  - [q7] What fraction of *task0*'s execution time is spent doing I/O?
+  **[E.q1.7]** What fraction of *task0*'s execution time is spent doing I/O?
 
-  - [q8] What fraction of *task1*'s execution time is spent doing I/O?
+  **[E.q1.8]** What fraction of *task1*'s execution time is spent doing I/O?
 
-  - [q9] Overall, what fraction of the workflow execution is spent doing I/O?
+  **[E.q1.9]** Overall, what fraction of the workflow execution is spent doing I/O?
 
 ### Data- vs. Compute-intensive Workflow
 
 
-If you answered question [q9] correctly, you found that the workflow
+If you answered question [E.q1.9] correctly, you found that the workflow
 execution spends more time computing than doing I/O, overall.  Very broadly
 speaking, we call such a workflow *compute-intensive*. The reverse situation would be an *I/O-intensive*.  However,
 these notions depend on the hardware on which the workflow is executed. The
 faster the network and/or slower to cores, the more compute-intensive the
 workflow, and vice-versa.
 
+---
+
 **Answer these questions:**
 
-  - [q10] Using analysis (i.e., equations), for what compute speed (in
+  **[E.q1.10]** Using analysis (i.e., equations), for what compute speed (in
           GFlop/sec) of the core at site *hpc.edu* would our workflow
           execution being perfectly balanced between computation and I/O.
 
-  - [q11] Verify your answer to q10 using the simulation. How far off were you?
+  **[E.q1.11]** Verify your answer to the previous question using the simulation. How far off were you?
 
-  - [q12] Your boss is absolutely intent of making the workflow execution as fast as possible by upgrading the machine at *hpc.edu*. The idea is to make the workflow execution three times as fast (compared to the execution with a 1000 GFlop/sec core) with this upgrade. Is this possible? If not, why not?
+  **[E.q1.12]** Your boss is absolutely intent of making the workflow execution as fast as possible by upgrading the machine at *hpc.edu*. The idea is to make the workflow execution three times as fast (compared to the execution with a 1000 GFlop/sec core) with this upgrade. Is this possible? If not, why not?
 
 
 ---
