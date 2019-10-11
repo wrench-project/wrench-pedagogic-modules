@@ -132,7 +132,7 @@ Therefore, the total execution times is 60 seconds, for a
 speedup of 90/60 = 1.5. 
 
 This is not a good parallel efficiency (50%). The fact that
-some levels of the workflow has a single task really 
+some levels of the workflow have a single task really 
 hurts the speedup because while that task executes 
 two cores are left idle. 
  
@@ -194,7 +194,7 @@ best parallel speedup one can achieve?  What is the parallel efficiency?
 
 <p></p>
 
-**[D.q1.3]** If each file if 1GB, how many GB in total are read from
+**[D.q1.3]** If each file if 1GB, how many GB in total are **read** from
 the storage server where all files must be stored?
 
 <p></p>
