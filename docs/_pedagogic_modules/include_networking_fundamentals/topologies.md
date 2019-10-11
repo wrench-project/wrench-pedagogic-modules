@@ -16,7 +16,7 @@
 
 At an abstract level a network topology is a graph.  The edges of the graph
 are network links with various latencies and bandwidths.  The vertices of
-the graph represent either end-point, i.e., computers connected to the
+the graph represent either end-points, i.e., computers connected to the
 network, or routers, i.e., devices that are used to connect network links
 together.  We are abstracting away here many interesting details of how
 network technology makes it possible to implement network topologies. For
@@ -38,7 +38,8 @@ As an example, the figure above shows two possible routes between host A
 and host C. The network configuration, the details of which are outside our
 scope, defines which route is to be taken, for instance the blue
 route.  We will always assume that the routes are static, i.e., data
-flowing from one host to another always traverses the same set of links.
+flowing from one host to another always traverses the same set of links (in the example above, 
+one one of the blue and red routes actually exists). 
 
 #### End-to-end Network Routes
 
@@ -48,9 +49,9 @@ Consider two hosts connected via a 3-link route, as depicted in Figure 3 below.
 <b>Figure 3:</b> An example 3-link route between two hosts.
 
 In this example, all network links have the same bandwidth, 100 MB/sec.
-When transferring data from host A to host B, this transfer thus experience
+When transferring data from host A to host B, this transfer thus experiences
 a bandwidth of 100 MB/sec but a latency of 50 + 100 + 50 = 200 us, that is,
-the *sum* of the latencies of the network links. Remember that in the
+the **sum of the link latencies**. Remember that in the
 "water in pipes" analogy, the latency is the length of a pipe. And so it
 makes sense that the length of a sequence of pipes is the sum of the
 individual pipe lengths. 
@@ -75,8 +76,8 @@ link is called the *bottleneck* link, and the other two links are only
 partially used (i.e., they can transfer data at 100 MB/sec, but they only
 transfer data at 10 MB/sec). This is again consistent with the "water in pipes"
 analogy, since the water flow is limited by the width of the narrowest pipe. 
-In other words, the bandwidth available in a multi-link route is the *minimum*
-of the individual link bandwidths. 
+In other words, the bandwidth available in a multi-link route is the **minimum
+of the link bandwidths**. 
 
 For the route shown in Figure 4, transferring 100 MB of data from
 host A to host B will take time:
@@ -132,7 +133,7 @@ $$
 
 <p> </p>
 
-**[C.p2.2]** What is the bandwidth of the route from host A to host D?
+**[C.p2.2]** What is the bandwidth of the route from host E to host D?
 <div class="ui accordion fluid">
   <div class=" title">
     <i class="dropdown icon"></i>
@@ -213,11 +214,11 @@ purchase an upgrade to the link that connects host B to the network?
 
 <p></p>
 **[C.q2.5]** I am am sitting at host D and want to download a tiny file that's mirrored at all other hosts. 
-Does it matter which mirror I pick, and if yes which one should I pick?
+From my perspective, does it matter which mirror I pick, and if yes which one should I pick?
 
 <p></p>
 **[C.q2.6]** I am am sitting at host D and want to download a huge file
-that's mirrored at all other hosts.  Does it matter which mirror I pick,
+that's mirrored at all other hosts.  From my perspective, does it matter which mirror I pick,
 and if yes which one should I pick?
 
 <p></p>
