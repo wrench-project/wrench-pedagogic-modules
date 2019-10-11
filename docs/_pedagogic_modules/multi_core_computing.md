@@ -142,6 +142,27 @@ In this situation we says that **the load is not well-balanced across
 cores**. With discrete tasks such as these the balance cannot be
 improved.
 
+There is **direct relationship** between idle time and parallel efficiency, assmuming idle time is
+the only cause of loss in parallel efficiency. *The parallel efficiency is
+the sum of the core non-idle times divided by the product of the number of cores by the
+overall execution time.*  
+
+The above statement may sound complicated, but it's very intuitive on an example. Consider a dual-core compute that executes an application in 1 hour. 
+The first core computes for 30 min, and then is idle for 30 min.
+The second core is idle for 15 minutes, and then computes for 45 minutes. This execution is depicted in the 
+figure below, where idle time is shown in white and compute time in yellow:
+
+
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/multi_core_computing/utilization.svg">Utilization</object>
+
+What the above statement says is that the parallel efficiency is the yellow area divided by the area of the whole rectangle. In other
+words, the parallel efficiency is (1 * 30 + 1 * 45) / (2 * 60) = 62.5%. 
+
+The more "white" in the figure, the lower the parallel efficiency. If there is as much white as yellow, then the parallel efficiency
+is 50%, because half the compute power is wasted. You get the idea.
+
+
+
 ### Simulating Load Imbalance
 
 So that you can gain hands-on experience, use 

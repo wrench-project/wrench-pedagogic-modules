@@ -8,7 +8,7 @@ usemathjax: true
 #### Learning objectives:
 
   - Understand the concept of a *workflow*;
-
+  
   - Understand the structure of cyberinfrastructures on which one can execute
     workflows;
 
@@ -34,7 +34,12 @@ circular task dependencies.  Once formalized as DAGs, it is possible to
 reason about workflow structure so as to organize workflow execution as
 best as possible.
 
-The figure below depicts example workflows. Each task is shown as a circle.
+The figure below depicts example workflows. Each task is shown as a circle. In a workflow
+some tasks may be executed at the same time (in parallel). For instance, for the workflow
+in Fig. 2 below, tasks 2, 3 and 4 can be executed in parallel if one has 3 cores. These tasks
+are called **independent**, meaning that they are neither successors or predecessors of
+each other. 
+
 In these pedagogic modules we assume that we know the computational cost of
 each task (in number of floating point operations, or FLOPS). Workflow
 files, which are taken as input and produced as output of the tasks, are

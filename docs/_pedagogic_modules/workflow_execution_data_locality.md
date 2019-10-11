@@ -12,8 +12,8 @@ order: 600
 
 #### Learning Objectives
 
-  - Understand I/O overhead effects on workflow executions;
-  - Gain exposure to the concept of data locality and its effect on workflow execution.
+  - Gain exposure to the concept of data locality.
+  - Be able to quantify the impact of data locality on workflow execution.
 
 
 #### Workflow and Platform Scenario
@@ -31,7 +31,7 @@ read and write requests.
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_execution_data_locality/cyber_infrastructure.svg">Cyberinfrastructure</object>
 
-Like in the previous scenario, the WMS executes tasks as soon as they are
+Like in the previous module, the WMS executes tasks as soon as they are
 ready, so that each task runs on the CS and reads/writes all files on the
 SS. Whenever multiple tasks are ready at the same time, 
 as will be the case after *task0* has completed, 
@@ -45,17 +45,21 @@ selecting `Workflow Execution: Data Locality` from its menu.
 
 In the simulation app, for now, just click on the "Run
 Simulation" button, without changing the content of the text box or clicking
-any radio button. As in the previous module, the Web app displays textual and
+any radio button. The Web app displays textual and
 visual simulation output.  
 
 **Based on this output, answer the following questions:**
 
-  - [q1] Is the workflow execution I/O-intensive or compute-intensive?
-  - [q2] If the link bandwidth between `storage_db.edu` and `hpc.edu` were
-         doubled, what fraction of *task4*'s execution time would be spent doing I/O?
-  - [q3] Double the platform link bandwidth (set it to 20 MB/sec) using the simulation app and run the simulation. Is your expectation in q2 confirmed?
-  - [q4] Using analysis (i.e., a simple equation), determine the link bandwidth that would be necessary for the workflow to run 2x faster than with the original 10 MB/sec bandwidth? 
-  - [q5] Using the simulator report on the accuracy of the result from your analysis in q4.
+  **[F.q1.1]** Is the workflow execution I/O-intensive or compute-intensive?
+  
+  **[F.q1.2]** If the link bandwidth between `storage_db.edu` and `hpc.edu` were
+         doubled, what fraction of *task4*'s execution time would be spent doing I/O? (answer this without re-running the simulation)
+  
+  **[F.q1.3]** Double the platform link bandwidth (set it to 20 MB/sec) using the simulation app and re-run the simulation. Is your expectation in q2 confirmed?
+  
+  **[F.q1.4]** Using analysis (i.e., a simple equation), determine the link bandwidth that would be necessary for the workflow to run 2x faster than with the original 10 MB/sec bandwidth? 
+  
+  **[F.q1.5]** Using the simulator, report on the accuracy of the result from your analysis in the previous question.
 
 
 #### Data Locality
@@ -85,11 +89,10 @@ button.
 
 **Answer the following questions based on the simulation output**:
 
-  - [q6] What fraction of *task4* is spent doing I/O?
+  **[F.q1.6]** What fraction of the workflow execution is spent doing I/O?
 
-  - [q7] Compared to the workflow execution time when there is a single SS, how much faster is it?
+  **[F.q1.7]** Compared to the workflow execution time when there is a single SS, how much faster is the workflow execution now?
 
-  - [q8] Assuming a single SS (the one on `storage_db.edu`), what would you need to increase the bandwidth of the link between `storage_db.edu` and `hpc.edu` in order to have a workflow execution that is faster than what was realized using a 10 MB/sec link bandwidth when there are two SS. 
-
+ 
 
 ---
