@@ -88,25 +88,31 @@ Given your budget, you thus have 3 options:
 
 **Answer these questions**
 
-- [q1] Without an upgrade, about how long do you estimate the workflow execution to take?
+**[H.q1.1]** Without an upgrade, about how long do you estimate the workflow execution to take?
         Write a simple formula that shows your work.
-- [q2] Going with *Option 1*, about how long do you estimate the workflow execution to take?
+
+**[H.q1.2]** Going with *Option 1*, about how long do you estimate the workflow execution to take?
         Write simple formula that shows your work.
-- [q3] Going with *Option 2*, about how long do you estimate the workflow execution to take?
+
+**[H.q1.3]** Going with *Option 2*, about how long do you estimate the workflow execution to take?
         Write simple formula that shows your work.
-- [q4] Going with *Option 3*, about how long do you estimate the workflow execution to take?
+
+**[H.q1.4]** Going with *Option 3*, about how long do you estimate the workflow execution to take?
         Write simple formula that shows your work.
 
 ## Step 2: Select the Best Upgrade
 
 **Answer these questions**
 
-- [q5] Which option gives you the fastest workflow execution time? Your answer
+**[H.q1.5]** Which option gives you the fastest workflow execution time? Your answer
        is of course based on your answers in the previous step. But also give an intuitive reason why the best option is
        indeed the best.
-- [q6] What is the CS's estimated utilization with the best option?
-- [q7] How does it compare with the estimated utilization of the current non-upgraded cyberinfrastructure?
-- [q8] Write several sentences (not more than 5) to convince your boss that you have found the best hardware upgrade.
+
+**[H.q1.6]** What is the CS's estimated utilization with the best option?
+
+**[H.q1.7]** How does it compare with the estimated utilization of the current non-upgraded cyberinfrastructure?
+
+**[H.q1.8]** Write several sentences (not more than 5) to convince your boss that you have found the best hardware upgrade.
       Use your findings from the previous step to strengthen your claim.
 
 ## Step 3: Considering Other Scenarios
@@ -116,10 +122,12 @@ yet, your boss asks you for some information about how different file sizes may 
 
 **Answer these questions**
 
-- [q9] Assuming the input file size is now 7 GB (all three files), what would the CS's estimated utilization be with the *best option*?
+**[H.q1.9]** Assuming the input file size is now 7 GB (all three files), what would the CS's estimated utilization be with the *best option*?
        Write a short sentence explaining why the estimated utilization here is different from what you calculated in q6.
-- [q10] Assuming the input file size is now 7 GB (all three files), which option would be the *best option*?
-- [q11] At what input file size would the *best option*  (i.e., your answer for q5) no longer be the best option?
+
+**[H.q1.10]** Assuming the input file size is now 7 GB (all three files), which option would be the *best option*?
+
+**[H.q1.11]** At what input file size would the *best option*  (i.e., your answer for q5) no longer be the best option?
 
 # Conclusion
 
