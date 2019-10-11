@@ -49,17 +49,17 @@ upcoming module. We call the set of tasks we want to execute an **application**.
 As mentioned in the [Single Core Computing]({{ site.baseurl
 }}/pedagogic_modules/single_core_computing) module, we do not consider time
 sharing. That is, we will only consider application executions in which at most one
-task runs on a core at a given time. Although the Operating System allows
-time-sharing, we will simply never start more tasks than cores on the
+task runs on a core at a given time. Although Operating Systems allow
+time-sharing, we will never start more tasks than cores on the
 machine.  Therefore, a task that begins running on a core will run
 uninterrupted until completion on that same core.
 
 
 ## Parallelism
 
-The motivation for running the tasks of an application on multiple cores is speed.  For
+One motivation for running the tasks of an application on multiple cores is speed.  For
 example, if you have tasks that a single core can complete in one hour, it
-will take four hours to complete four tasks. If you have a two of these
+will take four hours to complete four tasks. If you have two of these
 cores in a dual-core processor, now you can complete the same four tasks in
 two hours only. This concept is called **parallelism**: running multiple 
 tasks at the same time, or *concurrently*, to complete a set of tasks faster.
@@ -75,15 +75,15 @@ To explore parallelism, we first have to define two interesting metrics:
 
 ### Parallel Speedup
 
-The speedup is a metric used to quantify the acceleration in speed due to
+Parallel speedup is a metric used to quantify the acceleration in speed due to
 using multiple cores.  It is calculated by dividing the execution time of
-the application on a single core by the execution time of the application on
+the application on a single core by the execution time of this same application on
 multiple cores, say *p*. The speedup on *p* cores is thus expressed as
 follows:
 
 $$
 \begin{align}
-\text{Speedup}_p & = \frac{\text{Execution Time}(1)}{\text{Execution Time}(p)}\;
+\text{Speedup}(p) & = \frac{\text{Execution Time}(1)}{\text{Execution Time}(p)}\;
 \end{align}     
 $$
 
@@ -95,12 +95,12 @@ $$
 \end{align}     
 $$
 
-In this example, we would be somewhat "unhappy" because although we have 2 cores, but *only* go 1.5 times faster. This leads us to our next metric!
+In this example, we would be somewhat "unhappy" because although we have 2 cores, we *only* go 1.5 times faster. This leads us to our next metric!
 
 
 ### Parallel Efficiency
 
-The concept of efficiency is essentially about how much useful work the
+The concept of parallel efficiency is essentially about how much useful work the
 cores can do for an application, or how much "bang" do you get for your
 "buck". The "bang" is the speedup, and the "buck" is the number of cores.
 More formally, the efficiency of an application execution on $p$ cores is: 
@@ -111,7 +111,7 @@ $$
 \end{align}     
 $$
 
-If the speedup going from 1 core to 2 cores is 1.5, then the
+If the parallel speedup on 2 cores is 1.5, then the
 efficiency is:
 
 $$
@@ -122,7 +122,7 @@ $$
 
 In the best case, the efficiency would be 100% (which corresponds to going
 *p* times faster with *p* cores). In the above example, it is only 75%, meaning
-that we are "wasting" some of the overall compute capacity during the application's 
+that we are "wasting" some of the available compute capacity of our machine during the application's 
 execution. 
 
 At this point, you may be wondering, how is this (less than 100% efficiency) possible?
@@ -133,13 +133,13 @@ At this point, you may be wondering, how is this (less than 100% efficiency) pos
 A common cause for sub-100% efficiency is **idle time**, i.e., time during
 which one or more cores are no able to work while others are working.
 Assuming that all tasks run for the same amount of time, as in this module,
-idle time will occur when *n* the number of tasks is not divisible by *p*
+idle time will occur when *n*, the number of tasks, is not divisible by *p*,
 the number of cores. For example, if we have 8 tasks that each run  for 1
 hour and 5 cores, all cores will be busy for the first 5 tasks, but once
 this phase of execution is finished, only 3 of the 5 cores will have
 another task to complete. Thus, 2 cores sit idle while 3 work, for 1 hour.
 In this situation we says that **the load is not well-balanced across
-cores**, but with discrete tasks such as these the balance cannot be
+cores**. With discrete tasks such as these the balance cannot be
 improved.
 
 ### Simulating Load Imbalance
@@ -149,15 +149,15 @@ the simulation Web application
 (see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>),
 selecting `Multi-core Machines` from its menu. 
 
-This tool will allow you to pick the number of cores and tasks to run. Try first with a single core running 5 
-tasks. Take particular notice of the "Host Utilization" graph. Now try running a number of tasks and cores where 
+This simulation app allows you to pick the number of cores and tasks to run. Try first with a single core running 5 
+tasks (ignore the "Ram Needed For Each Task" field, and leave the "Task GFlop" field at 100). 
+Take particular notice of the "Host Utilization" graph. Now try running a number of tasks and cores where 
 the number of tasks does not evenly divide the number of cores. Looking at the host utilization graph again, now 
 you will be able to see idle time for some of the cores represented by pink. Whenever we can see that pink on the graph,
 we know that parallel efficiency is below 100%. 
 
 
 #### Practice Questions
-
 
  
 **[B.p1.1]** Assume you have 24 tasks to execute on a multi-core computer,
@@ -241,7 +241,11 @@ share the same amount of RAM.  Therefore, there could be idle cores and
 tasks that need to run, but there is not sufficient RAM. Unfortunately, in
 this case, we cannot execute these tasks, and the idle cores must remain
 idle until more RAM becomes available (i.e., when currently tasks
-complete).  As a result, parallel efficiency falls is below 100%.
+complete).  As a result, parallel efficiency falls is below 100%. This is
+because we simply don't allow ourselves to use more memory than available
+in physical RAM, which would be handled by the Operating Systems (by shuffling data
+back and forth between RAM and disks) but would come with unacceptable performance
+losses.  
 
 
 ### Simulating RAM Constraints
@@ -251,9 +255,9 @@ the simulation Web application
 (see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>),
 selecting `Multi-core Machines` from its menu. 
 
-Previously when using the simulator, there was no specified RAM needed by the tasks (we left it to zero). This time around, we recognize
-that tasks may require RAM. The host we are using has 32 GB of RAM available. First try using 4 Cores for 8 tasks while
- you have 8 GB of RAM per task. 
+Previously when using the simulation app, you left the "Ram Needed For Each Task" field at zero. This time around, we recognize
+that tasks may require RAM. The host we are using has 32 GB of RAM available. First try using 4 Cores for 8 tasks, where each task
+uses 8 GB of RAM. 
  
 As you will see, there is no idle time with the above situation. The number of tasks we can run at a time is 4, both by 
 the amount of cores we have and the amount of ram we have. Now try again, but this time the Task RAM should be set to 
@@ -265,7 +269,7 @@ the amount of cores we have and the amount of ram we have. Now try again, but th
 
 **[B.p1.4]** You need to execute 5 tasks that each runs in 1 second on one
 core.  Your current single-core processor thus can run these tasks in 5
-seconds.  The processor is then updated to have 5 cores, each identical in
+seconds.  The processor is then upgraded to have 5 cores, each identical in
 processing power to the original single core. If the machine has 8 GB of
 RAM and each task requires 2 GB of RAM to execute, what is the parallel
 efficiency on the new 5-core processor?
