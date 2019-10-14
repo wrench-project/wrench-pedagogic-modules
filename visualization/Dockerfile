@@ -17,6 +17,9 @@ RUN chown -R wrench ./wrench-pedagogic-modules
 # build binaries for each activity
 WORKDIR /home/wrench/wrench-pedagogic-modules/simulations
 
+RUN cd networking_fundamentals \
+    && ./build.sh
+
 RUN cd multi_core_computing \
     && ./build.sh
 
@@ -28,6 +31,8 @@ RUN cd workflow_execution_data_locality \
 
 RUN cd workflow_execution_parallelism \
     && ./build.sh
+
+
 
 
 # install Node 10.x for the visualization
