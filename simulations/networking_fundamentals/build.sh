@@ -1,1 +1,1 @@
-cmake -DCMAKE_CXX_FLAGS="-DREMOTE_STORAGE" . && make clean && make
+cmake . && make clean && make
