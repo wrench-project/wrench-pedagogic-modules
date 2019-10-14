@@ -8,7 +8,7 @@ WORKDIR /home/wrench/
 # pull pedagogic-modules, go to desired activity, checkout gh-pages for "published" version, build
 RUN git clone https://github.com/wrench-project/wrench-pedagogic-modules.git \
     && cd wrench-pedagogic-modules \
-    && git checkout a0e3ae50b7ecd05d451bc3c58f0299f947947464
+    && git checkout a8023d8e66d64d07bfc891a6109b93f8af1b7f2d
 
 COPY keys.js /home/wrench/wrench-pedagogic-modules/visualization/keys.js
 
