@@ -112,7 +112,7 @@ int main(int argc, char **argv) {
     }
 
     std::string platform_file_path = "/tmp/platform.xml";
-    generatePlatform(platform_file_path, 10);
+    generatePlatform(platform_file_path, 100);
     simulation.instantiatePlatform(platform_file_path);
 
     // two storage services, one on each host
