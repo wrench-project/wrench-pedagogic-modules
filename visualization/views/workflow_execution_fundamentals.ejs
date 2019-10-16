@@ -36,9 +36,9 @@
     svg.call(zoom);
 
     // Center the graph
-    let initialScale = 1;
+    let initialScale = 0.6;
     svg.call(zoom.transform,
-        d3.zoomIdentity.scale(initialScale));
+        d3.zoomIdentity.translate(20,50).scale(initialScale));
 
 
     svg.attr('height', height);
