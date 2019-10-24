@@ -54,8 +54,8 @@ apply the filter, and then save the new image back to disk.
 $$
 \begin{align}
 
-  \text{CPU Utilization} & = T_{Compute} / T_{Compute} + T_{Idle} \\
-                         & = 4 / 4 + 4 \\
+  \text{CPU Utilization} & = \frac{T_{Compute}}{T_{Compute} + T_{Idle}} \\
+                         & = \frac{4}{4 + 4} \\
                          & = 0.5
 
 \end{align}
@@ -73,8 +73,8 @@ completion of the first task, and while it is working on task two, the first tas
 $$
 \begin{align}
 
-  \text{CPU Utilization} & = T_{Compute} / T_{Compute} + T_{Idle} \\
-                         & = 4 / 4 + 2 \\
+  \text{CPU Utilization} & = \frac{T_{Compute}}{T_{Compute} + T_{Idle}} \\
+                         & = \frac{4}{4 + 2} \\
                          & = 0.66
 
 \end{align}
@@ -127,11 +127,11 @@ execution and what IO is required.
 For the purposes of these questions you are working at a company that runs the same identical task repeatedly. Currently 
 the hardware available to you can process each task broken down into the following times: 
 
-Read: 2 Seconds
-CPU: 3 Seconds
-Write: 2 Seconds
+Read: 2 Seconds  
+CPU: 3 Seconds  
+Write: 2 Seconds  
 
-**[I.p1.1]** For the same price you may upgrade your CPU so that it can process each task in 2 seconds, or you may 
+**[I.p1.1]** For the same price, you may upgrade your CPU so that it can process each task in 2 seconds, or you may 
 upgrade to a SSD from your current HDD which will halve Read/Write times to 1 second each. Which would improve your 
 execution time per task the most?
 
@@ -148,6 +148,27 @@ execution time per task the most?
 
   </div>
 </div>
+
+**[I.p1.2]** It is decided to purchase the SSD to replace the HDD currently being used, which decreases read/write to 1 
+second each. What is the improvement seen 
+from this change in terms of CPU utilization over 5 consecutive tasks?
+
+<div class="ui accordion fluid">
+  <div class="title">
+    <i class="dropdown icon"></i>
+    (click to see answer)
+  </div>
+  <div markdown="1" class="ui segment content">
+  Initially, read/write times are 2 seconds each, adding up to 4 seconds per task, while CPU time needed is 3 seconds 
+    per task. The total execution time for five tasks will be 22 seconds, of which 15 seconds of that is CPU time. This 
+    leads to a CPU utilization of 15/22 = 0.68. 
+    
+  When read/write times are decreased to 1 second each, now the full execution time will be just 17 seconds. The CPU 
+    time does not change, remaining 15 seconds. This improves our CPU utilization to 15/17 = 0.88.
+
+  </div>
+</div>
+ 
 
 ### Questions
 

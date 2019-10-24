@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 'Glossary'
-order: 99
+order: 99999999
 permalink: /glossary/
 ---
 {% assign glossary_items = site.data.glossary | sort:"term" %}
