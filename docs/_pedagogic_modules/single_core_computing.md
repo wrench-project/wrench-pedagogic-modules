@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 'A. Single Core Computing'
+title: 'A. Single-core Computing'
 order: 10
 usemathjax: true
 ---
