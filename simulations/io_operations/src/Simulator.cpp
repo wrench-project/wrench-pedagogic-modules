@@ -21,36 +21,61 @@
  *
  * @throws std::invalid_argument
  */
-void generateWorkflow(wrench::Workflow *workflow, int num_tasks, int task_gflop, int task_ram) {
+void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write, int task_gflop, bool io_overlap) {
 
     if (workflow == nullptr) {
         throw std::invalid_argument("generateWorkflow(): invalid workflow");
     }
 
-    if (num_tasks < 1) {
-        throw std::invalid_argument("generateWorkflow(): number of tasks must be at least 1");
+    if (task_read < 0) {
+        throw std::invalid_argument("generateWorkflow(): task read must be 0 or above");
+    }
+
+    if (task_write < 0) {
+        throw std::invalid_argument("generateWorkflow(): task write must be 0 or above");
     }
 
     if (task_gflop < 1) {
         throw std::invalid_argument("generateWorkflow(): task GFlop must be at least 1");
     }
 
-    if (task_ram < 0) {
-        throw std::invalid_argument("generateWorkflow(): task GB must be at least 0");
+    if (io_overlap != true && io_overlap != false){
+        throw std::invalid_argument("generateWorkflow(): io overlap must be 0 or 1");
     }
 
     // WorkflowTask specifications
     const double               GFLOP = 1000.0 * 1000.0 * 1000.0;
     const unsigned long    MIN_CORES = 1;
     const unsigned long    MAX_CORES = 1;
-    const double PARALLEL_EFFICIENCY = 1.0;
+    const double PARALLEL_EFFICIENCY = 1.0; //single core so doesn't really matter
+    const double MEMORY_REQUIREMENT  = 0.0; //may change this to variable input later?
+    const double           NUM_TASKS = 10.0;
     const double                  GB = 1000.0 * 1000.0 * 1000.0;
+    const double                  MB = 1000.0 * 1000.0;
 
-    // create the tasks
-    for (int i = 0; i < num_tasks; ++i) {
-        std::string task_id("task #" + std::to_string(i));
-        workflow->addTask(task_id, task_gflop * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, task_ram * GB);
+
+
+    // create the tasks, need to have computation tasks as well as R/W tasks. If overlaps, IO can run in separate tasks.
+    if (io_overlap == true){
+        for (int i = 0; i < NUM_TASKS; ++i){
+            std::string compute_task_id("compute task #" + std::to_string(i));
+            workflow->addTask(compute_task_id, task_gflop * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
+            std::string io_task_id("io task #" + std::to_string(i));
+            workflow->addTask(compute_task_id, 0.0, 0, 0, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
+            task_id->addInputFile(workflow->addFile(task_id+"::0.in", task_read * MB));
+        }
+    } else {
+        for (int i = 0; i < NUM_TASKS; ++i) {
+            std::string task_id("task #" + std::to_string(i));
+            workflow->addTask(task_id, task_gflop * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
+            task_id->addInputFile(workflow->addFile(task_id+"::0.in", task_read * MB));
+            task_id->addOutputFile(workflow->addFile(task_id+"::0.out", task_write * MB));
+        }
+
     }
+
+
+
 }
 
 /**
@@ -70,13 +95,14 @@ void generatePlatform(std::string platform_file_path) {
                       "<!DOCTYPE platform SYSTEM \"http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd\">\n"
                       "<platform version=\"4.1\">\n"
                       "   <zone id=\"AS0\" routing=\"Full\">\n"
-                      "       <host id=\"the_host\" speed=\"100Gf\" core=\"1000\">\n"
+                      "       <host id=\"io_host\" speed=\"100Gf\" core=\"1\">\n"
                       "           <prop id=\"ram\" value=\"32GB\"/>\n"
                       "       </host>\n"
                       "       <link id=\"link\" bandwidth=\"100000TBps\" latency=\"0us\"/>\n"
-                      "       <route src=\"the_host\" dst=\"the_host\">"
+                      "       <route src=\"io_host\" dst=\"io_host\">"
                       "           <link_ctn id=\"link\"/>"
                       "       </route>"
+                      "       <host id=\"
                       "   </zone>\n"
                       "</platform>\n";
 
@@ -97,10 +123,11 @@ int main(int argc, char** argv) {
     simulation.init(&argc, argv);
 
     const int MAX_CORES         = 1000;
-    int NUM_CORES;
-    int NUM_TASKS;
+    const int NUM_CORES         = 1;
+    int TASK_READ;
+    int TASK_WRITE;
     int TASK_GFLOP;
-    int TASK_MEMORY;
+    bool IO_OVERLAP;
 
     try {
 
@@ -108,18 +135,18 @@ int main(int argc, char** argv) {
             throw std::invalid_argument("bad args");
         }
 
-        NUM_CORES = std::stoi(std::string(argv[1]));
+        TASK_READ = std::stoi(std::string(argv[1]));
 
-        if (NUM_CORES < 1 || NUM_CORES > MAX_CORES) {
-            std::cerr << "Invalid number cores. Enter a value in the range [1, " + std::to_string(MAX_CORES) + "]" << std::endl;
-            throw std::invalid_argument("invalid number of cores");
+        if (TASK_READ < 0) {
+            std::cerr << "Invalid task read. Enter a value greater than 0" << std::endl;
+            throw std::invalid_argument("invalid task read amount");
         }
 
-        NUM_TASKS = std::stoi(std::string(argv[2]));
+        TASK_WRITE = std::stoi(std::string(argv[2]));
 
-        if (NUM_TASKS < 1) {
-            std::cerr << "Invalid number tasks. Enter a value greater than 1" << std::endl;
-            throw std::invalid_argument("invalid number of tasks");
+        if (TASK_WRITE < 0) {
+            std::cerr << "Invalid task write. Enter a value greater than 0" << std::endl;
+            throw std::invalid_argument("invalid task write amount");
         }
 
         TASK_GFLOP = std::stoi(std::string(argv[3]));
@@ -129,20 +156,20 @@ int main(int argc, char** argv) {
             throw std::invalid_argument("invalid task gflop");
         }
 
-        TASK_MEMORY = std::stoi(std::string(argv[4]));
+        IO_OVERLAP = std::stoi(std::string(argv[4]));
 
-        if (TASK_MEMORY < 0) {
-            std::cerr << "Invalid task gflop. Enter a value greater than 0" << std::endl;
-            throw std::invalid_argument("invalid task gflop");
+        if (IO_OVERLAP != true && IO_OVERLAP != false) {
+            std::cerr << "Invalid io overlap. Enter a boolean value" << std::endl;
+            throw std::invalid_argument("invalid io overlap");
         }
 
 
     } catch(std::invalid_argument &e) {
-        std::cerr << "Usage: " << argv[0] << " <num_cores> <num_tasks> <task_gflop> <task_ram>" << std::endl;
-        std::cerr << "   num_cores: number of cores [1, " + std::to_string(MAX_CORES) + "]" << std::endl;
-        std::cerr << "   num_tasks: number of tasks (> 0)" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <task_read> <task_write> <task_gflop> <io_overlap>" << std::endl;
+        std::cerr << "   task_read: amount read per task in MB [0,9999]" << std::endl;
+        std::cerr << "   task_write: amount written per task in MB [0,9999]" << std::endl;
         std::cerr << "   task_gflop: task GFlop (> 0)" << std::endl;
-        std::cerr << "   task_ram: task GB (>= 0)" << std::endl;
+        std::cerr << "   io_overlap: whether read/write can be done concurrently with computation" << std::endl;
         std::cerr << "" << std::endl;
         std::cerr << "   (Core speed is always 100GFlop/sec, Host RAM capacity is always 32 GB)" << std::endl;
         return 1;
@@ -150,7 +177,7 @@ int main(int argc, char** argv) {
 
     // create workflow
     wrench::Workflow workflow;
-    generateWorkflow(&workflow, NUM_TASKS, TASK_GFLOP, TASK_MEMORY);
+    generateWorkflow(&workflow, TASK_READ, TASK_WRITE, TASK_GFLOP, IO_OVERLAP);
 
     // read and instantiate the platform with the desired HPC specifications
     std::string platform_file_path = "/tmp/platform.xml";
@@ -158,7 +185,7 @@ int main(int argc, char** argv) {
     simulation.instantiatePlatform(platform_file_path);
 
 
-    const std::string THE_HOST("the_host");
+    const std::string THE_HOST("io_host");
 
     auto compute_service = simulation.add(
             new wrench::BareMetalComputeService(
