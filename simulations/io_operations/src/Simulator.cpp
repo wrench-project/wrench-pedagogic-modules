@@ -60,9 +60,14 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
         for (int i = 0; i < NUM_TASKS; ++i){
             std::string compute_task_id("compute task #" + std::to_string(i));
             workflow->addTask(compute_task_id, task_gflop * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
-            std::string io_task_id("io task #" + std::to_string(i));
-            workflow->addTask(compute_task_id, 0.0, 0, 0, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
-            task_id->addInputFile(workflow->addFile(task_id+"::0.in", task_read * MB));
+
+            std::string io_read_task_id("io read task #" + std::to_string(i));
+            workflow->addTask(io_read_task_id, 0.0, 0, 0, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
+            io_read_task_id->addInputFile(workflow->addFile(io_read_task_id+"::0.in", task_read * MB));
+
+            std::string io_write_task_id("io write task #" + std::to_string(i));
+            workflow->addTask(io_write_task_id, 0.0, 0, 0, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
+            io_write_task_id->addOutputFile(workflow->addFile(io_write_task_id+"::0.out", task_write * MB));
         }
     } else {
         for (int i = 0; i < NUM_TASKS; ++i) {
@@ -73,8 +78,6 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
         }
 
     }
-
-
 
 }
 
@@ -97,12 +100,18 @@ void generatePlatform(std::string platform_file_path) {
                       "   <zone id=\"AS0\" routing=\"Full\">\n"
                       "       <host id=\"io_host\" speed=\"100Gf\" core=\"1\">\n"
                       "           <prop id=\"ram\" value=\"32GB\"/>\n"
+                      "           <prop id=\"Hdd\" value=\"160\"/>\n"
+                      "       </host>\n"
+                      "       <host id=\"storage_dummy\">\n"
+                      "           <prop id=\"Hdd\"/>\n"
                       "       </host>\n"
                       "       <link id=\"link\" bandwidth=\"100000TBps\" latency=\"0us\"/>\n"
                       "       <route src=\"io_host\" dst=\"io_host\">"
                       "           <link_ctn id=\"link\"/>"
                       "       </route>"
-                      "       <host id=\"
+                      "       <route src=\"io_host\" dst=\"storage_dummy\">"
+                      "           <link_ctn id=\"link\"/>"
+                      "       </route>"
                       "   </zone>\n"
                       "</platform>\n";
 
@@ -205,6 +214,9 @@ int main(int argc, char** argv) {
     ));
 
     wms->addWorkflow(&workflow);
+
+
+
 
     simulation.launch();
 

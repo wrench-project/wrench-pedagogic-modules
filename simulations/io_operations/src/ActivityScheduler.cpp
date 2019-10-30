@@ -22,20 +22,20 @@ namespace wrench {
 
 
         auto idle_core_count = compute_service->getPerHostNumIdleCores()["the_host"];
-        auto ram_capacity = compute_service->getPerHostAvailableMemoryCapacity()["the_host"];
 
+
+        //if vector >10 must be separate R/W
         for (auto const &ready_task : ready_tasks) {
+            if (ready_tasks.size()>10) {
+
+            }
             auto task_memory = ready_task->getMemoryRequirement();
             if (idle_core_count == 0) {
                 break;
             }
-            if (ram_capacity < task_memory) {
-                break;
-            }
             auto job = this->getJobManager()->createStandardJob(ready_task, {});
             this->getJobManager()->submitJob(job, compute_service, {});
-            idle_core_count--;
-            ram_capacity = ram_capacity - task_memory;
+
         }
 
     }

@@ -23,14 +23,14 @@ As mentioned above, reading from and writing to the disk are slow operations com
 taken into account is that there is a difference between read and write speed as well. Reading from the disk is 
 typically faster than writing to the disk by a noticeable margin. On top of this difference, different kinds of memory 
 have various speeds as well. To look at the difference between the two main types of main storage, 
-Hard Disk Drives (HDD) and Solid State Drives (SSD), the table below contains general figures for consumer-grade 
-hardware. 
+Hard Disk Drives (HDD) and Solid State Drives (SSD), the table below contains two examples of mass-market hardware
+connected via SATA.
 
 
 |     | Read     | Write    |
 |-----|----------|----------|
-| HDD | 210 MBps | 200 MBps |
-| SSD | 550 MBps | 520 MBps |
+| WD HDD (10EZEX) | 160 MBps | 143 MBps |
+| Samsung 860 EVO | 550 MBps | 520 MBps |
 
 
 One generalization we will make in this module is assuming that disk speeds are constant. There are many factors that 
