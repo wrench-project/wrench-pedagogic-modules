@@ -56,6 +56,7 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
 
 
     // create the tasks, need to have computation tasks as well as R/W tasks. If overlaps, IO can run in separate tasks.
+    //TODO add control dependencies
     if (io_overlap == true){
         for (int i = 0; i < NUM_TASKS; ++i){
             std::string compute_task_id("compute task #" + std::to_string(i));
@@ -102,14 +103,8 @@ void generatePlatform(std::string platform_file_path) {
                       "           <prop id=\"ram\" value=\"32GB\"/>\n"
                       "           <prop id=\"Hdd\" value=\"160\"/>\n"
                       "       </host>\n"
-                      "       <host id=\"storage_dummy\">\n"
-                      "           <prop id=\"Hdd\"/>\n"
-                      "       </host>\n"
                       "       <link id=\"link\" bandwidth=\"100000TBps\" latency=\"0us\"/>\n"
                       "       <route src=\"io_host\" dst=\"io_host\">"
-                      "           <link_ctn id=\"link\"/>"
-                      "       </route>"
-                      "       <route src=\"io_host\" dst=\"storage_dummy\">"
                       "           <link_ctn id=\"link\"/>"
                       "       </route>"
                       "   </zone>\n"
@@ -215,7 +210,7 @@ int main(int argc, char** argv) {
 
     wms->addWorkflow(&workflow);
 
-
+    //TODO add storage
 
 
     simulation.launch();
