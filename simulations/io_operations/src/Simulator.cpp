@@ -67,7 +67,9 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
             std::string io_read_task_id("io read task #" + std::to_string(i));
             workflow->addTask(io_read_task_id, 0.0, 0, 0, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
             io_read_task_id->addInputFile(workflow->addFile(io_read_task_id+"::0.in", task_read * MB));
-            workflow->addControlDependency(workflow->getTaskByID(io_read_task_id), workflow->getTaskByID("io write task #" + std::to_string(i-1)))
+            if (i>0) {
+                workflow->addControlDependency(workflow->getTaskByID(io_read_task_id), workflow->getTaskByID("io write task #" + std::to_string(i-1)))
+            }
 
             std::string compute_task_id("compute task #" + std::to_string(i));
             workflow->addTask(compute_task_id, task_gflop * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
@@ -103,18 +105,22 @@ void generatePlatform(std::string platform_file_path) {
     }
 
     // Create a the platform file
+    //TODO add disk
     std::string xml = "<?xml version='1.0'?>\n"
                       "<!DOCTYPE platform SYSTEM \"http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd\">\n"
                       "<platform version=\"4.1\">\n"
                       "   <zone id=\"AS0\" routing=\"Full\">\n"
                       "       <host id=\"io_host\" speed=\"100Gf\" core=\"1\">\n"
                       "           <prop id=\"ram\" value=\"32GB\"/>\n"
-                      "           <prop id=\"Hdd\" value=\"160\"/>\n"
+                      "           <disk id=\"large_disk\" read_bw=\"150MBps\" write_bw=\"100MBps\">\n"
+                      "                            <prop id=\"size\" value=\"5000GiB\"/>\n"
+                      "                            <prop id=\"mount\" value=\"/\"/>\n"
+                      "           </disk>\n"
                       "       </host>\n"
                       "       <link id=\"link\" bandwidth=\"100000TBps\" latency=\"0us\"/>\n"
-                      "       <route src=\"io_host\" dst=\"io_host\">"
-                      "           <link_ctn id=\"link\"/>"
-                      "       </route>"
+                      "       <route src=\"io_host\" dst=\"io_host\">\n"
+                      "           <link_ctn id=\"link\"/>\n"
+                      "       </route>\n"
                       "   </zone>\n"
                       "</platform>\n";
 
@@ -211,7 +217,7 @@ int main(int argc, char** argv) {
     const std::string COMPUTE_HOST("io_host");
     const std::string STORAGE_HOST("io_host");
 
-    auto io_storage_service = simulation.add(new wrench::SimpleStorageService(STORAGE_HOST, 10000000000000.0));
+    auto io_storage_service = simulation.add(new wrench::SimpleStorageService(STORAGE_HOST, {"/"}));
 
     auto compute_service = simulation.add(
             new wrench::BareMetalComputeService(
@@ -225,16 +231,20 @@ int main(int argc, char** argv) {
             )
     );
 
+    simulation.add(new wrench::FileRegistryService(WMS_HOST));
+
     // wms
     auto wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler>(
-            new wrench::ActivityScheduler()), compute_service, THE_HOST
+            new wrench::ActivityScheduler(io_storage_service)),
+            {compute_service},
+            {io_storage_service},
+            {},
+            WMS_HOST
     ));
 
     wms->addWorkflow(&workflow);
 
-    //TODO add storage
 
-    simulation.add(new wrench::FileRegistryService(WMS_HOST));
 
     // stage the input files
     std::map<std::string, wrench::WorkflowFile *> input_files = workflow.getInputFiles();
