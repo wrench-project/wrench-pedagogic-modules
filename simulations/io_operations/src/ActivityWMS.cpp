@@ -14,15 +14,16 @@ namespace wrench {
      * @param hostname
      */
     ActivityWMS::ActivityWMS(std::unique_ptr <StandardJobScheduler> standard_job_scheduler,
-                             const std::shared_ptr<ComputeService> &compute_services,
+                             const std::set<std::shared_ptr<ComputeService>> &compute_services,
+                             const std::set<std::shared_ptr<StorageService>> &storage_services,
                              const std::string &hostname) : WMS (
                                      std::move(standard_job_scheduler),
                                      nullptr,
-                                     {compute_services},
-                                     {},
+                                     compute_services,
+                                     storage_services,
                                      {}, nullptr,
                                      hostname,
-                                     "multicore"
+                                     "io_operations"
                                      ) {}
 
     /**
@@ -41,11 +42,16 @@ namespace wrench {
         this->job_manager = this->createJobManager();
 
         while (true) {
+
             // Get the ready tasks and SORT them by taskID
             std::vector<WorkflowTask *> ready_tasks = this->getWorkflow()->getReadyTasks();
 
+            std::sort(ready_tasks.begin(), ready_tasks.end(), [ ] (WorkflowTask *lhs, WorkflowTask *rhs) {
+                return lhs->getID() < rhs->getID();
+            });
+
             // Get the available compute services, in this case only one
-            const auto compute_services = this->getAvailableComputeServices<ComputeService>();
+            const std::set<std::shared_ptr<ComputeService>> compute_services = this->getAvailableComputeServices<ComputeService>();
 
             // Run ready tasks with defined scheduler implementation
             this->getStandardJobScheduler()->scheduleTasks(
@@ -85,6 +91,6 @@ namespace wrench {
     void ActivityWMS::processEventStandardJobCompletion(std::shared_ptr<StandardJobCompletedEvent> event) {
         auto standard_job = event->standard_job;
         TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_RED);
-        WRENCH_INFO("Notified that %s has completed", standard_job->getTasks().at(0)->getID().c_str());
+        WRENCH_INFO("Notified that %s has completed", (*standard_job->getTasks().begin())->getID().c_str());
     }
 }

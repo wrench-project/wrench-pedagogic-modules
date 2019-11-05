@@ -46,10 +46,6 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
         throw std::invalid_argument("generateWorkflow(): task GFlop must be at least 1");
     }
 
-    if (io_overlap != true && io_overlap != false){
-        throw std::invalid_argument("generateWorkflow(): io overlap must be a boolean");
-    }
-
     // WorkflowTask specifications
     const double               GFLOP = 1000.0 * 1000.0 * 1000.0;
     const unsigned long    MIN_CORES = 1;
@@ -62,7 +58,7 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
 
 
     // create the tasks, need to have computation tasks as well as R/W tasks. If overlaps, IO can run in separate tasks.
-    if (io_overlap == true){
+    if (io_overlap){
         for (int i = 0; i < task_num; ++i){
             std::string io_read_task_id("io read task #" + std::to_string(i));
             workflow->addTask(io_read_task_id, 0.0, 0, 0, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
@@ -184,11 +180,6 @@ int main(int argc, char** argv) {
 
         IO_OVERLAP = std::stoi(std::string(argv[5]));
 
-        if (IO_OVERLAP != true && IO_OVERLAP != false) {
-            std::cerr << "Invalid io overlap. Enter a boolean value" << std::endl;
-            throw std::invalid_argument("invalid io overlap");
-        }
-
 
     } catch(std::invalid_argument &e) {
         std::cerr << "Usage: " << argv[0] << " <task_read> <task_write> <task_gflop> <io_overlap>" << std::endl;
@@ -234,11 +225,10 @@ int main(int argc, char** argv) {
     simulation.add(new wrench::FileRegistryService(WMS_HOST));
 
     // wms
-    auto wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler>(
+    auto wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler> (
             new wrench::ActivityScheduler(io_storage_service)),
             {compute_service},
             {io_storage_service},
-            {},
             WMS_HOST
     ));
 

@@ -139,8 +139,12 @@ int main(int argc, char** argv) {
             ));
 
     // WMS on my_lab_computer_edu
-    auto wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler> (new wrench::ActivityScheduler(storage_db_edu_storage_service)),
-            {compute_service}, {storage_db_edu_storage_service}, WMS_HOST));
+    auto wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler> (
+            new wrench::ActivityScheduler(storage_db_edu_storage_service)),
+            {compute_service},
+            {storage_db_edu_storage_service},
+            WMS_HOST
+            ));
 
     wms->addWorkflow(&workflow);
 
