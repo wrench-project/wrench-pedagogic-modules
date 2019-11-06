@@ -61,27 +61,27 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
     if (io_overlap){
         for (int i = 0; i < task_num; ++i){
             std::string io_read_task_id("io read task #" + std::to_string(i));
-            workflow->addTask(io_read_task_id, 0.0, 0, 0, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
-            io_read_task_id->addInputFile(workflow->addFile(io_read_task_id+"::0.in", task_read * MB));
+            auto current_read_task = workflow->addTask(io_read_task_id, 0.0, 0, 0, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
+            current_read_task->addInputFile(workflow->addFile(io_read_task_id+"::0.in", task_read * MB));
             if (i>0) {
-                workflow->addControlDependency(workflow->getTaskByID(io_read_task_id), workflow->getTaskByID("io write task #" + std::to_string(i-1)))
+                workflow->addControlDependency(current_read_task, workflow->getTaskByID("io write task #" + std::to_string(i-1)));
             }
 
             std::string compute_task_id("compute task #" + std::to_string(i));
-            workflow->addTask(compute_task_id, task_gflop * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
-            workflow->addControlDependency(workflow->getTaskByID(compute_task_id), workflow->getTaskByID(io_read_task_id))
+            auto current_compute_task = workflow->addTask(compute_task_id, task_gflop * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
+            workflow->addControlDependency(current_compute_task, current_read_task);
 
             std::string io_write_task_id("io write task #" + std::to_string(i));
-            workflow->addTask(io_write_task_id, 0.0, 0, 0, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
-            io_write_task_id->addOutputFile(workflow->addFile(io_write_task_id+"::0.out", task_write * MB));
-            workflow->addControlDependency(workflow->getTaskByID(io_write_task_id), workflow->getTaskByID(compute_task_id))
+            auto current_write_task = workflow->addTask(io_write_task_id, 0.0, 0, 0, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
+            current_write_task->addOutputFile(workflow->addFile(io_write_task_id+"::0.out", task_write * MB));
+            workflow->addControlDependency(current_write_task, current_compute_task);
         }
     } else {
         for (int i = 0; i < task_num; ++i) {
             std::string task_id("task #" + std::to_string(i));
-            workflow->addTask(task_id, task_gflop * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
-            task_id->addInputFile(workflow->addFile(task_id+"::0.in", task_read * MB));
-            task_id->addOutputFile(workflow->addFile(task_id+"::0.out", task_write * MB));
+            auto current_task = workflow->addTask(task_id, task_gflop * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
+            current_task->addInputFile(workflow->addFile(task_id+"::0.in", task_read * MB));
+            current_task->addOutputFile(workflow->addFile(task_id+"::0.out", task_write * MB));
         }
 
     }
@@ -101,7 +101,6 @@ void generatePlatform(std::string platform_file_path) {
     }
 
     // Create a the platform file
-    //TODO add disk
     std::string xml = "<?xml version='1.0'?>\n"
                       "<!DOCTYPE platform SYSTEM \"http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd\">\n"
                       "<platform version=\"4.1\">\n"
@@ -136,7 +135,6 @@ int main(int argc, char** argv) {
     wrench::Simulation simulation;
     simulation.init(&argc, argv);
 
-    const int MAX_CORES         = 1000;
     const int NUM_CORES         = 1;
     int TASK_READ;
     int TASK_WRITE;
@@ -178,11 +176,22 @@ int main(int argc, char** argv) {
             throw std::invalid_argument("invalid task gflop");
         }
 
-        IO_OVERLAP = std::stoi(std::string(argv[5]));
+        IO_OVERLAP = false;
+
+        /*if ((std::string(argv[5])).compare("true") == 0){
+            IO_OVERLAP = true;
+            std::cout << "true chosen";
+        } else {
+            IO_OVERLAP = false;
+            std::cout << "false chosen";
+        }
+        */
+
+
 
 
     } catch(std::invalid_argument &e) {
-        std::cerr << "Usage: " << argv[0] << " <task_read> <task_write> <task_gflop> <io_overlap>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <task_read> <task_write> <task_num> <task_gflop> <io_overlap>" << std::endl;
         std::cerr << "   task_read: amount read per task in MB [0,9999]" << std::endl;
         std::cerr << "   task_write: amount written per task in MB [0,9999]" << std::endl;
         std::cerr << "   task_num: number of tasks to compute (>0)" << std::endl;
@@ -208,7 +217,11 @@ int main(int argc, char** argv) {
     const std::string COMPUTE_HOST("io_host");
     const std::string STORAGE_HOST("io_host");
 
+
+    std::set<std::shared_ptr<wrench::StorageService>> storage_services;
     auto io_storage_service = simulation.add(new wrench::SimpleStorageService(STORAGE_HOST, {"/"}));
+    storage_services.insert(io_storage_service);
+
 
     auto compute_service = simulation.add(
             new wrench::BareMetalComputeService(
@@ -216,7 +229,7 @@ int main(int argc, char** argv) {
                     {{COMPUTE_HOST, std::make_tuple(NUM_CORES, wrench::ComputeService::ALL_RAM)}},
                     0,
                     {
-                            {wrench::BareMetalComputeServiceProperty::THREAD_STARTUP_OVERHEAD, "0"},
+                            {wrench::BareMetalComputeServiceProperty::TASK_STARTUP_OVERHEAD, "0"},
                     },
                     {}
             )
@@ -228,7 +241,7 @@ int main(int argc, char** argv) {
     auto wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler> (
             new wrench::ActivityScheduler(io_storage_service)),
             {compute_service},
-            {io_storage_service},
+            storage_services,
             WMS_HOST
     ));
 
@@ -237,9 +250,9 @@ int main(int argc, char** argv) {
 
 
     // stage the input files
-    std::map<std::string, wrench::WorkflowFile *> input_files = workflow.getInputFiles();
-    simulation.stageFiles(input_files, io_storage_service);
-
+    for (auto const &file : workflow.getInputFiles()) {
+        simulation.stageFile(file.second, io_storage_service);
+    }
 
     simulation.launch();
 

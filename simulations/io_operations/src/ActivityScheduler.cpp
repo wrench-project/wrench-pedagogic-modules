@@ -46,18 +46,22 @@ namespace wrench {
             }
         }
 
-        std::map<WorkflowFile *, std::shared_ptr<StorageService>> file_locations;
+
         for (const auto &task : tasks_to_submit) {
+            std::map<WorkflowFile *, std::shared_ptr<FileLocation>> file_locations;
             for (const auto &file : task->getInputFiles()) {
-                file_locations.insert(std::make_pair(file, storage_service));
+                //file_locations.insert(std::make_pair(file, storage_service));
+                file_locations.insert(std::make_pair(file, FileLocation::LOCATION(storage_service)));
             }
 
             for (const auto &file : task->getOutputFiles()) {
-                file_locations.insert(std::make_pair(file, storage_service));
+                //file_locations.insert(std::make_pair(file, storage_service));
+                //file_locations[file] = (FileLocation::LOCATION(storage_service));
+                file_locations.insert(std::make_pair(file, FileLocation::LOCATION(storage_service)));
             }
+            WorkflowJob *job = (WorkflowJob *) this->getJobManager()->createStandardJob(task, file_locations);
+            this->getJobManager()->submitJob(job, compute_service, service_specific_args);
         }
 
-        WorkflowJob *job = (WorkflowJob *) this->getJobManager()->createStandardJob(tasks_to_submit, file_locations);
-        this->getJobManager()->submitJob(job, compute_service, service_specific_args);
     }
 }
