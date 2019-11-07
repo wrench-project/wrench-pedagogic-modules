@@ -238,7 +238,7 @@ int main(int argc, char** argv) {
 
     wms->addWorkflow(&workflow);
 
-    wrench::FileRegistryService *file_registry_service =
+    auto *file_registry_service =
             new wrench::FileRegistryService(WMS_HOST);
     simulation.add(file_registry_service);
 
