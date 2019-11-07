@@ -29,7 +29,6 @@ namespace wrench {
 
         TerminalOutput::setThisProcessLoggingColor(TerminalOutput::Color::COLOR_BLUE);
 
-
         auto compute_service = *compute_services.begin();
         auto compute_host = compute_service->getHostname();
         auto idle_core_counts = compute_service->getPerHostNumIdleCores();
@@ -42,7 +41,9 @@ namespace wrench {
             if (task->getMaxNumCores() <= num_idle_cores) {
                 tasks_to_submit.push_back(task);
                 service_specific_args[task->getID()] = compute_host + ":" + std::to_string(task->getMaxNumCores());
-                num_idle_cores -= task->getMaxNumCores();
+                if (task->getFlops() > 0.0) {
+                    num_idle_cores -= task->getMaxNumCores();
+                }
             }
         }
 

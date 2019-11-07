@@ -50,9 +50,9 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
     const double               GFLOP = 1000.0 * 1000.0 * 1000.0;
     const unsigned long    MIN_CORES = 1;
     const unsigned long    MAX_CORES = 1;
+    const double            IO_FLOPS = 0.0;
     const double PARALLEL_EFFICIENCY = 1.0; //single core so doesn't really matter
     const double MEMORY_REQUIREMENT  = 0.0; //may change this to variable input later?
-    const double                  GB = 1000.0 * 1000.0 * 1000.0;
     const double                  MB = 1000.0 * 1000.0;
 
 
@@ -61,7 +61,7 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
     if (io_overlap){
         for (int i = 0; i < task_num; ++i){
             std::string io_read_task_id("io read task #" + std::to_string(i));
-            auto current_read_task = workflow->addTask(io_read_task_id, 0.0, 0, 0, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
+            auto current_read_task = workflow->addTask(io_read_task_id, IO_FLOPS, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
             current_read_task->addInputFile(workflow->addFile(io_read_task_id+"::0.in", task_read * MB));
             if (i>0) {
                 workflow->addControlDependency(current_read_task, workflow->getTaskByID("io write task #" + std::to_string(i-1)));
@@ -72,7 +72,7 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
             workflow->addControlDependency(current_compute_task, current_read_task);
 
             std::string io_write_task_id("io write task #" + std::to_string(i));
-            auto current_write_task = workflow->addTask(io_write_task_id, 0.0, 0, 0, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
+            auto current_write_task = workflow->addTask(io_write_task_id, IO_FLOPS, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
             current_write_task->addOutputFile(workflow->addFile(io_write_task_id+"::0.out", task_write * MB));
             workflow->addControlDependency(current_write_task, current_compute_task);
         }
@@ -176,18 +176,8 @@ int main(int argc, char** argv) {
             throw std::invalid_argument("invalid task gflop");
         }
 
-        IO_OVERLAP = false;
 
-        /*if ((std::string(argv[5])).compare("true") == 0){
-            IO_OVERLAP = true;
-            std::cout << "true chosen";
-        } else {
-            IO_OVERLAP = false;
-            std::cout << "false chosen";
-        }
-        */
-
-
+        IO_OVERLAP = (std::string(argv[5])) == "true";
 
 
     } catch(std::invalid_argument &e) {
@@ -222,32 +212,35 @@ int main(int argc, char** argv) {
     auto io_storage_service = simulation.add(new wrench::SimpleStorageService(STORAGE_HOST, {"/"}));
     storage_services.insert(io_storage_service);
 
+    /// TODO fix segfault in the compute service thing.
 
+    std::set<std::shared_ptr<wrench::ComputeService>> compute_services;
     auto compute_service = simulation.add(
             new wrench::BareMetalComputeService(
                     COMPUTE_HOST,
                     {{COMPUTE_HOST, std::make_tuple(NUM_CORES, wrench::ComputeService::ALL_RAM)}},
-                    0,
+                    nullptr,
                     {
                             {wrench::BareMetalComputeServiceProperty::TASK_STARTUP_OVERHEAD, "0"},
                     },
                     {}
             )
     );
-
-    simulation.add(new wrench::FileRegistryService(WMS_HOST));
+    compute_services.insert(compute_service);
 
     // wms
     auto wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler> (
             new wrench::ActivityScheduler(io_storage_service)),
-            {compute_service},
+            compute_services,
             storage_services,
             WMS_HOST
-    ));
+            ));
 
     wms->addWorkflow(&workflow);
 
-
+    wrench::FileRegistryService *file_registry_service =
+            new wrench::FileRegistryService(WMS_HOST);
+    simulation.add(file_registry_service);
 
     // stage the input files
     for (auto const &file : workflow.getInputFiles()) {
