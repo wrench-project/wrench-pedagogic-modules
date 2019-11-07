@@ -186,7 +186,7 @@ int main(int argc, char** argv) {
         std::cerr << "   task_write: amount written per task in MB [0,9999]" << std::endl;
         std::cerr << "   task_num: number of tasks to compute (>0)" << std::endl;
         std::cerr << "   task_gflop: task GFlop (> 0)" << std::endl;
-        std::cerr << "   io_overlap: whether read/write can be done concurrently with computation" << std::endl;
+        std::cerr << "   io_overlap: whether read/write can be done concurrently with computation [true|false]" << std::endl;
         std::cerr << "" << std::endl;
         std::cerr << "   (Core speed is always 100GFlop/sec, Host RAM capacity is always 32 GB)" << std::endl;
         return 1;
@@ -219,7 +219,7 @@ int main(int argc, char** argv) {
             new wrench::BareMetalComputeService(
                     COMPUTE_HOST,
                     {{COMPUTE_HOST, std::make_tuple(NUM_CORES, wrench::ComputeService::ALL_RAM)}},
-                    nullptr,
+                    "",
                     {
                             {wrench::BareMetalComputeServiceProperty::TASK_STARTUP_OVERHEAD, "0"},
                     },
