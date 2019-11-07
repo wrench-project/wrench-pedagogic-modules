@@ -219,10 +219,8 @@ int main(int argc, char** argv) {
             new wrench::BareMetalComputeService(
                     COMPUTE_HOST,
                     {{COMPUTE_HOST, std::make_tuple(NUM_CORES, wrench::ComputeService::ALL_RAM)}},
-                    nullptr,
-                    {
-                            {wrench::BareMetalComputeServiceProperty::TASK_STARTUP_OVERHEAD, "0"},
-                    },
+                    0,
+                    {},
                     {}
             )
     );
@@ -238,7 +236,7 @@ int main(int argc, char** argv) {
 
     wms->addWorkflow(&workflow);
 
-    wrench::FileRegistryService *file_registry_service =
+    auto *file_registry_service =
             new wrench::FileRegistryService(WMS_HOST);
     simulation.add(file_registry_service);
 
