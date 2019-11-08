@@ -177,7 +177,14 @@ int main(int argc, char** argv) {
         }
 
 
-        IO_OVERLAP = (std::string(argv[5])) == "true";
+        if (std::string(argv[5]) == "true") {
+            IO_OVERLAP = true;
+        } else if (std::string(argv[5]) == "false") {
+            IO_OVERLAP = false;
+        } else {
+            std::cerr << "Invalid io overlap. Enter a boolean (true/false)" << std::endl;
+            throw std::invalid_argument("invalid io overlap");
+        }
 
 
     } catch(std::invalid_argument &e) {
@@ -211,8 +218,6 @@ int main(int argc, char** argv) {
     std::set<std::shared_ptr<wrench::StorageService>> storage_services;
     auto io_storage_service = simulation.add(new wrench::SimpleStorageService(STORAGE_HOST, {"/"}));
     storage_services.insert(io_storage_service);
-
-    /// TODO fix segfault in the compute service thing.
 
     std::set<std::shared_ptr<wrench::ComputeService>> compute_services;
     auto compute_service = simulation.add(
@@ -250,7 +255,6 @@ int main(int argc, char** argv) {
     simulation.launch();
 
     simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json", true);
-    //simulation.getOutput().dumpWorkflowGraphJSON(&workflow, "workflow_graph.json");
 
     return 0;
 }
