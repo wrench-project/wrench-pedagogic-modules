@@ -8,7 +8,7 @@
 
 <div class="form-group">
     <label for="num_tasks">Number of Tasks</label>
-    <input class="form-control" id="num-tasks" placeholder="1" value="1" min="1" step="1" required>
+    <input class="form-control" id="num-tasks" placeholder="1" value="1" min="1" max="999" step="1" required>
     <div class="invalid-feedback">
         Please provide the number of tasks in the range of [1, 999].
     </div>
@@ -24,7 +24,7 @@
 
 <div class="form-group">
     <label for="num_cores">Amount of Task Input Data</label>
-    <input class="form-control" type="number" id="task-input" placeholder="1" value="1" min="1" max="32" step="1" required>
+    <input class="form-control" type="number" id="task-input" placeholder="1" value="1" min="1" max="999" step="1" required>
     <div class="invalid-feedback">
         Please provide the amount of input data per task in the range of [0, 999] MB.
     </div>
@@ -32,7 +32,7 @@
 
 <div class="form-group">
     <label for="task_ram">Amount of Task Output Data</label>
-    <input class="form-control" type="number" id="task-output" placeholder="0" value="0" min="0" max="32" step="1" required>
+    <input class="form-control" type="number" id="task-output" placeholder="1" value="1" min="1" max="999" step="1" required>
     <div class="invalid-feedback">
         Please provide the amount of output data per task in the range of [0, 999] MB.
     </div>
@@ -41,7 +41,7 @@
 <div class="form-group">
     <div class="form-check">
         <label class="form-check-label">
-            <input class="form-check-input" name="io-overlap" type="checkbox" id="ram-required" value="1">
+            <input class="form-check-input" name="io-overlap" type="checkbox" id="io-overlap" value="1">
             IO Overlap Allowed (Computation and IO can take place concurrently)
         </label>
     </div>
@@ -57,7 +57,7 @@
 
 <%- include("partials/workflow_execution_data"); %>
 
-<script src="scripts/multi_core.js" type="text/javascript"></script>
+<script src="scripts/io_operations.js" type="text/javascript"></script>
 
 <script>
     let svg = d3.select("#cyberinfrastructure");

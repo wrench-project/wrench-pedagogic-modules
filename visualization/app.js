@@ -512,14 +512,14 @@ app.post("/run/multi_core", authCheck, function(req, res) {
     }
 });
 
-// display activity multi core visualization route
+// display activity io operations visualization route
 app.get("/io_operations", authCheck, function(req, res) {
     res.render("io_operations", {
         cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/multi_core_task.svg")
     });
 });
 
-// execute activity multi core simulation route
+// execute activity io operations simulation route
 app.post("/run/io_operations", authCheck, function(req, res) {
     const PATH_PREFIX = __dirname.replace("visualization", "simulations/io_operations/");
 
@@ -573,8 +573,8 @@ app.post("/run/io_operations", authCheck, function(req, res) {
                         "user": req.user,
                         "time": Math.round(new Date().getTime() / 1000),  // unix timestamp
                         "activity": "io_operations",
-                        "task_read": TASK_INPUT,
-                        "task_write": TASK_OUTPUT,
+                        "task_input": TASK_INPUT,
+                        "task_output": TASK_OUTPUT,
                         "num_tasks": NUM_TASKS,
                         "task_gflop": TASK_GFLOP,
                         "io_overlap": IO_OVERLAP
