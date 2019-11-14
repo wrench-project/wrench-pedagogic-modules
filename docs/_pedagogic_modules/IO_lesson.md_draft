@@ -168,3 +168,9 @@ from this change in terms of CPU utilization over 5 consecutive tasks?
 ### Questions
 
 **[I.q1.1]**
+
+A task that must be repeated ten times requires 50 MB of input data to be loaded from disk before computation and
+writes 50 MB of data to disk once computation has been completed. The disk itself is capable of read and write speeds of
+100 MBps. The computation required for each task is 500 GFlop and the processor can do 250 GFlops.
+
+Will increasing
