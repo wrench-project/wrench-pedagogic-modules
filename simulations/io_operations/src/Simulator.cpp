@@ -64,7 +64,7 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
             auto current_read_task = workflow->addTask(io_read_task_id, IO_FLOPS, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
             current_read_task->addInputFile(workflow->addFile(io_read_task_id+"::0.in", task_read * MB));
             if (i>0) {
-                workflow->addControlDependency(workflow->getTaskByID("io write task #" + std::to_string(i-1)), current_read_task);
+                workflow->addControlDependency(workflow->getTaskByID("io read task #" + std::to_string(i-1)), current_read_task);
             }
 
             std::string compute_task_id("compute task #" + std::to_string(i));

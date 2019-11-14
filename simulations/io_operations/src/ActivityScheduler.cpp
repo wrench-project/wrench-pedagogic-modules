@@ -41,15 +41,12 @@ namespace wrench {
             if (task->getMaxNumCores() <= num_idle_cores) {
                 tasks_to_submit.push_back(task);
                 service_specific_args[task->getID()] = compute_host + ":" + std::to_string(task->getMaxNumCores());
-                if (task->getFlops() > 0.0) {
-                    num_idle_cores -= task->getMaxNumCores();
-                }
             }
         }
 
-
+        std::map<WorkflowFile *, std::shared_ptr<FileLocation>> file_locations;
         for (const auto &task : tasks_to_submit) {
-            std::map<WorkflowFile *, std::shared_ptr<FileLocation>> file_locations;
+
             for (const auto &file : task->getInputFiles()) {
                 file_locations.insert(std::make_pair(file, FileLocation::LOCATION(storage_service)));
             }
@@ -57,9 +54,9 @@ namespace wrench {
             for (const auto &file : task->getOutputFiles()) {
                 file_locations.insert(std::make_pair(file, FileLocation::LOCATION(storage_service)));
             }
-            WorkflowJob *job = (WorkflowJob *) this->getJobManager()->createStandardJob(task, file_locations);
-            this->getJobManager()->submitJob(job, compute_service, service_specific_args);
         }
+        WorkflowJob *job = (WorkflowJob *) this->getJobManager()->createStandardJob(tasks_to_submit, file_locations);
+        this->getJobManager()->submitJob(job, compute_service, service_specific_args);
 
     }
 }
