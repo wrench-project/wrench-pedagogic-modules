@@ -97,7 +97,7 @@ Let us return to the first example above:
 
 
 In this case, we can string together as many tasks as we would like and the CPU will be utilized continuously apart from
-the initial read and the last write. With two tasks the IO time is still a significant portion of the execution time, 
+the initial read and the final write. With two tasks the IO time is still a significant portion of the execution time,
 but if we were to have 1000 tasks to complete, suddenly that initial read and last write are a negligible portion of the
 total execution time. This is what we can refer to as *CPU Driven* execution time and will occur when read and write 
 times are sufficiently short for tasks compared with CPU computation time needed. 
@@ -169,8 +169,26 @@ from this change in terms of CPU utilization over 5 consecutive tasks?
 
 **[I.q1.1]**
 
-A task that must be repeated ten times requires 50 MB of input data to be loaded from disk before computation and
+A task that is run thousands of times a day requires 50 MB of input data to be loaded from disk before computation and
 writes 50 MB of data to disk once computation has been completed. The disk itself is capable of read and write speeds of
 100 MBps. The computation required for each task is 500 GFlop and the processor can do 250 GFlops.
 
-Will increasing
+Ignoring the initial read and final write in your calculations, if we want to decrease the time per task, should we focus on upgrading the
+processor or acquiring faster memory?
+
+**[I.q2.1]**
+
+A task requires 100 MB of input data to be loaded from disk and 1 TFlop of computation. It is being run in batches of
+fifty consecutive identical tasks on a computer with a processor capable of 250 Gflops and a disk with R/W speeds of
+100 MBps.
+
+How large can the output that must be written to disk be without impacting processor utilization (ignore the initial read
+and final write in your calculations)?
+
+**[I.q3.1]**
+
+Consider a series of 10 identical tasks. With the hardware we have available, each task requires 1 second to read data
+from disk, 1 second for computation, and 0.5 seconds to write the output back to the disk.
+
+What is the execution time if we are not able to perform IO during computation? What is execution time when overlap of
+computation and IO is possible?
