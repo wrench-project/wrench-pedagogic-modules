@@ -113,8 +113,24 @@ are free to load any number of tasks into memory. As previous modules have touch
 requirements and it may not be feasible to pre-load many into memory due to space constraints. It is also important to 
 realize that you may be running different tasks that each have their own requirements for IO where we have been assuming
 identical tasks. Lastly, relating to the concept of workflows, there can be dependencies between tasks that impact 
-execution and what IO is required. 
+execution and what IO is required.
 
+
+### Simulating IO
+
+So that you can gain hands-on experience, use
+the simulation Web application
+(see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>),
+selecting `IO Operations` from its menu.
+
+Initially, you can create a series of identical tasks that have a certain input and output. Run the simulation to see
+the progression of tasks and host utilization without allowing IO to overlap with computation. Once you have observed
+this, try selecting the checkbox to allow overlap.
+
+With IO overlap there should be an improvement in execution time and host utilization. You can view this in the output
+graphs that are generated. You can also try varying the input/output and computation amounts to create IO bound or CPU
+bound tasks. Understanding which tasks will benefit from increased R/W or computation speeds will assist you in
+answering the questions to come.
 
 
 ### Practice Questions
