@@ -118,15 +118,15 @@ core computes at speed 30 TFlop/sec. How long will the program run for in second
 
 <p> </p>
 
-**[A.p1.2]** A program just ran in 1640 sec on a core with speed 2 TFlop/sec, 
-how many MFlop does the program perform?
+**[A.p1.2]** A program just ran in 0.32 sec on a core with speed 2 TFlop/sec, 
+how many GFlop does the program perform?
 <div class="ui accordion fluid">
   <div class=" title">
     <i class="dropdown icon"></i>
     (click to see answer)
   </div>
   <div markdown="1" class="ui segment content">
-   $$ \frac{2000000\; \text{MFlop/sec}}{1640\; \text{sec}} \simeq 1219.5 \;\text{MFlop} $$
+   $$ 2000\; \text{GFlop/sec} \times 0.32\; \text{sec} = 640 \;\text{GFlop} $$
   </div>
 </div>
 
