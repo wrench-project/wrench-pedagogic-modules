@@ -123,6 +123,8 @@ the simulation Web application
 (see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>),
 selecting `IO Operations` from its menu.
 
+
+
 Initially, you can create a series of identical tasks that have a certain input and output. Run the simulation to see
 the progression of tasks and host utilization without allowing IO to overlap with computation. Once you have observed
 this, try selecting the checkbox to allow overlap.

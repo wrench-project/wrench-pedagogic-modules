@@ -130,7 +130,7 @@ void generatePlatform(std::string platform_file_path) {
 /**
  *
  * @param argc
- * @param argvx
+ * @param argv
  * @return
  */
 int main(int argc, char** argv) {
