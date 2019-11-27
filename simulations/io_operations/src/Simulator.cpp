@@ -133,6 +133,7 @@ void generatePlatform(std::string platform_file_path) {
 int main(int argc, char** argv) {
 
     wrench::Simulation simulation;
+
     simulation.init(&argc, argv);
 
     const int NUM_CORES         = 1;

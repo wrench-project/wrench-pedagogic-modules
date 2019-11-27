@@ -82,7 +82,7 @@ program's execution time would then be:
 
 $$
 \begin{align}
- \text{execution time} & = \frac{100 \times 10^{12}\; \text{Flop}}{25 \times 10^{9}\; \text{Flop/sec}}\\
+ \text{execution time} & = \frac{100 \times 10^{12}\; \text{Flop}}{35 \times 10^{9}\; \text{Flop/sec}}\\
    & \simeq 2,857.14\; \text{sec}
 \end{align}
 $$  
