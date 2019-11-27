@@ -51,8 +51,8 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
     const unsigned long    MIN_CORES = 1;
     const unsigned long    MAX_CORES = 1;
     const double            IO_FLOPS = 0.0;
-    const double PARALLEL_EFFICIENCY = 1.0; //single core so doesn't really matter
-    const double MEMORY_REQUIREMENT  = 0.0; //may change this to variable input later?
+    const double PARALLEL_EFFICIENCY = 1.0;
+    const double MEMORY_REQUIREMENT  = 0.0;
     const double                  MB = 1000.0 * 1000.0;
 
 
@@ -64,7 +64,7 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
             auto current_read_task = workflow->addTask(io_read_task_id, IO_FLOPS, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
             current_read_task->addInputFile(workflow->addFile(io_read_task_id+"::0.in", task_read * MB));
             if (i>0) {
-                workflow->addControlDependency(workflow->getTaskByID("io write task #" + std::to_string(i-1)), current_read_task);
+                workflow->addControlDependency(workflow->getTaskByID("io read task #" + std::to_string(i-1)), current_read_task);
             }
 
             std::string compute_task_id("compute task #" + std::to_string(i));
@@ -82,6 +82,9 @@ void generateWorkflow(wrench::Workflow *workflow, int task_read, int task_write,
             auto current_task = workflow->addTask(task_id, task_gflop * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, MEMORY_REQUIREMENT);
             current_task->addInputFile(workflow->addFile(task_id+"::0.in", task_read * MB));
             current_task->addOutputFile(workflow->addFile(task_id+"::0.out", task_write * MB));
+            if (i > 0) {
+                workflow->addControlDependency( workflow->getTaskByID("task #" + std::to_string(i-1)), current_task);
+            }
         }
 
     }
@@ -127,7 +130,7 @@ void generatePlatform(std::string platform_file_path) {
 /**
  *
  * @param argc
- * @param argvx
+ * @param argv
  * @return
  */
 int main(int argc, char** argv) {
@@ -255,7 +258,7 @@ int main(int argc, char** argv) {
 
     simulation.launch();
 
-    simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json", true);
+    simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json", false);
 
     return 0;
 }

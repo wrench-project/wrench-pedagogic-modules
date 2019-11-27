@@ -515,7 +515,7 @@ app.post("/run/multi_core", authCheck, function(req, res) {
 // display activity io operations visualization route
 app.get("/io_operations", authCheck, function(req, res) {
     res.render("io_operations", {
-        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/multi_core_task.svg")
+        cyber_infrastructure_svg: fs.readFileSync(__dirname + "/public/img/io_task.svg")
     });
 });
 
