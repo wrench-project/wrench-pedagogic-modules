@@ -51,7 +51,7 @@ Given a network link with latency $\alpha$ and bandwidth $\beta$, the time
 $T$ to transfer an amount of data $s$ over the link can be estimated as a first
 approximation as follows:
 
-$$ T = \alpha + \frac{m}{\beta} .$$
+$$ T = \alpha + \frac{s}{\beta} .$$
 
 
 For instance, consider a link with latency 100 microseconds and effective bandwidth
