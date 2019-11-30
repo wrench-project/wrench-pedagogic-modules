@@ -261,8 +261,8 @@ besides load imbalance, on a multi-core machine is that all of the cores
 share the same amount of RAM.  Therefore, there could be idle cores and
 tasks that need to run, but there is not sufficient RAM. Unfortunately, in
 this case, we cannot execute these tasks, and the idle cores must remain
-idle until more RAM becomes available (i.e., when currently tasks
-complete).  As a result, parallel efficiency falls is below 100%. This is
+idle until more RAM becomes available (i.e., when currently running  tasks
+complete).  As a result, parallel efficiency falls below 100%. This is
 because we simply don't allow ourselves to use more memory than available
 in physical RAM, which would be handled by the Operating Systems (by shuffling data
 back and forth between RAM and disks) but would come with unacceptable performance
