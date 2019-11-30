@@ -131,7 +131,7 @@ At this point, you may be wondering, how is this (less than 100% efficiency) pos
 ## Load Imbalance and Idle Time
 
 A common cause for sub-100% efficiency is **idle time**, i.e., time during
-which one or more cores are no able to work while others are working.
+which one or more cores are not able to work while others are working.
 Assuming that all tasks run for the same amount of time, as in this module,
 idle time will occur when *n*, the number of tasks, is not divisible by *p*,
 the number of cores. For example, if we have 8 tasks that each run  for 1
@@ -142,12 +142,12 @@ In this situation we says that **the load is not well-balanced across
 cores**. With discrete tasks such as these the balance cannot be
 improved.
 
-There is **direct relationship** between idle time and parallel efficiency, assmuming idle time is
+There is **direct relationship** between idle time and parallel efficiency, assumuming idle time is
 the only cause of loss in parallel efficiency. *The parallel efficiency is
 the sum of the core non-idle times divided by the product of the number of cores by the
 overall execution time.*  
 
-The above statement may sound complicated, but it's very intuitive on an example. Consider a dual-core compute that executes an application in 1 hour. 
+The above statement may sound complicated, but it's very intuitive on an example. Consider a dual-core computer that executes an application in 1 hour. 
 The first core computes for 30 min, and then is idle for 30 min.
 The second core is idle for 15 minutes, and then computes for 45 minutes. This execution is depicted in the 
 figure below, where idle time is shown in white and compute time in yellow:
