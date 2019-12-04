@@ -168,7 +168,8 @@ the approximation we computed above on this page (which was 245 seconds).
   **[E.q1.3]** The compute service runs on a host with a speed of *1000 GFlop/sec*, and *task1*
     must perform *35 TFlop*. About how long should we expect *task1* to compute for?
   
-  **[E.q1.4]** Why does *task1* take longer than what you computed in *question 3*?
+  **[E.q1.4]** Why is the answer for q1.3 above much shorter than the answer for q1.2?
+
   
   **[E.q1.5]** About how long would it take to send all of
     *task1*'s input data from *storage_db.edu* to *hpc.edu* and to send all of *task1*'s output data
