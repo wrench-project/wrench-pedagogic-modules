@@ -75,7 +75,7 @@ T_{3000\;MB\;file} & = \sum_{l \in route} Latency(l) + \frac{m}{\min\limits_{l \
 \end{align}
 $$
 
-The front end node has 10 TB of storage, which is called the *scratch storage*. This
+The front end node has 100 TB of storage, which is called the *scratch storage*. This
 is essentially a local storage service. When a compute node reads a file from 
 scratch storage, the file
 travels through the two links separating the compute node and the frontend
