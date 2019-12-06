@@ -110,7 +110,7 @@ void generatePlatform(std::string platform_file_path) {
                       "   <zone id=\"AS0\" routing=\"Full\">\n"
                       "       <host id=\"io_host\" speed=\"100Gf\" core=\"1\">\n"
                       "           <prop id=\"ram\" value=\"32GB\"/>\n"
-                      "           <disk id=\"large_disk\" read_bw=\"150MBps\" write_bw=\"100MBps\">\n"
+                      "           <disk id=\"large_disk\" read_bw=\"100MBps\" write_bw=\"100MBps\">\n"
                       "                            <prop id=\"size\" value=\"5000GiB\"/>\n"
                       "                            <prop id=\"mount\" value=\"/\"/>\n"
                       "           </disk>\n"
@@ -172,6 +172,7 @@ int main(int argc, char** argv) {
             std::cerr << "Invalid task num. Enter a value greater than 0" << std::endl;
             throw std::invalid_argument("invalid task num amount");
         }
+
 
         TASK_GFLOP = std::stoi(std::string(argv[4]));
 

@@ -130,8 +130,8 @@ the progression of tasks and host utilization without allowing IO to overlap wit
 this, try selecting the checkbox to allow overlap.
 
 With IO overlap there should be an improvement in execution time and host utilization. You can view this in the output
-graphs that are generated. You can also try varying the input/output and computation amounts to create IO bound or CPU
-bound tasks. Understanding which tasks will benefit from increased R/W or computation speeds will assist you in
+graphs that are generated. You can also try varying the input/output and computation amounts to create IO intensive or CPU
+intensive tasks. Understanding which tasks will benefit from increased R/W or computation speeds will assist you in
 answering the questions to come.
 
 
