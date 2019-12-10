@@ -172,9 +172,9 @@ Assuming the cluster has 1 20-core node:
   
   **[F.q1.9]** At what time would task T0 start?
   
-  **[F.q1.10]** At what time would task T19 start?
+  **[F.q1.10]** At what time would task T18 start?
   
-  **[F.q1.11]** At what time would task T20 start?
+  **[F.q1.11]** At what time would task T19 start?
   
   **[F.q1.12]** How long can we expect the execution time of this workflow to be? To this end, write a simple formula.
     In the simulation app, set the cluster to have 1 20-core node (Figure 8).
