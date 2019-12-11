@@ -222,8 +222,8 @@ performance.
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_execution_parallelism/compute_service_5.svg">Compute Service 5</object>
 
   **[F.q1.20]** Assuming the cluster has 4 8-core compute nodes (Figure 10), what can we expect the execution time of the workflow to be?
-    Write a simple formula. Now set the simulator to have 4 compute nodes, each with 8 cores. Check the box that
-    says "Workflow Tasks each require an additional 12 GB of RAM". Run the simulation and check your results against the simulator.
+    Write a simple formula. Now set the simulator to have 4 compute nodes, each with 8 cores.
+    Run the simulation and check your results against the simulator.
 
   **[F.q1.21]** How much faster did the workflow execute in this execution when compared to the previous one (the answer from F.q1.16)?
 
