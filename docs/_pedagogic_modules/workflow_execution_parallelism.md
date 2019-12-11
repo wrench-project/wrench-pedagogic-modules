@@ -227,7 +227,7 @@ performance.
 
   **[F.q1.21]** How much faster did the workflow execute in this execution when compared to the previous one (the answer from F.q1.16)?
 
-  **[F.q1.22]** What is the parallel efficiency? Compute it as a percentage
+  **[F.q1.22]** What is the parallel efficiency (when we consider the sequential baseline as executing using a single core in total)? Compute it as a percentage
   using a simple formula (probably very easy to think of if in terms of
   geometry  of the host utilization graph).
 
