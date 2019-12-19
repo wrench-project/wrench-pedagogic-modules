@@ -60,8 +60,8 @@ uninterrupted until completion on that same core.
 One motivation for running the tasks of an application on multiple cores is speed.  For
 example, if you have tasks that a single core can complete in one hour, it
 will take four hours to complete four tasks. If you have two of these
-cores in a dual-core processor, now you can complete the same four tasks in
-two hours only. This concept is called **parallelism**: running multiple 
+cores in a dual-core processor, now you can complete the same four tasks in only
+two hours. This concept is called **parallelism**: running multiple 
 tasks at the same time, or *concurrently*, to complete a set of tasks faster.
 
 Unfortunately, most real-world applications do not have the ideal behavior
@@ -306,7 +306,7 @@ efficiency on the new 5-core processor?
    tasks were executed sequentially (there was never a need for more than 2
    GB of RAM). With 5 cores, running all tasks concurrently would
 require 5x2 = 10 GB of RAM, but only 8GB is available. Therefore, we can only run
-   4 tasks at the same time, and the last take runs by itself, with 4 cores
+   4 tasks at the same time, and the last task runs by itself, with 4 cores
    being idle. The overall execution time is 2 seconds. Therefore:
 
 $$
