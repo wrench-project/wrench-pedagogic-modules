@@ -5,11 +5,6 @@ order: 700
 usemathjax: true
 ---
 
-1. [Learning objectives](#learning-objectives)
-2. [Overview](#overview)
-3. [Activity](#activity)
-4. [Conclusion](#conclusion)
-
 # Learning Objectives
 - Gain exposure to cluster platforms;
 - Understand how compute core and compute node parallelism affects workflow execution times;
@@ -137,7 +132,7 @@ The questions below ask you to run particular simulation scenarios.
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_execution_parallelism/compute_service_1.svg">Compute Service 1</object>
 
   **[F.q1.1]** Assuming the cluster has 1 single-core compute node (Figure 5), what do you expect the overall execution time of the workflow to be?
-  To this end, write a simple formula. In the simulation app,  set the cluster to have 1 single-core node. Run the simulation and check your answer. (Note that you might not be able to see file transfer operations in the displayed Gantt charts because these operations could be very short relatively to the overall execution time.)
+  To this end, write a simple formula. In the simulation app,  set the cluster to have 1 single-core node. Run the simulation and check your answer. (Note that you might not be able to see file transfer operations in then displayed Gantt charts because these operations could be very short relatively to the overall execution time.)
   
   
   **[F.q1.2]** Based on the dependencies present in the workflow, what tasks could we potentially execute in parallel if we had 20 cores instead of 1 core?
@@ -162,7 +157,7 @@ The questions below ask you to run particular simulation scenarios.
   To this end, write a simple formula. In the simulation app, set the cluster to have 1 15-core node.
   Run the simulation and check your answer.
   
-  **[F.q1.7]** If parallel efficiency higher or lower than that computed in question F.q1.5?
+  **[F.q1.7]** Is parallel efficiency higher or lower than that computed in question F.q1.5?
   
   **[F.q1.8]** Overall, was it worth it switching from a 10 core node to a 15 core node?
 
@@ -202,7 +197,7 @@ As we have learned in the
 [Multi-core Computing module]({{ site.baseurl }}/pedagogic_modules/multi_core_computing),
 if a compute node does not have enough RAM to execute
 a task, the task execution must be deferred. Since our hosts have 80 GB of RAM, 
-this means that at most 5tasks can run concurrently on a host (because 6 times 16 is greater than
+this means that at most 5 tasks can run concurrently on a host (because 6 times 16 is greater than
 80). The following questions reveal how this requirement forces us to find
 another means of utilizing parallelism and increasing workflow execution
 performance.
@@ -222,7 +217,7 @@ performance.
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_execution_parallelism/compute_service_5.svg">Compute Service 5</object>
 
   **[F.q1.20]** Assuming the cluster has 4 8-core compute nodes (Figure 10), what can we expect the execution time of the workflow to be?
-    Write a simple formula. Now set the simulator to have 4 compute nodes, each with 8 cores. Check the box that says "Workflow Tasks each require an additional 12 GB of RAM.  Run the simulation and check your results against the simulator.
+    Write a simple formula. Now set the simulator to have 4 compute nodes, each with 8 cores. Check the box that says "Workflow Tasks each require an additional 12 GB of RAM".  Run the simulation and check your results against the simulator.
 
   **[F.q1.21]** How much faster did the workflow execute in this execution when compared to the previous one (the answer from F.q1.16)?
 

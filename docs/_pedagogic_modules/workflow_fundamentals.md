@@ -194,7 +194,7 @@ best parallel speedup one can achieve?  What is the parallel efficiency?
 
 <p></p>
 
-**[D.q1.3]** If each file if 1GB, how many GB in total are **read** from
+**[D.q1.3]** If each file is 1GB, how many GB in total are **read** from
 the storage server where all files must be stored?
 
 <p></p>
