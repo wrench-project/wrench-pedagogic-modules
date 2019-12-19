@@ -5,6 +5,7 @@ order: 700
 usemathjax: true
 ---
 
+
 # Learning Objectives
 - Gain exposure to cluster platforms;
 - Understand how compute core and compute node parallelism affects workflow execution times;
@@ -12,6 +13,7 @@ usemathjax: true
 - Be able to compare alternative strategies for executing tasks in parallel.
 
 # Overview
+
 ## Workflow and Platform Scenario
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_execution_parallelism/workflow.svg">Workflow</object>
 
