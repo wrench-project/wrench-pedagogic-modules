@@ -107,7 +107,7 @@ To make sure the above is crystal clear, answer the following practice questions
 
 <p> </p>
 
-**[C.p1.3]** You need to transfer 148 MB of data through a network link with latency 1 ms, what bandwidth, in GB/sec, should be link have so that the data transfer takes 2.5 sec?
+**[C.p1.3]** You need to transfer 148 MB of data through a network link with latency 1 ms. What bandwidth, in GB/sec, should the link have so that the data transfer takes 2.5 sec?
 <div class="ui accordion fluid">
   <div class=" title">
     <i class="dropdown icon"></i>
@@ -134,7 +134,7 @@ over a link with latency 10 ms and bandwidth 500 MB/sec?
 <p> </p>
 
 **[C.q1.2]** 3 MB of data was transferred over a link with 18 MB/sec
-bandwidth in 3.03 sec. What is the link's latency in second?
+bandwidth in 3.03 sec. What is the link's latency in seconds?
 
 <p> </p>
 
