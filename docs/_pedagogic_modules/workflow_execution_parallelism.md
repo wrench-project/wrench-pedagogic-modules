@@ -147,10 +147,10 @@ The questions below ask you to run particular simulation scenarios.
   To this end, write a simple formula. In the simulation app, set the cluster to have 1 10-core node.
    Run the simulation and check your answer.
   
-  **[F.q1.4]** By inspecting the Host Utilization Gantt chart in the simulation app, is the parallel efficiency greater than 50%? Explain. 
+  **[F.q1.4]** By inspecting the Host Utilization Gantt chart in the simulation app, is the parallel efficiency greater than 50%? Explain. (Remember that the parallel efficiency is in terms of individual cores.) 
        **Important: while I/O is going on, we consider that the cores are idle!**
   
-  **[F.q1.5]** Write a formula for the parallel efficiency and compute the value as a percentage. 
+  **[F.q1.5]** Write a formula for the parallel efficiency and compute the value as a percentage. (Remember that the parallel efficiency is in terms of cores: the parallel speedup is the execution time when using all available cores in the platform, even if some of them don't compute anything, divided by the execution time when using a single core). 
 
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/workflow_execution_parallelism/compute_service_3.svg">Compute Service 3</object>
