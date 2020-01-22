@@ -132,7 +132,7 @@ int main(int argc, char** argv) {
         TASK_MEMORY = std::stoi(std::string(argv[4]));
 
         if (TASK_MEMORY < 0) {
-            std::cerr << "Invalid task gflop. Enter a value greater than 0" << std::endl;
+            std::cerr << "Invalid task memory. Enter a value greater than 0" << std::endl;
             throw std::invalid_argument("invalid task gflop");
         }
 
@@ -166,7 +166,7 @@ int main(int argc, char** argv) {
                     {{THE_HOST, std::make_tuple(NUM_CORES, wrench::ComputeService::ALL_RAM)}},
                     0,
                     {
-                            {wrench::BareMetalComputeServiceProperty::THREAD_STARTUP_OVERHEAD, "0"},
+                            {wrench::BareMetalComputeServiceProperty::TASK_STARTUP_OVERHEAD, "0"},
                     },
                     {}
             )

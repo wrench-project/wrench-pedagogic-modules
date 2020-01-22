@@ -1,0 +1,32 @@
+### Learning Objectives
+
+	- Put together concepts learned throughout the Single-Core computing modules
+	- Understand how to use these concepts to optimize efficiency.
+
+
+### Outlining The Situation.
+
+    You are working for a company that has a single-core computer to run various computational tasks required for
+    day-to-day business. The specifications of your machine and tasks you run are as follows:
+
+
+#### Machine
+    1 Core CPU
+    50 Gflop/second
+    16 GB RAM
+    1 SSD with 1TB capacity: 500 MBps R/W
+
+
+#### Tasks
+
+    There are three tasks that are run constantly in a loop, in the order of their numbering.
+
+    Task 1.
+        1 Tflop
+        Requires 8 GB of RAM
+        Input File (Read from disk prior to start): 4 GB
+        Output File (Written to disk after completion): 4 GB
+
+    Task 2.
+        
+
