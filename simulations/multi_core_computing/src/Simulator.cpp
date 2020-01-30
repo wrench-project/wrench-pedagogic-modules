@@ -164,7 +164,7 @@ int main(int argc, char** argv) {
             new wrench::BareMetalComputeService(
                     THE_HOST,
                     {{THE_HOST, std::make_tuple(NUM_CORES, wrench::ComputeService::ALL_RAM)}},
-                    0,
+                    "",
                     {
                             {wrench::BareMetalComputeServiceProperty::TASK_STARTUP_OVERHEAD, "0"},
                     },
@@ -181,7 +181,7 @@ int main(int argc, char** argv) {
 
     simulation.launch();
 
-    simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json", true);
+    simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json", false);
     //simulation.getOutput().dumpWorkflowGraphJSON(&workflow, "workflow_graph.json");
 
     return 0;

@@ -98,10 +98,20 @@ void generatePlatformWithHPCSpecs(std::string platform_file_path, int num_nodes,
             xml += "         <prop id=\"ram\" value=\"80000000000\"/>\n";
             xml += "        </cluster>\n";
             xml += "      <zone id=\"AS2\" routing=\"Full\">\n";
-            xml += "          <host id=\"storage_db.edu\" speed=\"1000Gf\"/>\n";
+            xml += "          <host id=\"storage_db.edu\" speed=\"1000Gf\">\n";
+            xml += "                <disk id=\"large_disk\" read_bw=\"100MBps\" write_bw=\"100MBps\">\n";
+            xml += "                       <prop id=\"size\" value=\"5000GiB\"/>\n";
+            xml += "                       <prop id=\"mount\" value=\"/\"/>\n";
+            xml += "                </disk>\n";
+            xml += "          </host>\n";
             xml += "      </zone>\n";
             xml += "      <zone id=\"AS3\" routing=\"Full\">\n";
-            xml += "          <host id=\"my_lab_computer.edu\" speed=\"1000Gf\" core=\"1\"/>\n";
+            xml += "          <host id=\"my_lab_computer.edu\" speed=\"1000Gf\" core=\"1\">\n";
+            xml += "                <disk id=\"large_disk\" read_bw=\"100MBps\" write_bw=\"100MBps\">\n";
+            xml += "                       <prop id=\"size\" value=\"5000GiB\"/>\n";
+            xml += "                       <prop id=\"mount\" value=\"/\"/>\n";
+            xml += "                </disk>\n";
+            xml += "          </host>\n";
             xml += "      </zone>\n";
             xml += "      <!-- effective bandwidth = 125 MBps -->\n";
             xml += "      <link id=\"link1\" bandwidth=\"128.8659MBps\" latency=\"100us\"/>\n";
@@ -277,11 +287,12 @@ int main(int argc, char** argv) {
    // create a remote storage service and a storage service on the same host as the compute service
    const double STORAGE_CAPACITY = 10.0 * 1000.0 * 1000.0 * 1000.0 * 1000.0;
    auto remote_storage_service = simulation.add(
-            new wrench::SimpleStorageService(REMOTE_STORAGE_HOST, STORAGE_CAPACITY));
+            new wrench::SimpleStorageService(REMOTE_STORAGE_HOST, {"/"}));
 
+   ///TODO fix mount point for cluster, need to look into this later.
    // this storage service is pretending to be scratch for the baremetal compute service
    auto bare_metal_storage_service = simulation.add(
-           new wrench::SimpleStorageService(COMPUTE_HOST, STORAGE_CAPACITY)
+           new wrench::SimpleStorageService(COMPUTE_HOST, {})
            );
 
    std::map<std::string, std::shared_ptr<wrench::StorageService>> storage_services = {
@@ -317,7 +328,9 @@ int main(int argc, char** argv) {
    simulation.add(new wrench::FileRegistryService(REMOTE_STORAGE_HOST));
 
    // stage input files
-   simulation.stageFiles(workflow.getInputFiles(), remote_storage_service);
+   for (auto const &file : workflow.getInputFiles()) {
+       simulation.stageFile(file.second, remote_storage_service);
+   }
 
    simulation.launch();
 

@@ -61,7 +61,7 @@ namespace wrench {
         }
 
         // specify file locations for tasks that will be submitted
-        std::map<WorkflowFile *, std::shared_ptr<StorageService>> file_locations;
+        std::map<WorkflowFile *, std::shared_ptr<FileLocation>> file_locations;
         for (const auto &task : tasks_to_submit) {
 
             bool taskHasChildren = (task->getNumberOfChildren() != 0) ? true : false;
@@ -70,9 +70,9 @@ namespace wrench {
             // files "in between" should be read from the local storage service (same host as the baremetal CS)
             for (const auto &file : task->getInputFiles()) {
                 if (taskHasChildren) {
-                    file_locations.insert(std::make_pair(file, storage_services.at("storage_db.edu")));
+                    file_locations.insert(std::make_pair(file, FileLocation::LOCATION(storage_services.at("storage_db.edu"))));
                 } else {
-                    file_locations.insert(std::make_pair(file, storage_services.at("hpc.edu/node_0")));
+                    file_locations.insert(std::make_pair(file, FileLocation::LOCATION(storage_services.at("hpc.edu/node_0"))));
                 }
             }
 
@@ -80,9 +80,9 @@ namespace wrench {
             // files "in between" should be written to the local storage service (same host as teh baremetal CS)
             for (const auto &file: task->getOutputFiles()) {
                 if (not taskHasChildren) {
-                    file_locations.insert(std::make_pair(file, storage_services.at("storage_db.edu")));
+                    file_locations.insert(std::make_pair(file, FileLocation::LOCATION(storage_services.at("storage_db.edu"))));
                 } else {
-                    file_locations.insert(std::make_pair(file, storage_services.at("hpc.edu/node_0")));
+                    file_locations.insert(std::make_pair(file, FileLocation::LOCATION(storage_services.at("hpc.edu/node_0"))));
                 }
             }
         }
