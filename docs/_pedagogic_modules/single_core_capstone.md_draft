@@ -1,55 +1,59 @@
 ### Learning Objectives
 
-	- Put together concepts learned throughout the Single-Core computing modules
-	- Understand how to use these concepts to optimize efficiency.
-
+  - Put together concepts learned throughout the Single-Core computing modules
+  - Understand how to use these concepts to reason about and optimize performance.
 
 ### Outlining The Situation.
 
-    You are working for a company that has a single-core computer to run various computational tasks required for
-    day-to-day business. The specifications of your machine and tasks you run are as follows:
+You are working for a company that has a single-core computer to run
+various computational tasks required for day-to-day business. The
+specifications of your machine and tasks you run are as follows:
 
 
 #### Machine
 
-    1 Core CPU
-    50 Gflop/second
-    8 GB RAM
-    1 HDD with 1TB capacity: 200 MBps R/W
-
+  - 1 1-Core CPU that comptes at 50 Gflop/sec
+  - 8 GB of RAM
+  - 1 HDD with 1TB capacity and 200 MBps R/W bandwidth
 
 #### Tasks
 
-    There are three tasks that are run frequently (but not continuously), in the order of their numbering. The input/output of these
-    tasks are not related (i.e. output from task 1 is not required as input for task 2 or task 3). It is possible
-    for I/O overlap with computation to occur. For our purposes, the disk can either read or write, but not at the same
-    time. Tasks will require the full RAM space for both their input and output during execution.
+On this machine, a sequence of three tasks are run frequently (Task 1, then Task 2,
+and then Task 3). Each task reads its own input file and writes its own output file 
+(the output file of a task is not input to another task).  It is possible for I/O overlap with
+computation to occur. For our purposes, the disk can either read or write,
+but not at the same time.  Each task has a memory footprint that must be
+allocated to it throughout its execution (part of this memory is for
+holding input/output data temporarily in RAM).
 
-    Task 1.
-        1 Tflop
-        Requires 8 GB of RAM
-        Input File (Read from disk prior to start): 4 GB
-        Output File (Written to disk after completion): 4 GB
+  - Task 1:
+    - 1 Tflop
+    - Requires 16 GB of RAM
+    - Input File (Read from disk before computation can start): 4 GB
+    - Output File (Written to disk after computation has completed): 4 GB
 
-    Task 2.
-        500 Gflop
-        Requires 8 GB of RAM
-        Input File (Read from disk prior to start): 1 GB
-        Output File (Written to disk after completion): 1 GB
+  - Task 2:
+    - 500 Gflop
+    - Requires 8 GB of RAM
+    - Input File (Read from disk before computation can start): 1 GB
+    - Output File (Written to disk after computation has completed): 1 GB
 
-    Task 3.
-        100 Gflop
-        Requires 8 GB of RAM
-        Input File (Read from disk prior to start): 0.1 GB
-        Output File (Written to disk after completion): 0.1 GB
+  - Task 3:
+    - 100 Gflop
+    - Requires 8 GB of RAM
+    - Input File (Read from disk before computation can start): 0.1 GB
+    - Output File (Written to disk after computation has completed): 0.1 GB
 
 ### The Decision
 
-    Your manager has tasked you with increasing the speed (decreasing total execution time) for these three tasks.
+Your manager has tasked you with increasing decreasing total execution time for 
+executing the three-task sequence.
 
-    Ignoring things like hardware wear-and-tear and reliability, you have some decisions to make as far as allocating
-    funds to improve your company computer in the most efficient way. You have $250 to spend, and leftover money is
-    encouraged if spending it will not decrease execution time further.
+Ignoring things like hardware wear-and-tear and reliability, you have some
+decisions to make as far as allocating funds to improve your company
+computer in the most efficient way. You have $250 to spend, and leftover
+money is encouraged if spending it will not decrease execution time
+further.
 
 
 ##### CPU Upgrades
@@ -70,8 +74,8 @@
 
 ### Questions
 
-    **[q1.1]** Before any upgrades are made, is this series of tasks (Task1->Task2->Task3) I/O-intensive or
-    compute-intensive?
+    **[q1.1]** Before any upgrades are made, is the three-task sequence
+    (Task1->Task2->Task3) I/O-intensive or compute-intensive?
 
     **[q1.2]** Given your answer to question 1.1, what hardware should we look at upgrading first?
 
