@@ -11,15 +11,19 @@
 
 
 #### Machine
+
     1 Core CPU
     50 Gflop/second
-    16 GB RAM
-    1 SSD with 1TB capacity: 500 MBps R/W
+    8 GB RAM
+    1 HDD with 1TB capacity: 200 MBps R/W
 
 
 #### Tasks
 
-    There are three tasks that are run constantly in a loop, in the order of their numbering.
+    There are three tasks that are run frequently (but not continuously), in the order of their numbering. The input/output of these
+    tasks are not related (i.e. output from task 1 is not required as input for task 2 or task 3). It is possible
+    for I/O overlap with computation to occur. For our purposes, the disk can either read or write, but not at the same
+    time. Tasks will require the full RAM space for both their input and output during execution.
 
     Task 1.
         1 Tflop
@@ -28,5 +32,61 @@
         Output File (Written to disk after completion): 4 GB
 
     Task 2.
+        500 Gflop
+        Requires 8 GB of RAM
+        Input File (Read from disk prior to start): 1 GB
+        Output File (Written to disk after completion): 1 GB
+
+    Task 3.
+        100 Gflop
+        Requires 8 GB of RAM
+        Input File (Read from disk prior to start): 0.1 GB
+        Output File (Written to disk after completion): 0.1 GB
+
+### The Decision
+
+    Your manager has tasked you with increasing the speed (decreasing total execution time) for these three tasks.
+
+    Ignoring things like hardware wear-and-tear and reliability, you have some decisions to make as far as allocating
+    funds to improve your company computer in the most efficient way. You have $250 to spend, and leftover money is
+    encouraged if spending it will not decrease execution time further.
+
+
+##### CPU Upgrades
+    1) Keep current CPU for $0
+    2) Upgrade CPU to 100 Gflop/second for $100
+    3) Upgrade CPU to 200 Gflop/second for $250
+
+##### RAM Upgrades
+    1) Keep current RAM for $0
+    2) Upgrade to 16GB RAM for $50
+    3) Upgrade to 32GB RAM for $100
+
+##### Storage Upgrades
+    1) Keep current HDD for $0
+    2) Upgrade to 1 TB SSD with 400 MBps R/W for $100
+    3) Upgrade to 1 TB SSD with 500 MBps R/W for $250
+
+
+### Questions
+
+    **[q1.1]** Before any upgrades are made, is this series of tasks (Task1->Task2->Task3) I/O-intensive or
+    compute-intensive?
+
+    **[q1.2]** Given your answer to question 1.1, what hardware should we look at upgrading first?
+
+    **[q1.3]** What is the initial execution time for one series of tasks?
+
+    **[q1.4]** What is the optimal way to spend the $250 to decrease execution time?
+
+    **[q1.5]** What is the execution time for one series of tasks after implementing the hardware upgrades stated in
+     **q1.4**?
+
+    **[q1.6]** After making the hardware upgrades you have selected, is this series of tasks I/O-intensive or
+    compute-intensive?
+
+
+
+
 
 

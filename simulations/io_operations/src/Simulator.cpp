@@ -258,7 +258,8 @@ int main(int argc, char** argv) {
     }
 
     simulation.launch();
-    //simulation.getOutput().dumpUnifiedJSON(&workflow, "workflow_data.json", true, true, true, false, false);
-    simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json", false);
+
+    simulation.getOutput().dumpUnifiedJSON(&workflow, "workflow_data.json", true, true, true, false, false);
+    //simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json", true);
     return 0;
 }
