@@ -12,48 +12,43 @@ specifications of your machine and tasks you run are as follows:
 
 #### Machine
 
-  - 1 1-Core CPU that comptes at 50 Gflop/sec
-  - 8 GB of RAM
+  - 1 1-Core CPU that computes at 50 Gflop/sec
+  - 12 GB of RAM
   - 1 HDD with 1TB capacity and 200 MBps R/W bandwidth
 
 #### Tasks
 
-On this machine, a sequence of three tasks are run frequently (Task 1, then Task 2,
-and then Task 3). Each task reads its own input file and writes its own output file 
-(the output file of a task is not input to another task).  It is possible for I/O overlap with
-computation to occur. For our purposes, the disk can either read or write,
-but not at the same time.  Each task has a memory footprint that must be
+On this machine, two tasks need to be run frequently.
+Each task reads its own input file and writes its own output file
+(the output file of a task is not input to another task). For our purposes, the disk can either read or write,
+but not at the same time. Each task has a memory footprint that must be
 allocated to it throughout its execution (part of this memory is for
 holding input/output data temporarily in RAM).
 
   - Task 1:
     - 1 Tflop
-    - Requires 8 GB of RAM
+    - Requires 12 GB of RAM
     - Input File (Read from disk before computation can start): 4 GB
     - Output File (Written to disk after computation has completed): 4 GB
 
   - Task 2:
     - 500 Gflop
-    - Requires 2 GB of RAM
+    - Requires 12 GB of RAM
     - Input File (Read from disk before computation can start): 1 GB
     - Output File (Written to disk after computation has completed): 1 GB
 
-  - Task 3:
-    - 100 Gflop
-    - Requires 0.2 GB of RAM
-    - Input File (Read from disk before computation can start): 0.1 GB
-    - Output File (Written to disk after computation has completed): 0.1 GB
-
 ### The Decision
 
-Your manager has tasked you with increasing decreasing total execution time for 
-executing the three-task sequence.
+Your manager has tasked you with decreasing total execution time for
+executing the two tasks. The two tasks can be executed in either order.
 
 Ignoring things like hardware wear-and-tear and reliability, you have some
 decisions to make as far as allocating funds to improve your company
 computer in the most efficient way. You have $250 to spend, and leftover
 money is encouraged if spending it will not decrease execution time
 further.
+
+As it is currently implemented, _it is not possible for computation and I/O to occur at the same time_.
 
 
 ##### CPU Upgrades
@@ -74,21 +69,32 @@ further.
 
 ### Questions
 
-    **[q1.1]** Before any upgrades are made, is the three-task sequence
-    (Task1->Task2->Task3) I/O-intensive or compute-intensive?
+For these questions, you will be using simple scheduling, either task can go first however there is no overlap
+possible between computation and I/O.
+
+    **[q1.1]** Are the two tasks together I/O-intensive or compute-intensive?
 
     **[q1.2]** Given your answer to question 1.1, what hardware should we look at upgrading first?
 
-    **[q1.3]** What is the initial execution time for one series of tasks?
+    **[q1.3]** What is the initial execution time for one series of tasks before any upgrades?
 
     **[q1.4]** What is the optimal way to spend the $250 to decrease execution time?
 
-    **[q1.5]** What is the execution time for one series of tasks after implementing the hardware upgrades stated in
+    **[q1.5]** What is the execution time for both tasks after implementing the hardware upgrades stated in
      **q1.4**?
 
-    **[q1.6]** After making the hardware upgrades you have selected, is this series of tasks I/O-intensive or
+    **[q1.6]** After making the hardware upgrades you have selected, are these tasks in sequence I/O-intensive or
     compute-intensive?
 
+
+The situation has now changed, your company has had the code for these tasks rewritten to be more efficient.
+The following questions will rely on it now being possible to overlap computation with I/O for scheduling.
+
+    **[q1.7]** Now that I/O can overlap with computation, what further upgrades should be considered.
+
+    **[q1.8]** What is the optimal way to spend $250 to decrease execution time with overlapping I/O and computation?
+
+    **[q1.9]** What is the execution time for both tasks with optimal scheduling and upgrades?
 
 
 
