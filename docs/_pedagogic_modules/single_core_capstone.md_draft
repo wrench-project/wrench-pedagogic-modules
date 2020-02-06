@@ -1,14 +1,14 @@
 ### Learning Objectives
 
-  - Put together concepts learned throughout the Single-Core computing modules
-  - Understand how to use these concepts to reason about and optimize performance.
+  - Be able to apply the concepts learned in this module to reasoning about and
+  optimizing the performance of a scenario that includes computation, I/O, and
+  RAM constraints
 
-### Outlining The Situation.
+### Production scenario
 
-You are working for a company that has a single-core computer to run
-various computational tasks required for day-to-day business. The
-specifications of your machine and tasks you run are as follows:
-
+You are working for a company that uses single-core computer to run
+computational tasks as part of day-to-day business. The
+specifications of the computer and tasks  are as follows:
 
 #### Machine
 
@@ -18,83 +18,74 @@ specifications of your machine and tasks you run are as follows:
 
 #### Tasks
 
-On this machine, two tasks need to be run frequently.
-Each task reads its own input file and writes its own output file
-(the output file of a task is not input to another task). For our purposes, the disk can either read or write,
-but not at the same time. Each task has a memory footprint that must be
-allocated to it throughout its execution (part of this memory is for
-holding input/output data temporarily in RAM).
+On this machine, two tasks need to be run back-to-back throughout the day. Each task proceeds in three phases: (i) it reads its input file  fully; (ii) it computes; and (iii) it writes its output file fully. Each task has a
+memory footprint that must be allocated to it throughout its execution (i.e., from the time it begins reading its input file until it finishes writing its output file). 
 
-  - Task 1:
+  - Task A:
     - 1 Tflop
     - Requires 12 GB of RAM
     - Input File (Read from disk before computation can start): 4 GB
     - Output File (Written to disk after computation has completed): 4 GB
 
-  - Task 2:
+  - Task B:
     - 500 Gflop
     - Requires 12 GB of RAM
     - Input File (Read from disk before computation can start): 1 GB
     - Output File (Written to disk after computation has completed): 1 GB
 
-### The Decision
+### Phase #1: Hardware upgrades for the current implementation
 
-Your manager has tasked you with decreasing total execution time for
-executing the two tasks. The two tasks can be executed in either order.
+In the current implementation of the software that executes the two tasks,
+the first task must run to completion (i.e., its output file must be written to disk) before the next task cant start executing (i.e., start reading its input file from disk). 
 
-Ignoring things like hardware wear-and-tear and reliability, you have some
-decisions to make as far as allocating funds to improve your company
-computer in the most efficient way. You have $250 to spend, and leftover
+Your manager has tasked you with decreasing the total execution time for
+executing the two tasks. Ignoring things like hardware wear-and-tear and reliability, you have some decisions to make as far as allocating funds to upgrade the compute used to run the tasks. Here are possible upgrades:
+
+##### CPU Upgrades
+  1. Keep current CPU for $0
+  2. Upgrade CPU to 100 Gflop/second for $100
+  3. Upgrade CPU to 200 Gflop/second for $250
+
+##### RAM Upgrades
+  1. Keep current RAM for $0
+  2. Upgrade to 16GB RAM for $50
+  3. Upgrade to 32GB RAM for $100
+
+##### Storage Upgrades
+  1. Keep current HDD for $0
+  2. Upgrade to 1 TB SSD with 400 MBps R/W for $100  
+  3. Upgrade to 1 TB SSD with 500 MBps R/W for $250
+
+Your manager has allocated $250 to spend for upgrades. Leftover
 money is encouraged if spending it will not decrease execution time
 further.
 
-As it is currently implemented, _it is not possible for computation and I/O to occur at the same time_.
-
-
-##### CPU Upgrades
-    1) Keep current CPU for $0
-    2) Upgrade CPU to 100 Gflop/second for $100
-    3) Upgrade CPU to 200 Gflop/second for $250
-
-##### RAM Upgrades
-    1) Keep current RAM for $0
-    2) Upgrade to 16GB RAM for $50
-    3) Upgrade to 32GB RAM for $100
-
-##### Storage Upgrades
-    1) Keep current HDD for $0
-    2) Upgrade to 1 TB SSD with 400 MBps R/W for $100
-    3) Upgrade to 1 TB SSD with 500 MBps R/W for $250
-
-
 ### Questions
 
-For these questions, you will be using simple scheduling, either task can go first however there is no overlap
-possible between computation and I/O.
+**[q1.1]** What is the execution time of this 2-task application on that computer?
 
-    **[q1.1]** Are the two tasks together I/O-intensive or compute-intensive?
+**[q1.2]** Is the execution I/O-intensive or CPU-intensive?
+  
+**[q1.3]** If you were given only $100 to spend on upgrades, which upgrade in the list below would you purchase?
 
-    **[q1.2]** Given your answer to question 1.1, what hardware should we look at upgrading first?
+**[q1.4]** What is the optimal way to spend the $250 on upgrades to decrease execution time and what is the corresponding execution time?
 
-    **[q1.3]** What is the initial execution time for one series of tasks before any upgrades?
+**[q1.5]** Will the execution be I/O-intensive or CPU-intensive?
+     
+     
+     
+### Phase #2: Hardware upgrades for a better implementation
 
-    **[q1.4]** What is the optimal way to spend the $250 to decrease execution time?
+Before you purchase the upgrades you determined in q1.4, your manager informs you that a software engineer in the company has just rewritten the software so that the execution can be more efficient: when the first task starts performing its computation, the second task can then start reading its input file from disk. However, only one task can compute at a time, and only one I/O operation can be performed  at a time.  So, for instance, if at time t the first task begins computing, which will last 100 seconds, and the second task begins reading its input file, which will last 200 seconds, then  the first task will only start writing its output file at time t+200 (i.e., it has to wait for the disk to be idle). 
+The above is only feasible if there is **sufficient RAM to accommodate both tasks*. 
 
-    **[q1.5]** What is the execution time for both tasks after implementing the hardware upgrades stated in
-     **q1.4**?
+In this more complex, but possibly more efficient, implementation, there is now a choice of which task to execute first. 
 
-    **[q1.6]** After making the hardware upgrades you have selected, are these tasks in sequence I/O-intensive or
-    compute-intensive?
+**[q1.6]** If you execute A before B, what is the best way to spend the $250 on upgrades?
 
+**[q1.7]** If you execute B before A, what is the best way to spend the $250 on upgrades?
 
-The situation has now changed, your company has had the code for these tasks rewritten to be more efficient.
-The following questions will rely on it now being possible to overlap computation with I/O for scheduling.
-
-    **[q1.7]** Now that I/O can overlap with computation, what further upgrades should be considered.
-
-    **[q1.8]** What is the optimal way to spend $250 to decrease execution time with overlapping I/O and computation?
-
-    **[q1.9]** What is the execution time for both tasks with optimal scheduling and upgrades?
+**[q1.9]** Considering the best of these two options, compare and contrast to your answers to q1.4 and q1.5 in terms of money spend and execution time achieved. Is the more complex implementation worthwhile?
 
 
 
