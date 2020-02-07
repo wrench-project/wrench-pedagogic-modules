@@ -48,7 +48,7 @@ void generateWorkflow(wrench::Workflow *workflow, int num_tasks, int task_gflop,
 
     // create the tasks
     for (int i = 0; i < num_tasks; ++i) {
-        std::string task_id("task #" + std::to_string(i));
+        std::string task_id("task" + std::to_string(i));
         workflow->addTask(task_id, task_gflop * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, task_ram * GB);
     }
 }
