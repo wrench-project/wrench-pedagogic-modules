@@ -4,47 +4,43 @@
 
 ### Learning Objectives
 
-	- Understand the impact of IO operations on computing
-	- Understand basics of optimizing computation around IO operations
+- Understand the concept of IO
+- Understand the impact of IO operations on computing
+- Understand the basics of optimizing computation around IO operations
 
 
 ### Basic Concepts
 
-In computing, the processor will not be able to complete a program start to finish in a vacuum. Programs will often 
-need to wait on input or output, referred to as *IO operations*. A couple very common IO operations are reading from 
-or writing to disk. As the disk is much slower than the CPU, even small reads or writes will represent a large chunk 
-of time that the CPU is sitting idle. 
+In computing, the processor typicallt does not run program start to finish in a vacuum. Programs often 
+need to consume **I**nput and produce **O**utput, referred to as **IO operations**. A couple of very common IO operations are reading from 
+disk and writing to disk. As the disk is much slower than the CPU, even small disk reads or writes can represent a large (from the CPU's perspective) chunk of time during which the CPU is sitting idle. 
 
-When it comes to IO operations, not every program is created equal. Some programs will need more IO time than others 
-and can even be categorized in this way. If a program requires a lot of IO time, it can be referred to as IO intensive. 
-If a program has little need for IO compared to its CPU usage, it is referred to as CPU intensive. 
+When it comes to IO operations, not all programs are created equal. Some programs will require more IO time than others. In fact, programs are typically categorized as IO- or CPU-intensive. If a program spends more time performing IO operations than CPU operations, it is said to be *IO-intensive*. If the situation is reversed, the program is said to be *CPU-intensive*. For instance, a program that reads a large jpg image from disk, reduces the brightness of every pixel  (to make the image darker), and writes the modified image to disk is IO-intensive on most standard computers (a lot of data to read/write from/to disk, and very quick computation on this data - in this case perhaps just a simple subtraction). By contrast, a program that instead of reducing the brightness of the image applies an oil painting filter to it will
+most likely be CPU-intensive (applying an oil painting filter entails many, many more computations than a simple subtraction). 
 
-As mentioned above, reading from and writing to the disk are slow operations compared to the CPU. What also needs to be 
-taken into account is that there is a difference between read and write speed as well. Reading from the disk is 
-typically faster than writing to the disk by a noticeable margin. On top of this difference, different kinds of memory 
-have various speeds as well. To look at the difference between the two main types of main storage, 
-Hard Disk Drives (HDD) and Solid State Drives (SSD), the table below contains two examples of mass-market hardware
-connected via SATA.
+As mentioned above, reading from and writing to the disk are slow operations compared to the CPU. Typically, there is a difference between read and write speeds as well. Reading is 
+typically significantly faster than writing. Furthermore, different kinds of disks have different speeds as well. The table below shows advertiesed
+read and write speeds for two mass-market SATA disks, a Hard Disk Drive (HDD) and a Solid  State Drive (SSD): 
 
 
-|     | Read     | Write    |
-|-----|----------|----------|
-| WD HDD (10EZEX) | 160 MBps | 143 MBps |
-| Samsung 860 EVO | 550 MBps | 520 MBps |
+| Disk            | Read bandwidth | Write bandwidth |
+|-----------------|----------------|-----------------|
+| WD HDD (10EZEX) | 160 MB/sec     | 143 MB/sec      |
+| Samsung 860 EVO | 550 MB/sec     | 520 MB/sec      |
 
 
-One generalization we will make in this module is assuming that disk speeds are constant. There are many factors that 
-play into the speed of reading and writing to disk, but for our purposes here we can assume consistent performance. 
+The read and write speeds are often referred to as *bandwidths*. The units above is MB/sec (MegaByte  per second), which is also written as MBps. 
 
+Determining the exact bandwidth that disk reads and writes will experience during program execution is actually difficult (due to the complexity of the underlying hardware and software, and due to how the data is stored and accessed on the disk).  In this module we will akways that disk bandwidths are constant.
 
+### A program with computation and IO
 
-### How Computation With IO Looks
+Let us consider a program that performs a task in three phases. First, it reads data from disk. Second, it performs some computation on that data to create new data. And third, it writes the new data back to disk.  This
+could be one of the image processing programs mentioned in the previous section as examples.  If this program is invoked to process 2 images, i.e., so that it performs 2 tasks, then its execution timeline is as depicted below:
 
-Let us examine a program that needs to read from disk prior to computation, and then write back to disk afterwards. This
-could be applying the oil painting filter to a photograph. Each task will need to load the photograph from disk, 
-apply the filter, and then save the new image back to disk. 
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/io_effects/IO_figure_1.svg">Figure 1: Example execution timeline</object>
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/IO_effects/IO_figure_1.svg">Cyberinfrastructure</object>
+As can be seen in the figure, at any given time either the CPU is idle (while IO operations are ongoing) or the disk is idle (while computation is ongoing). In the above figure, reading an image from disk takes 1 second, writing an image to disk takes 1 second, and processing an image takes 2 seconds. (We can thus infer that the two images have the same size, and that the disk has identical read and write bandwidths).  We can compute the CPU Utilization as follows:
 
 $$
 \begin{align}
@@ -56,14 +52,16 @@ $$
 \end{align}
 $$
 
-As can be seen in the figure above, at any given time there is only either CPU computation or IO operations ongoing. 
-This means that the CPU is idle for the entire time that is spent doing IO and ends up with only 50% utilization. 
-This is inefficiency that can be reduced 
- because IO and CPU actions are capable of being done independently. While the CPU is working on the first image, 
-the second image can be loaded into memory from disk. This will allow the CPU to immediately begin task two upon 
-completion of the first task, and while it is working on task two, the first task is being written to disk.
+This means that the CPU is idle for half of the execution of the program. This program is perfectly balanced, i.e., it is neither CPU-intensive nor IO-intensive. 
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/IO_effects/IO_figure_2.svg">Cyberinfrastructure</object>
+### Overlaping computation and IO
+
+The execution in the previous section can be improved. This is because the CPU and the disk are two different pieces of hardware, and they can work at the same time. As a result, while the CPU is processing the 1st image, the 2nd image could be read from disk! The CPU can then start processing the 2nd image right away after it finishes processing the 1st image. The 1st image can be written to disk at the same time. This execution is depicted below:
+
+
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/io_effects/IO_figure_2.svg">Figure 2: Example execution timeline with overlap of IO and computation</object>
+
+The total execution time has dropped by 2 seconds **and** the CPU utilization is increased:
 
 $$
 \begin{align}
@@ -71,58 +69,50 @@ $$
   \text{CPU Utilization} & = \frac{T_{Compute}}{T_{Compute} + T_{Idle}} \\
                          & = \frac{4}{4 + 2} \\
                          & = 0.66
-
+                         
 \end{align}
 $$
 
-As you can see from the above representation, not only does the overall execution time drop by 25%, but the CPU 
-is also working for a greater percentage of the time. If there were additional tasks added, the idle time would still 
-only occur at the very start and very end of the process. 
+If there were additional, similar images to process, the CPU utilization would continue to drop as it would be idle only at the very beginning and at the very end of the execution. 
 
-This is a very neat situation created for our purposes, and it would not always be realistic. Take the cases below for 
-example:
+The above is an ideal situation because IO time for an image is exactly equal to compute time. If, for isntance, the time to read an image is now 2s (for instance because the program reads bigger images but writes back downscaled images) and the program must process 3 images, then the execution would be as:
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/IO_effects/IO_figure_3.svg">Cyberinfrastructure</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/io_effects/IO_figure_3.svg">Figure 3: Example execution timeline with overlap of IO and computation</object>
 
-In the first case, we now have read and write times that together require a longer amount of time than it takes the CPU
-to process one task. This will make weaving CPU processing and IO together not quite as pretty as we add a third task. 
+In this case, the CPU does experience idle time because images cannot be read from disk fast enough.  So although overlaping IO and computation almost always reduces program execution time, the benefit can vary based on IO and computation volumes (and especially if these volumes vary from task to task). 
 
 
 
-#### CPU Driven vs. IO Driven Execution Times
+<!--#### CPU-intensive vs. IO-intensive executions
 
-Let us return to the first example above: 
+Let us return to the first example execution above: 
 
-<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/IO_effects/IO_figure_1.svg">Cyberinfrastructure</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/io_effects/IO_figure_1.svg">Execution timeline</object>
 
 
-In this case, we can string together as many tasks as we would like and the CPU will be utilized continuously apart from
-the initial read and the final write. With two tasks the IO time is still a significant portion of the execution time,
-but if we were to have 1000 tasks to complete, suddenly that initial read and last write are a negligible portion of the
-total execution time. This is what we can refer to as *CPU Driven* execution time and will occur when read and write 
+In this case, we can string together as many tasks as we want and the CPU will be utilized continuously apart from
+the initial read and the final write. With two tasks the IO time is a significant portion of the execution time,
+but if we were to have, say, 1000 tasks to complete, that initial read and last write are a negligible portion of the
+overall execution time. So, *even though the program technically spends twice as much time doing IO than computing*, because of overlap of the operation the program
+
+ This is what we can refer to as *CPU Driven* execution time and will occur when read and write 
 times are sufficiently short for tasks compared with CPU computation time needed. 
 
 As you may guess, the other side of the coin is *IO Driven* execution times where a task's time spent on IO is longer than the 
-CPU time needed. In these cases, CPU utilization will be lower due to the need to wait on IO operations to complete. 
+CPU time needed. In these cases, CPU utilization will be lower due to the need to wait on IO operations to complete. -->
 
 
-### Considerations for Real World IO
+### Putting it all this in practice
 
-Prior to this, we have glossed over some assumptions that do not necessarily hold true in practice. The first is that we
-are free to load any number of tasks into memory. As previous modules have touched on, tasks can have significant memory
-requirements and it may not be feasible to pre-load many into memory due to space constraints. It is also important to 
-realize that you may be running different tasks that each have their own requirements for IO where we have been assuming
-identical tasks. Lastly, relating to the concept of workflows, there can be dependencies between tasks that impact 
-execution and what IO is required.
+In practice, one can implement a program that overlaps IO and computation. This can be done by using non-blocking IO operations and/or threads. These are techniques that are often taught in Operating Systems courses. The overlap may not be completely "free", as reading/writing data from disk can still requires the CPU to perform some computation. Therefore, there can be time-sharing of the CPU between the IO operations and the computation, and the computation  is slowed down a little bit by the IO operations (something we did not show in the figures above). This said, there are ways for IO operations use almost no CPU cycles. One such technique, which relies on specific but commonplace hardware, is called Direct Memory Access (DMA). See an Operating Systems course for more details.
 
+Another practical concern is RAM pressure. When going from the example execution in Figure 1 to that in Figure 2, the peak amount of RAM needed by the program is increased because at some point more than one input images are held in RAM. As previous modules have touched on, tasks can have significant memory
+requirements, and it may not be possible to overlap IO and computation due to RAM space constraints.  
 
 ### Simulating IO
 
-So that you can gain hands-on experience, use
-the simulation Web application
-(see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>),
-selecting `IO Operations` from its menu.
-
+So that you can gain hands-on experience with the above concepts, use the simulation Web application
+(see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>), selecting `IO Operations` from its menu.
 
 
 Initially, you can create a series of identical tasks that have a certain input and output. Run the simulation to see
@@ -131,22 +121,21 @@ this, try selecting the checkbox to allow overlap.
 
 With IO overlap there should be an improvement in execution time and host utilization. You can view this in the output
 graphs that are generated. You can also try varying the input/output and computation amounts to create IO intensive or CPU
-intensive tasks. Understanding which tasks will benefit from increased R/W or computation speeds will assist you in
-answering the questions to come.
+intensive tasks. Understanding which tasks will benefit from increased R/W or computation speeds will assist you in answering the questions to come.
 
 
 ### Practice Questions
 
-For the purposes of these questions you are working at a company that runs the same identical task repeatedly. Currently 
-the hardware available to you can process each task broken down into the following times: 
+For the purposes of these questions you are working at a company that runs instances of the same task repeatedly. On the currently available hardware, the time to process a task instance is as follows:
 
-Read: 2 Seconds  
-CPU: 3 Seconds  
-Write: 2 Seconds  
+  - Read input: 2 Seconds  
+  - CPU computation: 2 Seconds  
+  - Write output: 2 Seconds  
 
-**[I.p1.1]** For the same price, you may upgrade your CPU so that it can process each task in 2 seconds, or you may 
+
+**[I.p1.1]** For the same price, you may upgrade your CPU so that it can perform the computation for each task in 1 second, or you may 
 upgrade to a SSD from your current HDD which will halve Read/Write times to 1 second each. Which would improve your 
-execution time per task the most?
+execution time the most for executing one task instance?
 
 <div class="ui accordion fluid">
   <div class="title">
@@ -154,17 +143,15 @@ execution time per task the most?
     (click to see answer)
   </div>
   <div markdown="1" class="ui segment content">
-   Looking at the initial times for each task it should be apparent that these tasks are IO bound and the execution time
-   is IO Driven. In this case it will not help to decrease CPU computation time, so we would choose to upgrade our 
-   storage to an SSD. This will decrease average time per task from four seconds to three seconds, and it will now be 
-   CPU Driven execution time.  
+   Looking at the time breakdown it is clear that task instances are IO-intensive.  In this case it will not help to decrease CPU computation time, so we should instead upgrade our HDD to a SSD. 
+    This will decrease the task execution time from 6 seconds to 4 seconds.  After the upgrade, the task execution is now CPU-intensive. 
 
   </div>
 </div>
 
-**[I.p1.2]** It is decided to purchase the SSD to replace the HDD currently being used, which decreases read/write to 1 
-second each. What is the improvement seen 
-from this change in terms of CPU utilization over 5 consecutive tasks?
+**[I.p1.2]** It is decided to purchase the SSD to replace the HDD currently being used, which decreases read/write times to 1 
+second each. The program that executes the task was designed to overlap IO and computation when executing multiple task instances in sequence: while computing for task *i* it reads the input of task *i+1*, and while writing the output of task *i* it can compute for task *i+1*. What is the improvement seen 
+from this change in terms of CPU utilization when running 5 task instances consecutively?
 
 <div class="ui accordion fluid">
   <div class="title">
@@ -172,9 +159,7 @@ from this change in terms of CPU utilization over 5 consecutive tasks?
     (click to see answer)
   </div>
   <div markdown="1" class="ui segment content">
-  Initially, read/write times are 2 seconds each, adding up to 4 seconds per task, while CPU time needed is 3 seconds 
-    per task. The total execution time for five tasks will be 22 seconds, of which 15 seconds of that is CPU time. This 
-    leads to a CPU utilization of 15/22 = 0.68. 
+  Initially, read/write times were 2 seconds each, adding up to 4 seconds, while the CPU time was 2 seconds, for each task  instance. The total execution time for five tasks will be 22 seconds, of which 15 seconds of that is CPU time. This leads to a CPU utilization of 15/22 = 0.68. 
     
   When read/write times are decreased to 1 second each, now the full execution time will be just 17 seconds. The CPU 
     time does not change, remaining 15 seconds. This improves our CPU utilization to 15/17 = 0.88.
