@@ -75,11 +75,11 @@ $$
 
 If there were additional, similar images to process, the CPU utilization would continue to drop as it would be idle only at the very beginning and at the very end of the execution. 
 
-The above is an ideal situation because IO time for an image is exactly equal to compute time. If, for isntance, the time to read an image is now 2s (for instance because the program reads bigger images but writes back downscaled images) and the program must process 3 images, then the execution would be as:
+The above is an ideal situation because IO time for an image is exactly equal to compute time. If, for instance, the time to read an image is now 2s (for instance because the program reads bigger images but writes back downscaled images) and the program must process 3 images, then the execution would be as:
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/io_effects/IO_figure_3.svg">Figure 3: Example execution timeline with overlap of IO and computation</object>
 
-In this case, the CPU does experience idle time because images cannot be read from disk fast enough.  So although overlaping IO and computation almost always reduces program execution time, the benefit can vary based on IO and computation volumes (and especially if these volumes vary from task to task). 
+As expected, the program first reads 2 images, and then alternates write and read operations while CPU computation is going on.  But in this case, the CPU does experience idle time because images cannot be read from disk fast enough.  So although overlaping IO and computation almost always reduces program execution time, the benefit can vary based on IO and computation volumes (and especially if these volumes vary from task to task). 
 
 
 
@@ -126,16 +126,8 @@ intensive tasks. Understanding which tasks will benefit from increased R/W or co
 
 ### Practice Questions
 
-For the purposes of these questions you are working at a company that runs instances of the same task repeatedly. On the currently available hardware, the time to process a task instance is as follows:
-
-  - Read input: 2 Seconds  
-  - CPU computation: 2 Seconds  
-  - Write output: 2 Seconds  
-
-
-**[I.p1.1]** For the same price, you may upgrade your CPU so that it can perform the computation for each task in 1 second, or you may 
-upgrade to a SSD from your current HDD which will halve Read/Write times to 1 second each. Which would improve your 
-execution time the most for executing one task instance?
+**[I.p4.1]** A program reads 2GB of input from disk, performs a 6 TFlop computation on this input, and then writes 1GB  of output to disk. It is executed on a computer that has a CPU that computes at speed 500 GFlop/sec
+and has a HDD with R/W bandwidth of 200 MB/sec. Is the program execution IO-intensive or CPU-intensive? If you could update either  the CPU or the HDD, which upgrade would you choose?
 
 <div class="ui accordion fluid">
   <div class="title">
@@ -143,15 +135,36 @@ execution time the most for executing one task instance?
     (click to see answer)
   </div>
   <div markdown="1" class="ui segment content">
-   Looking at the time breakdown it is clear that task instances are IO-intensive.  In this case it will not help to decrease CPU computation time, so we should instead upgrade our HDD to a SSD. 
-    This will decrease the task execution time from 6 seconds to 4 seconds.  After the upgrade, the task execution is now CPU-intensive. 
+
+The execution time breakdown is as follows:
+
+  - Read input: 2000 MB / 200 MB/sec = 10 sec
+  - Compute: 6000 GFlop / 500 GFlop/sec = 12 sec
+  - Write input: 1000 MB / 200 MB/sec = 5 sec
+
+Therefore the program's execution is IO-intensive. Therefore one should upgrade the HDD. 
 
   </div>
 </div>
 
-**[I.p1.2]** It is decided to purchase the SSD to replace the HDD currently being used, which decreases read/write times to 1 
-second each. The program that executes the task was designed to overlap IO and computation when executing multiple task instances in sequence: while computing for task *i* it reads the input of task *i+1*, and while writing the output of task *i* it can compute for task *i+1*. What is the improvement seen 
-from this change in terms of CPU utilization when running 5 task instances consecutively?
+
+
+**[I.p4.2]** You are working at a company that runs instances of the same task repeatedly. On the currently available hardware, the time to process a task instance is as follows:
+
+  - Read input: 2 Seconds  
+  - CPU computation: 3 Seconds  
+  - Write output: 2 Seconds  
+
+A program was designed to overlap IO and computation when executing
+multiple task instances in sequence. As in Figure 3, the program first
+reads the input for the first 2 tasks, and then alternates between writing
+the output for task *i* and reading the input for task *i+2*, until at the
+end it writes the output of the last two tasks one after the other.  The
+computation on the CPU for a task is started as soon as its input has been
+read from disk.
+
+
+What is the CPU utilization when processing 4 consecutive task instances?
 
 <div class="ui accordion fluid">
   <div class="title">
@@ -159,10 +172,44 @@ from this change in terms of CPU utilization when running 5 task instances conse
     (click to see answer)
   </div>
   <div markdown="1" class="ui segment content">
-  Initially, read/write times were 2 seconds each, adding up to 4 seconds, while the CPU time was 2 seconds, for each task  instance. The total execution time for five tasks will be 22 seconds, of which 15 seconds of that is CPU time. This leads to a CPU utilization of 15/22 = 0.68. 
-    
-  When read/write times are decreased to 1 second each, now the full execution time will be just 17 seconds. The CPU 
-    time does not change, remaining 15 seconds. This improves our CPU utilization to 15/17 = 0.88.
+
+    Here is a depiction of the execution:
+
+    <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/io_effects/IO_figure_4.svg">Execution timeline</object>
+
+    The execution time is **18 seconds**.  (This result can be generalized for *n*
+    tasks by identifying the repeating pattern: *2 + 3 + (n-1) x (3 + 1) + 1  = 4n + 2*.)
+
+    The CPU is utilized for 12 seconds. Therefore the CPU utilization is 12/18 = 66.6%.
+
+  </div>
+</div>
+
+
+**[I.p4.3]** In the same setting as in the previous question, it is decided
+to purchase a SSD to replace the HDD currently being used. The SSD has
+**twice the bandwidth** of the HDD.  What is now the CPU utilization when
+processing 4 consecutive task instances?
+
+
+
+<div class="ui accordion fluid">
+  <div class="title">
+    <i class="dropdown icon"></i>
+    (click to see answer)
+  </div>
+  <div markdown="1" class="ui segment content">
+
+    Here is a depiction of the execution:
+
+    <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/io_effects/IO_figure_5.svg">Execution timeline</object>
+
+    The execution time it **14 seconds**. (This result can be generalized for *n*  
+    tasks easily: *3n + 2*.)
+
+    The CPU is utilized for 12 seconds. Therefore the CPU utilization is 12/14 = 85.7%. 
+
+    By making the IO faster, input for tasks is always ready for the CPU to process. 
 
   </div>
 </div>
@@ -170,28 +217,39 @@ from this change in terms of CPU utilization when running 5 task instances conse
 
 ### Questions
 
-**[I.q1.1]**
+**[I.q4.1]**
 
-A task that is run thousands of times a day requires 50 MB of input data to be loaded from disk before computation and
-writes 50 MB of data to disk once computation has been completed. The disk itself is capable of read and write speeds of
-100 MBps. The computation required for each task is 500 GFlop and the processor can do 250 GFlops.
+Consider a series of 10 identical tasks. With the hardware we have
+available, each task requires 1 second to read data from disk, 1 second for
+computation, and 0.5 seconds to write the output back to the disk.
 
-Ignoring the initial read and final write in your calculations, if we want to decrease the time per task, should we focus on upgrading the
-processor or acquiring faster memory?
+What is the execution time if we are not able to perform IO during
+computation? What is execution time when overlap of computation and IO is
+possible?
 
-**[I.q2.1]**
 
-A task requires 100 MB of input data to be loaded from disk and 1 TFlop of computation. It is being run in batches of
-fifty consecutive identical tasks on a computer with a processor capable of 250 Gflops and a disk with R/W speeds of
-100 MBps.
+**[I.q4.2]**
 
-How large can the output that must be written to disk be without impacting processor utilization (ignore the initial read
-and final write in your calculations)?
+A task requires 50 MB of input data to be loaded from disk before
+computation and writes 50 MB of data to disk once computation has been
+completed. The computation performs 500 GFlop.  Instances of this task are
+executed continously in sequence throughout the day, in a way that
+*overlaps IO and computation*.  We wish to increase the number of task
+instances we can execute per day. Should we upgrade the processor? Our
+should we upgrade the disk?
 
-**[I.q3.1]**
 
-Consider a series of 10 identical tasks. With the hardware we have available, each task requires 1 second to read data
-from disk, 1 second for computation, and 0.5 seconds to write the output back to the disk.
+**[I.q4.3]**
 
-What is the execution time if we are not able to perform IO during computation? What is execution time when overlap of
-computation and IO is possible?
+A task requires 100 MB of input data to be loaded from disk, performs 1
+TFlop of computation, and writes some output back to disk. A batch of fifty
+instances of this task is to be run on a computer with a processor capable
+of 250 GFlop/sec and a disk with R/W bandwidths of 100 MB/sec. IO and
+computation are overlapped.*
+
+How large can the task output be so that the CPU is 100\% utilized
+(ignoring the initial input read and final output write, during which the
+CPU is necessarily idle).
+
+
+
