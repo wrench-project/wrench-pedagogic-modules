@@ -124,7 +124,7 @@ intensive tasks. Understanding which tasks will benefit from increased R/W or co
 
 ### Practice Questions
 
-**[I.p4.1]** A program reads 2GB of input from disk, performs a 6 TFlop computation on this input, and then writes 1GB  of output to disk. It is executed on a computer that has a CPU that computes at speed 500 GFlop/sec
+**[A.p4.1]** A program reads 2GB of input from disk, performs a 6 TFlop computation on this input, and then writes 1GB  of output to disk. It is executed on a computer that has a CPU that computes at speed 500 GFlop/sec
 and has a HDD with R/W bandwidth of 200 MB/sec. Is the program execution IO-intensive or CPU-intensive? If you could update either  the CPU or the HDD, which upgrade would you choose?
 
 <div class="ui accordion fluid">
@@ -147,7 +147,7 @@ Therefore the program's execution is IO-intensive. Therefore one should upgrade 
 
 
 
-**[I.p4.2]** You are working at a company that runs instances of the same task repeatedly. On the currently available hardware, the time to process a task instance is as follows:
+**[A.p4.2]** You are working at a company that runs instances of the same task repeatedly. On the currently available hardware, the time to process a task instance is as follows:
 
   - Read input: 2 Seconds  
   - CPU computation: 3 Seconds  
@@ -184,7 +184,7 @@ What is the CPU utilization when processing 4 consecutive task instances?
 </div>
 
 
-**[I.p4.3]** In the same setting as in the previous question, it is decided
+**[A.p4.3]** In the same setting as in the previous question, it is decided
 to purchase a SSD to replace the HDD currently being used. The SSD has
 **twice the bandwidth** of the HDD.  What is now the CPU utilization when
 processing 4 consecutive task instances?
@@ -215,7 +215,7 @@ processing 4 consecutive task instances?
 
 ### Questions
 
-**[I.q4.1]**
+**[A.q4.1]**
 
 Consider a series of 10 identical tasks. With the hardware we have
 available, each task requires 1 second to read data from disk, 2 seconds for
@@ -228,7 +228,7 @@ What is the lowest possible execution time when overlap of computation and IO is
 possible?
 
 
-**[I.q4.2]**
+**[A.q4.2]**
 
 A task requires 50 MB of input data to be loaded from disk before
 computation and writes 50 MB of data to disk once computation has been
@@ -240,7 +240,7 @@ TFlop/sec.  We wish to increase the number of task instances we can execute
 per day. Should we upgrade the processor? Or should we upgrade the disk?
 
 
-**[I.q4.3]**
+**[A.q4.3]**
 
 A task requires 100 MB of input data to be loaded from disk, performs 1
 TFlop of computation, and writes some output back to disk. A batch of fifty
