@@ -1,17 +1,13 @@
 
-
-
-
 ### Learning Objectives
 
 - Understand the concept of IO
 - Understand the impact of IO operations on computing
 - Understand the basics of optimizing computation around IO operations
 
-
 ### Basic Concepts
 
-In computing, the processor typicallt does not run program start to finish in a vacuum. Programs often 
+In computing, the processor typically does not run program start to finish in a vacuum. Programs often 
 need to consume **I**nput and produce **O**utput, referred to as **IO operations**. A couple of very common IO operations are reading from 
 disk and writing to disk. As the disk is much slower than the CPU, even small disk reads or writes can represent a large (from the CPU's perspective) chunk of time during which the CPU is sitting idle. 
 
@@ -19,7 +15,7 @@ When it comes to IO operations, not all programs are created equal. Some program
 most likely be CPU-intensive (applying an oil painting filter entails many, many more computations than a simple subtraction). 
 
 As mentioned above, reading from and writing to the disk are slow operations compared to the CPU. Typically, there is a difference between read and write speeds as well. Reading is 
-typically significantly faster than writing. Furthermore, different kinds of disks have different speeds as well. The table below shows advertiesed
+typically significantly faster than writing. Furthermore, different kinds of disks have different speeds as well. The table below shows advertised
 read and write speeds for two mass-market SATA disks, a Hard Disk Drive (HDD) and a Solid  State Drive (SSD): 
 
 
@@ -31,7 +27,7 @@ read and write speeds for two mass-market SATA disks, a Hard Disk Drive (HDD) an
 
 The read and write speeds are often referred to as *bandwidths*. The units above is MB/sec (MegaByte  per second), which is also written as MBps. 
 
-Determining the exact bandwidth that disk reads and writes will experience during program execution is actually difficult (due to the complexity of the underlying hardware and software, and due to how the data is stored and accessed on the disk).  In this module we will akways that disk bandwidths are constant.
+Determining the exact bandwidth that disk reads and writes will experience during program execution is actually difficult (due to the complexity of the underlying hardware and software, and due to how the data is stored and accessed on the disk).  In this module we will always that disk bandwidths are constant.
 
 ### A program with computation and IO
 
@@ -54,7 +50,7 @@ $$
 
 This means that the CPU is idle for half of the execution of the program. This program is perfectly balanced, i.e., it is neither CPU-intensive nor IO-intensive. 
 
-### Overlaping computation and IO
+### Overlapping computation and IO
 
 The execution in the previous section can be improved. This is because the CPU and the disk are two different pieces of hardware, and they can work at the same time. As a result, while the CPU is processing the 1st image, the 2nd image could be read from disk! The CPU can then start processing the 2nd image right away after it finishes processing the 1st image. The 1st image can be written to disk at the same time. This execution is depicted below:
 
@@ -75,11 +71,13 @@ $$
 
 If there were additional, similar images to process, the CPU utilization would continue to drop as it would be idle only at the very beginning and at the very end of the execution. 
 
-The above is an ideal situation because IO time for an image is exactly equal to compute time. If, for instance, the time to read an image is now 2s (for instance because the program reads bigger images but writes back downscaled images) and the program must process 3 images, then the execution would be as:
+The above is an ideal situation because IO time for an image is exactly equal to compute time. More precisely, save for the firt and last task, *while the program computes task i there is enough  time to write the output of task i-1 and to read the input of  task i+1.*  
+
+If the above condition does not hold, then there is necessarily CPU idle time. For instance, if the time to read an image is instead 2s (for instance because the program reads bigger images but writes back down-scaled images) and the program must process 3 images, then the execution would be as:
 
 <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/io_effects/IO_figure_3.svg">Figure 3: Example execution timeline with overlap of IO and computation</object>
 
-As expected, the program first reads 2 images, and then alternates write and read operations while CPU computation is going on.  But in this case, the CPU does experience idle time because images cannot be read from disk fast enough.  So although overlaping IO and computation almost always reduces program execution time, the benefit can vary based on IO and computation volumes (and especially if these volumes vary from task to task). 
+As expected, the program first reads 2 images, and then alternates write and read operations while CPU computation is going on.  But in this case, the CPU experiences idle time because images cannot be read from disk fast enough.  So although overlapping IO and computation almost always reduces program execution time, the benefit can vary based on IO and computation volumes (and especially if these volumes vary from task to task!). 
 
 
 
@@ -220,11 +218,13 @@ processing 4 consecutive task instances?
 **[I.q4.1]**
 
 Consider a series of 10 identical tasks. With the hardware we have
-available, each task requires 1 second to read data from disk, 1 second for
+available, each task requires 1 second to read data from disk, 2 seconds for
 computation, and 0.5 seconds to write the output back to the disk.
 
-What is the execution time if we are not able to perform IO during
-computation? What is execution time when overlap of computation and IO is
+What is the lowest possible execution time if we are not able to perform IO during
+computation? 
+
+What is the lowest possible execution time when overlap of computation and IO is
 possible?
 
 
@@ -233,10 +233,11 @@ possible?
 A task requires 50 MB of input data to be loaded from disk before
 computation and writes 50 MB of data to disk once computation has been
 completed. The computation performs 500 GFlop.  Instances of this task are
-executed continously in sequence throughout the day, in a way that
-*overlaps IO and computation*.  We wish to increase the number of task
-instances we can execute per day. Should we upgrade the processor? Our
-should we upgrade the disk?
+executed continuously in sequence throughout the day, in a way that
+*overlaps IO and computation*.  The computer on which this is done has a
+disk with R/W bandwidth 200 MB/sec and a CPU with compute speed 1.5
+TFlop/sec.  We wish to increase the number of task instances we can execute
+per day. Should we upgrade the processor? Or should we upgrade the disk?
 
 
 **[I.q4.3]**
