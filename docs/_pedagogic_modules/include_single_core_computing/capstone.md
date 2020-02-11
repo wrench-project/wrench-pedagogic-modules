@@ -31,7 +31,7 @@ memory footprint that must be allocated to it throughout its execution (i.e., fr
     - 800 Gflop
     - Requires 12 GB of RAM
     - Input File (Read from disk before computation can start): 2 GB
-    - Output File (Written to disk after computation has completed): 2 GB
+    - Output File (Written to disk after computation has completed): 4 GB
 
 ### Phase #1: Hardware upgrades for the current implementation
 

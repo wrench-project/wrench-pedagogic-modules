@@ -17,6 +17,8 @@ Go through the tabs below in sequence...
   <a class="item " data-tab="first">Work and Speed</a>
   <a class="item " data-tab="second">Time Sharing</a>
   <a class="item " data-tab="third">Memory</a>
+  <a class="item " data-tab="fourth">IO</a>
+  <a class="item " data-tab="fifth">Capstone Exercise</a>
 </div>
 
 <div markdown="1" class="ui tab segment active" data-tab="first" >
@@ -27,5 +29,13 @@ Go through the tabs below in sequence...
 </div>
 <div markdown="1" class="ui tab segment" data-tab="third">
   {% include_relative include_single_core_computing/memory.md %}
+</div>
+
+<div markdown="1" class="ui tab segment" data-tab="fourth">
+  {% include_relative include_single_core_computing/io.md %}
+</div>
+
+<div markdown="1" class="ui tab segment" data-tab="fifth">
+  {% include_relative include_single_core_computing/capstone.md %}
 </div>
 
