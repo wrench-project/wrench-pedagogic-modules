@@ -173,16 +173,17 @@ What is the CPU utilization when processing 4 consecutive task instances?
   </div>
   <div markdown="1" class="ui segment content">
 
-    Here is a depiction of the execution:
+Here is a depiction of the execution:
 
-    <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/io_effects/IO_figure_4.svg">Execution timeline</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/io_effects/IO_figure_4.svg">Execution timeline</object>
 
-    The execution time is **18 seconds**.  (This result can be generalized for *n*
-    tasks by identifying the repeating pattern: *2 + 3 + (n-1) x (3 + 1) + 1  = 4n + 2*.)
+The execution time is **18 seconds**.  (This result can be generalized for *n*
+tasks by identifying the repeating pattern: *2 + 3 + (n-1) x (3 + 1) + 1  = 4n + 2*.)
 
-    The CPU is utilized for 12 seconds. Therefore the CPU utilization is 12/18 = 66.6%.
+The CPU is utilized for 12 seconds. Therefore the CPU utilization is 12/18
+= 66.6%.
 
-  </div>
+</div>
 </div>
 
 
@@ -200,18 +201,18 @@ processing 4 consecutive task instances?
   </div>
   <div markdown="1" class="ui segment content">
 
-    Here is a depiction of the execution:
+Here is a depiction of the execution:
 
-    <object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/io_effects/IO_figure_5.svg">Execution timeline</object>
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/io_effects/IO_figure_5.svg">Execution timeline</object>
 
-    The execution time it **14 seconds**. (This result can be generalized for *n*  
+The execution time it **14 seconds**. (This result can be generalized for *n*  
     tasks easily: *3n + 2*.)
 
-    The CPU is utilized for 12 seconds. Therefore the CPU utilization is 12/14 = 85.7%. 
+The CPU is utilized for 12 seconds. Therefore the CPU utilization is 12/14 = 85.7%. 
 
-    By making the IO faster, input for tasks is always ready for the CPU to process. 
+By making the IO faster, input for tasks is always ready for the CPU to process. 
 
-  </div>
+</div>
 </div>
  
 
