@@ -1,9 +1,11 @@
 
-### Learning Objectives
+#### Learning objectives:
 
 - Understand the concept of IO
 - Understand the impact of IO operations on computing
 - Understand the basics of optimizing computation around IO operations
+
+---
 
 ### Basic Concepts
 

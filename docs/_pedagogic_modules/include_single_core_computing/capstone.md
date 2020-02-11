@@ -1,8 +1,10 @@
-###  Learning Objectives
+#### Learning objectives:
 
   - Be able to apply the concepts learned in this module to reasoning about and
   optimizing the performance of a scenario that includes computation, I/O, and
   RAM constraints
+
+---
 
 ### Production scenario
 
