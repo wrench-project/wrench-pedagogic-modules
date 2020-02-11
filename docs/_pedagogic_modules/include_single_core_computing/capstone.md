@@ -88,7 +88,7 @@ In this more complex, but possibly more efficient, implementation, there is now 
 
 **[A.q5.7]** If you execute B before A, what is the best way to spend the $250 on upgrades?
 
-**[A.q5.9]** Considering the best of these two options, compare and contrast to your answers to A.q5.4 in terms of money spend and execution time achieved. Is the more complex implementation worthwhile?
+**[A.q5.8]** Considering the best of these two options, compare and contrast to your answers to A.q5.4 in terms of money spend and execution time achieved. Is the more complex implementation worthwhile?
 
 
 
