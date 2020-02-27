@@ -64,12 +64,17 @@ cores in a dual-core processor, now you can complete the same four tasks in only
 two hours. This concept is called **parallelism**: running multiple 
 tasks at the same time, or *concurrently*, to complete a set of tasks faster.
 
-Unfortunately, most real-world applications do not have the ideal behavior
-above, that is, execute *n* times faster with *n* cores. Instead, they execute
-less than *n* times faster. This may seem surprising, but comes about due to 
-many reasons. In this module, we'll see one of these reasons. 
-
-To explore parallelism, we first have to define two interesting metrics:
+Unfortunately, most real-world applications do not have the ideal
+parallelism behavior above, that is, executing *n* times faster with *n*
+cores. Instead, they execute less than *n* times faster. This may seem
+surprising, but comes about due to many reasons.  For instance, when two
+tasks execute concurrently on two different cores, they still compete for
+the memory hierarchy, e.g., the L3 cache and the memory bus, and we refer
+you to Computer Architecture textbooks for more details. In this module,
+unless specified otherwise, we assume that two tasks on two different cores
+proceed do not compete for the memory hierarchy.  But even so, there  are
+still other reasons why an application cannot achieve ideal parallelism.
+Before we get to these reasons, let us first define two crucial metrics:
 *Parallel Speedup* (or *Speedup*) and *Parallel Efficiency* (or
 *Efficiency*).
 
