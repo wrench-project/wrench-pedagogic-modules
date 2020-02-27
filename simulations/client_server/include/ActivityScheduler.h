@@ -12,8 +12,10 @@ namespace wrench {
         void scheduleTasks(const std::set<std::shared_ptr<ComputeService>> &compute_services,
                            const std::vector<WorkflowTask *> &ready_tasks);
 
+        ActivityScheduler(std::shared_ptr<StorageService> storage_service);
 
-        ActivityScheduler();
+    private:
+        std::shared_ptr<StorageService> storage_service;
 
     };
 }

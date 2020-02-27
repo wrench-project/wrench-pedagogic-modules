@@ -21,23 +21,16 @@
  *
  * @throws std::invalid_argument
  */
-void generateWorkflow(wrench::Workflow *workflow, int num_tasks, int task_gflop, int task_ram) {
+void generateWorkflow(wrench::Workflow *workflow, int host_select) {
 
     if (workflow == nullptr) {
         throw std::invalid_argument("generateWorkflow(): invalid workflow");
     }
 
-    if (num_tasks < 1) {
-        throw std::invalid_argument("generateWorkflow(): number of tasks must be at least 1");
+    if (host_select != 1 && host_select != 2) {
+        throw std::invalid_argument("generateWorkflow(): valid host must be selected");
     }
 
-    if (task_gflop < 1) {
-        throw std::invalid_argument("generateWorkflow(): task GFlop must be at least 1");
-    }
-
-    if (task_ram < 0) {
-        throw std::invalid_argument("generateWorkflow(): task GB must be at least 0");
-    }
 
     // WorkflowTask specifications
     const double               GFLOP = 1000.0 * 1000.0 * 1000.0;
@@ -46,11 +39,14 @@ void generateWorkflow(wrench::Workflow *workflow, int num_tasks, int task_gflop,
     const double PARALLEL_EFFICIENCY = 1.0;
     const double                  GB = 1000.0 * 1000.0 * 1000.0;
 
-    // create the tasks
-    for (int i = 0; i < num_tasks; ++i) {
-        std::string task_id("task" + std::to_string(i));
-        workflow->addTask(task_id, task_gflop * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, task_ram * GB);
+    wrench::WorkflowTask *single_task;
+    if (host_select == 1) {
+        single_task = workflow->addTask("slow_server_task", 10 * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, 8 * GB);
+    } else {
+        single_task = workflow->addTask("fast_server_task", 10 * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, 8 * GB);
     }
+    single_task->addInputFile(workflow->addFile("file_copy", 1*GB));
+
 }
 
 /**
@@ -70,18 +66,28 @@ void generatePlatform(std::string platform_file_path) {
                       "<!DOCTYPE platform SYSTEM \"http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd\">\n"
                       "<platform version=\"4.1\">\n"
                       "   <zone id=\"AS0\" routing=\"Full\">\n"
-                      "       <host id=\"master\" speed=\"100Gf\" core=\"1000\">\n"
+                      "       <!-- effective bandwidth = 10 MBps-->"
+                      "       <link id=\"slow_link\" bandwidth=\"10.309MBps\" latency=\"10us\"/>\n"
+                      "       <link id=\"fast_link\" bandwidth=\"103.09MBps\" latency=\"10us\"/>\n"
+                      "       <host id=\"client\" speed=\"100Gf\" core=\"1000\">\n"
+                      "           <prop id=\"ram\" value=\"32GB\"/>\n"
+                      "           <disk id=\"large_disk\" read_bw=\"100MBps\" write_bw=\"100MBps\">\n"
+                      "                            <prop id=\"size\" value=\"5000GiB\"/>\n"
+                      "                            <prop id=\"mount\" value=\"/\"/>\n"
+                      "           </disk>\n"
+                      "       </host>\n"
+                      "       <host id=\"slow_server\" speed=\"10Gf\" core=\"1000\">\n"
                       "           <prop id=\"ram\" value=\"32GB\"/>\n"
                       "       </host>\n"
-                      "       <host id=\"worker_one\" speed=\"100Gf\" core=\"1000\">\n"
-                      "           <prop id=\"ram\" value=\"32GB\"/>\n"
-                      "       </host>\n"
-                      "       <host id=\"worker_two\" speed=\"100Gf\" core=\"1000\">\n"
+                      "       <host id=\"fast_server\" speed=\"100Gf\" core=\"1000\">\n"
                       "           <prop id=\"ram\" value=\"32GB\"/>\n"
                       "       </host>\n"
                       "       <link id=\"link\" bandwidth=\"100000TBps\" latency=\"0us\"/>\n"
-                      "       <route src=\"the_host\" dst=\"the_host\">"
-                      "           <link_ctn id=\"link\"/>"
+                      "       <route src=\"client\" dst=\"fast_server\">"
+                      "           <link_ctn id=\"slow_link\"/>"
+                      "       </route>"
+                      "       <route src=\"client\" dst=\"slow_server\">"
+                      "           <link_ctn id=\"fast_link\"/>"
                       "       </route>"
                       "   </zone>\n"
                       "</platform>\n";
@@ -103,60 +109,33 @@ int main(int argc, char** argv) {
     simulation.init(&argc, argv);
 
     const int MAX_CORES         = 1000;
-    int NUM_CORES;
-    int NUM_TASKS;
-    int TASK_GFLOP;
-    int TASK_MEMORY;
+    int HOST_SELECT;
 
     try {
 
-        if (argc != 5) {
+        if (argc != 2) {
             throw std::invalid_argument("bad args");
         }
 
-        NUM_CORES = std::stoi(std::string(argv[1]));
+        HOST_SELECT = std::stoi(std::string(argv[1]));
 
-        if (NUM_CORES < 1 || NUM_CORES > MAX_CORES) {
-            std::cerr << "Invalid number cores. Enter a value in the range [1, " + std::to_string(MAX_CORES) + "]" << std::endl;
-            throw std::invalid_argument("invalid number of cores");
+        if (HOST_SELECT !=  1 && HOST_SELECT != 2) {
+            std::cerr << "Invalid host selection. Host must be either 1 or 2" << std::endl;
+            throw std::invalid_argument("invalid host selection");
         }
 
-        NUM_TASKS = std::stoi(std::string(argv[2]));
-
-        if (NUM_TASKS < 1) {
-            std::cerr << "Invalid number tasks. Enter a value greater than 1" << std::endl;
-            throw std::invalid_argument("invalid number of tasks");
-        }
-
-        TASK_GFLOP = std::stoi(std::string(argv[3]));
-
-        if (TASK_GFLOP < 1) {
-            std::cerr << "Invalid task gflop. Enter a value greater than 1" << std::endl;
-            throw std::invalid_argument("invalid task gflop");
-        }
-
-        TASK_MEMORY = std::stoi(std::string(argv[4]));
-
-        if (TASK_MEMORY < 0) {
-            std::cerr << "Invalid task memory. Enter a value greater than 0" << std::endl;
-            throw std::invalid_argument("invalid task gflop");
-        }
 
 
     } catch(std::invalid_argument &e) {
-        std::cerr << "Usage: " << argv[0] << " <num_cores> <num_tasks> <task_gflop> <task_ram>" << std::endl;
-        std::cerr << "   num_cores: number of cores [1, " + std::to_string(MAX_CORES) + "]" << std::endl;
-        std::cerr << "   num_tasks: number of tasks (> 0)" << std::endl;
-        std::cerr << "   task_gflop: task GFlop (> 0)" << std::endl;
-        std::cerr << "   task_ram: task GB (>= 0)" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <host_select>" << std::endl;
+        std::cerr << "   host_select: host selection should be either 1 or 2" << std::endl;
         std::cerr << "" << std::endl;
-        std::cerr << "   (Core speed is always 100GFlop/sec, Host RAM capacity is always 32 GB)" << std::endl;
         return 1;
     }
 
     // create workflow
     wrench::Workflow workflow;
-    generateWorkflow(&workflow, NUM_TASKS, TASK_GFLOP, TASK_MEMORY);
+    generateWorkflow(&workflow, HOST_SELECT);
 
     // read and instantiate the platform with the desired HPC specifications
     std::string platform_file_path = "/tmp/platform.xml";
@@ -164,26 +143,62 @@ int main(int argc, char** argv) {
     simulation.instantiatePlatform(platform_file_path);
 
 
-    const std::string THE_HOST("the_host");
+    const std::string CLIENT("client");
+    const std::string SLOW_SERVER("slow_server");
+    const std::string FAST_SERVER("fast_server");
 
-    auto compute_service = simulation.add(
-            new wrench::BareMetalComputeService(
-                    THE_HOST,
-                    {{THE_HOST, std::make_tuple(NUM_CORES, wrench::ComputeService::ALL_RAM)}},
-                    "",
-                    {
-                            {wrench::BareMetalComputeServiceProperty::TASK_STARTUP_OVERHEAD, "0"},
-                    },
-                    {}
-            )
-    );
+
+    std::set<std::shared_ptr<wrench::StorageService>> storage_services;
+    auto client_storage_service = simulation.add(new wrench::SimpleStorageService(CLIENT, {"/"}));
+    storage_services.insert(client_storage_service);
+
+    std::shared_ptr<wrench::ComputeService> compute_service;
+    if (HOST_SELECT == 1){
+        compute_service = simulation.add(
+                new wrench::BareMetalComputeService(
+                        CLIENT,
+                        {{SLOW_SERVER, std::make_tuple(wrench::ComputeService::ALL_CORES, wrench::ComputeService::ALL_RAM)}},
+                        "",
+                        {
+                                {wrench::BareMetalComputeServiceProperty::TASK_STARTUP_OVERHEAD, "0"},
+                        },
+                        {}
+                )
+        );
+    } else {
+        compute_service = simulation.add(
+                new wrench::BareMetalComputeService(
+                        CLIENT,
+                        {{FAST_SERVER, std::make_tuple(wrench::ComputeService::ALL_CORES, wrench::ComputeService::ALL_RAM)}},
+                        "",
+                        {
+                                {wrench::BareMetalComputeServiceProperty::TASK_STARTUP_OVERHEAD, "0"},
+                        },
+                        {}
+                )
+        );
+    }
+
 
     // wms
     auto wms = simulation.add(new wrench::ActivityWMS(std::unique_ptr<wrench::ActivityScheduler>(
-            new wrench::ActivityScheduler()), compute_service, THE_HOST
+            new wrench::ActivityScheduler(client_storage_service)),
+                                                      {compute_service},
+                    storage_services,
+                    CLIENT
     ));
 
+
+
+
+
     wms->addWorkflow(&workflow);
+
+    simulation.add(new wrench::FileRegistryService(CLIENT));
+
+    for (auto const &file : workflow.getInputFiles()) {
+        simulation.stageFile(file.second, client_storage_service);
+    }
 
     simulation.launch();
 
