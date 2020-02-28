@@ -1,0 +1,143 @@
+
+
+## Adding I/O
+
+Most useful applications do not perform only computation, but also I/O, as
+we've already seen in [Single Core
+Computing]({{site.baseurl}}/pedagogic_modules/single_core_computing). This
+is of course true of applications that run using multiple cores. In this
+case, the I/O can be a perform bottleneck that limits parallel efficiency, even
+though overlapping of I/O and computation can, here again, boost performance. 
+
+In this section we consider the case of a machine with multiple cores but a
+single disk.  As a result, no matter haw parallelized computation is across
+the cores, I/O ends up serialized on the disk.  In other terms, the I/O
+operations  performed by the different application tasks compete for the
+disk bandwidth.
+
+### Simulating I/O
+
+So that you can gain hands-on experience, use the simulation Web
+application (see <a
+href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/"
+target="_blank">instructions</a>), selecting `XXXXXX` from its menu.
+
+**TODO: Develop the simulation:**
+
+  - Multi-core machine, 1 to 5 cores, one disk speed  XX GB/sec, 64GB RAM
+  - 10 Identical tasks, 2 GB each, XX Flops, XX GB output (all identical)
+  - Overlap of I/O and computation!!!!!
+  - Visualization of the disk
+
+
+#### Practice Questions 
+
+**[XXX]** Consider a 2-core computer where each core has speed 10 GFlop/sec. This machine
+is equipped with a single disk that has read/write bandwidth of 2 GB/sec. On this computer
+we wish to execute an application that consists of 4 independent tasks. Each task
+reads in 6 GB of input, computes 100 GFlop, and write out no output (perhaps it just prints out
+a message to the screen). The software
+used to execute this application starts a task on a core as soon as its available, but
+**does not** overlap I/O and computation. That is, if a task *T* executes on a core, this core
+is unavailable to any other task from the instant task *T*  begins reading input to the
+instant task *T* finishes computing.  What is the parallel efficiency of the execution?
+
+<div class="ui accordion fluid">
+  <div class="title">
+    <i class="dropdown icon"></i>
+    (click to see answer)
+  </div>
+  <div markdown="1" class="ui segment content">
+
+If running on a single core, the execution time $T(1)$ would be:
+
+$$
+\begin{align}
+  T(1) & = 4  \times ( 6 / 2 + 100 / 10 )\\
+              & = 52 sec
+\end{align}
+$$
+
+On the full machine, the execution proceeds in two identical phases, each of which 
+executes two tasks. Therefore, the execution time $T(2)$ is:
+
+$$
+\begin{align}
+  T(2) & = 2 \times ( 2 \times 6 / 2 + 100 / 10 ) \\
+              & = 32 sec
+\end{align}
+$$
+
+(Note above that the I/O is serialized, while the computation is parallelized.)
+
+Therefore, the parallel efficiency is: 
+
+$$
+\begin{align}
+  \text{parallel efficiency} & = \frac{52}{ 32 \times 2} \simeq 81.25\%
+\end{align}
+$$
+
+  </div>
+</div>
+
+<p></p>
+
+**[XXX]** Same scenario as above, but now the software has been upgraded to allow
+overlap of I/O and computation. What is the parallel efficiency?
+
+<div class="ui accordion fluid">
+  <div class="title">
+    <i class="dropdown icon"></i>
+    (click to see answer)
+  </div>
+  <div markdown="1" class="ui segment content">
+
+The execution is a bit more complicated and proceeds in the following phases:
+
+  - Read input for tasks 1 and 2 from disk: 6 sec
+  - Compute tasks 1 and 2 in parallel, while reading input for tasks 3 and 4: max(10, 6) = 10 sec
+  - Compute tasks 3 and 4 in parallel: 10 sec
+
+The execution time is thus T(2) = 26 sec. The parallel efficiency is thus:
+
+$$
+\begin{align}
+  \text{parallel efficiency} & = \frac{52}{ 26 \times 2} \simeq 100\%
+\end{align}
+$$
+
+By overlapping I/O and CPU, we get perfect parallel efficiency!
+
+
+---
+
+## Questions
+
+Answer the following questions:
+
+**[XXXX]**  We must execute an application that consists of 5 independent
+tasks on a 3-core machine with a single disk. Each task, when executed on a
+core, computes for 5 seconds. Each task produces 1GB of output.  The
+software used to execute this application does not allow for overlap of computation
+and I/O. When  executed, the application takes 14 seconds. What is the disk
+write bandwidth?
+
+ANSWER: 
+
+2*(5 + 2/B) = 14     ==>   B = 1 GB/sec
+
+**[XXXX]**  Same question, but now the software allows for overlap
+of I/O and computation. 
+
+
+ANSWER:
+
+ Equation: 5 + max(5, 2/B) + 2/B = 14
+
+We cannot have 2/B >= 5 (otherwise the exec time would be at least 15 sec). Therefore,
+2/B < 5, meaning that max(5, 2/B) = 5. The equation becomes:
+
+        10 + 2/B = 14 ===> B = 0.5 GB/sec
+
+---
