@@ -1,0 +1,47 @@
+
+
+## Adding Task Dependencies
+
+### Simulating Task Dependencies
+
+So that you can gain hands-on experience, use the simulation Web
+application (see <a
+href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/"
+target="_blank">instructions</a>), selecting `XXXXXX` from its menu.
+
+**TODO: Develop the simulation:**
+
+
+
+#### Practice Questions 
+
+**[XXX]** XXXXX
+
+<div class="ui accordion fluid">
+  <div class="title">
+    <i class="dropdown icon"></i>
+    (click to see answer)
+  </div>
+  <div markdown="1" class="ui segment content">
+
+
+$$
+\begin{align}
+  T(1) & = 4  \times ( 6 / 2 + 100 / 10 )\\
+              & = 52 sec
+\end{align}
+$$
+
+  </div>
+</div>
+
+<p></p>
+
+
+---
+
+## Questions
+
+Answer the following questions:
+
+**[XXXX]**  XXXXXXXXX
