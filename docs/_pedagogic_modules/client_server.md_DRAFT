@@ -72,9 +72,12 @@ provides several advantages for efficiency. A larger buffer means that the netwo
 #### Practice Questions
 
 
-**[B.p1.1]** Assume you have 24 tasks to execute on a multi-core computer,
-where each task runs in 1 second on a core.  By what factor is the overall
-execution time reduced when going from 4 to 6 cores?
+**[X.p1.1]** You have a task that needs to execute on a server. This task requires 400 MB of input to run, and it must be
+transferred from the client's disk to the server's RAM. The client disk has a R/W speed of 200 MBps and there is a 1 GBps
+network link between the client an server. Latency is negligible and can be disregarded. The task is 1 TFlop and the server's
+CPU is capable of 200 GFlop/second. The task can only begin when all input data is available in RAM. For this question,
+assume there is no buffering, as soon as data is read from disk it can be sent on the network link utilizing the full
+bandwidth. How long is the execution time from start to finish?
 
 <div class="ui accordion fluid">
   <div class="title">
@@ -82,30 +85,31 @@ execution time reduced when going from 4 to 6 cores?
     (click to see answer)
   </div>
   <div markdown="1" class="ui segment content">
-   The total execution time when using 4 cores will be 6 seconds. When
-   increasing from 4 cores to 6 cores, now the total execution time is 4
-   seconds. The overall execution time is reduced by a factor  6/4 = 1.5.
+    The 400MB will take 2 seconds to be read from disk. The network link is faster than the disk, so the only additional
+     transfer time will be latency which we have been told is negligible. Once the data is on the server, it can complete
+      the task in 5 seconds. Total execution time will be 2+5 = 7 seconds.
 
   </div>
 </div>
 
 <p></p>
 
-**[B.p1.2]** Assume you now have 3 tasks to compute, still each taking 1 second
-on a core. What is the parallel efficiency on a 4-core computer?
+**[X.p1.2]** Consider the previous question's situation, but now the server has moved and the network link has changed
+to 10 GBps capacity. Due to the longer distance, there is now 100 μs latency. Does this change the execution time?
 
 <div class="ui accordion fluid">
   <div class="title">
     <i class="dropdown icon"></i> (click to see answer)
   </div> <div markdown="1" class="ui segment content">
-   When using only a single core, the 3 tasks will take 3 seconds to
-   complete. When increasing the number of cores to 4, the same tasks can
-   now be done in 1 second. Since *p* the number of cores is greater than
-   *n* the number of tasks, we know that it will not be 100% efficiency.
-   More precisely, the parallel speedup is 3, and thus the parallel
-   efficiency is 3/4 = 75%.
+   Compared to the previous answer, upgrading the bandwidth of the network link does nothing as it was never fully
+   utilized to begin with. Since we are going from negligible latency to 100 μs latency, our answer would be increased
+   by that amount. Transfer time will extend past the time it takes to read from disk by the amount of latency.
 
   </div>
 </div>
 
 <p></p>
+
+
+
+#### Questions
