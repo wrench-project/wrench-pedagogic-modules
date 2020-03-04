@@ -1,9 +1,4 @@
----
-layout: page
-title: 'X. Client-Server'
-order: 999998
-usemathjax: true
----
+
 
 The goal of this module is to introduce you to the considerations for a client/server setup.
 

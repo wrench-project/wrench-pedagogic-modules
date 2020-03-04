@@ -1,9 +1,4 @@
----
-layout: page
-title: 'X. Master-Worker'
-order: 999999
-usemathjax: true
----
+
 
 The goal of this module is to introduce you to the basic concepts of running tasks
 on a master/worker system.
