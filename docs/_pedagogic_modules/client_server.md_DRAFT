@@ -1,0 +1,116 @@
+---
+layout: page
+title: 'X. Client-Server'
+order: 999998
+usemathjax: true
+---
+
+The goal of this module is to introduce you to the considerations for a client/server setup.
+
+
+#### Learning Objectives:
+
+  - Understand client/server functionality
+
+  - Understand how to optimize a client/server setup
+
+----
+
+## Basics
+
+In a client/server model there is a client which can house data and receive inputs, while one or many servers are
+networked with the client in order to process requests or tasks. This setup allows both client and server hardware some level of
+specialization and autonomy. Many applications and websites are clients, where they receive information from the end
+user and forward their request to a server for actual processing. This can keep the application lightweight and widely
+accessible, while still allowing for resource-intensive activities to be done on the server at client request. There are
+ drawbacks that need to be taken into account for this architecture. If a substantial amount of data needs to be
+ transferred over the network from the client to server or vice versa, this will be constrained by network speeds. As
+ servers can accommodate multiple clients in many cases, there may also be issues with load on the server from trying to
+  handle multiple requests at once. Managing these and other restraints is necessary when running a client/server architecture.
+
+
+### An Example: Photo Processing
+
+You have an application that takes photos from your local client and sends them to a server for image processing. The
+images are sent in batches of 100 that take up 100 MB of space. Currently the client is on a machine with an HDD capable
+of R/W at 50 MBps, and it has the option of using two different servers. Server 1 has a link to the client that runs at only
+10 MBps, but it can compute 100 GFlop/s. Server 2 has a 100 MBps link but it is able to compute at just 10 GFlop/s.
+Latency in this situation is negligible and can be disregarded, and the server loads the images directly into its RAM,
+they are not written to disk on the server.
+
+In this situation, you can see that the disk is slower than the available network speed. As previously observed in the
+IO module of Single-Core Computing, a slow disk is often the bottleneck in computing. In this situation, we could
+accelerate the process by updating the disk of our client machine. An upgrade to link speed would not help as it can
+already transfer data twice as fast as the disk can read.
+
+
+<object class="figure" type="image/svg+xml" data="{{ site.baseurl }}/public/img/client_server/client_server.svg">Client / Server Topology</object>
+
+
+### Simulating a Client and Server
+
+So that you can gain hands-on experience, use
+the simulation Web application
+(see <a href="{{site.baseurl}}/pedagogic_modules/simulation_instructions/index/" target="_blank">instructions</a>),
+selecting `Client/Server` from its menu.
+
+This simulation app allows you to see the differences in execution time when you trade off between slow and fast networks
+and disks. First, you can try running the simulation using Server 1 or Server 2 (check the checkbox for Server 1, leave
+it unchecked for Server 2). Run with the default values and you will notice a large difference in execution time. Even
+though Server 1 has a better CPU, it is bottlenecked by the speed at which it can receive data over the link. Server 2
+is thus able to finish execution much more quickly than Server 1.
+
+
+### Buffering
+
+Buffering is a way to improve performance for large data transfers. Without a buffer you can imagine a constant data
+stream over the network, 1 bit at a time. If we implement a buffer of 4 kilobytes instead, the disk would instead wait
+to read 4K before sending it over the network. These 4K chunks would be sent until the transfer was finished. This
+provides several advantages for efficiency. A larger buffer means that the network link can maintain a consistent transfer
+ for the duration of that chunk. If a tiny stream of data is sent as it is read from disk, there can be gaps where the
+ network is waiting. If, as in most cases, the link is not dedicated to only this traffic, there will also need to be
+ other traffic taking up link capacity at times. Sending data in tiny chunks will also increase overhead at all stages
+ of the process. There is a limit on how large buffer should be, as whether it is buffering in RAM or dedicated memory
+ there will be an upper limit on what it can store at any given time.
+
+
+#### Practice Questions
+
+
+**[B.p1.1]** Assume you have 24 tasks to execute on a multi-core computer,
+where each task runs in 1 second on a core.  By what factor is the overall
+execution time reduced when going from 4 to 6 cores?
+
+<div class="ui accordion fluid">
+  <div class="title">
+    <i class="dropdown icon"></i>
+    (click to see answer)
+  </div>
+  <div markdown="1" class="ui segment content">
+   The total execution time when using 4 cores will be 6 seconds. When
+   increasing from 4 cores to 6 cores, now the total execution time is 4
+   seconds. The overall execution time is reduced by a factor  6/4 = 1.5.
+
+  </div>
+</div>
+
+<p></p>
+
+**[B.p1.2]** Assume you now have 3 tasks to compute, still each taking 1 second
+on a core. What is the parallel efficiency on a 4-core computer?
+
+<div class="ui accordion fluid">
+  <div class="title">
+    <i class="dropdown icon"></i> (click to see answer)
+  </div> <div markdown="1" class="ui segment content">
+   When using only a single core, the 3 tasks will take 3 seconds to
+   complete. When increasing the number of cores to 4, the same tasks can
+   now be done in 1 second. Since *p* the number of cores is greater than
+   *n* the number of tasks, we know that it will not be 100% efficiency.
+   More precisely, the parallel speedup is 3, and thus the parallel
+   efficiency is 3/4 = 75%.
+
+  </div>
+</div>
+
+<p></p>

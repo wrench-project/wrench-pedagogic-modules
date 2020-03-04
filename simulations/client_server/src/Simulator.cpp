@@ -16,8 +16,7 @@
  * @brief Generates an independent-task Workflow
  *
  * @param workflow
- * @param num_tasks: number of tasks
- * @param task_gflop: Task GFlop rating
+ * @param host_select: which host to use
  *
  * @throws std::invalid_argument
  */
@@ -55,14 +54,24 @@ void generateWorkflow(wrench::Workflow *workflow, int host_select) {
  *
  * @throws std::invalid_argumemnt
  */
-void generatePlatform(std::string platform_file_path) {
+void generatePlatform(std::string platform_file_path, int link_1_bandwidth, int link_2_bandwidth, int disk_speed) {
 
     if (platform_file_path.empty()) {
         throw std::invalid_argument("generatePlatform() platform_file_path cannot be empty");
     }
+    if (link_1_bandwidth < 1 ) {
+        throw std::invalid_argument("generatePlatform() bandwidth must be greater than 1");
+    }
+    if (link_2_bandwidth < 1 ) {
+        throw std::invalid_argument("generatePlatform() bandwidth must be greater than 1");
+    }
+    if (disk_speed < 1 ) {
+        throw std::invalid_argument("generatePlatform() disk R/W must be greater than 1");
+    }
+
 
     // Create a the platform file
-    std::string xml = "<?xml version='1.0'?>\n"
+    std::string xml_string = "<?xml version='1.0'?>\n"
                       "<!DOCTYPE platform SYSTEM \"http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd\">\n"
                       "<platform version=\"4.1\">\n"
                       "   <zone id=\"AS0\" routing=\"Full\">\n"
@@ -92,9 +101,31 @@ void generatePlatform(std::string platform_file_path) {
                       "   </zone>\n"
                       "</platform>\n";
 
-    FILE *platform_file = fopen(platform_file_path.c_str(), "w");
-    fprintf(platform_file, "%s", xml.c_str());
-    fclose(platform_file);
+
+    pugi::xml_document xml_doc;
+
+    if (xml_doc.load_string(xml_string.c_str(), pugi::parse_doctype)) {
+
+        pugi::xml_node link1 = xml_doc.child("platform").child("zone").child("link");
+        pugi::xml_node link2 = xml_doc.child("platform").child("zone").next_sibling("link");
+        pugi::xml_node disk0 = xml_doc.child("platform").child("zone").child("host").child("disk");
+
+
+        // entering (effective_bandwidth / 0.97) as bandwidth into the simulation
+        // so that the max bandwidth we can achieve is the effective_bandwidth
+        double link_1_real_bandwidth = link_1_bandwidth / 0.97;
+        double link_2_real_bandwidth = link_2_bandwidth / 0.97;
+
+        link1.attribute("bandwidth").set_value(std::string(std::to_string(link_1_real_bandwidth) + "MBps").c_str());
+        link2.attribute("bandwidth").set_value(std::string(std::to_string(link_2_real_bandwidth) + "MBps").c_str());
+        disk0.attribute("read_bw").set_value(std::string(std::to_string(disk_speed) + "MBps").c_str());
+        disk0.attribute("write_bw").set_value(std::string(std::to_string(disk_speed) + "MBps").c_str());
+
+        xml_doc.save_file(platform_file_path.c_str());
+
+    } else {
+        throw std::runtime_error("something went wrong with parsing xml string");
+    }
 }
 
 /**
@@ -110,14 +141,40 @@ int main(int argc, char** argv) {
 
     const int MAX_CORES         = 1000;
     int HOST_SELECT;
+    int SERVER_1_LINK;
+    int SERVER_2_LINK;
+    int DISK_SPEED;
+
 
     try {
 
-        if (argc != 2) {
+        if (argc != 5) {
             throw std::invalid_argument("bad args");
         }
 
-        HOST_SELECT = std::stoi(std::string(argv[1]));
+        SERVER_1_LINK = std::stoi(std::string(argv[1]));
+
+
+        if (SERVER_1_LINK <  1 || SERVER_1_LINK > 10000) {
+            std::cerr << "Invalid link speed. Speed must be in range [1,10000] MBps" << std::endl;
+            throw std::invalid_argument("invalid link speed");
+        }
+
+        SERVER_2_LINK = std::stoi(std::string(argv[2]));
+
+        if (SERVER_2_LINK <  1 || SERVER_2_LINK > 10000) {
+            std::cerr << "Invalid link speed. Speed must be in range [1,10000] MBps" << std::endl;
+            throw std::invalid_argument("invalid link speed");
+        }
+
+        DISK_SPEED = std::stoi(std::string(argv[3]));
+
+        if (DISK_SPEED <  1 || DISK_SPEED > 10000) {
+            std::cerr << "Invalid disk speed. Speed must be in range [1,10000] MBps" << std::endl;
+            throw std::invalid_argument("invalid disk speed");
+        }
+
+        HOST_SELECT = std::stoi(std::string(argv[4]));
 
         if (HOST_SELECT !=  1 && HOST_SELECT != 2) {
             std::cerr << "Invalid host selection. Host must be either 1 or 2" << std::endl;
@@ -125,9 +182,11 @@ int main(int argc, char** argv) {
         }
 
 
-
     } catch(std::invalid_argument &e) {
-        std::cerr << "Usage: " << argv[0] << " <host_select>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <server_1_link_speed> <server_2_link_speed> <disk_speed> <host_select>" << std::endl;
+        std::cerr << "   server_1_link_speed: Speed must be in range [1,10000] MBps" << std::endl;
+        std::cerr << "   server_2_link_speed: Speed must be in range [1,10000] MBps" << std::endl;
+        std::cerr << "   disk_speed: Speed must be in range [1,10000] MBps" << std::endl;
         std::cerr << "   host_select: host selection should be either 1 or 2" << std::endl;
         std::cerr << "" << std::endl;
         return 1;
@@ -139,7 +198,7 @@ int main(int argc, char** argv) {
 
     // read and instantiate the platform with the desired HPC specifications
     std::string platform_file_path = "/tmp/platform.xml";
-    generatePlatform(platform_file_path);
+    generatePlatform(platform_file_path, SERVER_1_LINK, SERVER_2_LINK, DISK_SPEED);
     simulation.instantiatePlatform(platform_file_path);
 
 
@@ -149,7 +208,7 @@ int main(int argc, char** argv) {
 
 
     std::set<std::shared_ptr<wrench::StorageService>> storage_services;
-    auto client_storage_service = simulation.add(new wrench::SimpleStorageService(CLIENT, {"/"}));
+    auto client_storage_service = simulation.add(new wrench::SimpleStorageService(CLIENT, {"/"}, {{wrench::SimpleStorageServiceProperty::BUFFER_SIZE, "524288"}}));
     storage_services.insert(client_storage_service);
 
     std::shared_ptr<wrench::ComputeService> compute_service;
