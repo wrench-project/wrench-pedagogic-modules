@@ -23,6 +23,9 @@ RUN cd networking_fundamentals \
 RUN cd multi_core_computing \
     && ./build.sh
 
+RUN cd client_server \
+    && ./build.sh
+
 RUN cd workflow_execution_fundamentals \
     && ./build.sh
 
