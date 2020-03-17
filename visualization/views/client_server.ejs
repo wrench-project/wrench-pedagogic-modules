@@ -14,7 +14,7 @@
 
 <div class="form-group">
     <label for="buffer_size">Client Buffer Size (Bytes)<br/></label>
-    <input class="form-control" type="number" id="buffer-size" placeholder="1000" value="1000" min="1" max="1000000000" step="1" required>
+    <input class="form-control" type="number" id="buffer-size" placeholder="1000000" value="1000000" min="1" max="1000000000" step="1" required>
     <div class="invalid-feedback">
         Please provide the Buffer Size in Bytes.
     </div>
@@ -22,11 +22,11 @@
 
 <div class="form-group">
     <div class="col-md-9">
-        <input type="radio" name="host-select" id="host-select" value="2" checked>
+        <input type="radio" name="host-select" id="host-select" value="1" checked>
         <label class="radio-inline control-label" for="host_select">
             Server_1
         </label>
-        <input type="radio" name="host-select" id="host-select" value="1">
+        <input type="radio" name="host-select" id="host-select" value="0">
         <label class="radio-inline control-label" for="host_select">
             Server_2
         </label>

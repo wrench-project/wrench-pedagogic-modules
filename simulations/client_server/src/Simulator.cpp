@@ -44,7 +44,7 @@ void generateWorkflow(wrench::Workflow *workflow, int host_select) {
     } else {
         single_task = workflow->addTask("fast_server_task", 10 * GFLOP, MIN_CORES, MAX_CORES, PARALLEL_EFFICIENCY, 8 * GB);
     }
-    single_task->addInputFile(workflow->addFile("file_copy", 1*GB));
+    single_task->addInputFile(workflow->addFile("file_copy", 0.1*GB));
 
 }
 
@@ -175,7 +175,7 @@ int main(int argc, char** argv) {
         HOST_SELECT = std::stoi(std::string(argv[3]));
 
         if (HOST_SELECT !=  0 && HOST_SELECT != 1) {
-            std::cerr << "Invalid host selection. Host must be either 1 or 2" << std::endl;
+            std::cerr << "Invalid host selection. Host must be either 0 or 1" << std::endl;
             throw std::invalid_argument("invalid host selection");
         }
 
@@ -274,8 +274,8 @@ int main(int argc, char** argv) {
 
     simulation.launch();
 
-    //simulation.getOutput().dumpUnifiedJSON(&workflow, "workflow_data.json", true, true, true, false, false);
-    simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json", false);
+    simulation.getOutput().dumpUnifiedJSON(&workflow, "workflow_data.json", false, true, true, false, false);
+    //simulation.getOutput().dumpWorkflowExecutionJSON(&workflow, "workflow_data.json", false);
     //simulation.getOutput().dumpWorkflowGraphJSON(&workflow, "workflow_graph.json");
 
     return 0;

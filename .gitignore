@@ -64,3 +64,7 @@ visualization/keys.js
 
 #IDE
 .idea/*
+
+# Simulators
+simulations/**/*_simulator
+simulations/**/*_simulator_debug

@@ -638,7 +638,6 @@ app.post("/run/client_server", authCheck, function(req, res) {
         "--log=simple_wms.thresh:debug",
         "--log=simple_wms_scheduler.thresh:debug",
         "--log=file_transfer_thread.thresh:info",
-        "--log=s4u_simulation.thresh:info",
         "--log='root.fmt:[%d][%h:%t]%e%m%n'"
     ];
 
